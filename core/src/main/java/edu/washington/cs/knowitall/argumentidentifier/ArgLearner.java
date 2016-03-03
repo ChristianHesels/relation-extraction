@@ -224,7 +224,7 @@ public class ArgLearner extends
      * finds the right bound and the crf confidence
      *
      * @param predicate
-     * @param left
+     * @param leftbound
      *            bound
      * @return [right bound, crf confidence]
      */

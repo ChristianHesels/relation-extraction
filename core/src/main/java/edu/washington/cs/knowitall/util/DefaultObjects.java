@@ -1,9 +1,5 @@
 package edu.washington.cs.knowitall.util;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-
 import opennlp.tools.chunker.Chunker;
 import opennlp.tools.chunker.ChunkerME;
 import opennlp.tools.chunker.ChunkerModel;
@@ -16,6 +12,11 @@ import opennlp.tools.sentdetect.SentenceModel;
 import opennlp.tools.tokenize.Tokenizer;
 import opennlp.tools.tokenize.TokenizerME;
 import opennlp.tools.tokenize.TokenizerModel;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+
 import edu.washington.cs.knowitall.extractor.HtmlSentenceExtractor;
 import edu.washington.cs.knowitall.extractor.SentenceExtractor;
 import edu.washington.cs.knowitall.extractor.mapper.BracketsRemover;
@@ -26,11 +27,17 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
 
 public class DefaultObjects {
 
-    public static final String tokenizerModelFile = "en-token.bin";
-    public static final String taggerModelFile = "en-pos-maxent.bin";
-    public static final String chunkerModelFile = "en-chunker.bin";
-    public static final String sentDetectorModelFile = "en-sent.bin";
+    public static final String tokenizerModelFile = "de-token.bin";
+    public static final String taggerModelFile = "de-pos-maxent.bin";
+    public static final String chunkerModelFile = "de-chunker.zip";
+    public static final String sentDetectorModelFile = "de-sent.bin";
     public static final String confFunctionModelFile = "reverb-conf-maxent.gz";
+
+    public static final String en_tokenizerModelFile = "en-token.bin";
+    public static final String en_taggerModelFile = "en-pos-maxent.bin";
+    public static final String en_chunkerModelFile = "en-chunker.bin";
+    public static final String en_sentDetectorModelFile = "en-sent.bin";
+    public static final String en_confFunctionModelFile = "reverb-conf-maxent.gz";
 
     /** Default singleton objects */
     private static BracketsRemover BRACKETS_REMOVER;
@@ -39,8 +46,7 @@ public class DefaultObjects {
 
     public static InputStream getResourceAsStream(String resource)
             throws IOException {
-        InputStream in = DefaultObjects.class.getClassLoader()
-                .getResourceAsStream(resource);
+        InputStream in = DefaultObjects.class.getClassLoader().getResourceAsStream(resource);
         if (in == null) {
             throw new IOException("Couldn't load resource: " + resource);
         } else {

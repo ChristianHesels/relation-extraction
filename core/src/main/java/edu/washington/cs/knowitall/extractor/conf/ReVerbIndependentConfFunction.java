@@ -30,7 +30,7 @@ public class ReVerbIndependentConfFunction implements ConfidenceFunction {
     /**
      * Loads the model from the specified url.
      * 
-     * @param  model  an URL to the model
+     * @param  modelUrl  an URL to the model
      */
     public ReVerbIndependentConfFunction(URL modelUrl) {
         try {

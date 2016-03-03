@@ -21,6 +21,13 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     /**
      * Definition of the "verb" of the relation pattern.
      */
+    public static final String EN_VERB =
+        // Optional adverb
+        "RB_pos? " +
+        // Modal or other verbs
+        "[MD_pos VB_pos VBD_pos VBP_pos VBZ_pos VBG_pos VBN_pos] " +
+        // Optional particle/adverb
+        "RP_pos? RB_pos?";
     public static final String VERB =
         // Optional adverb
         "RB_pos? " +
@@ -32,16 +39,20 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
      */
-    public static final String WORD =
+    public static final String EN_WORD =
         "[$_pos PRP$_pos CD_pos DT_pos JJ_pos JJS_pos JJR_pos NN_pos " +
         "NNS_pos NNP_pos NNPS_pos POS_pos PRP_pos RB_pos RBR_pos RBS_pos " +
         "VBN_pos VBG_pos]";
+    public static final String WORD =
+        "[NE_pos NN_pos]";
 
     /**
      * Definition of the "preposition" part of the relation pattern.
      */
-    public static final String PREP = "RB_pos? [IN_pos TO_pos RP_pos] RB_pos?";
-
+    public static final String EN_PREP =
+        "RB_pos? [IN_pos TO_pos RP_pos] RB_pos?";
+    public static final String PREP =
+        "APPR_pos?";
 
     /**
      * The pattern (V(W*P)?)+

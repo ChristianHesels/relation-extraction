@@ -27,7 +27,7 @@ public class RegexExtractor extends
     /**
      * Constructs a new instance using the given pattern.
      *
-     * @param pattern
+     * @param patternString
      *            the relation pattern
      * @throws SequenceException
      *             if unable to compile pattern
