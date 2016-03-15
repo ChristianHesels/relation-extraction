@@ -19,10 +19,10 @@ public class ChunkedBinaryExtractionWordCountFilter extends
     /**
      * Constructs a new <code>ChunkedBinaryExtractionLengthFilter</code> object.
      *
-     * @param minWords
-     *            the minimum number of words in the predicate.
-     * @param maxWords
-     *            the maximum number of words in the predicate.
+     * @param minArgWords
+     * @param maxArgWords
+     * @param minPredicateWords
+     * @param maxPredicateWords
      */
     public ChunkedBinaryExtractionWordCountFilter(int minArgWords,
             int maxArgWords, int minPredicateWords, int maxPredicateWords) {

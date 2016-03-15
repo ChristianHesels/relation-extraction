@@ -1,10 +1,10 @@
 package edu.washington.cs.knowitall.extractor;
 
+import com.google.common.collect.Iterables;
+
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-
-import com.google.common.collect.Iterables;
 
 import edu.washington.cs.knowitall.extractor.mapper.ReVerbRelationDictionaryFilter;
 import edu.washington.cs.knowitall.extractor.mapper.ReVerbRelationMappers;
@@ -21,38 +21,25 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     /**
      * Definition of the "verb" of the relation pattern.
      */
-    public static final String EN_VERB =
-        // Optional adverb
-        "RB_pos? " +
-        // Modal or other verbs
-        "[MD_pos VB_pos VBD_pos VBP_pos VBZ_pos VBG_pos VBN_pos] " +
-        // Optional particle/adverb
-        "RP_pos? RB_pos?";
     public static final String VERB =
         // Optional adverb
-        "RB_pos? " +
+        "ADV_pos? " +
         // Modal or other verbs
-        "[MD_pos VB_pos VBD_pos VBP_pos VBZ_pos VBG_pos VBN_pos] " +
+        "[VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos] " +
         // Optional particle/adverb
-        "RP_pos? RB_pos?";
+        "PTKA_pos? PTKNEG_pos? PTKANT_pos?";
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
      */
-    public static final String EN_WORD =
-        "[$_pos PRP$_pos CD_pos DT_pos JJ_pos JJS_pos JJR_pos NN_pos " +
-        "NNS_pos NNP_pos NNPS_pos POS_pos PRP_pos RB_pos RBR_pos RBS_pos " +
-        "VBN_pos VBG_pos]";
     public static final String WORD =
         "[NE_pos NN_pos]";
 
     /**
      * Definition of the "preposition" part of the relation pattern.
      */
-    public static final String EN_PREP =
-        "RB_pos? [IN_pos TO_pos RP_pos] RB_pos?";
     public static final String PREP =
-        "APPR_pos?";
+        "APPR_pos? APPRART_pos?";
 
     /**
      * The pattern (V(W*P)?)+
@@ -100,7 +87,6 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      * @throws ExtractorException
      */
     protected void initializeRelationExtractor() throws ExtractorException {
-
         initializeRelationExtractor(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true, false);
     }
 
@@ -113,7 +99,6 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      * @throws ExtractorException if unable to initialize the extractor
      */
     protected void initializeRelationExtractor(int minFreq, boolean useLexSynConstraints, boolean mergeOverlapRels, boolean allowUnary) throws ExtractorException {
-
         ExtractorUnion<ChunkedSentence, ChunkedExtraction> relExtractor =
             new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
 
@@ -164,7 +149,7 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
 
     /**
      * Extracts from the given html using the default sentence reader returned
-     * by {@link DefaultObjects#.getDefaultSentenceReaderHtml(java.io.Reader)}.
+     * by {@link DefaultObjects#getDefaultSentenceReaderHtml(java.io.Reader)}.
      * @param html
      * @return an iterable object over the extractions
      * @throws ExtractorException if unable to extract

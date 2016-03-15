@@ -17,33 +17,23 @@ public class ReVerbArgument1Mappers extends
 
     private void init() {
 
-        // First argument can't be an existential "there"
-        addFirstPosTagNotEqualsFilter("EX");
-
         // First argument can't be a Wh word
-        addFirstPosTagNotEqualsFilter("WDT");
-        addFirstPosTagNotEqualsFilter("WP$");
-        addFirstPosTagNotEqualsFilter("WRB");
-        addFirstPosTagNotEqualsFilter("WP");
+        addFirstPosTagNotEqualsFilter("PWS");
+        addFirstPosTagNotEqualsFilter("PWAT");
+        addFirstPosTagNotEqualsFilter("PWAV");
 
         // First argument can't be a preposition
-        addFirstPosTagNotEqualsFilter("IN");
+        addFirstPosTagNotEqualsFilter("APPR");
+        addFirstPosTagNotEqualsFilter("APPRART");
 
         // Can't be "that"
-        addFirstTokenNotEqualsFilter("that");
-        addFirstTokenNotEqualsFilter("which");
+        // TODO
+        addFirstTokenNotEqualsFilter("dass");
+        addFirstTokenNotEqualsFilter("wessen");
+        addFirstPosTagNotEqualsFilter("PPOSS");
 
         // Can't be reflexive pronoun
-        addFirstTokenNotEqualsFilter("myself");
-        addFirstTokenNotEqualsFilter("yourself");
-        addFirstTokenNotEqualsFilter("himself");
-        addFirstTokenNotEqualsFilter("herself");
-        addFirstTokenNotEqualsFilter("itself");
-        addFirstTokenNotEqualsFilter("oneself");
-        addFirstTokenNotEqualsFilter("ourselves");
-        addFirstTokenNotEqualsFilter("ourself");
-        addFirstTokenNotEqualsFilter("yourselves");
-        addFirstTokenNotEqualsFilter("themselves");
+        // TODO
 
         // First argument can't match "ARG1, REL" "ARG1 and REL" or
         // "ARG1, and REL"

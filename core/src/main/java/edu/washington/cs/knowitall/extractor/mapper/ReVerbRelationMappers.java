@@ -97,12 +97,9 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
 
         // These pos tags and tokens cannot appear in the relation
         StopListFilter relStopList = new StopListFilter();
-        relStopList.addStopPosTag("CC");
-        relStopList.addStopPosTag(",");
-        relStopList.addStopPosTag("PRP");
-        relStopList.addStopToken("that");
-        relStopList.addStopToken("if");
-        relStopList.addStopToken("because");
+        relStopList.addStopPosTag("KOUS");
+        relStopList.addStopPosTag("$,");
+//        relStopList.addStopToken("because");
         addMapper(relStopList);
 
         // The POS tag of the first verb in the relation cannot be VBG or VBN
@@ -114,15 +111,15 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
                 for (int i = start; i < start + length; i++) {
                     String posTag = sent.getPosTags().get(i);
 
-                    if (posTag.startsWith("VB")) {
-                        return !posTag.equals("VBG") && !posTag.equals("VBN");
+                    if (posTag.startsWith("V")) {
+                        return !posTag.equals("VVPP") && !posTag.equals("VAPP") && !posTag.equals("VMPP");
                     }
                 }
                 return true;
             }
         });
 
-        // The previous tag can't be an existential "there" or a TO
+        // The previous tag can't be a "zu"
         addMapper(new FilterMapper<ChunkedExtraction>() {
             public boolean doFilter(ChunkedExtraction rel) {
                 int s = rel.getStart();
@@ -130,7 +127,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
                     return true;
                 } else {
                     String posTag = rel.getSentence().getPosTag(s - 1);
-                    return !posTag.equals("EX") && !posTag.equals("TO");
+                    return !posTag.equals("PKTZU");
                 }
             }
         });

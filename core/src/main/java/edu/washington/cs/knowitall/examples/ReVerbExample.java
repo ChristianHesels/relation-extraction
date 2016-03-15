@@ -20,7 +20,7 @@ public class ReVerbExample {
 
   public static void main(String[] args) throws Exception {
 
-    String sentStr = "hülsta erweitert nun die Kollektion um drei neue Designvarianten bei SUITE comfort.";
+    String sentStr = "Die VW AG agiert als Muttergesellschaft der Fahrzeugmarken Volkswagen Pkw, Audi, Seat und Škoda." ;
 
     // Looks on the classpath for the default model files.
     TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();

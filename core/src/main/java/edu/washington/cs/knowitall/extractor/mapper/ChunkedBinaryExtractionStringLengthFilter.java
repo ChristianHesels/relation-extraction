@@ -19,10 +19,10 @@ public class ChunkedBinaryExtractionStringLengthFilter extends
     /**
      * Constructs a new <code>ChunkedBinaryExtractionLengthFilter</code> object.
      *
-     * @param minWords
-     *            the minimum number of characters in the predicate.
-     * @param maxWords
-     *            the maximum number of characters in the predicate.
+     * @param minArgLength
+     * @param maxArgLength
+     * @param minPredicateLength
+     * @param maxPredicateLength
      */
     public ChunkedBinaryExtractionStringLengthFilter(int minArgLength,
             int maxArgLength, int minPredicateLength, int maxPredicateLength) {

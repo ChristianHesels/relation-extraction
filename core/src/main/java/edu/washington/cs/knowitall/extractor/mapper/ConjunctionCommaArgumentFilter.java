@@ -30,12 +30,12 @@ public class ConjunctionCommaArgumentFilter extends FilterMapper<ChunkedArgument
         }
 
         // Can't match "ARG and REL"
-        if (argEnd < sentLen - 1 && sent.getTokens().get(argEnd).equals("and") && relStart == argEnd + 1) {
+        if (argEnd < sentLen - 1 && sent.getTokens().get(argEnd).equals("und") && relStart == argEnd + 1) {
             return false;
         }
 
         // Can't match "ARG, and REL"
-        if (argEnd < sentLen - 2 && sent.getTokens().get(argEnd).equals(",") && sent.getTokens().get(argEnd + 1).equals("and") && relStart == argEnd + 2) {
+        if (argEnd < sentLen - 2 && sent.getTokens().get(argEnd).equals(",") && sent.getTokens().get(argEnd + 1).equals("und") && relStart == argEnd + 2) {
             return false;
         }
 

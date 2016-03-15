@@ -17,18 +17,18 @@ public class ReVerbArgument2Mappers extends
 
     private void init() {
         // Second argument can't be a Wh word
-        addFirstPosTagNotEqualsFilter("WDT");
-        addFirstPosTagNotEqualsFilter("WP$");
-        addFirstPosTagNotEqualsFilter("WP");
-        addFirstPosTagNotEqualsFilter("WRB");
-        addFirstTokenNotEqualsFilter("which");
+        addFirstPosTagNotEqualsFilter("PWS");
+        addFirstPosTagNotEqualsFilter("PWAT");
+        addFirstPosTagNotEqualsFilter("PWAV");
+//        addFirstTokenNotEqualsFilter("which");
 
         // Second argument should be closest to relation that passes through
         // filters
         addMapper(new ClosestArgumentMapper());
 
-        // Second argument should be adjacent to the relation
-        addMapper(new AdjacentToRelationFilter());
+        // TODO Replace AdjacentToRelationFilter with ClosestArgumentMapper
+        // Second argument should be adjacent/closest to the relation
+        addMapper(new ClosestArgumentMapper());
     }
 
     private void addFirstPosTagNotEqualsFilter(String posTag) {

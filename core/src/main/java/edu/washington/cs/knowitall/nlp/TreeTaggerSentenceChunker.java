@@ -21,12 +21,7 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 /**
  * A class that combines OpenNLP tokenizer, POS tagger and Tree Tagger chunker objects into
  * a single object that converts String sentences to {@link ChunkedSentence}
- * objects. By default, uses the models from
- * {@link DefaultObjects#getDefaultTokenizer()},
- * {@link DefaultObjects#getDefaultPosTagger()}
- *
- * @author afader
- *
+ * objects.
  */
 public class TreeTaggerSentenceChunker implements SentenceChunker {
 

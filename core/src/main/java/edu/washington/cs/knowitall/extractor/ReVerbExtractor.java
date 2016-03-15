@@ -1,10 +1,10 @@
 package edu.washington.cs.knowitall.extractor;
 
+import com.google.common.base.Joiner;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.InputStreamReader;
-
-import com.google.common.base.Joiner;
 
 import edu.washington.cs.knowitall.extractor.conf.ConfidenceFunction;
 import edu.washington.cs.knowitall.extractor.conf.ReVerbOpenNlpConfFunction;
@@ -23,7 +23,6 @@ public class ReVerbExtractor extends ReVerbRelationExtractor {
      * without arguments.
      */
     public ReVerbExtractor() {
-
         super();
     }
 
@@ -31,7 +30,10 @@ public class ReVerbExtractor extends ReVerbRelationExtractor {
      * Explicit constructor to invoke the corresponding super's constructor with
      * arguments.
      *
-     * @param minFreq
+     * @param minFreq - The minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
+     * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
+     * @param mergeOverlapRels - Merge overlapping relations?
+     * @param allowUnary - Allow relations with one argument to be output.
      */
     public ReVerbExtractor(int minFreq, boolean useLexSynConstraints,
             boolean mergeOverlapRels, boolean allowUnary) {
@@ -39,7 +41,6 @@ public class ReVerbExtractor extends ReVerbRelationExtractor {
     }
 
     protected void initializeArgumentExtractors() {
-
         ChunkedArgumentExtractor arg1Extr =
             new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
         arg1Extr.addMapper(new ReVerbArgument1Mappers());

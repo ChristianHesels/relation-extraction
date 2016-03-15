@@ -13,7 +13,7 @@ public class PronounArgumentFilter extends
 
     public boolean doFilter(ChunkedArgumentExtraction arg) {
         for (String tag : arg.getPosTags()) {
-            if (tag.equals("PRP") || tag.equals("PRP$")) {
+            if (tag.equals("PDS") || tag.equals("PPER")) {
                 return false;
             }
         }

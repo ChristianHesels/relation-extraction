@@ -1,9 +1,9 @@
 package edu.washington.cs.knowitall.normalization;
 
+import uk.ac.susx.informatics.Morpha;
+
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
-
-import uk.ac.susx.informatics.Morpha;
 
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
@@ -16,6 +16,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  */
 public class BasicFieldNormalizer implements FieldNormalizer {
 
+    // TODO
     private Morpha lexer;
 
     public BasicFieldNormalizer() {
