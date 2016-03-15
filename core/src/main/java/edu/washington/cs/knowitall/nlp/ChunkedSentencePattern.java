@@ -31,101 +31,98 @@ public class ChunkedSentencePattern {
      */
     public static RegularExpression<ChunkedSentenceToken> compile(String regex) {
         return RegularExpression.compile(regex,
-                                         new ExpressionFactory<ChunkedSentenceToken>() {
+             new ExpressionFactory<ChunkedSentenceToken>() {
+
+                 @Override
+                 public Expression.BaseExpression<ChunkedSentenceToken> create(
+                     final String expression) {
+                     final Pattern valuePattern = Pattern
+                         .compile("([\"'])(.*)\\1");
+                     return new Expression.BaseExpression<ChunkedSentenceToken>(expression) {
+                         private final LogicExpression<ChunkedSentenceToken> logic;
+                         {
+                             this.logic = LogicExpression.compile(
+                                 expression,
+                                 new ArgFactory<ChunkedSentenceToken>() {
+                                     @Override
+                                     public Arg<ChunkedSentenceToken> create(
+                                         final String argument) {
+                                         return new Arg<ChunkedSentenceToken>() {
+                                             private final ChunkedSentenceToken.Expression
+                                                 expression;
+
+                                             {
+                                                 String[]
+                                                     parts =
+                                                     argument
+                                                         .split("=");
+
+                                                 String base = parts[0];
+
+                                                 Matcher
+                                                     matcher =
+                                                     valuePattern
+                                                         .matcher(
+                                                             parts[1]);
+                                                 if (!matcher
+                                                     .matches()) {
+                                                     throw new IllegalArgumentException(
+                                                         "Value not enclosed in quotes (\") or ('): "
+                                                         + argument);
+                                                 }
+                                                 String string = matcher
+                                                     .group(2);
+
+                                                 if (base
+                                                     .equalsIgnoreCase(
+                                                         "stringCS")) {
+                                                     this.expression =
+                                                         new ChunkedSentenceToken.StringExpression(
+                                                             string, 0);
+                                                 } else if (base
+                                                     .equalsIgnoreCase(
+                                                         "string")) {
+                                                     this.expression =
+                                                         new ChunkedSentenceToken.StringExpression(
+                                                             string);
+                                                 } else if (base
+                                                     .equalsIgnoreCase(
+                                                         "pos")) {
+                                                     this.expression =
+                                                         new ChunkedSentenceToken.PosTagExpression(
+                                                             string);
+                                                 } else if (base
+                                                     .equalsIgnoreCase(
+                                                         "chunk")) {
+                                                     this.expression =
+                                                         new ChunkedSentenceToken.ChunkTagExpression(
+                                                             string);
+                                                 } else {
+                                                     throw new IllegalStateException(
+                                                         "unknown argument specified: "
+                                                         + base);
+                                                 }
+                                             }
 
                                              @Override
-                                             public Expression.BaseExpression<ChunkedSentenceToken> create(
-                                                 final String expression) {
-                                                 final Pattern valuePattern = Pattern
-                                                     .compile("([\"'])(.*)\\1");
-                                                 return new Expression.BaseExpression<ChunkedSentenceToken>(
-                                                     expression) {
-                                                     private final LogicExpression<ChunkedSentenceToken>
-                                                         logic;
-
-                                                     {
-                                                         this.logic = LogicExpression.compile(
-                                                             expression,
-                                                             new ArgFactory<ChunkedSentenceToken>() {
-                                                                 @Override
-                                                                 public Arg<ChunkedSentenceToken> create(
-                                                                     final String argument) {
-                                                                     return new Arg<ChunkedSentenceToken>() {
-                                                                         private final ChunkedSentenceToken.Expression
-                                                                             expression;
-
-                                                                         {
-                                                                             String[]
-                                                                                 parts =
-                                                                                 argument
-                                                                                     .split("=");
-
-                                                                             String base = parts[0];
-
-                                                                             Matcher
-                                                                                 matcher =
-                                                                                 valuePattern
-                                                                                     .matcher(
-                                                                                         parts[1]);
-                                                                             if (!matcher
-                                                                                 .matches()) {
-                                                                                 throw new IllegalArgumentException(
-                                                                                     "Value not enclosed in quotes (\") or ('): "
-                                                                                     + argument);
-                                                                             }
-                                                                             String string = matcher
-                                                                                 .group(2);
-
-                                                                             if (base
-                                                                                 .equalsIgnoreCase(
-                                                                                     "stringCS")) {
-                                                                                 this.expression =
-                                                                                     new ChunkedSentenceToken.StringExpression(
-                                                                                         string, 0);
-                                                                             } else if (base
-                                                                                 .equalsIgnoreCase(
-                                                                                     "string")) {
-                                                                                 this.expression =
-                                                                                     new ChunkedSentenceToken.StringExpression(
-                                                                                         string);
-                                                                             } else if (base
-                                                                                 .equalsIgnoreCase(
-                                                                                     "pos")) {
-                                                                                 this.expression =
-                                                                                     new ChunkedSentenceToken.PosTagExpression(
-                                                                                         string);
-                                                                             } else if (base
-                                                                                 .equalsIgnoreCase(
-                                                                                     "chunk")) {
-                                                                                 this.expression =
-                                                                                     new ChunkedSentenceToken.ChunkTagExpression(
-                                                                                         string);
-                                                                             } else {
-                                                                                 throw new IllegalStateException(
-                                                                                     "unknown argument specified: "
-                                                                                     + base);
-                                                                             }
-                                                                         }
-
-                                                                         @Override
-                                                                         public boolean apply(
-                                                                             ChunkedSentenceToken entity) {
-                                                                             return this.expression
-                                                                                 .apply(entity);
-                                                                         }
-                                                                     };
-                                                                 }
-                                                             });
-                                                     }
-
-                                                     @Override
-                                                     public boolean apply(
-                                                         ChunkedSentenceToken entity) {
-                                                         return logic.apply(entity);
-                                                     }
-                                                 };
+                                             public boolean apply(
+                                                 ChunkedSentenceToken entity) {
+                                                 return this.expression
+                                                     .apply(entity);
                                              }
-                                         });
+                                         };
+                                     }
+                                 });
+                         }
+
+                         @Override
+                         public boolean apply(
+                             ChunkedSentenceToken entity) {
+                             return logic.apply(entity);
+                         }
+                     };
+                 }
+             });
     }
 
     public static void main(String[] args) throws ChunkerException, IOException {

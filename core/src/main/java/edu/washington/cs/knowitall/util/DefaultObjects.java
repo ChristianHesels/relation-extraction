@@ -86,8 +86,7 @@ public class DefaultObjects {
 
     public static ChunkedSentenceReader getDefaultSentenceReader(Reader in)
         throws IOException {
-        ChunkedSentenceReader reader = new ChunkedSentenceReader(in,
-                                                                 getDefaultSentenceExtractor());
+        ChunkedSentenceReader reader = new ChunkedSentenceReader(in, getDefaultSentenceExtractor());
         return reader;
     }
 
