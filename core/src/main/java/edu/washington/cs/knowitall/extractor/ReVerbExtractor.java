@@ -59,7 +59,6 @@ public class ReVerbExtractor extends ReVerbRelationExtractor {
      * separated by tabs.
      */
     public static void main(String[] args) throws Exception {
-
         BufferedReader reader;
         if (args.length == 0) {
             reader = new BufferedReader(new InputStreamReader(System.in));

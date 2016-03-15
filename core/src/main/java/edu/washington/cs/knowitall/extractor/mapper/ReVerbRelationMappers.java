@@ -31,7 +31,6 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
     }
 
     private void init() throws IOException {
-
         // Add lexical and syntactic constraints on the relations.
         addLexicalAndSyntacticConstraints();
 
@@ -45,7 +44,6 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
     }
 
     private void init(int minFreq) throws IOException {
-
         // Add lexical and syntactic constraints on the relation.
         addLexicalAndSyntacticConstraints();
 

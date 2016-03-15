@@ -14,7 +14,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-import edu.washington.cs.knowitall.extractor.HtmlSentenceExtractor;
 import edu.washington.cs.knowitall.extractor.SentenceExtractor;
 import edu.washington.cs.knowitall.extractor.mapper.BracketsRemover;
 import edu.washington.cs.knowitall.extractor.mapper.SentenceEndFilter;
@@ -26,7 +25,6 @@ public class DefaultObjects {
 
     public static final String tokenizerModelFile = "de-token.bin";
     public static final String taggerModelFile = "de-pos-maxent.bin";
-    public static final String chunkerModelFile = "de-chunker.zip";
     public static final String sentDetectorModelFile = "de-sent.bin";
     public static final String confFunctionModelFile = "reverb-conf-maxent.gz";
 
@@ -45,12 +43,6 @@ public class DefaultObjects {
         } else {
             return in;
         }
-    }
-
-    public static void initializeNlpTools() throws IOException {
-        getDefaultSentenceDetector();
-        getDefaultTokenizer();
-        getDefaultPosTagger();
     }
 
     public static Tokenizer getDefaultTokenizer() throws IOException {
@@ -92,28 +84,6 @@ public class DefaultObjects {
         return extractor;
     }
 
-    public static HtmlSentenceExtractor getDefaultHtmlSentenceExtractor()
-        throws IOException {
-        HtmlSentenceExtractor extractor = new HtmlSentenceExtractor();
-        addDefaultSentenceFilters(extractor);
-        return extractor;
-    }
-
-    /**
-     * Return the default sentence reader.
-     *
-     * @param htmlSource - Are sentences from an html source?
-     */
-    public static ChunkedSentenceReader getDefaultSentenceReader(Reader in,
-                                                                 boolean htmlSource)
-        throws IOException {
-        if (htmlSource) {
-            return getDefaultSentenceReaderHtml(in);
-        } else {
-            return getDefaultSentenceReader(in);
-        }
-    }
-
     public static ChunkedSentenceReader getDefaultSentenceReader(Reader in)
         throws IOException {
         ChunkedSentenceReader reader = new ChunkedSentenceReader(in,
@@ -121,10 +91,4 @@ public class DefaultObjects {
         return reader;
     }
 
-    public static ChunkedSentenceReader getDefaultSentenceReaderHtml(Reader in)
-        throws IOException {
-        ChunkedSentenceReader reader = new ChunkedSentenceReader(in,
-                                                                 getDefaultHtmlSentenceExtractor());
-        return reader;
-    }
 }

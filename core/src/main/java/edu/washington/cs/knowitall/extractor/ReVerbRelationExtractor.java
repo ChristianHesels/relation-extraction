@@ -159,24 +159,6 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     }
 
     /**
-     * Extracts from the given html using the default sentence reader returned by {@link
-     * DefaultObjects#getDefaultSentenceReaderHtml(java.io.Reader)}.
-     *
-     * @return an iterable object over the extractions
-     * @throws ExtractorException if unable to extract
-     */
-    public Iterable<ChunkedBinaryExtraction> extractFromHtml(String html)
-        throws ExtractorException {
-        StringReader in = new StringReader(html);
-        try {
-            return extractUsingReader(
-                DefaultObjects.getDefaultSentenceReaderHtml(in));
-        } catch (IOException e) {
-            throw new ExtractorException(e);
-        }
-    }
-
-    /**
      * Extracts from the given reader
      *
      * @return extractions
