@@ -6,13 +6,12 @@ import edu.washington.cs.knowitall.nlp.NlpException;
  * An exception class for errors related to {@link Extractor}.
  *
  * @author afader
- *
  */
 public class ExtractorException extends NlpException {
 
     /**
-	 *
-	 */
+     *
+     */
     private static final long serialVersionUID = 1L;
 
     public ExtractorException(String message) {

@@ -11,11 +11,10 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 
 /**
- * Parent class for any feature that considers only tokens whose corresponding
- * pos starts with "V" or equals "MD".
+ * Parent class for any feature that considers only tokens whose corresponding pos starts with "V"
+ * or equals "MD".
  *
  * @author Rob
- *
  */
 public abstract class VerbTokenFeature extends ExtractionFeature {
 
@@ -37,8 +36,9 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
     protected boolean testAtIndex(Integer index, ChunkedSentence sentence) {
 
         String pos = sentence.getPosTag(index);
-        if (!pos.startsWith("V") && !pos.startsWith("MD"))
+        if (!pos.startsWith("V") && !pos.startsWith("MD")) {
             return false;
+        }
         String token = sentence.getToken(index);
         token = stemmer.stemSingleToken(token, sentence.getPosTag(index));
         token = token.toLowerCase();
@@ -71,8 +71,9 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
                 int index = arg1.getStart() - 1;
                 if (index < 0 || index > arg1.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
@@ -86,10 +87,11 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
             @Override
             protected Range rangeToExamine(ChunkedBinaryExtraction cbe) {
                 Integer index = indexOfHeadVerb(cbe.getRelation(), false);
-                if (index == null)
+                if (index == null) {
                     return Range.EMPTY;
-                else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
@@ -102,8 +104,9 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
                 int index = arg2.getStart() + arg2.getLength();
                 if (index < 0 || index >= arg2.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
@@ -116,8 +119,9 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
                 int index = arg1.getStart() - 1;
                 if (index < 0 || index >= arg1.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(0, index + 1);
+                }
             }
         };
     }
@@ -130,9 +134,10 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
                 int index = arg2.getStart() + arg2.getLength();
                 if (index < 0 || index >= arg2.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, cbe.getSentence()
-                            .getLength());
+                        .getLength());
+                }
             }
         };
     }
@@ -143,10 +148,11 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
             protected Range rangeToExamine(ChunkedBinaryExtraction cbe) {
 
                 Range range = cbe.getRelation().getRange();
-                if (range.getLength() == 1)
+                if (range.getLength() == 1) {
                     return range;
-                else
+                } else {
                     return Range.EMPTY;
+                }
             }
         };
     }

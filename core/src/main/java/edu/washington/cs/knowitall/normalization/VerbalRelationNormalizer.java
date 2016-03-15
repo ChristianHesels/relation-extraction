@@ -1,25 +1,22 @@
 package edu.washington.cs.knowitall.normalization;
 
+import uk.ac.susx.informatics.Morpha;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import uk.ac.susx.informatics.Morpha;
 
 import edu.washington.cs.knowitall.morpha.MorphaStemmer;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
-/***
- * A class that can be used to normalize verbal relation strings. It performs
- * the following normalization procedure on a {@link ChunkedExtraction} object:
- * <ul>
- * <li>Removes inflection in each token using the {@link Morpha} class.</li>
- * <li>Removes auxiliary verbs, determiners, adjectives, and adverbs.</li>
- * </ul>
+/**
+ * A class that can be used to normalize verbal relation strings. It performs the following
+ * normalization procedure on a {@link ChunkedExtraction} object: <ul> <li>Removes inflection in
+ * each token using the {@link Morpha} class.</li> <li>Removes auxiliary verbs, determiners,
+ * adjectives, and adverbs.</li> </ul>
  *
  * @author afader
- *
  */
 public class VerbalRelationNormalizer implements FieldNormalizer {
 
@@ -48,10 +45,7 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
     }
 
     /**
-     * If set to true, then will not remove adjectives in phrases like
-     * "is happy about".
-     *
-     * @param value
+     * If set to true, then will not remove adjectives in phrases like "is happy about".
      */
     public void stripBeAdj(boolean value) {
         stripBeAdj = value;
@@ -76,8 +70,8 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
             return new NormalizedField(field, tokensCopy, posTagsCopy);
         } catch (SequenceException e) {
             String msg = String.format(
-                    "tokens and posTags are not the same length for field %s",
-                    field);
+                "tokens and posTags are not the same length for field %s",
+                field);
             throw new IllegalStateException(msg, e);
         }
     }
@@ -148,13 +142,15 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
                 break;
             }
         }
-        if (lastVerbIndex < 0)
+        if (lastVerbIndex < 0) {
             return;
+        }
         int i = 0;
         while (i < lastVerbIndex) {
             String tok = tokens.get(i);
-            if (i + 1 < posTags.size() && !posTags.get(i + 1).startsWith("V"))
+            if (i + 1 < posTags.size() && !posTags.get(i + 1).startsWith("V")) {
                 break;
+            }
             if (auxVerbs.contains(tok)) {
                 tokens.remove(i);
                 posTags.remove(i);

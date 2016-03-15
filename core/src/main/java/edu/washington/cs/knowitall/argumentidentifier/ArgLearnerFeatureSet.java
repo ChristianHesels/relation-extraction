@@ -11,6 +11,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
+
     private final PatternExtractor patternExtractor;
 
     public ArgLearnerFeatureSet() {
@@ -67,8 +68,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
         // of course, weka featurizes booleans inversely
         if (bool) {
             return 0.0;
-        }
-        else {
+        } else {
             return 1.0;
         }
     }
@@ -128,19 +128,19 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
             return toDouble(patternExtractor.adjRelation(extr.getRelation()));
         } else if (featureName.equals("comp")) {
             return toDouble(patternExtractor.complementClause(extr
-                    .getRelation()));
+                                                                  .getRelation()));
         } else if (featureName.equals("nest1")) {
             return toDouble(patternExtractor
-                    .nestedRelation1(extr.getRelation()));
+                                .nestedRelation1(extr.getRelation()));
         } else if (featureName.equals("nest2")) {
             return toDouble(patternExtractor
-                    .nestedRelation2(extr.getRelation()));
+                                .nestedRelation2(extr.getRelation()));
         } else if (featureName.equals("rel")) {
             return toDouble(patternExtractor.npRelativeClause(extr
-                    .getRelation()));
+                                                                  .getRelation()));
         } else if (featureName.equals("npinf")) {
             return toDouble(patternExtractor.npInfinitiveClause(extr
-                    .getRelation()));
+                                                                    .getRelation()));
         } else if (featureName.equals("doublenp")) {
             return toDouble(patternExtractor.doubleNP(extr.getRelation()));
         } else if (featureName.equals("arg2_proper")) {
@@ -166,8 +166,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
             return toDouble(sentLength(extr, 21, Integer.MAX_VALUE));
         } else if (featureName.equals("extr_covers_phrase")) {
             return toDouble(extrCoversPhrase(extr));
-        }
-        else {
+        } else {
             throw new IllegalArgumentException();
         }
     }
@@ -192,12 +191,12 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
 
         int xs = x.getStart();
         boolean leftOk = xs == 0 || tokens.get(xs - 1).equals(",")
-                || tokens.get(xs - 1).equals(".");
+                         || tokens.get(xs - 1).equals(".");
 
         int l = sent.getLength() - 1;
         int yr = y.getLastIndex();
         boolean rightOk = yr == l || tokens.get(yr + 1).equals(",")
-                || tokens.get(yr + 1).equals(".");
+                          || tokens.get(yr + 1).equals(".");
 
         return adj && leftOk && rightOk;
     }
@@ -215,7 +214,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
         int lastArg2 = arg2.getRange().getLastIndex();
         ChunkedSentence sent = arg2.getSentence();
         return lastArg2 + 1 < sent.getLength()
-                && sent.getChunkTags().get(lastArg2 + 1).equals("B-NP");
+               && sent.getChunkTags().get(lastArg2 + 1).equals("B-NP");
     }
 
     private boolean verbAfterArg2(ChunkedBinaryExtraction e) {
@@ -253,7 +252,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
     private boolean isProperNp(ChunkedExtraction e) {
         for (String tag : e.getPosTags()) {
             if (!tag.startsWith("NNP") && !tag.equals("DT")
-                    && !tag.equals("IN")) {
+                && !tag.equals("IN")) {
                 return false;
             }
         }
@@ -279,7 +278,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
             String precPosTag = e.getSentence().getPosTags().get(predStart - 1);
             String precPosToken = e.getSentence().getToken(predStart - 1);
             if (precPosTag.equals("WP") || precPosTag.equals("WDT")
-                    || precPosToken.equals("that")) {
+                || precPosToken.equals("that")) {
                 return true;
             }
         }
@@ -318,15 +317,15 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
             return -1;
         }
         int words_till_end = extr.getSentence().getLength()
-                - (extr.getArgument2().getStart() + extr.getArgument2()
-                        .getLength());
+                             - (extr.getArgument2().getStart() + extr.getArgument2()
+            .getLength());
         return words_till_end;
     }
 
     public boolean ppAfterArg2(ChunkedBinaryExtraction extr) {
         if (wordsTillEnd(extr) > 0) {
             int end = extr.getArgument2().getStart()
-                    + extr.getArgument2().getLength();
+                      + extr.getArgument2().getLength();
             if (extr.getSentence().getChunkTag(end).equals("B-PP")) {
                 return true;
             }
@@ -338,7 +337,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
         int i = extr.getArgument1().getStart();
         int start = i;
         while (i < extr.getArgument1().getStart()
-                + extr.getArgument1().getLength()) {
+                   + extr.getArgument1().getLength()) {
             if (extr.getSentence().getChunkTag(i).equals("B-NP")) {
                 start = i;
             }
@@ -359,8 +358,8 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
 
     public boolean npBeforeArg2(ChunkedBinaryExtraction extr, boolean train) {
         for (int i = extr.getRelation().getStart()
-                + extr.getRelation().getLength(); i < extr.getArgument2()
-                .getStart(); i++) {
+                     + extr.getRelation().getLength(); i < extr.getArgument2()
+            .getStart(); i++) {
             if (extr.getSentence().getChunkTag(i).contains("NP")) {
                 return true;
             }
@@ -371,7 +370,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
     public boolean predStartsWithNP(ChunkedBinaryExtraction extr) {
         // check that the relation is in a vp
         if (extr.getSentence().getPosTag(extr.getRelation().getStart())
-                .contains("N")) {
+            .contains("N")) {
             return true;
         }
         return false;
@@ -381,9 +380,9 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
         // check for to in current pred
         if (train) {
             for (int i = extr.getRelation().getStart(); i < extr.getArgument2()
-                    .getStart(); i++) {
+                .getStart(); i++) {
                 if (extr.getSentence().getChunkTag(i).equals("B-VP")
-                        && extr.getSentence().getPosTag(i).equals("TO")) {
+                    && extr.getSentence().getPosTag(i).equals("TO")) {
                     return true;
                 }
             }
@@ -397,7 +396,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
         int i = extr.getRelation().getStart() - 1;
         while (i > -1) {
             if (extr.getSentence().getPosTag(i).equals("CC")
-                    || extr.getSentence().getPosTag(i).equals(",")) {
+                || extr.getSentence().getPosTag(i).equals(",")) {
                 in_conj = true;
                 break;
             }
@@ -411,18 +410,18 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
             boolean seen_vp = false;
             while (i > -1) {
                 if (extr.getSentence().getPosTag(i).equals("CC")
-                        || extr.getSentence().getPosTag(i).equals(",")) {
+                    || extr.getSentence().getPosTag(i).equals(",")) {
                     seen_vp = false;
                 } else if (extr.getSentence().getChunkTag(i).equals("B-VP")) {
                     seen_vp = true;
                     last_vp = i;
                 } else if ((extr.getSentence().getChunkTag(i).equals("B-NP") || extr
-                        .getSentence().getChunkTag(i).equals("I-NP"))
-                        && seen_vp) {
+                    .getSentence().getChunkTag(i).equals("I-NP"))
+                           && seen_vp) {
                     break;
                 }
                 if (extr.getSentence().getChunkTag(i).equals("B-VP")
-                        && extr.getSentence().getPosTag(i).equals("TO")) {
+                    && extr.getSentence().getPosTag(i).equals("TO")) {
                     return true;
                 }
                 i--;
@@ -436,7 +435,7 @@ public class ArgLearnerFeatureSet extends FeatureSet<ChunkedBinaryExtraction> {
                 return true;
             }
             if (extr.getSentence().getChunkTag(i).equals("B-NP")
-                    || extr.getSentence().getChunkTag(i).equals("I-NP")) {
+                || extr.getSentence().getChunkTag(i).equals("I-NP")) {
                 foundnp = true;
                 break;
             }

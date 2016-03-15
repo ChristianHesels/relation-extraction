@@ -19,24 +19,23 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExtractor extends ReVerbRelationExtractor {
 
     /**
-     * Explicit constructor to invoke the corresponding super's constructor
-     * without arguments.
+     * Explicit constructor to invoke the corresponding super's constructor without arguments.
      */
     public ReVerbExtractor() {
         super();
     }
 
     /**
-     * Explicit constructor to invoke the corresponding super's constructor with
-     * arguments.
+     * Explicit constructor to invoke the corresponding super's constructor with arguments.
      *
-     * @param minFreq - The minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
+     * @param minFreq              - The minimum distinct arguments to be observed in a large
+     *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
-     * @param mergeOverlapRels - Merge overlapping relations?
-     * @param allowUnary - Allow relations with one argument to be output.
+     * @param mergeOverlapRels     - Merge overlapping relations?
+     * @param allowUnary           - Allow relations with one argument to be output.
      */
     public ReVerbExtractor(int minFreq, boolean useLexSynConstraints,
-            boolean mergeOverlapRels, boolean allowUnary) {
+                           boolean mergeOverlapRels, boolean allowUnary) {
         super(minFreq, useLexSynConstraints, mergeOverlapRels, allowUnary);
     }
 
@@ -47,18 +46,17 @@ public class ReVerbExtractor extends ReVerbRelationExtractor {
         setArgument1Extractor(arg1Extr);
 
         ChunkedArgumentExtractor arg2Extr = new ChunkedArgumentExtractor(
-                ChunkedArgumentExtractor.Mode.RIGHT);
+            ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());
         setArgument2Extractor(arg2Extr);
     }
 
     /**
      * Runs the extractor on either standard input, or the given file. Uses the object returned by
-     * the <code>DefaultObjects.getDefaultSentenceReaderHtml</code> method to read <code>NpChunkedSentence</code>
-     * objects. Prints each sentence (prefixed by "sentence" and then a tab), followed by the extractions in the
-     * form "extraction", arg1, relation, and arg2, separated by tabs.
-     * @param args
-     * @throws Exception
+     * the <code>DefaultObjects.getDefaultSentenceReaderHtml</code> method to read
+     * <code>NpChunkedSentence</code> objects. Prints each sentence (prefixed by "sentence" and then
+     * a tab), followed by the extractions in the form "extraction", arg1, relation, and arg2,
+     * separated by tabs.
      */
     public static void main(String[] args) throws Exception {
 
@@ -109,7 +107,8 @@ public class ReVerbExtractor extends ReVerbRelationExtractor {
             }
         }
 
-        System.err.println(String.format("Got %s extractions from %s sentences.", extractionCount, sentenceCount));
+        System.err.println(
+            String.format("Got %s extractions from %s sentences.", extractionCount, sentenceCount));
     }
 }
 

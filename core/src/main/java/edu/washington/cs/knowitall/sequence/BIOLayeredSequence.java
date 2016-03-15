@@ -1,26 +1,24 @@
 package edu.washington.cs.knowitall.sequence;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.TreeMultimap;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+
 import edu.washington.cs.knowitall.commonlib.Range;
 
-/***
- * Represents a layered sequence where some of the layers can be spans of tags,
- * encoded using B/I/O prefixes. For example, the sequence of tags
- * {@code O B-X I-X O B-Y O B-Z B-Z I-Z} represents four spans at positions 1-2,
- * 4, 6, and 7-8.
- * 
+/**
+ * Represents a layered sequence where some of the layers can be spans of tags, encoded using B/I/O
+ * prefixes. For example, the sequence of tags {@code O B-X I-X O B-Y O B-Z B-Z I-Z} represents four
+ * spans at positions 1-2, 4, 6, and 7-8.
+ *
  * @author afader
- * 
  */
 public class BIOLayeredSequence extends SimpleLayeredSequence {
 
@@ -32,8 +30,6 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
 
     /**
      * Constructs a new {@linkplain BIOLayeredSequence} class.
-     * 
-     * @param length
      */
     public BIOLayeredSequence(int length) {
         super(length);
@@ -58,8 +54,7 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
 
     /**
      * Returns the ranges of all of the spans on the given layer.
-     * 
-     * @param layerName
+     *
      * @return a list of ranges in order
      */
     public List<Range> getSpans(String layerName) {
@@ -71,50 +66,42 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
             }
         } else {
             throw new IllegalArgumentException("Invalid layer name: "
-                    + layerName);
+                                               + layerName);
         }
     }
 
     /**
-     * Returns the ranges of all of the spans on the given layer that are of the
-     * given type (e.g. will return all B-X/I-X given X).
-     * 
-     * @param layerName
-     * @param type
-     * @return
+     * Returns the ranges of all of the spans on the given layer that are of the given type (e.g.
+     * will return all B-X/I-X given X).
      */
     public ImmutableCollection<Range> getSpans(String layerName, String type) {
         if (hasLayer(layerName)) {
             if (spans.containsKey(layerName)
-                    && spanTypes.get(layerName).containsKey(type)) {
+                && spanTypes.get(layerName).containsKey(type)) {
                 return spanTypes.get(layerName).get(type);
             } else {
                 return ImmutableSet.of();
             }
         } else {
             throw new IllegalArgumentException("Invalid layer name: "
-                    + layerName);
+                                               + layerName);
         }
     }
 
     /**
-     * Adds a new layer to this sequence, but interprets it using B/I/O
-     * notation. This means that each tag must start with <code>B-</code>,
-     * <code>I-</code>, or equal <code>O</code>. Any tag that equals
-     * <code>I-X</code> for some string <code>X</code> must come immediately
-     * after either <code>I-X</code> or <code>B-X</code>.
-     * 
-     * @param layerName
-     * @param input
-     * @throws SequenceException
-     *             if unable to add a layer with the given name, or if input
-     *             does not follow the B/I/O encoding.
+     * Adds a new layer to this sequence, but interprets it using B/I/O notation. This means that
+     * each tag must start with <code>B-</code>, <code>I-</code>, or equal <code>O</code>. Any tag
+     * that equals <code>I-X</code> for some string <code>X</code> must come immediately after
+     * either <code>I-X</code> or <code>B-X</code>.
+     *
+     * @throws SequenceException if unable to add a layer with the given name, or if input does not
+     *                           follow the B/I/O encoding.
      */
     public void addSpanLayer(String layerName, List<String> input)
-            throws SequenceException {
+        throws SequenceException {
 
         ImmutableMultimap<String, Range> typeToSpans = ImmutableMultimap
-                .copyOf(getRanges(input));
+            .copyOf(getRanges(input));
         List<Range> allRanges = new ArrayList<Range>();
         Collections.sort(allRanges);
         super.addLayer(layerName, input);
@@ -124,21 +111,16 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
     }
 
     /**
-     * Adds a new span layer to this sequence. The span layer encodes the given
-     * tag and the B/I/O encoding. For example, if <code>tag = "NP"</code> then
-     * this will add <code>B-NP</code>, <code>I-NP</code>, and <code>O</code>
-     * tags at the indexes covered by <code>ranges</code>. The ranges must not
-     * overlap.
-     * 
-     * @param layerName
-     * @param tag
-     * @param ranges
-     * @throws SequenceException
-     *             if any of the layers overlap, or if any of the ranges are
-     *             outside of the range of this sequence
+     * Adds a new span layer to this sequence. The span layer encodes the given tag and the B/I/O
+     * encoding. For example, if <code>tag = "NP"</code> then this will add <code>B-NP</code>,
+     * <code>I-NP</code>, and <code>O</code> tags at the indexes covered by <code>ranges</code>. The
+     * ranges must not overlap.
+     *
+     * @throws SequenceException if any of the layers overlap, or if any of the ranges are outside
+     *                           of the range of this sequence
      */
     public void addSpanLayerRanges(String layerName, String tag,
-            List<Range> ranges) throws SequenceException {
+                                   List<Range> ranges) throws SequenceException {
 
         List<Range> rangesCopy = new ArrayList<Range>(ranges.size());
         rangesCopy.addAll(ranges);
@@ -149,15 +131,16 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
         }
 
         List<String> sequence = new ArrayList<String>(getLength());
-        for (int i = 0; i < getLength(); i++)
+        for (int i = 0; i < getLength(); i++) {
             sequence.add("O");
+        }
         for (Range range : ranges) {
             int first = range.getStart();
             int end = range.getEnd();
 
             if (end > getLength()) {
                 throw new IndexOutOfBoundsException("Range out of bounds: "
-                        + range);
+                                                    + range);
             }
 
             sequence.set(first, "B-" + tag);
@@ -171,15 +154,14 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
     }
 
     /**
-     * Returns a subsequence of the given layer. If the given layer is a span
-     * layer with B/I/O tags, and the subsequence partially intersects a span
-     * (i.e. it starts with I-X), then this initial tag will be replaced with a
-     * B-X tag.
+     * Returns a subsequence of the given layer. If the given layer is a span layer with B/I/O tags,
+     * and the subsequence partially intersects a span (i.e. it starts with I-X), then this initial
+     * tag will be replaced with a B-X tag.
      */
     public ImmutableList<String> getSubSequence(String layerName, int start,
-            int length) {
+                                                int length) {
         ImmutableList<String> subLayer = super.getSubSequence(layerName, start,
-                length);
+                                                              length);
         if (spans.containsKey(layerName)) {
             List<String> spanSub = new ArrayList<String>(length);
             spanSub.addAll(subLayer);
@@ -199,10 +181,9 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
     }
 
     /**
-     * Returns a subsequence of the given layer. If the given layer is a span
-     * layer with B/I/O tags, and the subsequence partially intersects a span
-     * (i.e. it starts with I-X), then this initial tag will be replaced with a
-     * B-X tag.
+     * Returns a subsequence of the given layer. If the given layer is a span layer with B/I/O tags,
+     * and the subsequence partially intersects a span (i.e. it starts with I-X), then this initial
+     * tag will be replaced with a B-X tag.
      */
     public ImmutableList<String> getSubSequence(String layerName, Range r) {
         if (r == null) {
@@ -213,9 +194,8 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
     }
 
     /**
-     * Constructs a new subsequence from this instance. If the subsequence
-     * partially intersects a span (e.g. the subsequence starts at a I-X tag),
-     * then it will be replaced with a B-X tag.
+     * Constructs a new subsequence from this instance. If the subsequence partially intersects a
+     * span (e.g. the subsequence starts at a I-X tag), then it will be replaced with a B-X tag.
      */
     public BIOLayeredSequence getSubSequence(int start, int length) {
         BIOLayeredSequence sub = new BIOLayeredSequence(length);
@@ -230,8 +210,8 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
                 }
             } catch (SequenceException e) {
                 String msg = String.format(
-                        "Could not create subsequence of length %s starting at %s "
-                                + "for layer %s", start, length, layerName);
+                    "Could not create subsequence of length %s starting at %s "
+                    + "for layer %s", start, length, layerName);
                 throw new IllegalStateException(msg, e);
             }
         }
@@ -239,9 +219,8 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
     }
 
     /**
-     * Constructs a new subsequence from this instance. If the subsequence
-     * partially intersects a span (e.g. the subsequence starts at a I-X tag),
-     * then it will be replaced with a B-X tag.
+     * Constructs a new subsequence from this instance. If the subsequence partially intersects a
+     * span (e.g. the subsequence starts at a I-X tag), then it will be replaced with a B-X tag.
      */
     public BIOLayeredSequence getSubSequence(Range r) {
         return getSubSequence(r.getStart(), r.getLength());
@@ -252,7 +231,7 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
     }
 
     private TreeMultimap<String, Range> getRanges(List<String> tags)
-            throws SequenceException {
+        throws SequenceException {
 
         String inType = null;
         int startIndex = -1;
@@ -281,7 +260,7 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
                 length = 1;
 
             } else if (tag.startsWith("I-") && inType != null
-                    && tag.equals("I-" + inType)) {
+                       && tag.equals("I-" + inType)) {
 
                 length++;
 

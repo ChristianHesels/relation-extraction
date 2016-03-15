@@ -1,13 +1,6 @@
 package edu.washington.cs.knowitall.util;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.text.DecimalFormat;
-import java.util.LinkedList;
-import java.util.Queue;
+import com.google.common.base.Joiner;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.CommandLineParser;
@@ -16,7 +9,14 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.cli.PosixParser;
 
-import com.google.common.base.Joiner;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.text.DecimalFormat;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import edu.washington.cs.knowitall.argumentidentifier.ConfidenceMetric;
 import edu.washington.cs.knowitall.commonlib.Range;
@@ -36,12 +36,10 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.normalization.BinaryExtractionNormalizer;
 import edu.washington.cs.knowitall.normalization.NormalizedBinaryExtraction;
 
-/***
- * A command line wrapper for ReVerbExtractor. Run with -h to see the usage
- * information.
+/**
+ * A command line wrapper for ReVerbExtractor. Run with -h to see the usage information.
  *
  * @author afader
- *
  */
 public class CommandLineReVerb {
 
@@ -76,45 +74,47 @@ public class CommandLineReVerb {
     long extractTime = 0;
     long confTime = 0;
 
-    private static String[] colNames = { "filename", "sentence number", "arg1",
-            "rel", "arg2", "arg1 start", "arg1 end", "rel start", "rel end",
-            "arg2 start", "arg2 end", "conf", "sentence words",
-            "sentence pos tags", "sentence chunk tags", "arg1 normalized",
-            "rel normalized", "arg2 normalized" };
+    private static String[] colNames = {"filename", "sentence number", "arg1",
+                                        "rel", "arg2", "arg1 start", "arg1 end", "rel start",
+                                        "rel end",
+                                        "arg2 start", "arg2 end", "conf", "sentence words",
+                                        "sentence pos tags", "sentence chunk tags",
+                                        "arg1 normalized",
+                                        "rel normalized", "arg2 normalized"};
 
     public static void main(String[] args) throws ExtractorException {
 
         Options options = new Options();
         options.addOption("h", "help", false, "Print help and exit");
         options.addOption("f", "files", false,
-                "Read file list from standard input");
+                          "Read file list from standard input");
         options.addOption("s", "strip-html", false,
-                "Strip HTML before extracting");
+                          "Strip HTML before extracting");
         options.addOption("p", "filter-pronouns", false,
-                "Filter out arguments that contain a pronoun");
+                          "Filter out arguments that contain a pronoun");
         options.addOption("q", "quiet", false,
-                "Quiet mode (don't print messages to standard error)");
+                          "Quiet mode (don't print messages to standard error)");
         options.addOption("t", "timing", false,
-                "Provide detailed timing information");
+                          "Provide detailed timing information");
         options.addOption(
-                "m",
-                "minFreq",
-                true,
-                "Each relation must have at a minimum this many number of distinct arguments in a large corpus.");
+            "m",
+            "minFreq",
+            true,
+            "Each relation must have at a minimum this many number of distinct arguments in a large corpus.");
         options.addOption(
-                "a",
-                "argLearner",
-                false,
-                "Use ArgLearner to identify extraction arguments (experimental, slower but more accurate). If you use this setting, the minFreq, noConstraints, keepOverlap, and allowUnary values will be ignored.");
+            "a",
+            "argLearner",
+            false,
+            "Use ArgLearner to identify extraction arguments (experimental, slower but more accurate). If you use this setting, the minFreq, noConstraints, keepOverlap, and allowUnary values will be ignored.");
         options.addOption("K", "keepOverlap", false,
-                "Do not merge overlapping relations (Default is to merge.)");
+                          "Do not merge overlapping relations (Default is to merge.)");
         options.addOption(
-                "U",
-                "allowUnary",
-                false,
-                "Allow relations with a single argument to be output. (Default setting is to disallow unary relations.)");
+            "U",
+            "allowUnary",
+            false,
+            "Allow relations with a single argument to be output. (Default setting is to disallow unary relations.)");
         options.addOption("N", "noConstraints", false,
-                "Do not enforce the syntactic and lexical constraints that are part of ReVerb.");
+                          "Do not enforce the syntactic and lexical constraints that are part of ReVerb.");
 
         CommandLineParser parser = new PosixParser();
 
@@ -131,7 +131,7 @@ public class CommandLineReVerb {
 
         } catch (ParseException e) {
             System.err.println("Could not parse command line arguments: "
-                    + e.getMessage());
+                               + e.getMessage());
             usage(options);
             return;
         } catch (IOException e) {
@@ -166,13 +166,14 @@ public class CommandLineReVerb {
             dataStdin = false;
             fileListStdin = true;
             stdinLineIterator = new BufferedReaderIterator(new BufferedReader(
-                    new InputStreamReader(System.in)));
+                new InputStreamReader(System.in)));
         } else if (params.getArgs().length > 0) {
             dataStdin = false;
             fileListStdin = false;
             fileArgs = new LinkedList<String>();
-            for (String arg : params.getArgs())
+            for (String arg : params.getArgs()) {
                 fileArgs.add(arg);
+            }
         } else {
             dataStdin = true;
             fileListStdin = false;
@@ -202,7 +203,7 @@ public class CommandLineReVerb {
             } else {
                 messageInc("Initializing ReVerb extractor...");
                 extractor = new ReVerbExtractor(minFreq, useSynLexConstraints,
-                        mergeOverlapRels, allowUnary);
+                                                mergeOverlapRels, allowUnary);
                 message("Done.");
                 messageInc("Initializing confidence function...");
                 confFunc = new ReVerbOpenNlpConfFunction();
@@ -211,9 +212,9 @@ public class CommandLineReVerb {
 
             if (filterPronouns) {
                 extractor.getArgument1Extractor().addMapper(
-                        new PronounArgumentFilter());
+                    new PronounArgumentFilter());
                 extractor.getArgument2Extractor().addMapper(
-                        new PronounArgumentFilter());
+                    new PronounArgumentFilter());
             }
 
             messageInc("Initializing NLP tools...");
@@ -266,12 +267,12 @@ public class CommandLineReVerb {
 
             messageInc("Timing: ");
             messageInc("chunking: "
-                    + fmt.format(chunkTime / 1000.0 / 1000.0 / 1000.0) + " s, ");
+                       + fmt.format(chunkTime / 1000.0 / 1000.0 / 1000.0) + " s, ");
             messageInc("extraction: "
-                    + fmt.format(extractTime / 1000.0 / 1000.0 / 1000.0)
-                    + " s, ");
+                       + fmt.format(extractTime / 1000.0 / 1000.0 / 1000.0)
+                       + " s, ");
             messageInc("confidence: "
-                    + fmt.format(confTime / 1000.0 / 1000.0 / 1000.0) + " s");
+                       + fmt.format(confTime / 1000.0 / 1000.0 / 1000.0) + " s");
         }
     }
 
@@ -307,7 +308,7 @@ public class CommandLineReVerb {
         File f = getNextFile();
         currentFile = f.getAbsolutePath();
         BufferedReader in = new BufferedReader(new InputStreamReader(
-                new FileInputStream(f)));
+            new FileInputStream(f)));
         ChunkedSentenceReader reader = getSentenceReader(in);
         message("Extracting from " + f);
         extractFromSentReader(reader);
@@ -321,7 +322,7 @@ public class CommandLineReVerb {
     }
 
     private ChunkedSentenceReader getSentenceReader(BufferedReader in)
-            throws IOException {
+        throws IOException {
         if (stripHtml) {
             return DefaultObjects.getDefaultSentenceReaderHtml(in);
         } else {
@@ -334,13 +335,13 @@ public class CommandLineReVerb {
             return confFunc.getConf(extr);
         } catch (ConfidenceFunctionException e) {
             System.err.println("Could not compute confidence for " + extr
-                    + ": " + e.getMessage());
+                               + ": " + e.getMessage());
             return 0;
         }
     }
 
     private void extractFromSentReader(ChunkedSentenceReader reader)
-            throws ExtractorException {
+        throws ExtractorException {
         long start;
 
         ChunkedSentenceIterator sentenceIt = reader.iterator();
@@ -355,7 +356,7 @@ public class CommandLineReVerb {
             // make the extractions
             start = System.nanoTime();
             Iterable<ChunkedBinaryExtraction> extractions = extractor
-                    .extract(sent);
+                .extract(sent);
             extractTime += System.nanoTime() - start;
 
             for (ChunkedBinaryExtraction extr : extractions) {
@@ -367,11 +368,12 @@ public class CommandLineReVerb {
                 confTime += System.nanoTime() - start;
 
                 NormalizedBinaryExtraction extrNorm = normalizer
-                        .normalize(extr);
+                    .normalize(extr);
                 printExtr(extrNorm, conf);
             }
-            if (numSents % messageEvery == 0)
+            if (numSents % messageEvery == 0) {
                 summary();
+            }
         }
     }
 
@@ -399,10 +401,10 @@ public class CommandLineReVerb {
         String a2e = String.valueOf(arg2Range.getEnd());
 
         String row = Joiner.on("\t").join(
-                new String[] { currentFile, String.valueOf(numSents), arg1,
-                        rel, arg2, a1s, a1e, rs, re, a2s, a2e,
-                        String.valueOf(conf), toks, pos, chunks, arg1Norm,
-                        relNorm, arg2Norm });
+            new String[]{currentFile, String.valueOf(numSents), arg1,
+                         rel, arg2, a1s, a1e, rs, re, a2s, a2e,
+                         String.valueOf(conf), toks, pos, chunks, arg1Norm,
+                         relNorm, arg2Norm});
 
         System.out.println(row);
     }

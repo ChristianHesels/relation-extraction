@@ -1,22 +1,20 @@
 package edu.washington.cs.knowitall.extractor.conf.opennlp;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.google.common.collect.ImmutableList;
 
 import opennlp.model.Event;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import edu.washington.cs.knowitall.extractor.conf.featureset.BooleanFeatureSet;
 
-/***
- * A wrapper for the OpenNlp events. This class allows the caller to add events
- * to a data set by directly passing an instance of type <code>T</code> and a
- * label. The instance is then featurized using a <code>BooleanFeatureSet</code>
- * . instance.
+/**
+ * A wrapper for the OpenNlp events. This class allows the caller to add events to a data set by
+ * directly passing an instance of type <code>T</code> and a label. The instance is then featurized
+ * using a <code>BooleanFeatureSet</code> . instance.
  *
  * @author schmmd
- *
- * @param <T>
  */
 public class OpenNlpDataSet<T> {
 
@@ -29,10 +27,8 @@ public class OpenNlpDataSet<T> {
     /**
      * Constructs a new data set
      *
-     * @param name
-     *            the name of the data set
-     * @param featureSet
-     *            the feature representation of the data set
+     * @param name       the name of the data set
+     * @param featureSet the feature representation of the data set
      */
     public OpenNlpDataSet(String name, BooleanFeatureSet<T> featureSet) {
         this.name = name;
@@ -42,11 +38,7 @@ public class OpenNlpDataSet<T> {
     }
 
     /**
-     * Adds a new instance to the data set with the given label (0 for negative,
-     * 1 for positive).
-     *
-     * @param instance
-     * @param label
+     * Adds a new instance to the data set with the given label (0 for negative, 1 for positive).
      */
     public void addInstance(T instance, int label) {
         String[] stringFeatures = new String[features.getNumFeatures()];
@@ -55,7 +47,7 @@ public class OpenNlpDataSet<T> {
         for (String feature : features.getFeatureNames()) {
             boolean value = features.featurizeToBool(feature, instance);
             stringFeatures[i++] = this.alphabet.lookup
-                    .get(new OpenNlpAlphabet.Key(feature, value));
+                .get(new OpenNlpAlphabet.Key(feature, value));
         }
 
         Event event = new Event(Integer.toString(label), stringFeatures);

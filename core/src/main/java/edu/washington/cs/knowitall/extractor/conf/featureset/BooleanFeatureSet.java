@@ -1,21 +1,19 @@
 package edu.washington.cs.knowitall.extractor.conf.featureset;
 
-import java.util.Map;
-import java.util.SortedMap;
-import java.util.TreeMap;
-
 import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 
-/***
- * Represents a set of boolean feature functions that can be applied to objects
- * of type <code>T</code>. Each feature is represented as a
- * <code>Predicate<T></code> object, and has a String name.
+import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
+/**
+ * Represents a set of boolean feature functions that can be applied to objects of type
+ * <code>T</code>. Each feature is represented as a <code>Predicate<T></code> object, and has a
+ * String name.
  *
  * @author afader
- *
- * @param <T>
  */
 public class BooleanFeatureSet<T> extends FeatureSet<T> {
 
@@ -23,8 +21,6 @@ public class BooleanFeatureSet<T> extends FeatureSet<T> {
 
     /**
      * Constructs a new feature set from the given features.
-     *
-     * @param givenFeatures
      */
     public BooleanFeatureSet(Map<String, Predicate<T>> givenFeatures) {
         super(ImmutableList.copyOf(givenFeatures.keySet()));
@@ -35,7 +31,6 @@ public class BooleanFeatureSet<T> extends FeatureSet<T> {
     /**
      * Returns a feature representation of the given object.
      *
-     * @param object
      * @return a sorted map, mapping feature names to boolean values
      */
     public SortedMap<String, Boolean> featurize(T object) {
@@ -49,12 +44,9 @@ public class BooleanFeatureSet<T> extends FeatureSet<T> {
     }
 
     /**
-     * Returns the feature representation of object as an array of doubles. Each
-     * value in the array corresponds to a feature (where 1.0 is true and 0.0 is
-     * false). The ith value corresponds to the ith feature.
-     *
-     * @param object
-     * @return
+     * Returns the feature representation of object as an array of doubles. Each value in the array
+     * corresponds to a feature (where 1.0 is true and 0.0 is false). The ith value corresponds to
+     * the ith feature.
      */
     public double[] featurizeToDouble(T object) {
         double[] values = new double[features.size()];
@@ -72,11 +64,8 @@ public class BooleanFeatureSet<T> extends FeatureSet<T> {
     }
 
     /**
-     * Returns the feature representation of object as an array of booleans. The
-     * ith value corresponds to the ith feature.
-     *
-     * @param object
-     * @return
+     * Returns the feature representation of object as an array of booleans. The ith value
+     * corresponds to the ith feature.
      */
     public boolean[] featurizeToBool(T object) {
         boolean[] values = new boolean[features.size()];
@@ -89,10 +78,8 @@ public class BooleanFeatureSet<T> extends FeatureSet<T> {
     }
 
     /**
-     * Returns the features as an ImmutableList, sorted using the default String
-     * comparator on the features' names.
-     *
-     * @return
+     * Returns the features as an ImmutableList, sorted using the default String comparator on the
+     * features' names.
      */
     public Map<String, Predicate<T>> getFeatures() {
         return this.features;
@@ -102,7 +89,7 @@ public class BooleanFeatureSet<T> extends FeatureSet<T> {
     public double featurize(String featureName, T object) {
         return this.features.get(featureName).apply(object) == true ? 1.0 : 0.0;
     }
-    
+
     public boolean featurizeToBool(String featureName, T object) {
         return this.features.get(featureName).apply(object);
     }

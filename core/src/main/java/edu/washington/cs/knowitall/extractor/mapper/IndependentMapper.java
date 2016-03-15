@@ -4,16 +4,15 @@ import com.google.common.base.Function;
 import com.google.common.collect.Iterables;
 
 /**
- * A type of mapper that operates on each object in a stream independently. Subclasses 
- * extending this class only have to implement the <code>doMap(T object)</code> method,
- * which is then applied to each object in the argument of <code>map(Iterable<T> objects)</code>.
- * @author afader
+ * A type of mapper that operates on each object in a stream independently. Subclasses extending
+ * this class only have to implement the <code>doMap(T object)</code> method, which is then applied
+ * to each object in the argument of <code>map(Iterable<T> objects)</code>.
  *
- * @param <T>
+ * @author afader
  */
 public abstract class IndependentMapper<T> extends Mapper<T> {
 
-    private final Function<T,T> mapFunction = new Function<T,T>() {
+    private final Function<T, T> mapFunction = new Function<T, T>() {
         public T apply(T object) {
             return doMap(object);
         }

@@ -1,15 +1,14 @@
 package edu.washington.cs.knowitall.sequence;
 
-import java.util.Arrays;
-
 import com.google.common.base.Joiner;
 
+import java.util.Arrays;
+
 /**
- * A class that wraps a String array so it can be used as the key in a
- * {@link java.util.HashSet} object.
- * 
+ * A class that wraps a String array so it can be used as the key in a {@link java.util.HashSet}
+ * object.
+ *
  * @author afader
- * 
  */
 public class StringArrayWrapper {
 
@@ -17,8 +16,6 @@ public class StringArrayWrapper {
 
     /**
      * Wraps the given data
-     * 
-     * @param data
      */
     public StringArrayWrapper(String[] data) {
         if (data == null) {
@@ -51,15 +48,19 @@ public class StringArrayWrapper {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (obj == null)
+        }
+        if (obj == null) {
             return false;
-        if (!(obj instanceof StringArrayWrapper))
+        }
+        if (!(obj instanceof StringArrayWrapper)) {
             return false;
+        }
         StringArrayWrapper other = (StringArrayWrapper) obj;
-        if (!Arrays.equals(data, other.data))
+        if (!Arrays.equals(data, other.data)) {
             return false;
+        }
         return true;
     }
 

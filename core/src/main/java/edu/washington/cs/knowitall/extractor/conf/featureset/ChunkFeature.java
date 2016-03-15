@@ -14,7 +14,6 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
  * Parent class for any feature specific to the chunk layer.
  *
  * @author Rob
- *
  */
 public abstract class ChunkFeature extends ExtractionFeature {
 
@@ -41,9 +40,6 @@ public abstract class ChunkFeature extends ExtractionFeature {
 
     /**
      * Get an expandablePosFeature for tokens right before arg1.
-     *
-     * @param posTags
-     * @return
      */
     public static ChunkFeature withinArg2(String... chunkTags) {
         return new ChunkFeature(chunkTags) {
@@ -56,9 +52,6 @@ public abstract class ChunkFeature extends ExtractionFeature {
 
     /**
      * Get an expandablePosFeature for tokens right before arg1.
-     *
-     * @param chunkTags
-     * @return
      */
     public static ChunkFeature withinRel(String... chunkTags) {
         return new ChunkFeature(chunkTags) {
@@ -71,9 +64,6 @@ public abstract class ChunkFeature extends ExtractionFeature {
 
     /**
      * Get an expandablePosFeature for tokens right before arg1.
-     *
-     * @param chunkTags
-     * @return
      */
     public static ChunkFeature rightBeforeArg1(String... chunkTags) {
         return new ChunkFeature(chunkTags) {
@@ -83,17 +73,15 @@ public abstract class ChunkFeature extends ExtractionFeature {
                 int index = arg1.getStart() - 1;
                 if (index < 0 || index >= arg1.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
 
     /**
      * Get an expandablePosFeature for tokens right before arg1.
-     *
-     * @param chunkTags
-     * @return
      */
     public static ChunkFeature rightAfterArg2(String... chunkTags) {
         return new ChunkFeature(chunkTags) {
@@ -104,8 +92,9 @@ public abstract class ChunkFeature extends ExtractionFeature {
                 int index = arg2.getStart() + arg2.getLength();
                 if (index < 0 || index >= arg2.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }

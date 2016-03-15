@@ -3,10 +3,10 @@ package edu.washington.cs.knowitall.extractor.mapper;
 import java.util.regex.Pattern;
 
 /**
- * Filters out sentences that do not start with a capital letter or number (ignoring single quotes, double
- * quotes, and whitespace).
- * @author afader
+ * Filters out sentences that do not start with a capital letter or number (ignoring single quotes,
+ * double quotes, and whitespace).
  *
+ * @author afader
  */
 public class SentenceStartFilter extends FilterMapper<String> {
 

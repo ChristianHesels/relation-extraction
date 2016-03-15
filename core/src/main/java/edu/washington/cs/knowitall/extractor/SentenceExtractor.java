@@ -1,18 +1,18 @@
 package edu.washington.cs.knowitall.extractor;
 
+import opennlp.tools.sentdetect.SentenceDetector;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
-import opennlp.tools.sentdetect.SentenceDetector;
-
 /**
- * An <code>Extractor</code> object that extracts <code>String</code> sentences from a 
+ * An <code>Extractor</code> object that extracts <code>String</code> sentences from a
  * <code>String</code>. Is backed by an OpenNLP <code>SentenceDetector</code> object.
- * @author afader
  *
+ * @author afader
  */
 public class SentenceExtractor extends Extractor<String, String> {
 
@@ -21,16 +21,14 @@ public class SentenceExtractor extends Extractor<String, String> {
     /**
      * Constructs a new <code>SentenceExtractor</code> object using the default OpenNLP
      * <code>SentenceDetector</code> object, as returned by <code>DefaultObjects.getDefaultSentenceDetector()</code>.
-     * @throws IOException
      */
     public SentenceExtractor() throws IOException {
         this.detector = DefaultObjects.getDefaultSentenceDetector();
     }
 
     /**
-     * Constructs a new <code>SentenceExtractor</code> object using the given OpenNLP <code>SentenceDetector</code>
-     * object.
-     * @param detector
+     * Constructs a new <code>SentenceExtractor</code> object using the given OpenNLP
+     * <code>SentenceDetector</code> object.
      */
     public SentenceExtractor(SentenceDetector detector) {
         this.detector = detector;
@@ -44,8 +42,8 @@ public class SentenceExtractor extends Extractor<String, String> {
     }
 
     /**
-     * Runs the OpenNLP <code>SentenceDetector</code> object on the given <code>String</code> source,
-     * and returns an <code>Iterable<String></code> object over the detected sentences.
+     * Runs the OpenNLP <code>SentenceDetector</code> object on the given <code>String</code>
+     * source, and returns an <code>Iterable<String></code> object over the detected sentences.
      */
     protected Collection<String> extractCandidates(String source) {
         return Arrays.asList(detector.sentDetect(source));

@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- *
  * @author schmmd
- *
  */
 public class JunkRemover extends IndependentMapper<String> {
 
@@ -61,18 +59,15 @@ public class JunkRemover extends IndependentMapper<String> {
     }
 
     /**
-     * Applies the <code>JunkRemover</code> mapper to each line in standard
-     * input and prints the result.
-     *
-     * @param args
-     * @throws IOException
+     * Applies the <code>JunkRemover</code> mapper to each line in standard input and prints the
+     * result.
      */
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
-                System.in));
+            System.in));
         JunkRemover remover = new JunkRemover();
         for (String line = reader.readLine(); line != null; line = reader
-                .readLine()) {
+            .readLine()) {
             System.out.println(remover.doMap(line));
         }
     }

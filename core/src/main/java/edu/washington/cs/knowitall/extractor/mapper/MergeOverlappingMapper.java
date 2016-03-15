@@ -1,23 +1,21 @@
 package edu.washington.cs.knowitall.extractor.mapper;
 
+import com.google.common.collect.Iterables;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import com.google.common.collect.Iterables;
 
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
-/***
- * Given a set of <code>ChunkedExtraction</code>s from the same sentence, merges
- * those extractions that are next to each other or overlapping. For example,
- * given the sentence "He wants to go to the store" and the relations "wants to"
- * and "go to", returns "wants to go to".
+/**
+ * Given a set of <code>ChunkedExtraction</code>s from the same sentence, merges those extractions
+ * that are next to each other or overlapping. For example, given the sentence "He wants to go to
+ * the store" and the relations "wants to" and "go to", returns "wants to go to".
  *
  * @author afader
- *
  */
 public class MergeOverlappingMapper extends Mapper<ChunkedExtraction> {
 
@@ -46,7 +44,7 @@ public class MergeOverlappingMapper extends Mapper<ChunkedExtraction> {
 
     @Override
     protected Iterable<ChunkedExtraction> doMap(
-            Iterable<ChunkedExtraction> extrs) {
+        Iterable<ChunkedExtraction> extrs) {
         List<ChunkedExtraction> extrList = new ArrayList<ChunkedExtraction>();
         Iterables.addAll(extrList, extrs);
         if (extrList.size() > 1) {
@@ -57,7 +55,7 @@ public class MergeOverlappingMapper extends Mapper<ChunkedExtraction> {
             }
             List<Range> mergedRanges = mergeOverlapping(ranges);
             List<ChunkedExtraction> result = new ArrayList<ChunkedExtraction>(
-                    mergedRanges.size());
+                mergedRanges.size());
             for (Range r : mergedRanges) {
                 ChunkedExtraction extr = new ChunkedExtraction(sent, r);
                 result.add(extr);

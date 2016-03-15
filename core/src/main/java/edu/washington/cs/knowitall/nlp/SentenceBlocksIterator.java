@@ -1,9 +1,9 @@
 package edu.washington.cs.knowitall.nlp;
 
+import com.google.common.collect.AbstractIterator;
+
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import com.google.common.collect.AbstractIterator;
 
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.SentenceExtractor;
@@ -15,7 +15,7 @@ public class SentenceBlocksIterator extends AbstractIterator<String> {
     private SentenceExtractor sentExtractor;
 
     public SentenceBlocksIterator(Iterator<String> blockIter,
-            SentenceExtractor sentExtractor) {
+                                  SentenceExtractor sentExtractor) {
         this.blockIter = blockIter;
         this.sentExtractor = sentExtractor;
     }

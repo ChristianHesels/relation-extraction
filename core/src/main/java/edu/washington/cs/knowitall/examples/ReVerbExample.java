@@ -18,32 +18,34 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 
 public class ReVerbExample {
 
-  public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
 
-    String sentStr = "Die VW AG agiert als Muttergesellschaft der Fahrzeugmarken Volkswagen Pkw, Audi, Seat und Škoda." ;
+        String
+            sentStr =
+            "Die VW AG agiert als Muttergesellschaft der Fahrzeugmarken Volkswagen Pkw, Audi, Seat und Škoda.";
 
-    // Looks on the classpath for the default model files.
-    TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
-    ChunkedSentence sent = taggerSentenceChunker.chunkSentence(sentStr);
+        // Looks on the classpath for the default model files.
+        TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
+        ChunkedSentence sent = taggerSentenceChunker.chunkSentence(sentStr);
 
-    // Prints out the (token, tag, chunk-tag) for the sentence
-    System.out.println(sentStr);
-    for (int i = 0; i < sent.getLength(); i++) {
-      String token = sent.getToken(i);
-      String posTag = sent.getPosTag(i);
-      String chunkTag = sent.getChunkTag(i);
-      System.out.println(token + " " + posTag + " " + chunkTag);
+        // Prints out the (token, tag, chunk-tag) for the sentence
+        System.out.println(sentStr);
+        for (int i = 0; i < sent.getLength(); i++) {
+            String token = sent.getToken(i);
+            String posTag = sent.getPosTag(i);
+            String chunkTag = sent.getChunkTag(i);
+            System.out.println(token + " " + posTag + " " + chunkTag);
+        }
+
+        // Prints out extractions from the sentence.
+        ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
+        ConfidenceFunction confFunc = new ReVerbOpenNlpConfFunction();
+        for (ChunkedBinaryExtraction extr : reverb.extract(sent)) {
+            double conf = confFunc.getConf(extr);
+            System.out.println("Arg1=" + extr.getArgument1());
+            System.out.println("Rel=" + extr.getRelation());
+            System.out.println("Arg2=" + extr.getArgument2());
+            System.out.println("Conf=" + conf);
+        }
     }
-
-    // Prints out extractions from the sentence.
-    ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
-    ConfidenceFunction confFunc = new ReVerbOpenNlpConfFunction();
-    for (ChunkedBinaryExtraction extr : reverb.extract(sent)) {
-      double conf = confFunc.getConf(extr);
-      System.out.println("Arg1=" + extr.getArgument1());
-      System.out.println("Rel=" + extr.getRelation());
-      System.out.println("Arg2=" + extr.getArgument2());
-      System.out.println("Conf=" + conf);
-    }
-  }
 }

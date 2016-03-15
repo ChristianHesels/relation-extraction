@@ -1,6 +1,7 @@
 package edu.washington.cs.knowitall.argumentidentifier;
 
 public class Pair<F, S> {
+
     private F first;
     private S second;
 

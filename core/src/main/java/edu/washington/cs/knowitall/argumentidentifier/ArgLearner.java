@@ -14,14 +14,16 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  * ArgLearner main class. Extracts either left or right argument.
  *
  * @author janara
- *
  */
 
 public class ArgLearner extends
-        Extractor<ChunkedExtraction, ChunkedArgumentExtraction> {
+                        Extractor<ChunkedExtraction, ChunkedArgumentExtraction> {
+
     public enum Mode {
         LEFT, RIGHT
-    };
+    }
+
+    ;
 
     private Mode mode;
 
@@ -39,17 +41,21 @@ public class ArgLearner extends
 
         try {
             if (mode == Mode.LEFT) {
-                ArgSubstructureFeatureGenerator featuregeneratorsub = new ArgSubstructureFeatureGenerator(
+                ArgSubstructureFeatureGenerator
+                    featuregeneratorsub =
+                    new ArgSubstructureFeatureGenerator(
                         mode);
                 arg1rightboundclassifier = new ArgLocationClassifier(mode);
                 arg1leftboundclassifier = new ArgSubstructureClassifier(mode,
-                        featuregeneratorsub);
+                                                                        featuregeneratorsub);
             } else {
-                ArgSubstructureFeatureGenerator featuregeneratorsub = new ArgSubstructureFeatureGenerator(
+                ArgSubstructureFeatureGenerator
+                    featuregeneratorsub =
+                    new ArgSubstructureFeatureGenerator(
                         mode);
                 arg2leftboundclassifier = new ArgLocationClassifier(mode);
                 arg2rightboundclassifier = new ArgSubstructureClassifier(mode,
-                        featuregeneratorsub);
+                                                                         featuregeneratorsub);
             }
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -58,7 +64,7 @@ public class ArgLearner extends
 
     @Override
     protected Iterable<ChunkedArgumentExtraction> extractCandidates(
-            ChunkedExtraction predicate) throws ExtractorException {
+        ChunkedExtraction predicate) throws ExtractorException {
         Collection<ChunkedArgumentExtraction> args = new ArrayList<ChunkedArgumentExtraction>();
         ChunkedArgumentExtraction arg = null;
         if (mode == Mode.LEFT) {
@@ -75,23 +81,24 @@ public class ArgLearner extends
     }
 
     /**
-	 *
-	 */
+     *
+     */
     private ArrayList<ChunkedArgumentExtraction> splitArg(
-            ChunkedArgumentExtraction arg) {
+        ChunkedArgumentExtraction arg) {
         ArrayList<ChunkedArgumentExtraction> args = new ArrayList<ChunkedArgumentExtraction>();
         if (patternextractor.matchesListStrict(arg)) {
             int start = arg.getStart();
             int length = 0;
             for (int i = arg.getStart(); i < arg.getStart() + arg.getLength(); i++) {
                 if ((arg.getSentence().getToken(i).equals(",") && (i >= arg
-                        .getSentence().getLength() || (!arg.getSentence()
-                        .getToken(i + 1).equals("and") && !arg.getSentence()
-                        .getToken(i + 1).equals("or"))))
-                        || arg.getSentence().getToken(i).equals("and")
-                        || arg.getSentence().getToken(i).equals("or")) {
+                    .getSentence().getLength() || (!arg.getSentence()
+                    .getToken(i + 1).equals("and") && !arg.getSentence()
+                    .getToken(i + 1).equals("or"))))
+                    || arg.getSentence().getToken(i).equals("and")
+                    || arg.getSentence().getToken(i).equals("or")) {
                     args.add(new ChunkedArgumentExtraction(arg.getSentence(),
-                            new Range(start, length), arg.getRelation()));
+                                                           new Range(start, length),
+                                                           arg.getRelation()));
                     start = i + 1;
                     length = 0;
                 } else if (!arg.getSentence().getToken(i).equals(",")) {
@@ -99,7 +106,7 @@ public class ArgLearner extends
                 }
             }
             args.add(new ChunkedArgumentExtraction(arg.getSentence(),
-                    new Range(start, length), arg.getRelation()));
+                                                   new Range(start, length), arg.getRelation()));
 
         } else if (patternextractor.matchesAppositiveStrict(arg)) {
             int start = arg.getStart();
@@ -107,7 +114,8 @@ public class ArgLearner extends
             for (int i = arg.getStart(); i < arg.getStart() + arg.getLength(); i++) {
                 if (arg.getSentence().getToken(i).equals(",")) {
                     args.add(new ChunkedArgumentExtraction(arg.getSentence(),
-                            new Range(start, length), arg.getRelation()));
+                                                           new Range(start, length),
+                                                           arg.getRelation()));
                     start = i + 1;
                     length = 0;
                 } else {
@@ -115,7 +123,7 @@ public class ArgLearner extends
                 }
             }
             args.add(new ChunkedArgumentExtraction(arg.getSentence(),
-                    new Range(start, length), arg.getRelation()));
+                                                   new Range(start, length), arg.getRelation()));
 
         } else {
             args.add(arg);
@@ -126,7 +134,6 @@ public class ArgLearner extends
     /**
      * gets arg1 for the given predicate
      *
-     * @param predicate
      * @return arg1
      */
     private ChunkedArgumentExtraction getArg1(ChunkedExtraction predicate) {
@@ -134,7 +141,7 @@ public class ArgLearner extends
             return null;
         }
         double[] classifierresults = arg1rightboundclassifier
-                .getArgBound(predicate);
+            .getArgBound(predicate);
 
         int rightbound = (int) classifierresults[0];
         if (rightbound > 0) {
@@ -143,8 +150,8 @@ public class ArgLearner extends
             if (leftbound >= 0) {
                 double conf = leftbound_conf[1];
                 ChunkedArgumentExtraction arg1 = new ChunkedArgumentExtraction(
-                        predicate.getSentence(), new Range(leftbound, rightbound
-                                - leftbound), predicate, conf);
+                    predicate.getSentence(), new Range(leftbound, rightbound
+                                                                  - leftbound), predicate, conf);
                 return arg1;
             }
         }
@@ -154,14 +161,12 @@ public class ArgLearner extends
     /**
      * finds the left bound for arg1
      *
-     * @param predicate
-     * @param rightbound
      * @return left bound
      */
     private double[] getArg1LeftBound(ChunkedExtraction predicate,
-            int rightbound) {
+                                      int rightbound) {
         double[] resultsclassifier = arg1leftboundclassifier.getArgBound(
-                predicate, rightbound);
+            predicate, rightbound);
         if (resultsclassifier[0] == -1) {
             resultsclassifier[0] = getNPStart(predicate, rightbound - 1);
         }
@@ -171,7 +176,6 @@ public class ArgLearner extends
     /**
      * gets arg2 for the given predicate
      *
-     * @param predicate
      * @return arg2
      */
     private ChunkedArgumentExtraction getArg2(ChunkedExtraction predicate) {
@@ -190,7 +194,7 @@ public class ArgLearner extends
 
         // check that the bounds are valid
         if (rightbound <= leftbound || leftbound < 0
-                || leftbound > predicate.getSentence().getLength() - 1) {
+            || leftbound > predicate.getSentence().getLength() - 1) {
             leftbound = 0;
             rightbound = 0;
         }
@@ -201,7 +205,7 @@ public class ArgLearner extends
             return null;
         }
         ChunkedArgumentExtraction argument2 = new ChunkedArgumentExtraction(
-                predicate.getSentence(), newrange, predicate, conf);
+            predicate.getSentence(), newrange, predicate, conf);
 
         // check final condition
         if (!argument2.getChunkTagsAsString().contains("NP")) {
@@ -213,7 +217,6 @@ public class ArgLearner extends
     /**
      * finds the left bound for arg2, default is word after the predicate
      *
-     * @param predicate
      * @return left bound
      */
     private int getArg2LeftBound(ChunkedExtraction predicate) {
@@ -223,23 +226,19 @@ public class ArgLearner extends
     /**
      * finds the right bound and the crf confidence
      *
-     * @param predicate
-     * @param leftbound
-     *            bound
+     * @param leftbound bound
      * @return [right bound, crf confidence]
      */
     private double[] getArg2RightBound(ChunkedExtraction predicate,
-            int leftbound) {
+                                       int leftbound) {
         double[] resultsclassifier = arg2rightboundclassifier.getArgBound(
-                predicate, leftbound);
+            predicate, leftbound);
         return resultsclassifier;
     }
 
     /**
      * gets the start of the np given the end
      *
-     * @param extr
-     * @param end
      * @return start of np
      */
     private int getNPStart(ChunkedExtraction extr, int end) {

@@ -8,11 +8,9 @@ import java.io.StringReader;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 /**
- * A field normalizer that applies the stemmer to every token and strips
- * nothing.
- * 
+ * A field normalizer that applies the stemmer to every token and strips nothing.
+ *
  * @author Rob
- * 
  */
 public class BasicFieldNormalizer implements FieldNormalizer {
 
@@ -35,16 +33,11 @@ public class BasicFieldNormalizer implements FieldNormalizer {
         }
 
         return new NormalizedField(field, normTokens, field.getPosTags()
-                .toArray(new String[normTokens.length]));
+            .toArray(new String[normTokens.length]));
     }
 
     /**
-     * A wrapper for the call to Morpha. If morpha returns null, token is
-     * returned unchanged.
-     * 
-     * @param token
-     * @param posTag
-     * @return
+     * A wrapper for the call to Morpha. If morpha returns null, token is returned unchanged.
      */
     private String stem(String token, String posTag) {
         token = token.toLowerCase();

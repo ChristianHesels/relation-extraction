@@ -19,13 +19,15 @@ import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
- * A class that combines OpenNLP tokenizer, POS tagger and Tree Tagger chunker objects into
- * a single object that converts String sentences to {@link ChunkedSentence}
- * objects.
+ * A class that combines OpenNLP tokenizer, POS tagger and Tree Tagger chunker objects into a single
+ * object that converts String sentences to {@link ChunkedSentence} objects.
  */
 public class TreeTaggerSentenceChunker implements SentenceChunker {
 
-    private static final String TREETAGGER_HOME = "/opt/treetagger/"; // TODO System.getenv("TREETAGGER_HOME");
+    private static final String
+        TREETAGGER_HOME =
+        "/opt/treetagger/";
+        // TODO System.getenv("TREETAGGER_HOME");
     private static final String CHUNK_COMMAND = TREETAGGER_HOME + "cmd/tagger-chunker-german";
 
     private POSTagger posTagger;
@@ -70,7 +72,8 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
             throw new ChunkerException("OpenNLP threw NPE on '" + sent + "'", e);
         }
 
-        return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokens, posTags, npChunkTags);
+        return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokens, posTags,
+                                   npChunkTags);
     }
 
 
@@ -79,7 +82,8 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
      *
      * @param tokens the tokens
      * @return an Array containing the chunk tags
-     * @throws java.io.IOException if the TreeTagger command could not be executed or if the result could not be read
+     * @throws java.io.IOException  if the TreeTagger command could not be executed or if the result
+     *                              could not be read
      * @throws InterruptedException if the process, which executes TreeTagger, got interrupted.
      */
     private String[] chunk(String[] tokens) throws IOException, InterruptedException {
@@ -139,7 +143,7 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
                 inChunk = false;
                 count = 0;
 
-            // begin of chunk
+                // begin of chunk
             } else if (line.startsWith("<") & line.endsWith(">")) {
                 currentTag = line.substring(1, line.length() - 1);
 
@@ -156,13 +160,13 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
                 }
                 inChunk = true;
 
-            // token
+                // token
             } else {
                 // token belongs to a chunk
                 if (inChunk) {
                     count++;
 
-                // token does not belong to a chunk
+                    // token does not belong to a chunk
                 } else {
                     chunkTags.add("O");
                 }

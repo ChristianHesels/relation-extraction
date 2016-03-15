@@ -10,9 +10,9 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  * Generates features for Arg1LocationClassifier
  *
  * @author janara
- *
  */
 public class Arg1LocationFeatureGenerator {
+
     PatternExtractor patternExtractor;
 
     public Arg1LocationFeatureGenerator() {
@@ -21,29 +21,32 @@ public class Arg1LocationFeatureGenerator {
 
     public String getHeader() {
         String header = "@RELATION np_head\n"
-                + "@ATTRIBUTE simple_subj   {true,false}\n"
-                + "@ATTRIBUTE quotes_subj   {true,false}\n"
-                + "@ATTRIBUTE relative_subj   {true,false}\n"
-                + "@ATTRIBUTE verb_conj   {true,false}\n"
-                + "@ATTRIBUTE app   {true,false}\n"
-                + "@ATTRIBUTE which_who   {true,false}\n"
-                + "@ATTRIBUTE cap   {true,false}\n"
-                + "@ATTRIBUTE punt_count  NUMERIC\n"
-                + "@ATTRIBUTE intervening_np_count  NUMERIC\n"
-                + "@ATTRIBUTE np_count_before  NUMERIC\n"
-                + "@ATTRIBUTE word_before_pred_conj   {true,false}\n"
-                + "@ATTRIBUTE intervening_and  {true,false}\n"
-                + "@ATTRIBUTE word_after_vp  {true,false}\n"
-                + "@ATTRIBUTE word_before_vp  {true,false}\n"
-                + "@ATTRIBUTE class        {closest_np,not_closest_np}\n"
-                + "@DATA\n";
+                        + "@ATTRIBUTE simple_subj   {true,false}\n"
+                        + "@ATTRIBUTE quotes_subj   {true,false}\n"
+                        + "@ATTRIBUTE relative_subj   {true,false}\n"
+                        + "@ATTRIBUTE verb_conj   {true,false}\n"
+                        + "@ATTRIBUTE app   {true,false}\n"
+                        + "@ATTRIBUTE which_who   {true,false}\n"
+                        + "@ATTRIBUTE cap   {true,false}\n"
+                        + "@ATTRIBUTE punt_count  NUMERIC\n"
+                        + "@ATTRIBUTE intervening_np_count  NUMERIC\n"
+                        + "@ATTRIBUTE np_count_before  NUMERIC\n"
+                        + "@ATTRIBUTE word_before_pred_conj   {true,false}\n"
+                        + "@ATTRIBUTE intervening_and  {true,false}\n"
+                        + "@ATTRIBUTE word_after_vp  {true,false}\n"
+                        + "@ATTRIBUTE word_before_vp  {true,false}\n"
+                        + "@ATTRIBUTE class        {closest_np,not_closest_np}\n"
+                        + "@DATA\n";
         return header;
 
     }
 
     public double toDouble(boolean bool) {
-        if (bool) return 1.0;
-        else return 0.0;
+        if (bool) {
+            return 1.0;
+        } else {
+            return 0.0;
+        }
     }
 
     public double toDouble(int num) {
@@ -55,7 +58,8 @@ public class Arg1LocationFeatureGenerator {
     }
 
     public DoubleFeatures extractFeatures(ChunkedExtraction extr,
-            ChunkedArgumentExtraction arg1, int current, boolean train) {
+                                          ChunkedArgumentExtraction arg1, int current,
+                                          boolean train) {
         List<String> words = extr.getSentence().getTokens();
         List<String> chunks = extr.getSentence().getChunkTags();
 
@@ -81,32 +85,32 @@ public class Arg1LocationFeatureGenerator {
                 boolean word_after_vp = false;
                 boolean word_before_vp = false;
                 int np_count_before = patternExtractor.getNPCountBefore(extr,
-                        k);
+                                                                        k);
                 int intervening_np = patternExtractor.getInterveningNPCount(
-                        extr, k);
+                    extr, k);
                 int punctuation_count = patternExtractor.getPunctuationCount(
-                        extr, k);
+                    extr, k);
 
                 simple_subj = patternExtractor.simpleSubj(extr, k);
                 relative_subj = patternExtractor.relSubj(extr, k);
                 verb_conj = patternExtractor.matchesVerbConjSimple(extr, k);
                 app_clause = patternExtractor.matchesAppositiveClause(extr,
-                        current);
+                                                                      current);
 
                 which_who = (words.get(k).equals("which")
-                        || words.get(k).equals("who") || words.get(k).equals(
-                        "that"));
+                             || words.get(k).equals("who") || words.get(k).equals(
+                    "that"));
                 capitalized = patternExtractor.getCapitalized(extr, k);
                 punctuation_count = patternExtractor.getPunctuationCount(extr,
-                        k);
+                                                                         k);
                 word_before_pred_conj = patternExtractor.wordBeforePredIsConj(
-                        extr, k);
+                    extr, k);
                 intervening_and = patternExtractor.getInterveningConj(extr, k);
                 word_after_vp = patternExtractor.wordAfterIsVP(extr, k);
                 np_count_before = patternExtractor.getNPCountBefore(extr, k);
                 word_before_vp = patternExtractor.wordBeforeIsVP(extr, k);
                 intervening_np = patternExtractor.getInterveningNPCount(extr,
-                        k);
+                                                                        k);
 
                 DoubleFeatures featureMap = new DoubleFeatures();
                 featureMap.put("simple_subj", toDouble(simple_subj));

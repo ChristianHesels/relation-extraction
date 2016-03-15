@@ -6,15 +6,10 @@ import java.util.HashSet;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 /**
- * Normalizes {@link ChunkedExtraction} arguments by
- * <ul>
- * <li>Lowercasing</li>
- * <li>Removing punctuation</li>
- * <li>Replacing numbers with a # symbol</li>
- * </ul>
- * 
+ * Normalizes {@link ChunkedExtraction} arguments by <ul> <li>Lowercasing</li> <li>Removing
+ * punctuation</li> <li>Replacing numbers with a # symbol</li> </ul>
+ *
  * @author afader
- * 
  */
 public class ArgumentNormalizer implements FieldNormalizer {
 

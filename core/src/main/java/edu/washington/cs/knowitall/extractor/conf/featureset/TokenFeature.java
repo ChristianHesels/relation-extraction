@@ -14,7 +14,6 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
  * Parent class for any feature that only considers the token layer.
  *
  * @author Rob
- *
  */
 public abstract class TokenFeature extends ExtractionFeature {
 
@@ -43,9 +42,6 @@ public abstract class TokenFeature extends ExtractionFeature {
 
     /**
      * Get a feature that fires if any element of tokens is present within arg2.
-     *
-     * @param posTags
-     * @return
      */
     public static ExtractionFeature withinArg2(String... tokens) {
         return new TokenFeature(tokens) {
@@ -57,11 +53,7 @@ public abstract class TokenFeature extends ExtractionFeature {
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present within the
-     * relation
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present within the relation
      */
     public static ExtractionFeature withinRel(String... tokens) {
         return new TokenFeature(tokens) {
@@ -73,11 +65,8 @@ public abstract class TokenFeature extends ExtractionFeature {
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present at the index
-     * immediately before arg1
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present at the index immediately before
+     * arg1
      */
     public static ExtractionFeature rightBeforeArg1(Collection<String> tokens) {
         return new TokenFeature(tokens) {
@@ -87,8 +76,9 @@ public abstract class TokenFeature extends ExtractionFeature {
                 int index = arg1.getStart() - 1;
                 if (index < 0 || index > arg1.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
@@ -98,31 +88,26 @@ public abstract class TokenFeature extends ExtractionFeature {
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present at the index
-     * of the relation's head verb.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present at the index of the relation's
+     * head verb.
      */
     public static ExtractionFeature relationHeadVerb(Collection<String> tokens) {
         return new TokenFeature(tokens) {
             @Override
             protected Range rangeToExamine(ChunkedBinaryExtraction cbe) {
                 Integer index = indexOfHeadVerb(cbe.getRelation(), false);
-                if (index == null)
+                if (index == null) {
                     return Range.EMPTY;
-                else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present at the index
-     * immediately after arg2.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present at the index immediately after
+     * arg2.
      */
     public static ExtractionFeature rightAfterArg2(String... tokens) {
         return new TokenFeature(tokens) {
@@ -132,18 +117,15 @@ public abstract class TokenFeature extends ExtractionFeature {
                 int index = arg2.getStart() + arg2.getLength();
                 if (index < 0 || index >= arg2.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present at any index
-     * prior to arg 1.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present at any index prior to arg 1.
      */
     public static ExtractionFeature anywhereBeforeArg1(Collection<String> tokens) {
         return new TokenFeature(tokens) {
@@ -153,18 +135,15 @@ public abstract class TokenFeature extends ExtractionFeature {
                 int index = arg1.getStart() - 1;
                 if (index < 0 || index >= arg1.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(0, index + 1);
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present at any index
-     * after arg2.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present at any index after arg2.
      */
     public static ExtractionFeature anywhereAfterArg2(Collection<String> tokens) {
         return new TokenFeature(tokens) {
@@ -174,20 +153,17 @@ public abstract class TokenFeature extends ExtractionFeature {
                 int index = arg2.getStart() + arg2.getLength();
                 if (index < 0 || index >= arg2.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, cbe.getSentence()
-                            .getLength());
+                        .getLength());
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any element of tokens is present in a single
-     * token relation (returns empty range if relation is longer than one
-     * token).
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any element of tokens is present in a single token relation
+     * (returns empty range if relation is longer than one token).
      */
     public static ExtractionFeature relSingleToken(Collection<String> tokens) {
         return new TokenFeature(tokens) {
@@ -195,10 +171,11 @@ public abstract class TokenFeature extends ExtractionFeature {
             protected Range rangeToExamine(ChunkedBinaryExtraction cbe) {
 
                 Range range = cbe.getRelation().getRange();
-                if (range.getLength() == 1)
+                if (range.getLength() == 1) {
                     return range;
-                else
+                } else {
                     return Range.EMPTY;
+                }
             }
 
         };

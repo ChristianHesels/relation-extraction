@@ -6,10 +6,9 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
  * A list of mappers for <code>ReVerbExtractor</code>'s second arguments.
  *
  * @author afader
- *
  */
 public class ReVerbArgument1Mappers extends
-        MapperList<ChunkedArgumentExtraction> {
+                                    MapperList<ChunkedArgumentExtraction> {
 
     public ReVerbArgument1Mappers() {
         init();

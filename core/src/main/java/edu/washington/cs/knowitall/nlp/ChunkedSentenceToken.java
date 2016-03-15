@@ -1,21 +1,21 @@
 package edu.washington.cs.knowitall.nlp;
 
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-
 import edu.washington.cs.knowitall.commonlib.Range;
 
-/***
+/**
  * A representation of a token in a ChunkedSentence.
  *
  * @author schmmd
- *
  */
 public class ChunkedSentenceToken {
+
     public final ChunkedSentence ChunkedSentence;
     public final int index;
 
@@ -30,7 +30,7 @@ public class ChunkedSentenceToken {
 
     public static List<ChunkedSentenceToken> tokenize(ChunkedSentence sentence, Range range) {
         List<ChunkedSentenceToken> tokens = new ArrayList<ChunkedSentenceToken>(
-                sentence.getLength());
+            sentence.getLength());
         for (int i = range.getStart(); i < range.getEnd(); i++) {
             tokens.add(new ChunkedSentenceToken(sentence, i));
         }
@@ -38,28 +38,22 @@ public class ChunkedSentenceToken {
         return tokens;
     }
 
-    /***
+    /**
      * The string of this token.
-     *
-     * @return
      */
     public String string() {
         return this.ChunkedSentence.getTokens().get(this.index);
     }
 
-    /***
+    /**
      * The part of speech tag of this token.
-     *
-     * @return
      */
     public String pos() {
         return this.ChunkedSentence.getPosTag(this.index);
     }
 
-    /***
+    /**
      * The chunk tag of this token.
-     *
-     * @return
      */
     public String chunk() {
         return this.ChunkedSentence.getChunkTag(this.index);
@@ -69,31 +63,32 @@ public class ChunkedSentenceToken {
         return this.ChunkedSentence.getToken(index);
     }
 
-    public static final Function<ChunkedSentenceToken, String> toStringFunction = new Function<ChunkedSentenceToken, String>() {
-        @Override
-        public String apply(ChunkedSentenceToken token) {
-            return token.ChunkedSentence.getToken(token.index);
-        }
-    };
+    public static final Function<ChunkedSentenceToken, String>
+        toStringFunction =
+        new Function<ChunkedSentenceToken, String>() {
+            @Override
+            public String apply(ChunkedSentenceToken token) {
+                return token.ChunkedSentence.getToken(token.index);
+            }
+        };
 
-    /***
+    /**
      * An expression that is evaluated against a token.
      *
      * @author schmmd
-     *
      */
     protected static abstract class Expression implements
-            Predicate<ChunkedSentenceToken> {
+                                               Predicate<ChunkedSentenceToken> {
+
     }
 
-    /***
-     * A regular expression that is evaluated against the string portion of a
-     * token.
+    /**
+     * A regular expression that is evaluated against the string portion of a token.
      *
      * @author schmmd
-     *
      */
     protected static class StringExpression extends Expression {
+
         final Pattern pattern;
 
         public StringExpression(String string, int flags) {
@@ -110,14 +105,13 @@ public class ChunkedSentenceToken {
         }
     }
 
-    /***
-     * A regular expression that is evaluated against the POS tag portion of a
-     * token.
+    /**
+     * A regular expression that is evaluated against the POS tag portion of a token.
      *
      * @author schmmd
-     *
      */
     protected static class PosTagExpression extends Expression {
+
         final Pattern pattern;
 
         public PosTagExpression(String string, int flags) {
@@ -134,14 +128,13 @@ public class ChunkedSentenceToken {
         }
     }
 
-    /***
-     * A regular expression that is evaluated against the chunk tag portion of a
-     * token.
+    /**
+     * A regular expression that is evaluated against the chunk tag portion of a token.
      *
      * @author schmmd
-     *
      */
     protected static class ChunkTagExpression extends Expression {
+
         final Pattern pattern;
 
         public ChunkTagExpression(String string, int flags) {

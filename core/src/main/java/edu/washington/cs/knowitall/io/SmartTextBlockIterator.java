@@ -1,18 +1,16 @@
 package edu.washington.cs.knowitall.io;
 
+import com.google.common.collect.AbstractIterator;
+
 import java.io.BufferedReader;
 import java.util.Iterator;
 import java.util.regex.Pattern;
 
-import com.google.common.collect.AbstractIterator;
-
 /**
- * Buffers text "blocks" from a source of strings and iterates over the blocks.
- * By default, a newline is used to separate blocks, but a custom value can be
- * set.
+ * Buffers text "blocks" from a source of strings and iterates over the blocks. By default, a
+ * newline is used to separate blocks, but a custom value can be set.
  *
  * @author afader
- *
  */
 public class SmartTextBlockIterator extends AbstractIterator<String> {
 
@@ -20,21 +18,17 @@ public class SmartTextBlockIterator extends AbstractIterator<String> {
     private String blockBreak = "";
 
     /**
-     * @param reader
-     *            the reader to extract blocks from.
-     * @param blockBreak
-     *            the value that represents a block break.
+     * @param reader     the reader to extract blocks from.
+     * @param blockBreak the value that represents a block break.
      */
     public SmartTextBlockIterator(BufferedReader reader, String blockBreak) {
         init(new BufferedReaderIterator(reader), blockBreak);
     }
 
     /**
-     * Constructs a <code>TextBlockIterator</code> using a newline as the
-     * default break.
+     * Constructs a <code>TextBlockIterator</code> using a newline as the default break.
      *
-     * @param reader
-     *            the reader to extract blocks from.
+     * @param reader the reader to extract blocks from.
      */
     public SmartTextBlockIterator(BufferedReader reader) {
         init(new BufferedReaderIterator(reader), "");
@@ -43,9 +37,6 @@ public class SmartTextBlockIterator extends AbstractIterator<String> {
     /**
      * Constructs a <code>TextBlockIterator</code> over the strings returned by
      * <code>lineIter</code>.
-     *
-     * @param lineIter
-     * @param blockBreak
      */
     public SmartTextBlockIterator(Iterator<String> lineIter, String blockBreak) {
         init(lineIter, blockBreak);
@@ -54,29 +45,21 @@ public class SmartTextBlockIterator extends AbstractIterator<String> {
     /**
      * Constructs a <code>TextBlockIterator</code> over the strings returned by
      * <code>lineIter</code>, using the default block break.
-     *
-     * @param lineIter
      */
     public SmartTextBlockIterator(Iterator<String> lineIter) {
         init(lineIter, "");
     }
 
     /**
-     * Constructs a <code>TextBlockIterator</code> over the strings returned by
-     * <code>iter</code>.
-     *
-     * @param iter
-     * @param blockBreak
+     * Constructs a <code>TextBlockIterator</code> over the strings returned by <code>iter</code>.
      */
     public SmartTextBlockIterator(Iterable<String> iter, String blockBreak) {
         init(iter.iterator(), blockBreak);
     }
 
     /**
-     * Constructs a <code>TextBlockIterator</code> over the strings returned by
-     * <code>iter</code>, using the default block break.
-     *
-     * @param iter
+     * Constructs a <code>TextBlockIterator</code> over the strings returned by <code>iter</code>,
+     * using the default block break.
      */
     public SmartTextBlockIterator(Iterable<String> iter) {
         init(iter.iterator(), "");

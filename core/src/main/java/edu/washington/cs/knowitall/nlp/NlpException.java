@@ -4,7 +4,6 @@ package edu.washington.cs.knowitall.nlp;
  * An exception class used for handling errors related to layered sequences.
  *
  * @author afader
- *
  */
 public class NlpException extends RuntimeException {
 

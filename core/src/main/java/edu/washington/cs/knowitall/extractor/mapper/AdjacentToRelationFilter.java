@@ -6,8 +6,8 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 /**
  * A filter that returns only arguments that are adjacent to the relation.
- * @author afader
  *
+ * @author afader
  */
 public class AdjacentToRelationFilter extends FilterMapper<ChunkedArgumentExtraction> {
 

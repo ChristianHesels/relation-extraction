@@ -4,12 +4,10 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
-/***
- * Extends the <code>ChunkedBinaryExtraction</code> class to have a binary
- * label.
+/**
+ * Extends the <code>ChunkedBinaryExtraction</code> class to have a binary label.
  *
  * @author afader
- *
  */
 public class LabeledBinaryExtraction extends ChunkedBinaryExtraction {
 
@@ -28,16 +26,11 @@ public class LabeledBinaryExtraction extends ChunkedBinaryExtraction {
     /**
      * Constructs a new LabeledBinaryExtraction with the given label
      *
-     * @param relation
-     * @param argument1
-     * @param argument2
-     * @param label
-     *            either <code>LabeledBinaryExtraction.POS</code> or
-     *            <code>LabeledBinaryExtraction.NEG</code>.
+     * @param label either <code>LabeledBinaryExtraction.POS</code> or <code>LabeledBinaryExtraction.NEG</code>.
      */
     public LabeledBinaryExtraction(ChunkedExtraction relation,
-            ChunkedArgumentExtraction argument1,
-            ChunkedArgumentExtraction argument2, int label) {
+                                   ChunkedArgumentExtraction argument1,
+                                   ChunkedArgumentExtraction argument2, int label) {
         super(relation, argument1, argument2);
         this.label = label;
     }
@@ -45,11 +38,8 @@ public class LabeledBinaryExtraction extends ChunkedBinaryExtraction {
     /**
      * Constructs a new LabeledBinaryExtraction with the given label.
      *
-     * @param extr
-     *            an existing extraction
-     * @param label
-     *            either <code>LabeledBinaryExtraction.POS</code> or
-     *            <code>LabeledBinaryExtraction.NEG</code>.
+     * @param extr  an existing extraction
+     * @param label either <code>LabeledBinaryExtraction.POS</code> or <code>LabeledBinaryExtraction.NEG</code>.
      */
     public LabeledBinaryExtraction(ChunkedBinaryExtraction extr, int label) {
         super(extr.getRelation(), extr.getArgument1(), extr.getArgument2());
@@ -94,15 +84,19 @@ public class LabeledBinaryExtraction extends ChunkedBinaryExtraction {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
+        if (this == obj) {
             return true;
-        if (!super.equals(obj))
+        }
+        if (!super.equals(obj)) {
             return false;
-        if (!(obj instanceof LabeledBinaryExtraction))
+        }
+        if (!(obj instanceof LabeledBinaryExtraction)) {
             return false;
+        }
         LabeledBinaryExtraction other = (LabeledBinaryExtraction) obj;
-        if (label != other.label)
+        if (label != other.label) {
             return false;
+        }
         return true;
     }
 

@@ -6,10 +6,9 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
  * A mapper used to filter binary extractions by number of characters.
  *
  * @author schmmd
- *
  */
 public class ChunkedBinaryExtractionStringLengthFilter extends
-        FilterMapper<ChunkedBinaryExtraction> {
+                                                       FilterMapper<ChunkedBinaryExtraction> {
 
     private int minArgLength = 0;
     private int maxArgLength = Integer.MAX_VALUE;
@@ -18,14 +17,10 @@ public class ChunkedBinaryExtractionStringLengthFilter extends
 
     /**
      * Constructs a new <code>ChunkedBinaryExtractionLengthFilter</code> object.
-     *
-     * @param minArgLength
-     * @param maxArgLength
-     * @param minPredicateLength
-     * @param maxPredicateLength
      */
     public ChunkedBinaryExtractionStringLengthFilter(int minArgLength,
-            int maxArgLength, int minPredicateLength, int maxPredicateLength) {
+                                                     int maxArgLength, int minPredicateLength,
+                                                     int maxPredicateLength) {
         this.minArgLength = minArgLength;
         this.maxArgLength = maxArgLength;
         this.minPredicateLength = minPredicateLength;
@@ -38,9 +33,9 @@ public class ChunkedBinaryExtractionStringLengthFilter extends
         String arg2 = extraction.getArgument2().getTokensAsString();
         String predicate = extraction.getRelation().getTokensAsString();
         return arg1.length() >= minArgLength && arg1.length() <= maxArgLength
-                && arg2.length() >= minArgLength
-                && arg2.length() <= maxArgLength
-                && predicate.length() >= minPredicateLength
-                && predicate.length() <= maxPredicateLength;
+               && arg2.length() >= minArgLength
+               && arg2.length() <= maxArgLength
+               && predicate.length() >= minPredicateLength
+               && predicate.length() <= maxPredicateLength;
     }
 }

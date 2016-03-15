@@ -7,7 +7,6 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
  * A class representing a noun phrase argument of a relation.
  *
  * @author afader
- *
  */
 public class ChunkedArgumentExtraction extends ChunkedExtraction {
 
@@ -15,31 +14,28 @@ public class ChunkedArgumentExtraction extends ChunkedExtraction {
     private double confidence = .5;
 
     /**
-     * Constructs a new <code>NpChunkArgumentExtraction</code> from
-     * <code>sent</code> for <code>relation</code>.
+     * Constructs a new <code>NpChunkArgumentExtraction</code> from <code>sent</code> for
+     * <code>relation</code>.
      *
-     * @param sent
-     *            the source sentence.
-     * @param range
-     *            the range of the argument in <code>sent</code>
-     * @param relation
-     *            the relation
+     * @param sent     the source sentence.
+     * @param range    the range of the argument in <code>sent</code>
+     * @param relation the relation
      */
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
-            ChunkedExtraction relation) {
+                                     ChunkedExtraction relation) {
         super(sent, range);
         this.relation = relation;
     }
 
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
-            ChunkedExtraction relation, double confidence) {
+                                     ChunkedExtraction relation, double confidence) {
         super(sent, range);
         this.relation = relation;
         this.confidence = confidence;
     }
 
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
-            ChunkedExtraction relation, String string) {
+                                     ChunkedExtraction relation, String string) {
         super(sent, range, string);
         this.relation = relation;
     }

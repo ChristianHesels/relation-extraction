@@ -30,13 +30,15 @@ public class DefaultObjects {
     public static final String sentDetectorModelFile = "de-sent.bin";
     public static final String confFunctionModelFile = "reverb-conf-maxent.gz";
 
-    /** Default singleton objects */
+    /**
+     * Default singleton objects
+     */
     private static BracketsRemover BRACKETS_REMOVER;
     private static SentenceStartFilter SENTENCE_START_FILTER;
     private static SentenceEndFilter SENTENCE_END_FILTER;
 
     public static InputStream getResourceAsStream(String resource)
-            throws IOException {
+        throws IOException {
         InputStream in = DefaultObjects.class.getClassLoader().getResourceAsStream(resource);
         if (in == null) {
             throw new IOException("Couldn't load resource: " + resource);
@@ -53,27 +55,30 @@ public class DefaultObjects {
 
     public static Tokenizer getDefaultTokenizer() throws IOException {
         return new TokenizerME(new TokenizerModel(
-                getResourceAsStream(tokenizerModelFile)));
+            getResourceAsStream(tokenizerModelFile)));
     }
 
     public static POSTagger getDefaultPosTagger() throws IOException {
         return new POSTaggerME(new POSModel(
-                getResourceAsStream(taggerModelFile)));
+            getResourceAsStream(taggerModelFile)));
     }
 
     public static SentenceDetector getDefaultSentenceDetector()
-            throws IOException {
+        throws IOException {
         return new SentenceDetectorME(new SentenceModel(
-                getResourceAsStream(sentDetectorModelFile)));
+            getResourceAsStream(sentDetectorModelFile)));
     }
 
     public static void addDefaultSentenceFilters(SentenceExtractor extractor) {
-        if (BRACKETS_REMOVER == null)
+        if (BRACKETS_REMOVER == null) {
             BRACKETS_REMOVER = new BracketsRemover();
-        if (SENTENCE_END_FILTER == null)
+        }
+        if (SENTENCE_END_FILTER == null) {
             SENTENCE_END_FILTER = new SentenceEndFilter();
-        if (SENTENCE_START_FILTER == null)
+        }
+        if (SENTENCE_START_FILTER == null) {
             SENTENCE_START_FILTER = new SentenceStartFilter();
+        }
         extractor.addMapper(BRACKETS_REMOVER);
         extractor.addMapper(SENTENCE_END_FILTER);
         extractor.addMapper(SENTENCE_START_FILTER);
@@ -81,14 +86,14 @@ public class DefaultObjects {
     }
 
     public static SentenceExtractor getDefaultSentenceExtractor()
-            throws IOException {
+        throws IOException {
         SentenceExtractor extractor = new SentenceExtractor();
         addDefaultSentenceFilters(extractor);
         return extractor;
     }
 
     public static HtmlSentenceExtractor getDefaultHtmlSentenceExtractor()
-            throws IOException {
+        throws IOException {
         HtmlSentenceExtractor extractor = new HtmlSentenceExtractor();
         addDefaultSentenceFilters(extractor);
         return extractor;
@@ -97,14 +102,11 @@ public class DefaultObjects {
     /**
      * Return the default sentence reader.
      *
-     * @param in
-     * @param htmlSource
-     *            - Are sentences from an html source?
-     * @return
-     * @throws IOException
+     * @param htmlSource - Are sentences from an html source?
      */
     public static ChunkedSentenceReader getDefaultSentenceReader(Reader in,
-            boolean htmlSource) throws IOException {
+                                                                 boolean htmlSource)
+        throws IOException {
         if (htmlSource) {
             return getDefaultSentenceReaderHtml(in);
         } else {
@@ -113,16 +115,16 @@ public class DefaultObjects {
     }
 
     public static ChunkedSentenceReader getDefaultSentenceReader(Reader in)
-            throws IOException {
+        throws IOException {
         ChunkedSentenceReader reader = new ChunkedSentenceReader(in,
-                getDefaultSentenceExtractor());
+                                                                 getDefaultSentenceExtractor());
         return reader;
     }
 
     public static ChunkedSentenceReader getDefaultSentenceReaderHtml(Reader in)
-            throws IOException {
+        throws IOException {
         ChunkedSentenceReader reader = new ChunkedSentenceReader(in,
-                getDefaultHtmlSentenceExtractor());
+                                                                 getDefaultHtmlSentenceExtractor());
         return reader;
     }
 }

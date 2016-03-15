@@ -9,7 +9,6 @@ import edu.washington.cs.knowitall.commonlib.Range;
  * A class of static methods for handling OpenNLP formats.
  *
  * @author afader
- *
  */
 public class OpenNlpUtils {
 
@@ -45,10 +44,8 @@ public class OpenNlpUtils {
     }
 
     /**
-     * @param tags
-     * @param name
-     * @return list of <code>Range</code> objects representing the ranges of the
-     *         chunks of type <code>name</code> in the sentence.
+     * @return list of <code>Range</code> objects representing the ranges of the chunks of type
+     * <code>name</code> in the sentence.
      */
     public static List<Range> computeChunkRanges(String[] tags, String name) {
         int start = 0;
@@ -85,9 +82,7 @@ public class OpenNlpUtils {
     }
 
     /**
-     * @param npChunkTags
-     * @return the <code>Range</code>s of the NP chunks in the given
-     *         <code>npChunkTags</code>.
+     * @return the <code>Range</code>s of the NP chunks in the given <code>npChunkTags</code>.
      */
     public static List<Range> computeNpChunkRanges(String[] npChunkTags) {
         return computeChunkRanges(npChunkTags, "NP");
@@ -95,25 +90,19 @@ public class OpenNlpUtils {
 
     /**
      * A wrapper to support passing Lists.
-     *
-     * @param npChunkTags
-     * @return
      */
     public static List<Range> computeNpChunkRanges(List<String> npChunkTags) {
-        return computeNpChunkRanges(npChunkTags.toArray(new String[] {}));
+        return computeNpChunkRanges(npChunkTags.toArray(new String[]{}));
     }
 
     /**
-     * Modifies <code>npChunkTags</code> so that NP chunks starting with "of"
-     * are merged with the previous NP chunk.
-     *
-     * @param tokens
-     * @param npChunkTags
+     * Modifies <code>npChunkTags</code> so that NP chunks starting with "of" are merged with the
+     * previous NP chunk.
      */
     public static void attachOfs(String[] tokens, String[] npChunkTags) {
         for (int i = 1; i < npChunkTags.length - 1; i++) {
             if (tokens[i].equals("of") && isInNpChunk(npChunkTags[i - 1])
-                    && isInNpChunk(npChunkTags[i + 1])) {
+                && isInNpChunk(npChunkTags[i + 1])) {
                 npChunkTags[i] = IN_NP;
                 npChunkTags[i + 1] = IN_NP;
             }
@@ -130,11 +119,8 @@ public class OpenNlpUtils {
     }
 
     /**
-     * Modifies the <code>npChunkTags</code> so that NP chunks starting with a
-     * possessive 's are merged with the previous NP chunk.
-     *
-     * @param posTags
-     * @param npChunkTags
+     * Modifies the <code>npChunkTags</code> so that NP chunks starting with a possessive 's are
+     * merged with the previous NP chunk.
      */
     public static void attachPossessives(String[] posTags, String[] npChunkTags) {
         for (int i = 1; i < npChunkTags.length - 1; i++) {

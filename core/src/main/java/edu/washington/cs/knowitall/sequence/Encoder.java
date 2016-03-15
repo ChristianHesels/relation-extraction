@@ -1,50 +1,34 @@
 package edu.washington.cs.knowitall.sequence;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.Sets;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Sets;
-
 /**
- * <p>
- * This class represents a table mapping tuples of strings to integer values. It
- * is used by {@link LayeredTokenPattern} for matching patterns against
- * {@link LayeredSequence} objects.
- * </p>
- * <p>
- * The core of this class is a mapping from string tuples of length {@code n} to
- * integers {@code 0 <= i <} {@link Encoder#MAX_SIZE}. The mapping is defined by
- * a list of {@code n} sets of String symbols {@code S_1, ..., S_n}, and a
- * special symbol {@link Encoder#UNK}. The mapping assigns an integer value to
- * each tuple {@code (x_1, ..., x_n)}, where {@code x_i} is either in
- * {@code S_i} or is the symbol {@code UNK}. For example, if {@code n = 2} and
- * {@code S_1 = S_2 = {0,1}}, then a possible mapping would be
- * {@code (0,0) => 0, (0,1) => 1,
- * (0, UNK) => 2, (1,0) => 3, (1,1) => 4, (1,UNK) => 5, (UNK,0) => 6,
- * (UNK,1) => 7, (UNK,UNK) => 8}.
- * </p>
- * <p>
- * Given a String tuple {@code (x_1, ..., x_n)}, it is mapped to an integer
- * value as follows. First, it is mapped to an intermediate tuple
- * {@code (y_1, ..., y_n)}, where {@code y_i = x_i} if {@code x_i} is in
- * {@code S_i}, otherwise {@code y_i = UNK}. Then the value of
- * {@code (y_1, ..., y_n)} according to the mapping is returned. This procedure
- * is implemented in the method {@link Encoder#encode(String[])}, which
- * represents tuples as String arrays.
- * </p>
- * <p>
- * There is no guarantee on the actual integer values assigned to each tuple.
- * The mapping cannot be larger than 2^16. This means that the product
- * {@code (|S_1|+1) * (|S_2|+1) * ... * (|S_n| + 1)} must be less than or equal
- * to 2^16.
- * </p>
- * 
+ * <p> This class represents a table mapping tuples of strings to integer values. It is used by
+ * {@link LayeredTokenPattern} for matching patterns against {@link LayeredSequence} objects. </p>
+ * <p> The core of this class is a mapping from string tuples of length {@code n} to integers {@code
+ * 0 <= i <} {@link Encoder#MAX_SIZE}. The mapping is defined by a list of {@code n} sets of String
+ * symbols {@code S_1, ..., S_n}, and a special symbol {@link Encoder#UNK}. The mapping assigns an
+ * integer value to each tuple {@code (x_1, ..., x_n)}, where {@code x_i} is either in {@code S_i}
+ * or is the symbol {@code UNK}. For example, if {@code n = 2} and {@code S_1 = S_2 = {0,1}}, then a
+ * possible mapping would be {@code (0, 0) => 0, (0,1) => 1, (0, UNK) => 2, (1,0) => 3, (1,1) => 4,
+ * (1,UNK) => 5, (UNK,0) => 6, (UNK,1) => 7, (UNK,UNK) => 8}. </p> <p> Given a String tuple {@code
+ * (x_1, ..., x_n)}, it is mapped to an integer value as follows. First, it is mapped to an
+ * intermediate tuple {@code (y_1, ..., y_n)}, where {@code y_i = x_i} if {@code x_i} is in {@code
+ * S_i}, otherwise {@code y_i = UNK}. Then the value of {@code (y_1, ..., y_n)} according to the
+ * mapping is returned. This procedure is implemented in the method {@link
+ * Encoder#encode(String[])}, which represents tuples as String arrays. </p> <p> There is no
+ * guarantee on the actual integer values assigned to each tuple. The mapping cannot be larger than
+ * 2^16. This means that the product {@code (|S_1|+1) * (|S_2|+1) * ... * (|S_n| + 1)} must be less
+ * than or equal to 2^16. </p>
+ *
  * @author afader
- * 
  */
 public class Encoder {
 
@@ -66,13 +50,11 @@ public class Encoder {
     private HashMap<StringArrayWrapper, Integer> encodingTable;
 
     /**
-     * Constructs a new encoding table using the given symbol sets. These symbol
-     * sets should not contain the unknown symbol {@link Encoder#UNK}.
-     * 
-     * @param symbols
-     * @throws SequenceException
-     *             if the symbol sets result in an encoding table larger than
-     *             {@link Encoder#MAX_SIZE}.
+     * Constructs a new encoding table using the given symbol sets. These symbol sets should not
+     * contain the unknown symbol {@link Encoder#UNK}.
+     *
+     * @throws SequenceException if the symbol sets result in an encoding table larger than {@link
+     *                           Encoder#MAX_SIZE}.
      */
     public Encoder(List<Set<String>> symbols) throws SequenceException {
 
@@ -91,8 +73,8 @@ public class Encoder {
                     alphabet.add(token);
                 } else {
                     String msg = String.format(
-                            "Cannot create encoding table: symbol set %s contains "
-                                    + "the \"unknown\" symbol %s", i, UNK);
+                        "Cannot create encoding table: symbol set %s contains "
+                        + "the \"unknown\" symbol %s", i, UNK);
                     throw new SequenceException(msg);
                 }
             }
@@ -107,11 +89,11 @@ public class Encoder {
         // Create the encoding table. Each tuple is represented as a wrapper
         // around String arrays, which allows them to be keys in a HashMap.
         encodingTable = new HashMap<StringArrayWrapper, Integer>(
-                encodingTableSize);
+            encodingTableSize);
         int i = 0;
         for (List<String> tupleAr : Sets.cartesianProduct(alphabets)) {
             StringArrayWrapper tuple = new StringArrayWrapper(
-                    tupleAr.toArray(new String[0]));
+                tupleAr.toArray(new String[0]));
             encodingTable.put(tuple, i);
             i++;
         }
@@ -133,21 +115,19 @@ public class Encoder {
     }
 
     /**
-     * Encodes the given tuple (represented as a String array) to its integer
-     * value, represented as a char.
-     * 
-     * @param tuple
+     * Encodes the given tuple (represented as a String array) to its integer value, represented as
+     * a char.
+     *
      * @return the integer value of the array, represented as a char
-     * @throws SequenceException
-     *             if unable to encode the tuple
+     * @throws SequenceException if unable to encode the tuple
      */
     public char encode(String[] tuple) throws SequenceException {
 
         // The argument must have length == size()
         if (tuple.length != size()) {
             String msg = String.format(
-                    "Invalid tuple size: expected %s, got %s", size(),
-                    tuple.length);
+                "Invalid tuple size: expected %s, got %s", size(),
+                tuple.length);
             throw new SequenceException(msg);
         }
 
@@ -157,8 +137,8 @@ public class Encoder {
             if (val.equals(UNK)) {
                 String tupleStr = "(" + Joiner.on(", ").join(tuple) + ")";
                 String msg = String.format(
-                        "Symbol at position %s in %s equals %s", i, tupleStr,
-                        UNK);
+                    "Symbol at position %s in %s equals %s", i, tupleStr,
+                    UNK);
                 throw new SequenceException(msg);
             }
         }
@@ -168,13 +148,11 @@ public class Encoder {
     }
 
     /**
-     * Encodes the given tuple as a char. This method assumes that the tuple has
-     * already had the unknown symbols mapped to UNK.
-     * 
-     * @param tuple
+     * Encodes the given tuple as a char. This method assumes that the tuple has already had the
+     * unknown symbols mapped to UNK.
+     *
      * @return the encoding
-     * @throws SequenceException
-     *             if unable to encode
+     * @throws SequenceException if unable to encode
      */
     private char encodeMapped(String[] tuple) throws SequenceException {
 
@@ -195,29 +173,25 @@ public class Encoder {
     }
 
     /**
-     * Encodes a "class" of tuples that all have the symbol value in the given
-     * layer index. Using the example from the class description, if the
-     * encoding table contains the mappings {@code (0,0) => 0, (0,1) => 1,
-     * (0,UNK) => 2, ...}, then calling this method with {@code layerIndex = 0}
-     * and {@code value = 1} will return the encodings of {@code (1,0), (1,1),}
-     * and {@code (1,UNK)} as an array.
-     * 
-     * @param index
-     *            the position in the tuple (defined by the order of sets passed
-     *            to the constructor)
-     * @param value
+     * Encodes a "class" of tuples that all have the symbol value in the given layer index. Using
+     * the example from the class description, if the encoding table contains the mappings {@code
+     * (0, 0) => 0, (0,1) => 1, (0,UNK) => 2, ...}, then calling this method with {@code layerIndex =
+     * 0} and {@code value = 1} will return the encodings of {@code (1, 0), (1,1),} and {@code
+     * (1, UNK)} as an array.
+     *
+     * @param index the position in the tuple (defined by the order of sets passed to the
+     *              constructor)
      * @return the encoding as an array
-     * @throws SequenceException
-     *             if the index is out of bounds, or if any of the resulting
-     *             tuples cannot be encoded
+     * @throws SequenceException if the index is out of bounds, or if any of the resulting tuples
+     *                           cannot be encoded
      */
     public char[] encodeClass(int index, String value) throws SequenceException {
 
         // Make sure that the given index is not too big/small
         if (index < 0 || index >= size()) {
             String msg = String.format(
-                    "Cannot get encoding class with index = %s and value = '%s': "
-                            + "index out of bounds", index, value);
+                "Cannot get encoding class with index = %s and value = '%s': "
+                + "index out of bounds", index, value);
             throw new SequenceException(msg);
         }
 
@@ -239,14 +213,11 @@ public class Encoder {
     }
 
     /**
-     * Maps the given tuple to an intermediate representation, where any symbols
-     * that did not appear in the sets provided to the constructor to the
-     * {@link Encoder#UNK} symbol.
-     * 
-     * @param tuple
+     * Maps the given tuple to an intermediate representation, where any symbols that did not appear
+     * in the sets provided to the constructor to the {@link Encoder#UNK} symbol.
+     *
      * @return the intermediate tuple
-     * @throws SequenceException
-     *             if any of the symbols equal {@link Encoder#UNK}
+     * @throws SequenceException if any of the symbols equal {@link Encoder#UNK}
      */
     private String[] mapToUnkown(String[] tuple) throws SequenceException {
 

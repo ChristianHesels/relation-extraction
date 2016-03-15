@@ -7,8 +7,8 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 /**
  * A mapper that filters out any extractions containing a token or POS tag from a given set.
- * @author afader
  *
+ * @author afader
  */
 public class StopListFilter extends FilterMapper<ChunkedExtraction> {
 
@@ -25,7 +25,6 @@ public class StopListFilter extends FilterMapper<ChunkedExtraction> {
 
     /**
      * Adds <code>token</code> to the set of stop tokens.
-     * @param token
      */
     public void addStopToken(String token) {
         getStopTokens().add(token);
@@ -33,7 +32,6 @@ public class StopListFilter extends FilterMapper<ChunkedExtraction> {
 
     /**
      * Adds <code>posTag</code> to the set of stop POS tags.
-     * @param posTag
      */
     public void addStopPosTag(String posTag) {
         getStopPosTags().add(posTag);
@@ -42,8 +40,6 @@ public class StopListFilter extends FilterMapper<ChunkedExtraction> {
     /**
      * Constructs a new <code>StopListFilter</code> object from the given sets of tokens and POS
      * tags.
-     * @param stopTokens
-     * @param stopPosTags
      */
     public StopListFilter(Set<String> stopTokens, Set<String> stopPosTags) {
         this.stopTokens = stopTokens;

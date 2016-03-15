@@ -11,14 +11,13 @@ import edu.washington.cs.knowitall.argumentidentifier.ArgLearner.Mode;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 /**
- * ArgSubstructureFeatureGenerator creates the features for for Arg1 and right
- * bound for Arg2
+ * ArgSubstructureFeatureGenerator creates the features for for Arg1 and right bound for Arg2
  *
  * @author janara
- *
  */
 
 public class ArgSubstructureFeatureGenerator {
+
     private Mode mode;
 
     static int CHUNK_FEATURE = 0;
@@ -28,7 +27,7 @@ public class ArgSubstructureFeatureGenerator {
 
     static String B_ARG = "B-ARG"; // beginning of argument
     static String I_ARG = "I-ARG"; // inside/continuation of argument - can only
-                                   // follow B-ARG or I-ARG
+    // follow B-ARG or I-ARG
     static String O = "O"; // not in an argument
 
     private static String CAPS = "[A-Zçêòéñì]";
@@ -125,7 +124,7 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private String convertInstancesToFeatures(Vector<Vector<String>> instances,
-            Boolean train) {
+                                              Boolean train) {
         if (instances == null) {
             return "";
         }
@@ -148,7 +147,7 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private ArrayList<String> getSetFeatures(ChunkedExtraction extr,
-            int argend, boolean train) {
+                                             int argend, boolean train) {
         ArrayList<String> setfeatures = new ArrayList<String>();
 
         boolean rel = false;
@@ -243,8 +242,9 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private PositionInstance addRegexPatternFeatures(ChunkedExtraction extr,
-            PositionInstance instance, int argstart, int argend, int current,
-            boolean train) {
+                                                     PositionInstance instance, int argstart,
+                                                     int argend, int current,
+                                                     boolean train) {
         boolean relnext = false;
         boolean list = false;
         boolean vbg = false;
@@ -301,7 +301,7 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private PositionInstance addBasicFeatures(PositionInstance instance,
-            String word, String chunkLabel, String tag) {
+                                              String word, String chunkLabel, String tag) {
         // CHUNK feature
         instance.addFeature("CHUNK_" + chunkLabel);
 
@@ -310,8 +310,8 @@ public class ArgSubstructureFeatureGenerator {
 
         // LEXICAL features, when applicable
         if (ExtractionParameters.USE_LEX_FEATURES
-                && (lexicalizeIfTag.contains(tag) || lexicalizeIfWord
-                        .contains(word.toLowerCase()))) {
+            && (lexicalizeIfTag.contains(tag) || lexicalizeIfWord
+            .contains(word.toLowerCase()))) {
             instance.addFeature("WD_" + word.toLowerCase());
         }
 
@@ -319,7 +319,7 @@ public class ArgSubstructureFeatureGenerator {
         if (ExtractionParameters.USE_PATTERN_FEATURES) {
             Iterator<String> nameIt = featureNames.iterator();
             for (Iterator<Pattern> regexIt = patterns.iterator(); regexIt
-                    .hasNext();) {
+                .hasNext(); ) {
                 Pattern regex = regexIt.next();
                 String feature = nameIt.next();
                 if (regex.matcher(word).matches()) {
@@ -331,9 +331,10 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private PositionInstance addPatternFeatures(PositionInstance instance,
-            ChunkedExtraction extr, List<String> setfeatures,
-            List<String> chunkLabels, int i, int argstart, int argend,
-            boolean train) {
+                                                ChunkedExtraction extr, List<String> setfeatures,
+                                                List<String> chunkLabels, int i, int argstart,
+                                                int argend,
+                                                boolean train) {
         // COUNT TO END FEATURE
         instance.addFeature("C_" + getCountToEnd(chunkLabels, i));
 
@@ -343,13 +344,13 @@ public class ArgSubstructureFeatureGenerator {
                 instance.addFeature(setfeatures.get(j));
             }
             instance = addRegexPatternFeatures(extr, instance, argstart,
-                    argend, i, train);
+                                               argend, i, train);
         }
         return instance;
     }
 
     private Vector<PositionInstance> createBaseInstances(
-            ChunkedExtraction extr, int argstart, int argend, Boolean train) {
+        ChunkedExtraction extr, int argstart, int argend, Boolean train) {
         Vector<PositionInstance> instances = new Vector<PositionInstance>();
 
         int predstart = extr.getStart();
@@ -363,7 +364,7 @@ public class ArgSubstructureFeatureGenerator {
             chunkLabels.add(chunkLabelsOld.get(i));
         }
         if (predend < chunkLabels.size() - 1
-                && chunkLabels.get(predend).equals("I-NP")) {
+            && chunkLabels.get(predend).equals("I-NP")) {
             chunkLabels.set(predend, "B-NP");
         }
 
@@ -383,9 +384,10 @@ public class ArgSubstructureFeatureGenerator {
             PositionInstance instance = new PositionInstance(i);
 
             if ((((mode == ArgLearner.Mode.LEFT) && i < predstart && i < argend)
-                    || (!train && !(mode == ArgLearner.Mode.LEFT)
-                            && i >= predend && i >= argend) || (train
-                    && !(mode == ArgLearner.Mode.LEFT) && i >= argstart))) {
+                 || (!train && !(mode == ArgLearner.Mode.LEFT)
+                     && i >= predend && i >= argend) || (train
+                                                         && !(mode == ArgLearner.Mode.LEFT)
+                                                         && i >= argstart))) {
                 instance.setIsMidInstance(true);
             } else {
                 instance.setIsMidInstance(false);
@@ -412,19 +414,19 @@ public class ArgSubstructureFeatureGenerator {
              * WORD, CHUNK, TAG, LEXICAL, REGEX, COUNT
              ****************************************************************/
             instance = addBasicFeatures(instance, words.get(i),
-                    chunkLabels.get(i), tags.get(i));
+                                        chunkLabels.get(i), tags.get(i));
             instance = addPatternFeatures(instance, extr, setfeatures,
-                    chunkLabels, i, argstart, argend, train);
+                                          chunkLabels, i, argstart, argend, train);
 
             instance.addFeature(class_i);
             instances.add(instance);
         }
         if (train && (mode == ArgLearner.Mode.LEFT) && lastnparg1 > -1) {
             instances.get(lastnparg1).setFeature(
-                    instances.get(lastnparg1).size() - 1, "B-ARG");
+                instances.get(lastnparg1).size() - 1, "B-ARG");
         }
         if (!foundpred
-                || ((mode == ArgLearner.Mode.LEFT) && train && lastnparg1 < 0)) {
+            || ((mode == ArgLearner.Mode.LEFT) && train && lastnparg1 < 0)) {
             return null;
         }
         return instances;
@@ -449,7 +451,7 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private PositionInstance addLeftWindowFeatures(
-            Vector<PositionInstance> instances, int i) {
+        Vector<PositionInstance> instances, int i) {
         PositionInstance inst_i = instances.get(i);
         String f_str = "";
         // Go WINDOW positions to the left
@@ -458,7 +460,7 @@ public class ArgSubstructureFeatureGenerator {
             PositionInstance inst_j = instances.get(j);
             if (inst_j.isMidInstance()) {
                 if (ExtractionParameters.USE_CONTEXTUAL_FEATURES
-                        || inst_j.isMidInstance()) {
+                    || inst_j.isMidInstance()) {
 
                     String label_j = inst_j.label();
 
@@ -471,7 +473,7 @@ public class ArgSubstructureFeatureGenerator {
                             inst_i.addFeature(inst_i.size() - 1, f_str);
                             // conjunction of current and previous
                             if (ExtractionParameters.USE_CONJUNCTIVE_FEATURES
-                                    && j == i - 1) {
+                                && j == i - 1) {
                                 f_str = f_str + "^L0-" + inst_i.get(k);
                                 inst_i.addFeature(inst_i.size() - 1, f_str);
                             }
@@ -479,7 +481,7 @@ public class ArgSubstructureFeatureGenerator {
                             f_str = "L" + Integer.toString(d) + "-" + f_jk;
                             inst_i.addFeature(inst_i.size() - 1, f_str);
                             if (ExtractionParameters.USE_CONJUNCTIVE_FEATURES
-                                    && j == i - 1) {
+                                && j == i - 1) {
                                 f_str = f_str + "^L0-" + inst_i.get(k);
                                 inst_i.addFeature(inst_i.size() - 1, f_str);
                             }
@@ -487,8 +489,8 @@ public class ArgSubstructureFeatureGenerator {
                             f_str = "L" + Integer.toString(d) + "-" + f_jk;
                             inst_i.addFeature(inst_i.size() - 1, f_str);
                             if (ExtractionParameters.USE_CONJUNCTIVE_FEATURES
-                                    && j == i - 1
-                                    && inst_i.get(k).charAt(0) == 'W') {
+                                && j == i - 1
+                                && inst_i.get(k).charAt(0) == 'W') {
                                 f_str = f_str + "^L0-" + inst_i.get(k);
                                 inst_i.addFeature(inst_i.size() - 1, f_str);
                             }
@@ -502,21 +504,21 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private PositionInstance addRightWindowFeatures(
-            Vector<PositionInstance> instances, int i) {
+        Vector<PositionInstance> instances, int i) {
         PositionInstance inst_i = instances.get(i);
         String f_str = "";
         PositionInstance prev_inst = null;
         String prev_label = null;
 
         for (int j = i + 1; j < instances.size()
-                && j <= i + ExtractionParameters.WINDOW; j++) {
+                            && j <= i + ExtractionParameters.WINDOW; j++) {
 
             int d = j - i;
             PositionInstance inst_j = instances.get(j);
             String label_j = inst_j.label();
             if (inst_j.isMidInstance()) {
                 if (ExtractionParameters.USE_CONTEXTUAL_FEATURES
-                        || inst_j.isMidInstance()) {
+                    || inst_j.isMidInstance()) {
                     for (int k = 0; k < 3 && k < inst_j.size(); k++) {
                         String f_jk = inst_j.get(k);
 
@@ -528,7 +530,7 @@ public class ArgSubstructureFeatureGenerator {
 
                             // conjunction of current and next two
                             if (ExtractionParameters.USE_CONJUNCTIVE_FEATURES
-                                    && j == i + 2) {
+                                && j == i + 2) {
                                 f_str += "^R1-" + prev_inst.get(k);
                                 f_str += "^R0-" + inst_i.get(k);
                                 inst_i.addFeature(inst_i.size() - 1, f_str);
@@ -537,7 +539,7 @@ public class ArgSubstructureFeatureGenerator {
                             f_str = "R" + Integer.toString(d) + "-" + f_jk;
                             inst_i.addFeature(inst_i.size() - 1, f_str);
                             if (ExtractionParameters.USE_CONJUNCTIVE_FEATURES
-                                    && j == i + 2 && !prev_label.equals("O-NP")) { // (0,1,2)
+                                && j == i + 2 && !prev_label.equals("O-NP")) { // (0,1,2)
                                 f_str += "^R1-" + prev_inst.get(k);
                                 f_str += "^R0-" + inst_i.get(k);
                                 inst_i.addFeature(inst_i.size() - 1, f_str);
@@ -551,11 +553,11 @@ public class ArgSubstructureFeatureGenerator {
                                         if (inst_i.get(k).charAt(0) == 'W') {
                                             if (prev_inst.get(k).charAt(0) == 'W') {
                                                 f_str += "^R1-"
-                                                        + prev_inst.get(k);
+                                                         + prev_inst.get(k);
                                                 f_str += "^R0-" + inst_i.get(k);
                                                 inst_i.addFeature(
-                                                        inst_i.size() - 1,
-                                                        f_str);
+                                                    inst_i.size() - 1,
+                                                    f_str);
                                             }
                                         }
                                     }
@@ -572,11 +574,11 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     /**
-     * Feature Extraction at each position +/0 WINDOW arg1/after E1 and E2
-     * Conjunctive features are again same as Peng and McCallum
+     * Feature Extraction at each position +/0 WINDOW arg1/after E1 and E2 Conjunctive features are
+     * again same as Peng and McCallum
      */
     private Vector<Vector<String>> addWindowFeatures(
-            Vector<PositionInstance> instances) {
+        Vector<PositionInstance> instances) {
         Vector<Vector<String>> features = new Vector<Vector<String>>();
         for (int i = 0; i < instances.size(); i++) {
             PositionInstance inst_i = instances.get(i);
@@ -597,7 +599,7 @@ public class ArgSubstructureFeatureGenerator {
     }
 
     private Vector<Vector<String>> addPredicateFeatures(
-            Vector<PositionInstance> instances, Vector<Vector<String>> features) {
+        Vector<PositionInstance> instances, Vector<Vector<String>> features) {
 
         Vector<String> rel_inst = new Vector<String>();
         String relchunks = "";
@@ -611,9 +613,9 @@ public class ArgSubstructureFeatureGenerator {
                 for (int j = 0; j < inst_i_features.size(); j++) {
                     if (inst_i_features.get(j).split("_").length > 1) {
                         String curtype = inst_i_features.get(j).split("_")[0]
-                                .trim();
+                            .trim();
                         String curfeature = inst_i_features.get(j).split("_")[1]
-                                .trim();
+                            .trim();
                         if (curtype.equals("TAG")) {
                             reltags += "TAG_" + curfeature + "^";
                         } else if (curtype.equals("CHUNK")) {
@@ -648,9 +650,9 @@ public class ArgSubstructureFeatureGenerator {
 
     // Extract a list of features for this extraction
     public String extractCRFFeatures(ChunkedExtraction extr, int argstart,
-            int argend, Boolean train) {
+                                     int argend, Boolean train) {
         Vector<PositionInstance> instances = createBaseInstances(extr,
-                argstart, argend, train);
+                                                                 argstart, argend, train);
         if (instances == null) {
             return null;
         }

@@ -11,19 +11,18 @@ import edu.washington.cs.knowitall.io.TextBlockIterator;
 import edu.washington.cs.knowitall.util.IterableAdapter;
 
 /**
- * A class that combines a <code>SentenceExtractor</code> with a
- * <code>SentenceChunker</code> to read <code>ChunkedSentence</code> objects
- * from a <code>BufferedReader</code>. This object uses the
- * <code>SentenceExtractor</code> to obtain <code>String</code> sentences from
- * the input, and then chunks the sentences using the
- * <code>SentenceChunker</code> object.
+ * A class that combines a <code>SentenceExtractor</code> with a <code>SentenceChunker</code> to
+ * read <code>ChunkedSentence</code> objects from a <code>BufferedReader</code>. This object uses
+ * the <code>SentenceExtractor</code> to obtain <code>String</code> sentences from the input, and
+ * then chunks the sentences using the <code>SentenceChunker</code> object.
  *
  * @author afader
- *
  */
 public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
 
-    /** The singleton default sentence chunker */
+    /**
+     * The singleton default sentence chunker
+     */
     private static TreeTaggerSentenceChunker SENT_CHUNKER;
 
     private SentenceExtractor sentExtractor;
@@ -31,75 +30,59 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     private ChunkedSentenceIterator chunkedSentIter;
 
     /**
-     * Constructs a reader from <code>r</code> using the sentence extractor
-     * <code>se</code> and the default <code>TreeTaggerSentenceChunker</code>
-     * object.
-     *
-     * @param r
-     * @param se
-     * @throws IOException
+     * Constructs a reader from <code>r</code> using the sentence extractor <code>se</code> and the
+     * default <code>TreeTaggerSentenceChunker</code> object.
      */
     public ChunkedSentenceReader(Reader r, SentenceExtractor se)
-            throws IOException {
-        if (SENT_CHUNKER == null)
+        throws IOException {
+        if (SENT_CHUNKER == null) {
             SENT_CHUNKER = new TreeTaggerSentenceChunker();
+        }
         init(r, se, SENT_CHUNKER);
     }
 
     /**
-     * Constructs a reader from <code>r</code> using the chunker <code>sc</code>
-     * and the default <code>SentenceExtractor</code>.
-     *
-     * @param r
-     * @param sc
-     * @throws IOException
+     * Constructs a reader from <code>r</code> using the chunker <code>sc</code> and the default
+     * <code>SentenceExtractor</code>.
      */
     public ChunkedSentenceReader(Reader r, SentenceChunker sc)
-            throws IOException {
+        throws IOException {
         init(r, new SentenceExtractor(), sc);
     }
 
     /**
-     * Constructs a reader from <code>r</code> using the default
-     * <code>SentenceExtractor</code> and <code>OpenNlpSentenceChunker</code>.
-     *
-     * @param r
-     * @throws IOException
+     * Constructs a reader from <code>r</code> using the default <code>SentenceExtractor</code> and
+     * <code>OpenNlpSentenceChunker</code>.
      */
     public ChunkedSentenceReader(Reader r) throws IOException {
-        if (SENT_CHUNKER == null)
+        if (SENT_CHUNKER == null) {
             SENT_CHUNKER = new TreeTaggerSentenceChunker();
+        }
         init(r, new SentenceExtractor(), SENT_CHUNKER);
     }
 
     /**
-     * Constructs a reader from <code>r</code> using the sentence extractor
-     * <code>se</code> and the sentence chunker <code>sc</code>.
-     *
-     * @param r
-     * @param se
-     * @param sc
+     * Constructs a reader from <code>r</code> using the sentence extractor <code>se</code> and the
+     * sentence chunker <code>sc</code>.
      */
     public ChunkedSentenceReader(Reader r, SentenceExtractor se,
-            SentenceChunker sc) {
+                                 SentenceChunker sc) {
         init(r, se, sc);
     }
 
     private void init(Reader reader, SentenceExtractor sentExtractor,
-            SentenceChunker sentChunker) {
+                      SentenceChunker sentChunker) {
         this.sentChunker = sentChunker;
         this.sentExtractor = sentExtractor;
         BufferedReaderIterator bri = new BufferedReaderIterator(reader);
         TextBlockIterator tbi = new TextBlockIterator(bri);
         SentenceBlocksIterator sbi = new SentenceBlocksIterator(tbi,
-                sentExtractor);
+                                                                sentExtractor);
         chunkedSentIter = new ChunkedSentenceIterator(sbi, sentChunker);
     }
 
     /**
      * This filter is used for sentences AFTER they have been chunked.
-     *
-     * @param filter
      */
     public void addFilter(Predicate<ChunkedSentence> filter) {
         this.chunkedSentIter.addFilter(filter);
@@ -120,8 +103,8 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     }
 
     /**
-     * @return an iterator over the sentences from the
-     *         <code>BufferedReader</code> given during construction.
+     * @return an iterator over the sentences from the <code>BufferedReader</code> given during
+     * construction.
      */
     @Override
     public ChunkedSentenceIterator iterator() {
@@ -129,8 +112,8 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     }
 
     /**
-     * @return an iterable object over the sentences from the
-     *         <code>BufferedReader</code> given during construction.
+     * @return an iterable object over the sentences from the <code>BufferedReader</code> given
+     * during construction.
      */
     public Iterable<ChunkedSentence> getSentences() {
         return new IterableAdapter<ChunkedSentence>(chunkedSentIter);

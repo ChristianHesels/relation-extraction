@@ -4,13 +4,12 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 
 /**
- * A type of mapper that filters each object in the stream independently. Subclasses
- * extending this class only have to implement the <code>doFilter(T object)</code> method,
- * which should return <code>true</code> if <code>object</code> should remain in the stream,
- * and <code>false</code> if the object should be removed from the stream. 
- * @author afader
+ * A type of mapper that filters each object in the stream independently. Subclasses extending this
+ * class only have to implement the <code>doFilter(T object)</code> method, which should return
+ * <code>true</code> if <code>object</code> should remain in the stream, and <code>false</code> if
+ * the object should be removed from the stream.
  *
- * @param <T>
+ * @author afader
  */
 public abstract class FilterMapper<T> extends Mapper<T> {
 

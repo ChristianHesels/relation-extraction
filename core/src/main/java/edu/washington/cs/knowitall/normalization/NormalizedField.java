@@ -1,8 +1,8 @@
 package edu.washington.cs.knowitall.normalization;
 
-import java.util.List;
-
 import com.google.common.base.Joiner;
+
+import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
@@ -11,14 +11,12 @@ import edu.washington.cs.knowitall.sequence.SequenceException;
 import edu.washington.cs.knowitall.sequence.SimpleLayeredSequence;
 
 /**
- * This class represents a field of a {@link SpanExtraction} that has been
- * normalized in some way, e.g. morphological normalization. A normalized field
- * is a {@link SimpleLayeredSequence} with two layers: a token layer, and a POS
- * layer. The token layer contains the normalized words. The POS layer contains
- * the POS tags for those words.
- * 
+ * This class represents a field of a {@link SpanExtraction} that has been normalized in some way,
+ * e.g. morphological normalization. A normalized field is a {@link SimpleLayeredSequence} with two
+ * layers: a token layer, and a POS layer. The token layer contains the normalized words. The POS
+ * layer contains the POS tags for those words.
+ *
  * @author afader
- * 
  */
 public class NormalizedField extends SimpleLayeredSequence {
 
@@ -28,17 +26,13 @@ public class NormalizedField extends SimpleLayeredSequence {
     private ChunkedExtraction original;
 
     /**
-     * @param original
-     *            the original extractions
-     * @param tokens
-     *            the normalized tokens
-     * @param posTags
-     *            the POS tags
-     * @throws SequenceException
-     *             if tokens and posTags are not the same length
+     * @param original the original extractions
+     * @param tokens   the normalized tokens
+     * @param posTags  the POS tags
+     * @throws SequenceException if tokens and posTags are not the same length
      */
     public NormalizedField(ChunkedExtraction original, String[] tokens,
-            String[] posTags) throws SequenceException {
+                           String[] posTags) throws SequenceException {
         super(tokens.length);
         addLayer(TOKEN_LAYER, tokens);
         addLayer(POS_LAYER, posTags);
@@ -46,17 +40,13 @@ public class NormalizedField extends SimpleLayeredSequence {
     }
 
     /**
-     * @param original
-     *            the original extractions
-     * @param tokens
-     *            the normalized tokens
-     * @param posTags
-     *            the POS tags
-     * @throws SequenceException
-     *             if tokens and posTags are not the same length
+     * @param original the original extractions
+     * @param tokens   the normalized tokens
+     * @param posTags  the POS tags
+     * @throws SequenceException if tokens and posTags are not the same length
      */
     public NormalizedField(ChunkedExtraction original, List<String> tokens,
-            List<String> posTags) throws SequenceException {
+                           List<String> posTags) throws SequenceException {
         super(tokens.size());
         addLayer(TOKEN_LAYER, tokens);
         addLayer(POS_LAYER, posTags);

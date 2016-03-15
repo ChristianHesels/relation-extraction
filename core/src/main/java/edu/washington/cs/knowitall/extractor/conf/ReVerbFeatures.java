@@ -1,13 +1,11 @@
 package edu.washington.cs.knowitall.extractor.conf;
 
+import com.google.common.base.Predicate;
+
 import java.util.HashMap;
 import java.util.List;
 
-import com.google.common.base.Predicate;
-
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.regex.Match;
-import edu.washington.cs.knowitall.regex.RegularExpression;
 import edu.washington.cs.knowitall.extractor.ReVerbExtractor;
 import edu.washington.cs.knowitall.extractor.conf.featureset.BooleanFeatureSet;
 import edu.washington.cs.knowitall.extractor.conf.featureset.ChunkFeature;
@@ -18,18 +16,18 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentenceToken;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.regex.Match;
+import edu.washington.cs.knowitall.regex.RegularExpression;
 import edu.washington.cs.knowitall.sequence.LayeredTokenMatcher;
 import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
-/***
- * This class defines the features used by the ReVerb confidence function. A
- * reference to the feature set can be obtained by calling the
- * <code>getFeatureSet()</code> method after constructing an instance of this
- * class.
+/**
+ * This class defines the features used by the ReVerb confidence function. A reference to the
+ * feature set can be obtained by calling the <code>getFeatureSet()</code> method after constructing
+ * an instance of this class.
  *
  * @author afader
- *
  */
 public class ReVerbFeatures {
 
@@ -42,7 +40,7 @@ public class ReVerbFeatures {
             initFeatureSet();
         } catch (SequenceException e) {
             throw new ConfidenceFunctionException(
-                    "Unable to initialize features", e);
+                "Unable to initialize features", e);
         }
     }
 
@@ -74,7 +72,7 @@ public class ReVerbFeatures {
         featureMap.put("extr covers phrase", extrCoversPhrase());
         featureMap.put("arg2 part of a list", arg2InList());
         featureMap.put("np before arg1",
-                ChunkFeature.rightBeforeArg1("B-NP", "I-NP"));
+                       ChunkFeature.rightBeforeArg1("B-NP", "I-NP"));
         featureMap.put("rel contains vbz", PosFeature.withinRel("VBZ"));
         featureMap.put("rel contains vbg", PosFeature.withinRel("VBG"));
         featureMap.put("rel contains vbd", PosFeature.withinRel("VBD"));
@@ -83,19 +81,19 @@ public class ReVerbFeatures {
         featureMap.put("rel contains vb", PosFeature.withinRel("VB"));
         featureMap.put("conj before rel", PosFeature.rightBeforeRel("CC"));
         featureMap.put("prep before arg1",
-                PosFeature.rightBeforeArg1("IN", "TO"));
+                       PosFeature.rightBeforeArg1("IN", "TO"));
         featureMap.put("verb after arg2",
-                PosFeature.rightAfterArg2(PosFeature.allVerbPosTags));
+                       PosFeature.rightAfterArg2(PosFeature.allVerbPosTags));
         featureMap.put("np after arg2",
-                ChunkFeature.rightAfterArg2("B-NP", "I-NP"));
+                       ChunkFeature.rightAfterArg2("B-NP", "I-NP"));
         featureMap
-                .put("prep after arg2", PosFeature.rightAfterArg2("IN", "TO"));
+            .put("prep after arg2", PosFeature.rightAfterArg2("IN", "TO"));
         featureMap.put("arg2 contains pronoun", PosFeature.withinArg2("PRP"));
         featureMap.put("arg1 contains pronoun", PosFeature.withinArg1("PRP"));
         featureMap.put("arg2 contains pos pronoun",
-                PosFeature.withinArg2("PRP$"));
+                       PosFeature.withinArg2("PRP$"));
         featureMap.put("arg2 contains pos pronoun",
-                PosFeature.withinArg2("PRP$"));
+                       PosFeature.withinArg2("PRP$"));
         featureMap.put("rel is a single verb", PosFeature.relSingleVerb());
 
         // token-level features
@@ -115,7 +113,7 @@ public class ReVerbFeatures {
             @Override
             public boolean apply(ChunkedBinaryExtraction arg0) {
                 return startArg1.apply(arg0) && endArg2.apply(arg0)
-                        && extrCoversPhrase.apply(arg0);
+                       && extrCoversPhrase.apply(arg0);
             }
         });
 
@@ -136,12 +134,16 @@ public class ReVerbFeatures {
     private String PREP = ReVerbExtractor.PREP;
 
     // Used for the list feature
-    private String list1 = "<chunk='B-NP'> <chunk='I-NP'>* (<string=','> (<chunk='B-PP'>)? <chunk='B-NP'> <chunk='I-NP'>*)+ (<string=','> | (<string=','> <pos='CC'>)) <chunk='B-NP'> <chunk='I-NP'>*";
-    private String list2 = "<chunk='B-NP'> <chunk='I-NP'>* (<string=','> <chunk='B-NP'> <chunk='I-NP'>*)+ <string=','>* <pos='CC'> <chunk='B-NP'> <chunk='I-NP'>*";
+    private String
+        list1 =
+        "<chunk='B-NP'> <chunk='I-NP'>* (<string=','> (<chunk='B-PP'>)? <chunk='B-NP'> <chunk='I-NP'>*)+ (<string=','> | (<string=','> <pos='CC'>)) <chunk='B-NP'> <chunk='I-NP'>*";
+    private String
+        list2 =
+        "<chunk='B-NP'> <chunk='I-NP'>* (<string=','> <chunk='B-NP'> <chunk='I-NP'>*)+ <string=','>* <pos='CC'> <chunk='B-NP'> <chunk='I-NP'>*";
     public RegularExpression<ChunkedSentenceToken> listPattern1 = ChunkedSentencePattern
-            .compile(list1);
+        .compile(list1);
     public RegularExpression<ChunkedSentenceToken> listPattern2 = ChunkedSentencePattern
-            .compile(list2);
+        .compile(list2);
 
     private Predicate<ChunkedBinaryExtraction> arg2InList() {
         return new Predicate<ChunkedBinaryExtraction>() {
@@ -152,19 +154,19 @@ public class ReVerbFeatures {
                 ChunkedArgumentExtraction arg2 = extr.getArgument2();
                 ChunkedSentence sentence = arg2.getSentence();
                 List<Match<ChunkedSentenceToken>> matchList = listPattern2
-                        .findAll(ChunkedSentenceToken.tokenize(sentence));
+                    .findAll(ChunkedSentenceToken.tokenize(sentence));
                 for (Match<ChunkedSentenceToken> match : matchList) {
                     Range matchRange = new Range(match.startIndex(),
-                            match.endIndex() - match.startIndex());
+                                                 match.endIndex() - match.startIndex());
                     if (matchRange.overlapsWith(arg2.getRange())) {
                         return true;
                     }
                 }
                 matchList = listPattern1.findAll(ChunkedSentenceToken
-                        .tokenize(sentence));
+                                                     .tokenize(sentence));
                 for (Match<ChunkedSentenceToken> match : matchList) {
                     Range matchRange = new Range(match.startIndex(),
-                            match.endIndex() - match.startIndex());
+                                                 match.endIndex() - match.startIndex());
                     if (matchRange.overlapsWith(arg2.getRange())) {
                         return true;
                     }
@@ -199,9 +201,9 @@ public class ReVerbFeatures {
                 int predStart = pred.getStart();
                 if (predStart > 0) {
                     String precToken = e.getSentence().getTokens()
-                            .get(predStart - 1).toLowerCase();
+                        .get(predStart - 1).toLowerCase();
                     if (precToken.equals("which") || precToken.equals("who")
-                            || precToken.equals("that")) {
+                        || precToken.equals("that")) {
                         return true;
                     }
                 }
@@ -254,17 +256,18 @@ public class ReVerbFeatures {
      * @throws SequenceException
      */
     private Predicate<ChunkedBinaryExtraction> relIsVWP()
-            throws SequenceException {
+        throws SequenceException {
         final String patternStr = String.format("(%s (%s+ (%s)+))+", VERB,
-                WORD, PREP);
+                                                WORD, PREP);
         final LayeredTokenPattern pattern = new LayeredTokenPattern(patternStr);
         return new Predicate<ChunkedBinaryExtraction>() {
             public boolean apply(ChunkedBinaryExtraction e) {
                 try {
                     LayeredTokenMatcher m = pattern.matcher(e.getRelation());
                     int n = 0;
-                    while (m.find())
+                    while (m.find()) {
                         n++;
+                    }
                     return n == 1;
                 } catch (SequenceException ex) {
                     throw new IllegalStateException(ex);
@@ -284,10 +287,9 @@ public class ReVerbFeatures {
     }
 
     /**
-     * A feature that returns true when the following are all true: - there are
-     * no tokens between arg1 and rel, and rel and arg2. - the token to the left
-     * of arg1 is a comma or the sentence start - the token to the rigth of arg2
-     * is a period, comma, or sentence end
+     * A feature that returns true when the following are all true: - there are no tokens between
+     * arg1 and rel, and rel and arg2. - the token to the left of arg1 is a comma or the sentence
+     * start - the token to the rigth of arg2 is a period, comma, or sentence end
      *
      * @return the feature
      */
@@ -304,12 +306,12 @@ public class ReVerbFeatures {
 
                 int xs = x.getStart();
                 boolean leftOk = xs == 0 || tokens.get(xs - 1).equals(",")
-                        || tokens.get(xs - 1).equals(".");
+                                 || tokens.get(xs - 1).equals(".");
 
                 int l = sent.getLength() - 1;
                 int yr = y.getLastIndex();
                 boolean rightOk = yr == l || tokens.get(yr + 1).equals(",")
-                        || tokens.get(yr + 1).equals(".");
+                                  || tokens.get(yr + 1).equals(".");
 
                 return adj && leftOk && rightOk;
             }
@@ -321,14 +323,14 @@ public class ReVerbFeatures {
     //
 
     private Predicate<ChunkedBinaryExtraction> tokenBeforeArg1(
-            final String token) {
+        final String token) {
         return new Predicate<ChunkedBinaryExtraction>() {
             public boolean apply(ChunkedBinaryExtraction e) {
                 ChunkedArgumentExtraction arg1 = e.getArgument1();
                 int arg1Start = arg1.getStart();
                 if (arg1Start > 0) {
                     String precTok = e.getSentence().getTokens()
-                            .get(arg1Start - 1);
+                        .get(arg1Start - 1);
                     if (precTok.equalsIgnoreCase(token)) {
                         return true;
                     }
@@ -345,7 +347,7 @@ public class ReVerbFeatures {
                 int relStart = rel.getStart();
                 if (relStart > 0) {
                     String precTok = e.getSentence().getTokens()
-                            .get(relStart - 1);
+                        .get(relStart - 1);
                     if (precTok.equalsIgnoreCase(token)) {
                         return true;
                     }
@@ -362,7 +364,7 @@ public class ReVerbFeatures {
                 int arg1End = arg2.getStart() + arg2.getLength() - 1;
                 if (arg1End + 1 < e.getSentence().getLength() - 1) {
                     String nextTok = e.getSentence().getTokens()
-                            .get(arg1End + 1);
+                        .get(arg1End + 1);
                     if (nextTok.equalsIgnoreCase(token)) {
                         return true;
                     }

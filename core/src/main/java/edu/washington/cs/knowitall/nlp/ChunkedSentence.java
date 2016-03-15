@@ -11,8 +11,7 @@ import edu.washington.cs.knowitall.sequence.BIOLayeredSequence;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**
- * An immutable class that represents a tokenized, POS-tagged, and noun-phrase
- * chunked sentence.
+ * An immutable class that represents a tokenized, POS-tagged, and noun-phrase chunked sentence.
  *
  * @author afader
  */
@@ -39,45 +38,37 @@ public class ChunkedSentence extends BIOLayeredSequence {
     protected final ImmutableList<Range> offsets;
 
     /**
-     * Constructs a new instance using the given tokens, POS tags, and NP chunk
-     * tags, each of which must have the same length. The NP chunks should be
-     * expressed using the standard B-NP, I-NP, O tags.
+     * Constructs a new instance using the given tokens, POS tags, and NP chunk tags, each of which
+     * must have the same length. The NP chunks should be expressed using the standard B-NP, I-NP, O
+     * tags.
      *
-     * @param tokens
-     * @param posTags
-     * @param npChunkTags
-     * @throws SequenceException
-     *             if the layers are of different lengths, or if unable to
-     *             interpret npChunkTags
+     * @throws SequenceException if the layers are of different lengths, or if unable to interpret
+     *                           npChunkTags
      */
     public ChunkedSentence(String[] tokens, String[] posTags,
-            String[] npChunkTags) throws SequenceException {
+                           String[] npChunkTags) throws SequenceException {
         this(null, ImmutableList.copyOf(tokens), ImmutableList.copyOf(posTags),
-                ImmutableList.copyOf(npChunkTags));
+             ImmutableList.copyOf(npChunkTags));
     }
 
     public ChunkedSentence(Range[] offsets, String[] tokens, String[] posTags,
-            String[] npChunkTags) throws SequenceException {
+                           String[] npChunkTags) throws SequenceException {
         this(ImmutableList.copyOf(offsets), ImmutableList.copyOf(tokens),
-                ImmutableList.copyOf(posTags), ImmutableList
-                        .copyOf(npChunkTags));
+             ImmutableList.copyOf(posTags), ImmutableList
+                .copyOf(npChunkTags));
     }
 
     /**
-     * Constructs a new instance using the given tokens, POS tags, and NP chunk
-     * tags, each of which must have the same length. The NP chunks should be
-     * expressed using the standard B-NP, I-NP, O tags.
+     * Constructs a new instance using the given tokens, POS tags, and NP chunk tags, each of which
+     * must have the same length. The NP chunks should be expressed using the standard B-NP, I-NP, O
+     * tags.
      *
-     * @param tokens
-     * @param posTags
-     * @param npChunkTags
-     * @throws SequenceException
-     *             if the layers are of different lengths, or if unable to
-     *             interpret npChunkTags
+     * @throws SequenceException if the layers are of different lengths, or if unable to interpret
+     *                           npChunkTags
      */
     public ChunkedSentence(ImmutableList<Range> offsets,
-            ImmutableList<String> tokens, ImmutableList<String> posTags,
-            ImmutableList<String> npChunkTags) throws SequenceException {
+                           ImmutableList<String> tokens, ImmutableList<String> posTags,
+                           ImmutableList<String> npChunkTags) throws SequenceException {
         super(tokens.size());
         this.offsets = offsets;
         addLayer(TOKEN_LAYER, tokens);
@@ -86,25 +77,23 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     public ChunkedSentence(List<String> tokens, List<String> posTags,
-            List<String> npChunkTags) throws SequenceException {
+                           List<String> npChunkTags) throws SequenceException {
         this(null, ImmutableList.copyOf(tokens), ImmutableList.copyOf(posTags),
-                ImmutableList.copyOf(npChunkTags));
+             ImmutableList.copyOf(npChunkTags));
     }
 
     public ChunkedSentence(List<Range> offsets, List<String> tokens,
-            List<String> posTags, List<String> npChunkTags)
-            throws SequenceException {
+                           List<String> posTags, List<String> npChunkTags)
+        throws SequenceException {
         this(offsets == null ? null : ImmutableList.copyOf(offsets),
-                ImmutableList.copyOf(tokens), ImmutableList.copyOf(posTags),
-                ImmutableList.copyOf(npChunkTags));
+             ImmutableList.copyOf(tokens), ImmutableList.copyOf(posTags),
+             ImmutableList.copyOf(npChunkTags));
     }
 
     /**
-     * Constructs a new instance using the given tokens, POS tags, and NP chunk
-     * tags, each of which must have the same length. The NP chunks should be
-     * expressed using the standard B-NP, I-NP, O tags.
-     *
-     * @param sent
+     * Constructs a new instance using the given tokens, POS tags, and NP chunk tags, each of which
+     * must have the same length. The NP chunks should be expressed using the standard B-NP, I-NP, O
+     * tags.
      */
     public ChunkedSentence(ChunkedSentence sent) {
         super(sent.getLength());
@@ -138,32 +127,28 @@ public class ChunkedSentence extends BIOLayeredSequence {
 
     /**
      * Returns a new ChunkedSentence object that starts at the given range.
-     *
-     * @param range
      */
     public ChunkedSentence getSubSequence(Range range) {
         return getSubSequence(range.getStart(), range.getLength());
     }
 
     /**
-     * Returns a new ChunkedSentence object that starts at the given start index
-     * and has the given length.
-     *
-     * @param start
-     * @param length
+     * Returns a new ChunkedSentence object that starts at the given start index and has the given
+     * length.
      */
     public ChunkedSentence getSubSequence(int start, int length) {
         try {
             ChunkedSentence result = new ChunkedSentence(getSubSequence(
-                    TOKEN_LAYER, start, length), getSubSequence(POS_LAYER,
-                    start, length), getSubSequence(NP_LAYER, start, length));
+                TOKEN_LAYER, start, length), getSubSequence(POS_LAYER,
+                                                            start, length),
+                                                         getSubSequence(NP_LAYER, start, length));
             for (String layerName : getLayerNames()) {
                 if (!result.hasLayer(layerName) && isSpanLayer(layerName)) {
                     result.addSpanLayer(layerName,
-                            getSubSequence(layerName, start, length));
+                                        getSubSequence(layerName, start, length));
                 } else if (!result.hasLayer(layerName)) {
                     result.addLayer(layerName,
-                            getSubSequence(layerName, start, length));
+                                    getSubSequence(layerName, start, length));
                 }
             }
             return result;
@@ -171,19 +156,14 @@ public class ChunkedSentence extends BIOLayeredSequence {
             // This is an illegal state - we should be able to construct sub-
             // sequences of this object.
             String msg = String.format(
-                    "Could not create subsequence of length %s starting at %s",
-                    length, start);
+                "Could not create subsequence of length %s starting at %s",
+                length, start);
             throw new IllegalStateException(msg, e);
         }
     }
 
-    /***
-     * Converts a character range into getTokensAsString into a bounding token
-     * range.
-     *
-     * @param charStart
-     * @param charEnd
-     * @return
+    /**
+     * Converts a character range into getTokensAsString into a bounding token range.
      */
     public Range getTokenRange(int charStart, int charEnd) {
         if (charStart < 0) {
@@ -224,7 +204,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     public ChunkedSentence clone() {
         try {
             ChunkedSentence clone = new ChunkedSentence(getTokens(),
-                    getPosTags(), getChunkTags());
+                                                        getPosTags(), getChunkTags());
             for (String layerName : getLayerNames()) {
                 if (!clone.hasLayer(layerName) && isSpanLayer(layerName)) {
                     clone.addSpanLayer(layerName, getLayer(layerName));
@@ -256,17 +236,13 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param start
-     * @param length
-     * @return the first <code>length</code> tokens starting at index
-     *         <code>start</code>.
+     * @return the first <code>length</code> tokens starting at index <code>start</code>.
      */
     public ImmutableList<String> getTokens(int start, int length) {
         return getSubSequence(TOKEN_LAYER, start, length);
     }
 
     /**
-     * @param range
      * @return the tokens at the indexes given by <code>range</code>.
      */
     public ImmutableList<String> getTokens(Range range) {
@@ -274,17 +250,13 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param start
-     * @param length
-     * @return the first <code>length</code> POS tags starting at index
-     *         <code>start</code>.
+     * @return the first <code>length</code> POS tags starting at index <code>start</code>.
      */
     public ImmutableList<String> getPosTags(int start, int length) {
         return getSubSequence(POS_LAYER, start, length);
     }
 
     /**
-     * @param range
      * @return the POS tags at the indexes given by <code>range</code>.
      */
     public ImmutableList<String> getPosTags(Range range) {
@@ -292,8 +264,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @return an unmodifiable list over the ranges of the NP chunks in this
-     *         sentence.
+     * @return an unmodifiable list over the ranges of the NP chunks in this sentence.
      */
     public ImmutableCollection<Range> getNpChunkRanges() {
         return getSpans(NP_LAYER, "NP");
@@ -307,19 +278,14 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param start
-     * @param length
-     * @return the first <code>length</code> NP chunk tags starting at index
-     *         <code>start</code>.
+     * @return the first <code>length</code> NP chunk tags starting at index <code>start</code>.
      */
     public ImmutableList<String> getChunkTags(int start, int length) {
         return getSubSequence(NP_LAYER, start, length);
     }
 
     /**
-     * @param range
-     * @return the first <code>length</code> NP chunk tags in the range
-     *         <code>range</code>.
+     * @return the first <code>length</code> NP chunk tags in the range <code>range</code>.
      */
     public ImmutableList<String> getChunkTags(Range range) {
         return getSubSequence(NP_LAYER, range);
@@ -341,38 +307,28 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param start
-     * @param length
-     * @return <code>length</code> tokens starting at <code>start</code>, joined
-     *         by spaces.
+     * @return <code>length</code> tokens starting at <code>start</code>, joined by spaces.
      */
     public String getTokensAsString(int start, int length) {
         return getLayerAsString(TOKEN_LAYER, start, length);
     }
 
     /**
-     * @param range
-     * @return the tokens at the indexes of <code>range</code>, joined by
-     *         spaces.
+     * @return the tokens at the indexes of <code>range</code>, joined by spaces.
      */
     public String getTokensAsString(Range range) {
         return getTokensAsString(range.getStart(), range.getLength());
     }
 
     /**
-     * @param start
-     * @param length
-     * @return <code>length</code> POS tags starting at <code>start</code>,
-     *         joined by spaces.
+     * @return <code>length</code> POS tags starting at <code>start</code>, joined by spaces.
      */
     public String getPosTagsAsString(int start, int length) {
         return getLayerAsString(POS_LAYER, start, length);
     }
 
     /**
-     * @param range
-     * @return the POS tags at the indexes of <code>range</code>, joined by
-     *         spaces.
+     * @return the POS tags at the indexes of <code>range</code>, joined by spaces.
      */
     public String getPosTagsAsString(Range range) {
         return getLayerAsString(POS_LAYER, range);
@@ -386,8 +342,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @return the NP chunk tags of this sentence (in B-NP, I-NP, O format),
-     *         joined by strings.
+     * @return the NP chunk tags of this sentence (in B-NP, I-NP, O format), joined by strings.
      */
     public String getChunkTagsAsString() {
         return getLayerAsString(NP_LAYER);
@@ -401,8 +356,8 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @return the tokens, POS tags, and NP chunk tags of this string in Open
-     *         NLP format (square brackets around chunks, then token/tag).
+     * @return the tokens, POS tags, and NP chunk tags of this string in Open NLP format (square
+     * brackets around chunks, then token/tag).
      */
     public String toOpenNlpFormat() {
         StringBuffer sb = new StringBuffer();
@@ -411,7 +366,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
             String tt = getToken(i) + "/" + getPosTag(i);
             String npChunkTag = getChunkTag(i);
             if (i > 0 && !npChunkTag.startsWith("I-")
-                    && !getChunkTag(i - 1).equals("O")) {
+                && !getChunkTag(i - 1).equals("O")) {
                 sb.append("]");
             }
             if (npChunkTag.startsWith("B-")) {
@@ -423,7 +378,6 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param i
      * @return the token at index i
      */
     public String getToken(int i) {
@@ -431,7 +385,6 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param i
      * @return the part-of-speech tag at index i
      */
     public String getPosTag(int i) {
@@ -439,7 +392,6 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * @param i
      * @return the chunk tag at index i
      */
     public String getChunkTag(int i) {

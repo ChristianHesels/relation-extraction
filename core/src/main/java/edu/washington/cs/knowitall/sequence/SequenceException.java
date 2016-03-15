@@ -2,9 +2,8 @@ package edu.washington.cs.knowitall.sequence;
 
 /**
  * An exception class used for handling errors related to layered sequences.
- * 
+ *
  * @author afader
- * 
  */
 public class SequenceException extends RuntimeException {
 

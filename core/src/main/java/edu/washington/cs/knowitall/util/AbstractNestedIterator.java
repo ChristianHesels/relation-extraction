@@ -1,8 +1,8 @@
 package edu.washington.cs.knowitall.util;
 
-import java.util.Iterator;
-
 import com.google.common.collect.AbstractIterator;
+
+import java.util.Iterator;
 
 public abstract class AbstractNestedIterator<S, T> extends AbstractIterator<T> {
 
@@ -21,8 +21,9 @@ public abstract class AbstractNestedIterator<S, T> extends AbstractIterator<T> {
 
     @Override
     protected T computeNext() {
-        if (inner != null && inner.hasNext())
+        if (inner != null && inner.hasNext()) {
             return inner.next();
+        }
         while (outer.hasNext()) {
             inner = computeInnerIterator(outer.next());
             if (inner != null && inner.hasNext()) {

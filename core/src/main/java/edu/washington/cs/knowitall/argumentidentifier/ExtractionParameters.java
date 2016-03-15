@@ -1,6 +1,7 @@
 package edu.washington.cs.knowitall.argumentidentifier;
 
 public class ExtractionParameters {
+
     public static final boolean NEG_TRAINING = false;
     public static final boolean ALL_VNCLS = false;
     public static boolean USE_VLCN_FEATURES = false;
@@ -18,10 +19,10 @@ public class ExtractionParameters {
 
     public static int MAX_REL_WORDS = 5; // max words in an extracted relation
     public static int MAX_DIST = 10; // max distance (words) between two
-                                     // possible entities
+    // possible entities
     public static int MAX_SENTENCE_LENGTH = 45;
     public static int WINDOW = 6; // from how many positions out from E1,E2 do
-                                  // we extract features?
+    // we extract features?
 
     // true if want to extract about proper nouns only
     public static boolean ARG1_IS_PROPER = false;

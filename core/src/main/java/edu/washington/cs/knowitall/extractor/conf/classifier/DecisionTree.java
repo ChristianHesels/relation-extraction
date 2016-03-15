@@ -1,5 +1,8 @@
 package edu.washington.cs.knowitall.extractor.conf.classifier;
 
+import com.google.common.base.Predicate;
+import com.google.common.base.Predicates;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
@@ -9,10 +12,8 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Predicate;
-import com.google.common.base.Predicates;
-
 public class DecisionTree {
+
     private Tree root;
 
     public DecisionTree(Tree tree) {
@@ -20,14 +21,17 @@ public class DecisionTree {
     }
 
     public static class Tree {
-        public Tree(Predicate<DoubleFeatures> predicate, String predicateString, List<Tree> children, String outcome) {
+
+        public Tree(Predicate<DoubleFeatures> predicate, String predicateString,
+                    List<Tree> children, String outcome) {
             this.predicate = predicate;
             this.predicateString = predicateString;
             this.children = children;
             this.outcome = outcome;
         }
 
-        public Tree(Predicate<DoubleFeatures> predicate, String predicateString, List<Tree> children) {
+        public Tree(Predicate<DoubleFeatures> predicate, String predicateString,
+                    List<Tree> children) {
             this.predicate = predicate;
             this.predicateString = predicateString;
             this.children = children;
@@ -54,11 +58,11 @@ public class DecisionTree {
             this.print("");
         }
 
-        @Override public String toString() {
+        @Override
+        public String toString() {
             if (outcome != null) {
                 return this.predicateString + ":" + this.outcome;
-            }
-            else {
+            } else {
                 return this.predicateString;
             }
         }
@@ -70,6 +74,7 @@ public class DecisionTree {
     }
 
     private static class Line {
+
         public final int depth;
         public final String text;
 
@@ -78,7 +83,8 @@ public class DecisionTree {
             this.text = text;
         }
 
-        @Override public String toString() {
+        @Override
+        public String toString() {
             return text;
         }
     }
@@ -102,35 +108,33 @@ public class DecisionTree {
             }
 
             return new DecisionTree(fromLines(lines));
-        }
-        finally {
+        } finally {
             is.close();
         }
     }
 
-    private static final Pattern outcomePattern = Pattern.compile("(\\w+) ([=<>]+) ([^\\s]+) : (\\w+) .*");
+    private static final Pattern
+        outcomePattern =
+        Pattern.compile("(\\w+) ([=<>]+) ([^\\s]+) : (\\w+) .*");
     private static final Pattern testPattern = Pattern.compile("(\\w+) ([=<>]+) ([^\\s]+)");
 
-    private static Predicate<DoubleFeatures> predicate(final String feature, final String comparison, final String value) {
+    private static Predicate<DoubleFeatures> predicate(final String feature,
+                                                       final String comparison,
+                                                       final String value) {
         return new Predicate<DoubleFeatures>() {
             @Override
             public boolean apply(DoubleFeatures features) {
                 if (comparison.equals("=")) {
                     return features.get(feature) == Double.parseDouble(value);
-                }
-                else if (comparison.equals("<=")) {
+                } else if (comparison.equals("<=")) {
                     return features.get(feature) <= Double.parseDouble(value);
-                }
-                else if (comparison.equals(">=")) {
+                } else if (comparison.equals(">=")) {
                     return features.get(feature) >= Double.parseDouble(value);
-                }
-                else if (comparison.equals("<")) {
+                } else if (comparison.equals("<")) {
                     return features.get(feature) < Double.parseDouble(value);
-                }
-                else if (comparison.equals(">")) {
+                } else if (comparison.equals(">")) {
                     return features.get(feature) < Double.parseDouble(value);
-                }
-                else {
+                } else {
                     throw new IllegalArgumentException("unknown comparison: " + comparison);
                 }
             }
@@ -148,9 +152,9 @@ public class DecisionTree {
             String value = outcomeMatcher.group(3);
             String outcome = outcomeMatcher.group(4);
 
-            return new Tree(predicate(feature, comparison, value), feature+" "+comparison+" "+value, outcome);
-        }
-        else {
+            return new Tree(predicate(feature, comparison, value),
+                            feature + " " + comparison + " " + value, outcome);
+        } else {
             lines = lines.subList(1, lines.size());
             List<Tree> children = new ArrayList<Tree>();
 
@@ -159,8 +163,7 @@ public class DecisionTree {
             for (Line line : lines) {
                 if (line.depth <= cur.depth) {
                     break;
-                }
-                else if (line.depth == cur.depth + 1) {
+                } else if (line.depth == cur.depth + 1) {
                     // recurse and add as a child
                     children.add(fromLines(lines.subList(i, lines.size())));
                 }
@@ -170,8 +173,7 @@ public class DecisionTree {
 
             if (cur.text.equals("root")) {
                 return new Tree(Predicates.<DoubleFeatures>alwaysTrue(), "root", children);
-            }
-            else {
+            } else {
                 Matcher branchMatcher = testPattern.matcher(cur.text);
 
                 if (!branchMatcher.matches()) {
@@ -181,7 +183,8 @@ public class DecisionTree {
                 String feature = branchMatcher.group(1);
                 String comparison = branchMatcher.group(2);
                 String value = branchMatcher.group(3);
-                return new Tree(predicate(feature, comparison, value), feature+" "+comparison+" "+value, children);
+                return new Tree(predicate(feature, comparison, value),
+                                feature + " " + comparison + " " + value, children);
             }
         }
     }

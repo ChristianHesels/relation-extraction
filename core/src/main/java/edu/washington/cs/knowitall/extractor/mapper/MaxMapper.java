@@ -3,12 +3,11 @@ package edu.washington.cs.knowitall.extractor.mapper;
 import java.util.ArrayList;
 
 /**
- * A mapper class that returns the first maximal element in the object stream according
- * to a function <code>doValueMap(T object)</code>. 
- * @author afader
+ * A mapper class that returns the first maximal element in the object stream according to a
+ * function <code>doValueMap(T object)</code>.
  *
  * @param <S> a comparable type returned by <code>doValueMap(T object)</code>.
- * @param <T>
+ * @author afader
  */
 public abstract class MaxMapper<S extends Comparable<S>, T> extends Mapper<T> {
 

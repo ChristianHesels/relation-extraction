@@ -11,7 +11,7 @@ import edu.washington.cs.knowitall.sequence.LayeredTokenMatcher;
 import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
 
 public class RegexGroupExtractor extends
-        Extractor<ChunkedSentence, SpanExtraction> {
+                                 Extractor<ChunkedSentence, SpanExtraction> {
 
     private LayeredTokenPattern pattern;
 
@@ -24,7 +24,7 @@ public class RegexGroupExtractor extends
     }
 
     protected Collection<SpanExtraction> extractCandidates(ChunkedSentence sent)
-            throws ExtractorException {
+        throws ExtractorException {
         LayeredTokenMatcher m = pattern.matcher(sent);
         List<SpanExtraction> results = new ArrayList<SpanExtraction>();
         while (m.find()) {
@@ -34,8 +34,9 @@ public class RegexGroupExtractor extends
                 int start = m.start(i + 1);
                 int end = m.end(i + 1);
                 int len = end - start;
-                if (start < 0 || end < 0)
+                if (start < 0 || end < 0) {
                     break;
+                }
                 fieldRanges.add(new Range(start, len));
             }
             if (fieldRanges.size() > 0) {

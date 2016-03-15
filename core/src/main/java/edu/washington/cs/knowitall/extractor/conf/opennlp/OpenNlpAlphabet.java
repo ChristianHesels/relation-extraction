@@ -1,27 +1,26 @@
 package edu.washington.cs.knowitall.extractor.conf.opennlp;
 
+import com.google.common.collect.ImmutableMap;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
-
 import edu.washington.cs.knowitall.extractor.conf.featureset.BooleanFeatureSet;
 
-/***
- * OpenNLP requires features to have a unique text representation. This class
- * facilitates a lookup from feature name and feature value to a unique string
- * of the form featureName=featureValue.
+/**
+ * OpenNLP requires features to have a unique text representation. This class facilitates a lookup
+ * from feature name and feature value to a unique string of the form featureName=featureValue.
  *
  * This is for a performance boost from avoiding string concatenations.
  *
  * @author schmmd
- *
- * @param <T>
  */
 public class OpenNlpAlphabet<T> {
+
     public final ImmutableMap<Key, String> lookup;
 
     public static class Key {
+
         public final String featureName;
         public final boolean value;
 
@@ -37,7 +36,7 @@ public class OpenNlpAlphabet<T> {
             } else {
                 Key that = (Key) other;
                 return that.featureName == this.featureName
-                        && that.value == this.value;
+                       && that.value == this.value;
             }
         }
 

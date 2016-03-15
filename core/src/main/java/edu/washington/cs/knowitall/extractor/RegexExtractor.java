@@ -11,15 +11,13 @@ import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**
- * An extractor that uses a regular expression pattern relations from NP-chunked
- * sentences. This class uses a {@link LayeredTokenPattern} object to represent
- * the regular expression pattern.
+ * An extractor that uses a regular expression pattern relations from NP-chunked sentences. This
+ * class uses a {@link LayeredTokenPattern} object to represent the regular expression pattern.
  *
  * @author afader
- *
  */
 public class RegexExtractor extends
-        Extractor<ChunkedSentence, ChunkedExtraction> {
+                            Extractor<ChunkedSentence, ChunkedExtraction> {
 
     private String patternString;
     private LayeredTokenPattern pattern;
@@ -27,10 +25,8 @@ public class RegexExtractor extends
     /**
      * Constructs a new instance using the given pattern.
      *
-     * @param patternString
-     *            the relation pattern
-     * @throws SequenceException
-     *             if unable to compile pattern
+     * @param patternString the relation pattern
+     * @throws SequenceException if unable to compile pattern
      */
     public RegexExtractor(String patternString) throws SequenceException {
         this.patternString = patternString;
@@ -56,7 +52,7 @@ public class RegexExtractor extends
      * Extracts relations matching the regular expression.
      */
     public Collection<ChunkedExtraction> extractCandidates(
-            ChunkedSentence sentence) throws ExtractorException {
+        ChunkedSentence sentence) throws ExtractorException {
 
         try {
 
@@ -74,7 +70,7 @@ public class RegexExtractor extends
 
         } catch (SequenceException e) {
             String msg = String.format("Couldn't extract from sentence '%s'",
-                    sentence);
+                                       sentence);
             throw new ExtractorException(msg, e);
         }
     }

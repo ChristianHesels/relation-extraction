@@ -9,16 +9,13 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  * A list of mappers for <code>ReVerbExtractor</code>'s relations.
  *
  * @author afader
- *
  */
 public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
 
     /**
-     * Default construction of ReVerbRelationMappers. Uses Lexical and Syntactic
-     * constraints, merges overlapping relations, and requires a minimum of 20
-     * distinct arguments for each relation on a large corpus.
-     *
-     * @throws IOException
+     * Default construction of ReVerbRelationMappers. Uses Lexical and Syntactic constraints, merges
+     * overlapping relations, and requires a minimum of 20 distinct arguments for each relation on a
+     * large corpus.
      */
     public ReVerbRelationMappers() throws IOException {
         init();
@@ -29,7 +26,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
     }
 
     public ReVerbRelationMappers(int minFreq, boolean useLexSynConstraints,
-            boolean mergeOverlapRels) throws IOException {
+                                 boolean mergeOverlapRels) throws IOException {
         init(minFreq, useLexSynConstraints, mergeOverlapRels);
     }
 
@@ -62,7 +59,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
     }
 
     private void init(int minFreq, boolean useLexSynConstraints,
-            boolean mergeOverlapRels) throws IOException {
+                      boolean mergeOverlapRels) throws IOException {
         // Add lexical and syntactic constraints on the relation.
         if (useLexSynConstraints) {
             addLexicalAndSyntacticConstraints();
@@ -112,7 +109,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
                     String posTag = sent.getPosTags().get(i);
 
                     if (posTag.startsWith("V")) {
-                        return !posTag.equals("VVPP") && !posTag.equals("VAPP") && !posTag.equals("VMPP");
+                        return !posTag.equals("VVPP") && !posTag.equals("VAPP") && !posTag
+                            .equals("VMPP");
                     }
                 }
                 return true;

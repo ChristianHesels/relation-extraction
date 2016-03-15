@@ -3,13 +3,12 @@ package edu.washington.cs.knowitall.normalization;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
-/***
- * A class for normalizing {@link ChunkedBinaryExtraction} objects. This class
- * uses {@link ArgumentNormalizer} to normalize arg1 and arg2, and
- * {@link VerbalRelationNormalizer} to normalize rel.
- * 
+/**
+ * A class for normalizing {@link ChunkedBinaryExtraction} objects. This class uses {@link
+ * ArgumentNormalizer} to normalize arg1 and arg2, and {@link VerbalRelationNormalizer} to normalize
+ * rel.
+ *
  * @author afader
- * 
  */
 public class BinaryExtractionNormalizer {
 
@@ -26,8 +25,7 @@ public class BinaryExtractionNormalizer {
 
     /**
      * Normalizes the given argument
-     * 
-     * @param arg
+     *
      * @return the normalized argument
      */
     public NormalizedField normalizeArgument(ChunkedExtraction arg) {
@@ -36,8 +34,7 @@ public class BinaryExtractionNormalizer {
 
     /**
      * Normalizes the given relation phrase
-     * 
-     * @param rel
+     *
      * @return the normalized phrase
      */
     public NormalizedField normalizeRelation(ChunkedExtraction rel) {
@@ -46,8 +43,7 @@ public class BinaryExtractionNormalizer {
 
     /**
      * Normalizes the given extraction
-     * 
-     * @param extr
+     *
      * @return the normalized extraction
      */
     public NormalizedBinaryExtraction normalize(ChunkedBinaryExtraction extr) {

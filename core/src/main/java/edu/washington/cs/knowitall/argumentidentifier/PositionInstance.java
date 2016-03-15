@@ -1,7 +1,7 @@
 package edu.washington.cs.knowitall.argumentidentifier;
 
-import java.util.Vector;
 import java.util.Iterator;
+import java.util.Vector;
 
 public class PositionInstance {
 
@@ -64,12 +64,13 @@ public class PositionInstance {
 
     public String toString() {
         StringBuffer buf = new StringBuffer();
-        if (isMidInstance)
+        if (isMidInstance) {
             buf.append('*');
+        }
         buf.append(' ');
         buf.append(i);
         buf.append('\t');
-        for (Iterator<String> it = features.iterator(); it.hasNext();) {
+        for (Iterator<String> it = features.iterator(); it.hasNext(); ) {
             buf.append(it.next());
             buf.append(' ');
         }

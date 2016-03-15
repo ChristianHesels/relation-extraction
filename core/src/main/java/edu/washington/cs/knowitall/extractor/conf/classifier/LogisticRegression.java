@@ -9,24 +9,25 @@ import java.util.Scanner;
 import edu.washington.cs.knowitall.extractor.conf.featureset.FeatureSet;
 
 public class LogisticRegression<E> {
+
     private final FeatureSet<E> featureSet;
     private final Map<String, Double> featureWeights;
     private final double intercept;
 
     public LogisticRegression(FeatureSet<E> featureSet,
-            Map<String, Double> weights) {
+                              Map<String, Double> weights) {
         this.featureSet = featureSet;
         this.featureWeights = weights;
         this.intercept = featureWeights.get("intercept");
     }
 
     public LogisticRegression(FeatureSet<E> featureSet, InputStream input)
-            throws FileNotFoundException {
+        throws FileNotFoundException {
         this(featureSet, buildFeatureWeightMap(input));
     }
 
     public static Map<String, Double> buildFeatureWeightMap(InputStream input)
-            throws FileNotFoundException {
+        throws FileNotFoundException {
         Map<String, Double> featureWeights = new HashMap<String, Double>();
         Scanner scan = new Scanner(input);
 

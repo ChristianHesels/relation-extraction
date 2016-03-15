@@ -7,11 +7,9 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 /**
- * Removes square brackets, curly braces, parentheses, and the contained text,
- * from strings.
+ * Removes square brackets, curly braces, parentheses, and the contained text, from strings.
  *
  * @author afader
- *
  */
 public class BracketsRemover extends IndependentMapper<String> {
 
@@ -29,8 +27,8 @@ public class BracketsRemover extends IndependentMapper<String> {
     }
 
     public BracketsRemover() {
-        this(new String[] { "(", "[", "{", "<" }, new String[] { ")", "]", "}",
-                ">" });
+        this(new String[]{"(", "[", "{", "<"}, new String[]{")", "]", "}",
+                                                            ">"});
     }
 
     private void initializePatterns() {
@@ -45,8 +43,7 @@ public class BracketsRemover extends IndependentMapper<String> {
     }
 
     /**
-     * Returns a copy of <code>sent</code> with its brackets, and the contained
-     * text, removed.
+     * Returns a copy of <code>sent</code> with its brackets, and the contained text, removed.
      */
     public String doMap(String sent) {
         for (Pattern p : patterns) {
@@ -56,18 +53,15 @@ public class BracketsRemover extends IndependentMapper<String> {
     }
 
     /**
-     * Applies the <code>BracketsRemover</code> mapper to each line in standard
-     * input and prints the result.
-     *
-     * @param args
-     * @throws IOException
+     * Applies the <code>BracketsRemover</code> mapper to each line in standard input and prints the
+     * result.
      */
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
-                System.in));
+            System.in));
         BracketsRemover remover = new BracketsRemover();
         for (String line = reader.readLine(); line != null; line = reader
-                .readLine()) {
+            .readLine()) {
             System.out.println(remover.doMap(line));
         }
     }

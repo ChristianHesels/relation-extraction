@@ -17,7 +17,7 @@ public class ArrayIterator<T> implements Iterator<T> {
 
     public ArrayIterator(T[] array, int lowerBound, int length) {
         if (lowerBound >= 0 && length > 0
-                && length + lowerBound <= array.length) {
+            && length + lowerBound <= array.length) {
             this.array = array;
             this.upperBound = lowerBound + length;
             this.nextPos = lowerBound;

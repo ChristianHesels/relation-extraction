@@ -5,8 +5,8 @@ import java.util.regex.Pattern;
 
 /**
  * A mapper used to filter sentences by number of words.
- * @author afader
  *
+ * @author afader
  */
 public class SentenceLengthFilter extends FilterMapper<String> {
 
@@ -16,6 +16,7 @@ public class SentenceLengthFilter extends FilterMapper<String> {
 
     /**
      * Constructs a new <code>SentenceLengthFilter</code> object.
+     *
      * @param minWords the minimum number of words in the sentence.
      * @param maxWords the maximum number of words in the sentence.
      */
@@ -26,6 +27,7 @@ public class SentenceLengthFilter extends FilterMapper<String> {
 
     /**
      * Constructs a new <code>SentenceLengthFilter</code> object, with no maximum length.
+     *
      * @param minWords the minimum number of words.
      * @return a new <code>SentenceLengthFilter</code>.
      */
@@ -35,6 +37,7 @@ public class SentenceLengthFilter extends FilterMapper<String> {
 
     /**
      * Constructs a new <code>SentenceLengthFilter</code> object, with no minimum length.
+     *
      * @param maxWords the maximum number of words.
      * @return a new <code>SentenceLengthFilter</code>.
      */

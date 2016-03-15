@@ -1,5 +1,7 @@
 package edu.washington.cs.knowitall.extractor;
 
+import opennlp.tools.sentdetect.SentenceDetector;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,8 +9,6 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-
-import opennlp.tools.sentdetect.SentenceDetector;
 
 import edu.washington.cs.knowitall.extractor.mapper.BracketsRemover;
 import edu.washington.cs.knowitall.extractor.mapper.SentenceEndFilter;
@@ -18,17 +18,16 @@ import edu.washington.cs.knowitall.util.HtmlUtils;
 
 /**
  * An <code>Extractor</code> class for extracting <code>NpChunkedSentence</code> objects from a
- * <code>String</code> containing HTML. Is backed by an OpenNLP <code>SentenceDetector</code> object.
- * Uses the code in <code>HtmlUtils</code> to extract plain text from HTML.
- * @author afader
+ * <code>String</code> containing HTML. Is backed by an OpenNLP <code>SentenceDetector</code>
+ * object. Uses the code in <code>HtmlUtils</code> to extract plain text from HTML.
  *
+ * @author afader
  */
 public class HtmlSentenceExtractor extends SentenceExtractor {
 
     /**
-     * Constructs a new <code>SentenceExtractor</code> object using the given OpenNLP <code>SentenceDetector</code>
-     * object.
-     * @param detector
+     * Constructs a new <code>SentenceExtractor</code> object using the given OpenNLP
+     * <code>SentenceDetector</code> object.
      */
     public HtmlSentenceExtractor(SentenceDetector detector) {
         super(detector);
@@ -37,7 +36,6 @@ public class HtmlSentenceExtractor extends SentenceExtractor {
     /**
      * Constructs a new <code>HtmlSentenceExtractor</code> object using the default OpenNLP
      * <code>SentenceDetector</code> object, as returned by <code>DefaultObjects.getDefaultSentenceDetector()</code>.
-     * @throws IOException
      */
     public HtmlSentenceExtractor() throws IOException {
         super();
@@ -66,13 +64,12 @@ public class HtmlSentenceExtractor extends SentenceExtractor {
     }
 
     /**
-     * Extracts sentences from HTML passed via standard input, or through a file given as an argument
-     * to the program. Removes brackets from sentences using the <code>BracketsRemover</code> mapper class,
-     * and filters sentences using the <code>SentenceEndFilter</code>, <code>SentenceStartFilter</code>, and
-     * <code>SentenceLengthFilter</code> mapper classes. Prints the resulting sentences to standard output,
-     * one sentence per line.
-     * @param args
-     * @throws Exception
+     * Extracts sentences from HTML passed via standard input, or through a file given as an
+     * argument to the program. Removes brackets from sentences using the
+     * <code>BracketsRemover</code> mapper class, and filters sentences using the
+     * <code>SentenceEndFilter</code>, <code>SentenceStartFilter</code>, and
+     * <code>SentenceLengthFilter</code> mapper classes. Prints the resulting sentences to standard
+     * output, one sentence per line.
      */
     public static void main(String[] args) throws Exception {
 

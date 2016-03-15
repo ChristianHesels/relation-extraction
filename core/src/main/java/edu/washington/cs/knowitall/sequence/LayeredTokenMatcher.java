@@ -3,6 +3,7 @@ package edu.washington.cs.knowitall.sequence;
 import java.util.regex.Matcher;
 
 public class LayeredTokenMatcher {
+
     private Matcher m;
 
     protected LayeredTokenMatcher(Matcher m) {

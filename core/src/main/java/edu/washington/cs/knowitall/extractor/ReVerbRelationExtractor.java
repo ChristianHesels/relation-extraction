@@ -25,7 +25,8 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
         // Optional adverb
         "ADV_pos? " +
         // Modal or other verbs
-        "[VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos] " +
+        "[VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos] "
+        +
         // Optional particle/adverb
         "PTKA_pos? PTKNEG_pos? PTKANT_pos?";
 
@@ -54,8 +55,9 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
         String.format("(%s (%s)?)+", VERB, PREP);
 
     /**
-     * Constructs a new extractor using the default relation pattern,
-     * relation mappers, and argument mappers.
+     * Constructs a new extractor using the default relation pattern, relation mappers, and argument
+     * mappers.
+     *
      * @throws ExtractorException if unable to initialize the extractor
      */
     public ReVerbRelationExtractor() throws ExtractorException {
@@ -65,15 +67,19 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
 
 
     /**
-     * Constructs a new extractor using the default relation pattern,
-     * relation mappers, and argument mappers.
-     * @param minFreq - The minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
+     * Constructs a new extractor using the default relation pattern, relation mappers, and argument
+     * mappers.
+     *
+     * @param minFreq              - The minimum distinct arguments to be observed in a large
+     *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
-     * @param mergeOverlapRels - Merge overlapping relations?
-     * @param allowUnary - Allow relations with one argument to be output.
+     * @param mergeOverlapRels     - Merge overlapping relations?
+     * @param allowUnary           - Allow relations with one argument to be output.
      * @throws ExtractorException if unable to initialize the extractor
      */
-    public ReVerbRelationExtractor(int minFreq, boolean useLexSynConstraints, boolean mergeOverlapRels, boolean allowUnary) throws ExtractorException {
+    public ReVerbRelationExtractor(int minFreq, boolean useLexSynConstraints,
+                                   boolean mergeOverlapRels, boolean allowUnary)
+        throws ExtractorException {
         initializeRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, allowUnary);
         initializeArgumentExtractors();
     }
@@ -81,24 +87,28 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     protected abstract void initializeArgumentExtractors();
 
     /**
-     * Wrapper for default initialization of the reverb relation extractor.
-     * Use lexical and syntactic constraints, merge overlapping relations,require a minimum of 20 distinct arguments for support, and
-     * do not allow unary relations.
-     * @throws ExtractorException
+     * Wrapper for default initialization of the reverb relation extractor. Use lexical and
+     * syntactic constraints, merge overlapping relations,require a minimum of 20 distinct arguments
+     * for support, and do not allow unary relations.
      */
     protected void initializeRelationExtractor() throws ExtractorException {
-        initializeRelationExtractor(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true, false);
+        initializeRelationExtractor(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true,
+                                    false);
     }
 
     /**
      * Initialize relation extractor.
-     * @param minFreq - The minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
-	 * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
-	 * @param mergeOverlapRels - Merge overlapping relations?
-	 * @param allowUnary - Allow relations with one argument to be output.
+     *
+     * @param minFreq              - The minimum distinct arguments to be observed in a large
+     *                             collection for the relation to be deemed valid.
+     * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
+     * @param mergeOverlapRels     - Merge overlapping relations?
+     * @param allowUnary           - Allow relations with one argument to be output.
      * @throws ExtractorException if unable to initialize the extractor
      */
-    protected void initializeRelationExtractor(int minFreq, boolean useLexSynConstraints, boolean mergeOverlapRels, boolean allowUnary) throws ExtractorException {
+    protected void initializeRelationExtractor(int minFreq, boolean useLexSynConstraints,
+                                               boolean mergeOverlapRels, boolean allowUnary)
+        throws ExtractorException {
         ExtractorUnion<ChunkedSentence, ChunkedExtraction> relExtractor =
             new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
 
@@ -116,8 +126,9 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
                 "Unable to initialize long pattern extractor", e);
         }
         try {
-        	relExtractor.addMapper(new ReVerbRelationMappers(minFreq, useLexSynConstraints, mergeOverlapRels));
-	    } catch (IOException e) {
+            relExtractor.addMapper(
+                new ReVerbRelationMappers(minFreq, useLexSynConstraints, mergeOverlapRels));
+        } catch (IOException e) {
             throw new ExtractorException(
                 "Unable to initialize relation mappers", e);
         }
@@ -129,9 +140,9 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     }
 
     /**
-     * Extracts from the given text using the default sentence reader returned
-     * by {@link DefaultObjects#getDefaultSentenceReader(java.io.Reader)}.
-     * @param text
+     * Extracts from the given text using the default sentence reader returned by {@link
+     * DefaultObjects#getDefaultSentenceReader(java.io.Reader)}.
+     *
      * @return an iterable object over the extractions
      * @throws ExtractorException if unable to extract
      */
@@ -148,9 +159,9 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     }
 
     /**
-     * Extracts from the given html using the default sentence reader returned
-     * by {@link DefaultObjects#getDefaultSentenceReaderHtml(java.io.Reader)}.
-     * @param html
+     * Extracts from the given html using the default sentence reader returned by {@link
+     * DefaultObjects#getDefaultSentenceReaderHtml(java.io.Reader)}.
+     *
      * @return an iterable object over the extractions
      * @throws ExtractorException if unable to extract
      */
@@ -167,12 +178,12 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
 
     /**
      * Extracts from the given reader
-     * @param reader
+     *
      * @return extractions
      * @throws ExtractorException if unable to extract
      */
     private Iterable<ChunkedBinaryExtraction> extractUsingReader(
-            ChunkedSentenceReader reader) throws ExtractorException {
+        ChunkedSentenceReader reader) throws ExtractorException {
 
         ArrayList<ChunkedBinaryExtraction> results =
             new ArrayList<ChunkedBinaryExtraction>();

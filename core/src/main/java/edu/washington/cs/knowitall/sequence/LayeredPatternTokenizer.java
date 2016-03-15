@@ -8,14 +8,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * A class that tokenizes the String representation of patterns for the
- * {@link LayeredTokenPattern} class. A pattern consists of two types of tokens:
- * layer/symbol pairs like {@code The_pos}, and meta-characters defined by
- * {@link java.util.rexex.Pattern}. This class takes a string consisting of
- * these and breaks them into tokens.
- * 
+ * A class that tokenizes the String representation of patterns for the {@link LayeredTokenPattern}
+ * class. A pattern consists of two types of tokens: layer/symbol pairs like {@code The_pos}, and
+ * meta-characters defined by {@link java.util.rexex.Pattern}. This class takes a string consisting
+ * of these and breaks them into tokens.
+ *
  * @author afader
- * 
  */
 public class LayeredPatternTokenizer {
 
@@ -24,10 +22,10 @@ public class LayeredPatternTokenizer {
     private final Pattern tokenPattern = Pattern.compile(tokenPatternStr);
 
     // The allowed meta-characters
-    private final String[] metaChars = { "(", "[", "{", "\\", "^", "$", "|",
-            "]", "}", ")", "?", "*", "+", ".", ":", "=", "!", "<", ">"
-    // "-", don't allow the range operator, since it is not well defined
-    // for LayeredTokenPattern
+    private final String[] metaChars = {"(", "[", "{", "\\", "^", "$", "|",
+                                        "]", "}", ")", "?", "*", "+", ".", ":", "=", "!", "<", ">"
+                                        // "-", don't allow the range operator, since it is not well defined
+                                        // for LayeredTokenPattern
     };
     private Set<String> metaCharSet;
 
@@ -36,17 +34,16 @@ public class LayeredPatternTokenizer {
      */
     public LayeredPatternTokenizer() {
         metaCharSet = new HashSet<String>();
-        for (String metaChar : metaChars)
+        for (String metaChar : metaChars) {
             metaCharSet.add(metaChar);
+        }
     }
 
     /**
      * Tokenizes the given text
-     * 
-     * @param text
+     *
      * @return an array of Strings, one for each token in text
-     * @throws SequenceException
-     *             if unable to tokenize the text
+     * @throws SequenceException if unable to tokenize the text
      */
     public String[] tokenize(String text) throws SequenceException {
 
@@ -79,23 +76,22 @@ public class LayeredPatternTokenizer {
     }
 
     private void addCharsOfString(String text, String s, List<String> l)
-            throws SequenceException {
+        throws SequenceException {
         for (int i = 0; i < s.length(); i++) {
             String token = s.substring(i, i + 1);
             if (isMetaChar(token)) {
                 l.add(s.substring(i, i + 1));
             } else if (!token.matches("^\\s*$")) {
                 String msg = String.format(
-                        "Could not tokenize pattern '%s': token '%s' is not a "
-                                + "layer/symbol pair or a meta-character",
-                        text, token);
+                    "Could not tokenize pattern '%s': token '%s' is not a "
+                    + "layer/symbol pair or a meta-character",
+                    text, token);
                 throw new SequenceException(msg);
             }
         }
     }
 
     /**
-     * @param text
      * @return true if the given String is a symbol/layer name pair
      */
     public boolean isSymbolLayerName(String text) {
@@ -103,7 +99,6 @@ public class LayeredPatternTokenizer {
     }
 
     /**
-     * @param s
      * @return true if the given String is a meta-character
      */
     private boolean isMetaChar(String s) {

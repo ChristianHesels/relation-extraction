@@ -15,17 +15,17 @@ import cc.mallet.types.Instance;
 import cc.mallet.types.InstanceList;
 import cc.mallet.types.Sequence;
 import edu.washington.cs.knowitall.argumentidentifier.ArgLearner.Mode;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 import edu.washington.cs.knowitall.commonlib.ResourceUtils;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 
 /**
- * ArgSubstructureClassifier uses a CRF to classify the left bound for Arg1 and
- * right bound for Arg2
+ * ArgSubstructureClassifier uses a CRF to classify the left bound for Arg1 and right bound for
+ * Arg2
  *
  * @author janara
- *
  */
 public class ArgSubstructureClassifier {
+
     private Mode mode;
 
     private static final String ARG1_FILE = "arg1substructure-model";
@@ -36,17 +36,17 @@ public class ArgSubstructureClassifier {
     private ViterbiConfidenceEstimator crf_estimator;
     private ObjectInputStream crf_input;
 
-    private String[] startTags = { "B-ARG" }; // used by Transducer, indicate
-                                              // the start of an argument
-                                              // ("B-ARG");
-    private String[] inTags = { "I-ARG" }; // used by Transducer, indicate the
-                                           // continuation of an argument
-                                           // ("I-ARG");
+    private String[] startTags = {"B-ARG"}; // used by Transducer, indicate
+    // the start of an argument
+    // ("B-ARG");
+    private String[] inTags = {"I-ARG"}; // used by Transducer, indicate the
+    // continuation of an argument
+    // ("I-ARG");
 
     private ArgSubstructureFeatureGenerator featuregenerator;
 
     public ArgSubstructureClassifier(Mode mode,
-            ArgSubstructureFeatureGenerator featuregenerator) {
+                                     ArgSubstructureFeatureGenerator featuregenerator) {
         this.mode = mode;
         this.featuregenerator = featuregenerator;
         if (mode == ArgLearner.Mode.LEFT) {
@@ -65,7 +65,7 @@ public class ArgSubstructureClassifier {
         crf_pipe.setTargetProcessing(true);
         testSequence = new InstanceList(crf_pipe);
         testSequence.addThruPipe(new LineGroupIterator(new StringReader(
-                testingdata), Pattern.compile("^\\s*$"), true));
+            testingdata), Pattern.compile("^\\s*$"), true));
 
         if (testSequence.size() < 1) {
             return new Pair<Double, Sequence<?>>(-1.0, null);
@@ -81,7 +81,7 @@ public class ArgSubstructureClassifier {
     }
 
     private int readCRFOutputLeft(ChunkedExtraction extr, int start,
-            Sequence<?> output) {
+                                  Sequence<?> output) {
         int s = 0;
         int predstart = extr.getStart();
         int lastnp = -1;
@@ -115,7 +115,7 @@ public class ArgSubstructureClassifier {
     }
 
     private int readCRFOutputRight(ChunkedExtraction extr, int start,
-            Sequence<?> output) {
+                                   Sequence<?> output) {
         int s = 1;
         int lastnp = -1;
         List<String> chunkLabels = extr.getSentence().getChunkTags();
@@ -140,9 +140,9 @@ public class ArgSubstructureClassifier {
     }
 
     private double[] classifyData(String testingdata, ChunkedExtraction extr,
-            int start) {
+                                  int start) {
 
-        double[] toreturn = { -1.0, -1.0 };
+        double[] toreturn = {-1.0, -1.0};
         if (testingdata == null || testingdata.equals("")) {
             return toreturn;
         }
@@ -172,7 +172,7 @@ public class ArgSubstructureClassifier {
     private void setupClassifier(String trainingdata) {
         try {
             crf_input = new ObjectInputStream(ResourceUtils.loadResource(
-                    trainingdata, this.getClass()));
+                trainingdata, this.getClass()));
             crf = (CRF) crf_input.readObject();
             crf_input.close();
         } catch (FileNotFoundException e1) {
@@ -190,17 +190,17 @@ public class ArgSubstructureClassifier {
     }
 
     private String extractFeatures(ChunkedExtraction extr, int argstart,
-            int argend, boolean train) {
+                                   int argend, boolean train) {
         String features = featuregenerator.extractCRFFeatures(extr, argstart,
-                argend, train);
+                                                              argend, train);
         return features;
     }
 
     public double[] getArgBound(ChunkedExtraction predicate, int other_bound) {
         String features = extractFeatures(predicate, other_bound, other_bound,
-                false);
+                                          false);
         double[] resultsclassifier = classifyData(features, predicate,
-                other_bound);
+                                                  other_bound);
         return resultsclassifier;
     }
 }

@@ -9,15 +9,14 @@ import java.util.List;
 import java.util.regex.Pattern;
 
 /**
- *
- * Converts some characters from unicode to ascii (such as directional
- * quotations)
+ * Converts some characters from unicode to ascii (such as directional quotations)
  *
  * @author schmmd
- *
  */
 public class DeUnicoder extends IndependentMapper<String> {
+
     static class Replacement {
+
         public final Pattern pattern;
         public final String replacement;
 
@@ -39,11 +38,13 @@ public class DeUnicoder extends IndependentMapper<String> {
     private void initializePatterns() {
         // double quotation (")
         replacements.add(new Replacement(Pattern
-                .compile("[\u201c\u201d\u201e\u201f\u275d\u275e]"), "\""));
+                                             .compile("[\u201c\u201d\u201e\u201f\u275d\u275e]"),
+                                         "\""));
 
         // single quotation (')
         replacements.add(new Replacement(Pattern
-                .compile("[\u2018\u2019\u201a\u201b\u275b\u275c]"), "'"));
+                                             .compile("[\u2018\u2019\u201a\u201b\u275b\u275c]"),
+                                         "'"));
 
         // non-breaking whitespace
         replacements.add(new Replacement(Pattern.compile("\\xa0"), " "));
@@ -64,18 +65,15 @@ public class DeUnicoder extends IndependentMapper<String> {
     }
 
     /**
-     * Applies the <code>DeUnicoder</code> mapper to each line in standard input
-     * and prints the result.
-     *
-     * @param args
-     * @throws IOException
+     * Applies the <code>DeUnicoder</code> mapper to each line in standard input and prints the
+     * result.
      */
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(
-                System.in));
+            System.in));
         DeUnicoder remover = new DeUnicoder();
         for (String line = reader.readLine(); line != null; line = reader
-                .readLine()) {
+            .readLine()) {
             System.out.println(remover.doMap(line));
         }
     }

@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A list of <code>Mapper<T></code> objects. Applies each mapper in the list to an input
- * stream of <code>T</code> objects in order.
- * @author afader
+ * A list of <code>Mapper<T></code> objects. Applies each mapper in the list to an input stream of
+ * <code>T</code> objects in order.
  *
- * @param <T>
+ * @author afader
  */
 public class MapperList<T> extends Mapper<T> {
 
@@ -24,6 +23,7 @@ public class MapperList<T> extends Mapper<T> {
 
     /**
      * Constructs a new list of mappers from the given list.
+     *
      * @param mappers another mapper list.
      */
     public MapperList(List<Mapper<T>> mappers) {
@@ -41,9 +41,8 @@ public class MapperList<T> extends Mapper<T> {
     }
 
     /**
-     * Adds a mapper to the end of the list. This mapper will be the last one
-     * to be applied to the input stream of objects.
-     * @param mapper
+     * Adds a mapper to the end of the list. This mapper will be the last one to be applied to the
+     * input stream of objects.
      */
     public void addMapper(Mapper<T> mapper) {
         mappers.add(mapper);

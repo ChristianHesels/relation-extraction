@@ -18,8 +18,8 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  */
 public abstract class PosFeature extends ExtractionFeature {
 
-    public static final String[] allVerbPosTags = new String[] { "VB", "VBD",
-            "VBG", "VBN", "VBP", "VBZ" };
+    public static final String[] allVerbPosTags = new String[]{"VB", "VBD",
+                                                               "VBG", "VBN", "VBP", "VBZ"};
 
     private Set<String> posTags;
 
@@ -42,20 +42,14 @@ public abstract class PosFeature extends ExtractionFeature {
     }
 
     /**
-     * Given a ChunkedBinaryExtraction, I need the implementation to tell me at
-     * which indices to test my predicate.
-     *
-     * @return
+     * Given a ChunkedBinaryExtraction, I need the implementation to tell me at which indices to
+     * test my predicate.
      */
     @Override
     protected abstract Range rangeToExamine(ChunkedBinaryExtraction cbe);
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present within
-     * Arg 2.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present within Arg 2.
      */
     public static PosFeature withinArg2(String... posTags) {
         return new PosFeature(posTags) {
@@ -67,11 +61,7 @@ public abstract class PosFeature extends ExtractionFeature {
     }
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present within
-     * Arg 1.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present within Arg 1.
      */
     public static PosFeature withinArg1(String... posTags) {
         return new PosFeature(posTags) {
@@ -83,11 +73,8 @@ public abstract class PosFeature extends ExtractionFeature {
     }
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present within a
-     * given single verb relation (false if multiple-token rel)
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present within a given single verb
+     * relation (false if multiple-token rel)
      */
     public static PosFeature relSingleVerb() {
         return new PosFeature(PosFeature.allVerbPosTags) {
@@ -95,20 +82,17 @@ public abstract class PosFeature extends ExtractionFeature {
             protected Range rangeToExamine(ChunkedBinaryExtraction cbe) {
 
                 Range range = cbe.getRelation().getRange();
-                if (range.getLength() == 1)
+                if (range.getLength() == 1) {
                     return range;
-                else
+                } else {
                     return Range.EMPTY;
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present within
-     * the relation.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present within the relation.
      */
     public static PosFeature withinRel(String... posTags) {
         return new PosFeature(posTags) {
@@ -120,11 +104,8 @@ public abstract class PosFeature extends ExtractionFeature {
     }
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present at the
-     * index immediately before arg1.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present at the index immediately
+     * before arg1.
      */
     public static PosFeature rightBeforeArg1(String... posTags) {
         return new PosFeature(posTags) {
@@ -134,18 +115,16 @@ public abstract class PosFeature extends ExtractionFeature {
                 int index = arg1.getStart() - 1;
                 if (index < 0 || index >= arg1.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present at the
-     * index immediately after arg2.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present at the index immediately
+     * after arg2.
      */
     public static PosFeature rightAfterArg2(String... posTags) {
         return new PosFeature(posTags) {
@@ -155,18 +134,16 @@ public abstract class PosFeature extends ExtractionFeature {
                 int index = arg2.getStart() + arg2.getLength();
                 if (index < 0 || index >= arg2.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }
 
     /**
-     * Get a feature that fires if any pos tag from posTags is present
-     * immediately before the relation.
-     *
-     * @param posTags
-     * @return
+     * Get a feature that fires if any pos tag from posTags is present immediately before the
+     * relation.
      */
     public static PosFeature rightBeforeRel(String... posTags) {
         return new PosFeature(posTags) {
@@ -176,8 +153,9 @@ public abstract class PosFeature extends ExtractionFeature {
                 int index = rel.getStart() - 1;
                 if (index < 0 || index >= rel.getSentence().getLength()) {
                     return Range.EMPTY;
-                } else
+                } else {
                     return Range.fromInterval(index, index + 1);
+                }
             }
         };
     }

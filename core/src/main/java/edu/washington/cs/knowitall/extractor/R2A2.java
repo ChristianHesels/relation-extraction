@@ -21,15 +21,11 @@ public class R2A2 extends ReVerbRelationExtractor {
     }
 
     /**
-     * Runs the extractor on either standard input, or the given file. Uses the
-     * object returned by the
-     * <code>DefaultObjects.getDefaultSentenceReaderHtml</code> method to read
-     * <code>NpChunkedSentence</code> objects. Prints each sentence (prefixed by
-     * "sentence" and then a tab), followed by the extractions in the form
-     * "extraction", arg1, relation, and arg2, separated by tabs.
-     *
-     * @param args
-     * @throws Exception
+     * Runs the extractor on either standard input, or the given file. Uses the object returned by
+     * the <code>DefaultObjects.getDefaultSentenceReaderHtml</code> method to read
+     * <code>NpChunkedSentence</code> objects. Prints each sentence (prefixed by "sentence" and then
+     * a tab), followed by the extractions in the form "extraction", arg1, relation, and arg2,
+     * separated by tabs.
      */
     public static void main(String[] args) throws Exception {
 
@@ -53,7 +49,7 @@ public class R2A2 extends ReVerbRelationExtractor {
 
         System.err.print("Initializing NLP tools...");
         ChunkedSentenceReader sentReader = DefaultObjects
-                .getDefaultSentenceReader(reader);
+            .getDefaultSentenceReader(reader);
         System.err.println("Done.");
 
         for (ChunkedSentence sent : sentReader.getSentences()) {
@@ -62,7 +58,7 @@ public class R2A2 extends ReVerbRelationExtractor {
 
             String sentString = sent.getTokensAsString();
             System.out.println(String.format("sentence\t%s\t%s", sentenceCount,
-                    sentString));
+                                             sentString));
 
             for (ChunkedBinaryExtraction extr : extractor.extract(sent)) {
 
@@ -73,7 +69,7 @@ public class R2A2 extends ReVerbRelationExtractor {
                 String arg2 = extr.getArgument2().toString();
 
                 String extrString = String.format("%s\t%s\t%s\t%s\t%s",
-                        sentenceCount, arg1, rel, arg2, score);
+                                                  sentenceCount, arg1, rel, arg2, score);
 
                 System.out.println("extraction\t" + extrString);
 
@@ -82,7 +78,7 @@ public class R2A2 extends ReVerbRelationExtractor {
         }
 
         System.err.println(String.format(
-                "Got %s extractions from %s sentences.", extractionCount,
-                sentenceCount));
+            "Got %s extractions from %s sentences.", extractionCount,
+            sentenceCount));
     }
 }
