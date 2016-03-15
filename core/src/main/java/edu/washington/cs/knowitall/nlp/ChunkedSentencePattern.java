@@ -128,7 +128,7 @@ public class ChunkedSentencePattern {
         RegularExpression<ChunkedSentenceToken> expression = ChunkedSentencePattern
                 .compile(args[0]);
         System.out.println(expression);
-        OpenNlpSentenceChunker chunker = new OpenNlpSentenceChunker();
+        TreeTaggerSentenceChunker chunker = new TreeTaggerSentenceChunker();
 
         System.out
                 .println("Please enter a sentence to match with the above expression.");

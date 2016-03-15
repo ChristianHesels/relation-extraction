@@ -23,6 +23,7 @@ public class ChunkedArgumentExtraction extends ChunkedExtraction {
      * @param range
      *            the range of the argument in <code>sent</code>
      * @param relation
+     *            the relation
      */
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
             ChunkedExtraction relation) {

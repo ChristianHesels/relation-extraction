@@ -1,16 +1,15 @@
 package edu.washington.cs.knowitall.nlp;
 
-import static org.junit.Assert.*;
-
-import java.util.ArrayList;
+import com.google.common.collect.Iterables;
 
 import org.junit.Test;
 
-import com.google.common.collect.Iterables;
+import java.util.ArrayList;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.OpenNlpChunkedSentenceParser;
+
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
 
 public class OpenNlpChunkedSentenceParserTest {
 
@@ -29,9 +28,8 @@ public class OpenNlpChunkedSentenceParserTest {
         expectedRanges.add(new Range(16, 2)); // the wake
         expectedRanges.add(new Range(19, 3)); // this unthinkable tragedy
 
-        OpenNlpChunkedSentenceParser reader = new OpenNlpChunkedSentenceParser();
-        reader.attachOfs(false);
-        ChunkedSentence sent = reader.parseSentence(sentStr);
+        TreeTaggerSentenceChunker reader = new TreeTaggerSentenceChunker();
+        ChunkedSentence sent = reader.chunkSentence(sentStr);
 
         ArrayList<Range> gotRanges = new ArrayList<Range>();
         Iterables.addAll(gotRanges, sent.getNpChunkRanges());

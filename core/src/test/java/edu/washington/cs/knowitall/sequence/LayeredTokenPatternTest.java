@@ -1,20 +1,17 @@
 package edu.washington.cs.knowitall.sequence;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Before;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.Test;
+import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
 
-import edu.washington.cs.knowitall.nlp.OpenNlpSentenceChunker;
-import edu.washington.cs.knowitall.sequence.LayeredTokenMatcher;
-import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
-import edu.washington.cs.knowitall.sequence.SimpleLayeredSequence;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class LayeredTokenPatternTest {
 
@@ -102,7 +99,7 @@ public class LayeredTokenPatternTest {
 
 		String patternStr = "B-NP_np I-NP_np* from_word the_word B-NP_np I-NP_np*";
 		LayeredTokenPattern pattern = new LayeredTokenPattern(patternStr);
-		OpenNlpSentenceChunker chunker = new OpenNlpSentenceChunker();		
+            TreeTaggerSentenceChunker chunker = new TreeTaggerSentenceChunker();
 		pattern.matcher(chunker.chunkSentence("Hello, world."));
 		
 	}

@@ -19,7 +19,14 @@ import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
- * Use TreeTagger for chunking a German sentence.
+ * A class that combines OpenNLP tokenizer, POS tagger and Tree Tagger chunker objects into
+ * a single object that converts String sentences to {@link ChunkedSentence}
+ * objects. By default, uses the models from
+ * {@link DefaultObjects#getDefaultTokenizer()},
+ * {@link DefaultObjects#getDefaultPosTagger()}
+ *
+ * @author afader
+ *
  */
 public class TreeTaggerSentenceChunker implements SentenceChunker {
 
@@ -68,11 +75,6 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
             throw new ChunkerException("OpenNLP threw NPE on '" + sent + "'", e);
         }
 
-//    if (attachOfs)
-//      OpenNlpUtils.attachOfs(tokens, npChunkTags);
-//    if (attachPossessives)
-//      OpenNlpUtils.attachPossessives(posTags, npChunkTags);
-
         return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokens, posTags, npChunkTags);
     }
 
@@ -116,7 +118,7 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
      * @return an array containing the chunk tags
      */
     private String[] getPhrases(String content) throws IOException {
-        List<String> chunkTags = new ArrayList<>();
+        List<String> chunkTags = new ArrayList<String>();
 
         String[] lines = content.split(System.getProperty("line.separator"));
 
@@ -147,16 +149,15 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
                 currentTag = line.substring(1, line.length() - 1);
 
                 // change name of tag so that it matches the English tags
-                switch (currentTag) {
-                    case "NC":
-                        currentTag = "NP"; // noun phrase
-                        break;
-                    case "VC":
-                        currentTag = "VP"; // verb phrase
-                        break;
-                    case "PC":
-                        currentTag = "PP"; // prepositional phrase
-                        break;
+                if (currentTag.equals("NC")) {
+                    currentTag = "NP"; // noun phrase
+
+                } else if (currentTag.equals("VC")) {
+                    currentTag = "VP"; // verb phrase
+
+                } else if (currentTag.equals("PC")) {
+                    currentTag = "PP"; // prepositional phrase
+
                 }
                 inChunk = true;
 

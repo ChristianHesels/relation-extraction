@@ -1,8 +1,5 @@
 package edu.washington.cs.knowitall.util;
 
-import opennlp.tools.chunker.Chunker;
-import opennlp.tools.chunker.ChunkerME;
-import opennlp.tools.chunker.ChunkerModel;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTagger;
 import opennlp.tools.postag.POSTaggerME;
@@ -33,12 +30,6 @@ public class DefaultObjects {
     public static final String sentDetectorModelFile = "de-sent.bin";
     public static final String confFunctionModelFile = "reverb-conf-maxent.gz";
 
-    public static final String en_tokenizerModelFile = "en-token.bin";
-    public static final String en_taggerModelFile = "en-pos-maxent.bin";
-    public static final String en_chunkerModelFile = "en-chunker.bin";
-    public static final String en_sentDetectorModelFile = "en-sent.bin";
-    public static final String en_confFunctionModelFile = "reverb-conf-maxent.gz";
-
     /** Default singleton objects */
     private static BracketsRemover BRACKETS_REMOVER;
     private static SentenceStartFilter SENTENCE_START_FILTER;
@@ -58,7 +49,6 @@ public class DefaultObjects {
         getDefaultSentenceDetector();
         getDefaultTokenizer();
         getDefaultPosTagger();
-        getDefaultChunker();
     }
 
     public static Tokenizer getDefaultTokenizer() throws IOException {
@@ -69,11 +59,6 @@ public class DefaultObjects {
     public static POSTagger getDefaultPosTagger() throws IOException {
         return new POSTaggerME(new POSModel(
                 getResourceAsStream(taggerModelFile)));
-    }
-
-    public static Chunker getDefaultChunker() throws IOException {
-        return new ChunkerME(new ChunkerModel(
-                getResourceAsStream(chunkerModelFile)));
     }
 
     public static SentenceDetector getDefaultSentenceDetector()

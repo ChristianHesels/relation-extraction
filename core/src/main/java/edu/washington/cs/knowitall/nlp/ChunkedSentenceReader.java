@@ -1,9 +1,9 @@
 package edu.washington.cs.knowitall.nlp;
 
+import com.google.common.base.Predicate;
+
 import java.io.IOException;
 import java.io.Reader;
-
-import com.google.common.base.Predicate;
 
 import edu.washington.cs.knowitall.extractor.SentenceExtractor;
 import edu.washington.cs.knowitall.io.BufferedReaderIterator;
@@ -12,7 +12,7 @@ import edu.washington.cs.knowitall.util.IterableAdapter;
 
 /**
  * A class that combines a <code>SentenceExtractor</code> with a
- * <code>SentenceChunker</code> to read <code>NpChunkedSentence</code> objects
+ * <code>SentenceChunker</code> to read <code>ChunkedSentence</code> objects
  * from a <code>BufferedReader</code>. This object uses the
  * <code>SentenceExtractor</code> to obtain <code>String</code> sentences from
  * the input, and then chunks the sentences using the
@@ -24,7 +24,7 @@ import edu.washington.cs.knowitall.util.IterableAdapter;
 public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
 
     /** The singleton default sentence chunker */
-    private static OpenNlpSentenceChunker SENT_CHUNKER;
+    private static TreeTaggerSentenceChunker SENT_CHUNKER;
 
     private SentenceExtractor sentExtractor;
     private SentenceChunker sentChunker;
@@ -32,7 +32,7 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
 
     /**
      * Constructs a reader from <code>r</code> using the sentence extractor
-     * <code>se</code> and the default <code>OpenNlpSentenceChunker</code>
+     * <code>se</code> and the default <code>TreeTaggerSentenceChunker</code>
      * object.
      *
      * @param r
@@ -42,7 +42,7 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     public ChunkedSentenceReader(Reader r, SentenceExtractor se)
             throws IOException {
         if (SENT_CHUNKER == null)
-            SENT_CHUNKER = new OpenNlpSentenceChunker();
+            SENT_CHUNKER = new TreeTaggerSentenceChunker();
         init(r, se, SENT_CHUNKER);
     }
 
@@ -68,7 +68,7 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
      */
     public ChunkedSentenceReader(Reader r) throws IOException {
         if (SENT_CHUNKER == null)
-            SENT_CHUNKER = new OpenNlpSentenceChunker();
+            SENT_CHUNKER = new TreeTaggerSentenceChunker();
         init(r, new SentenceExtractor(), SENT_CHUNKER);
     }
 

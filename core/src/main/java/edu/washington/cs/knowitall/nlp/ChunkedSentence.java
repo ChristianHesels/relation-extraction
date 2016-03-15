@@ -1,10 +1,10 @@
 package edu.washington.cs.knowitall.nlp;
 
-import java.util.List;
-
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
+
+import java.util.List;
 
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.sequence.BIOLayeredSequence;
@@ -104,9 +104,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
      * tags, each of which must have the same length. The NP chunks should be
      * expressed using the standard B-NP, I-NP, O tags.
      *
-     * @param tokens
-     * @param posTags
-     * @param npChunkTags
+     * @param sent
      */
     public ChunkedSentence(ChunkedSentence sent) {
         super(sent.getLength());
