@@ -267,7 +267,14 @@ public class ChunkedSentence extends BIOLayeredSequence {
      * @return an unmodifiable list over the ranges of the NP chunks in this sentence.
      */
     public ImmutableCollection<Range> getNpChunkRanges() {
-        return getSpans(NP_LAYER, "NP");
+         return getSpans(NP_LAYER, "NP");
+    }
+
+    /**
+     * @return an unmodifiable list over the ranges of the PP chunks in this sentence.
+     */
+    public ImmutableCollection<Range> getPpChunkRanges() {
+        return getSpans(NP_LAYER, "PP");
     }
 
     /**

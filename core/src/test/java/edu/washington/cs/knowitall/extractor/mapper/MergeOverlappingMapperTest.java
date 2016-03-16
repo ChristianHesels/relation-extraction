@@ -1,16 +1,15 @@
 package edu.washington.cs.knowitall.extractor.mapper;
 
 
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 
 import edu.washington.cs.knowitall.extractor.ExtractorUnion;
 import edu.washington.cs.knowitall.extractor.RegexExtractor;
-import edu.washington.cs.knowitall.extractor.mapper.MergeOverlappingMapper;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+
+import static org.junit.Assert.assertEquals;
 
 public class MergeOverlappingMapperTest {
 	
@@ -20,9 +19,9 @@ public class MergeOverlappingMapperTest {
 
 	@Before
 	public void setUp() throws Exception {
-		RegexExtractor r1 = new RegexExtractor("wants_tok to_tok");
-		RegexExtractor r2 = new RegexExtractor("go_tok to_tok");
-		RegexExtractor r3 = new RegexExtractor("to_tok go_tok to_tok");
+		RegexExtractor r1 = new RegexExtractor("ist_tok");
+		RegexExtractor r2 = new RegexExtractor("ist_tok Professor_tok für_tok");
+		RegexExtractor r3 = new RegexExtractor("ist_tok Professor_tok für_tok Biologie_tok an_tok der_tok");
 		
 		e1 = new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
 		e1.addExtractor(r1);
@@ -43,19 +42,19 @@ public class MergeOverlappingMapperTest {
 	@Test
 	public void testMerge() throws Exception {
 		ChunkedSentence sent = new ChunkedSentence(
-			new String[] { "He", "wants", "to", "go", "to", "the", "store", "." },
-            new String[] { "PRP", "VBZ", "TO", "VB", "TO", "DT", "NN", "." },
-            new String[] { "B-NP", "O", "O", "O", "O", "B-NP", "I-NP", "O" }
+			new String[] { "Er", "ist", "Professor", "für", "Biologie", "an", "der", "Universität", "." },
+            new String[] { "PPER", "VAFIN", "NN", "APPR", "NN", "APPR", "ART", "NN", "." },
+            new String[] { "B-NP", "B-VP", "B-NP", "B-PP", "I-PP", "B-PP", "I-PP", "I-PP", "O" }
         );
 		
 		String result1 = e1.extract(sent).iterator().next().toString();
-		assertEquals("wants to go to", result1);
+		assertEquals("ist Professor für", result1);
 		
 		String result2 = e2.extract(sent).iterator().next().toString();
-		assertEquals("wants to go to", result2);
+		assertEquals("ist Professor für Biologie an der", result2);
 		
 		String result3 = e3.extract(sent).iterator().next().toString();
-		assertEquals("to go to", result3);
+		assertEquals("ist Professor für Biologie an der", result3);
 		
 	}
 

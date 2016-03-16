@@ -1,16 +1,12 @@
 package edu.washington.cs.knowitall.sequence;
 
 
-import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Test;
-
-import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
-import edu.washington.cs.knowitall.sequence.RegexTagger;
-import edu.washington.cs.knowitall.sequence.SimpleLayeredSequence;
+import static org.junit.Assert.assertEquals;
 
 public class RegexTaggerTest {
 	
@@ -32,17 +28,17 @@ public class RegexTaggerTest {
 
 	@Test
 	public void testTag1() throws SequenceException {
-		String patternStr = "[she_w saw_w sea_w shells_w]";
-		List<String> result = extract(patternStr, "she saw sea shells by the sea thing");
-		List<String> expected = listize("R R R R O O R O");
+		String patternStr = "[sie_w sah_w Muscheln_w]";
+		List<String> result = extract(patternStr, "sie sah Muscheln am Meeresstrand wo sie saß");
+		List<String> expected = listize("R R R O O O R O");
 		assertEquals(expected, result);
 	}
 	
 	@Test
 	public void testTag2() throws SequenceException {
-		String patternStr = ". saw_w .";
-		List<String> result = extract(patternStr, "she saw sea shells by the sea thing");
-		List<String> expected = listize("R R R O O O O O");
+		String patternStr = ". sah_w .";
+		List<String> result = extract(patternStr, "sie sah Muscheln am Meeresstrand");
+		List<String> expected = listize("R R R O O");
 		assertEquals(expected, result);
 	}
 

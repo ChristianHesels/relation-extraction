@@ -1,18 +1,17 @@
 package edu.washington.cs.knowitall.extractor;
 
-import static org.junit.Assert.assertEquals;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.google.common.collect.Iterables;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.common.collect.Iterables;
+import java.util.ArrayList;
+import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.SpanExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.TestExtractions;
+
+import static org.junit.Assert.assertEquals;
 
 public class RegexGroupExtractorTest {
     
@@ -30,7 +29,7 @@ public class RegexGroupExtractorTest {
 
     @Test
     public void testExtract1() throws Exception {
-        RegexGroupExtractor extractor = new RegexGroupExtractor("(B-NP_np I-NP_np*) is_tok the_tok mayor_tok of_tok (B-NP_np I-NP_np*)");
+        RegexGroupExtractor extractor = new RegexGroupExtractor("(B-NP_np I-NP_np*) ist_tok der_tok Bürgermeister_tok von_tok (NE_pos)");
         List<SpanExtraction> extrs = extract(extractor, sents.get(0));
         assertEquals(1, extrs.size());
         SpanExtraction extr = extrs.get(0);
@@ -41,13 +40,13 @@ public class RegexGroupExtractorTest {
     
     @Test
     public void testExtract2() throws Exception {
-        RegexGroupExtractor extractor = new RegexGroupExtractor("(B-NP_np I-NP_np*) is_tok the_tok (NN_pos) of_tok (B-NP_np I-NP_np*)");
+        RegexGroupExtractor extractor = new RegexGroupExtractor("(B-NP_np I-NP_np*) ist_tok der_tok (NN_pos) von_tok (NE_pos)");
         List<SpanExtraction> extrs = extract(extractor, sents.get(0));
         assertEquals(1, extrs.size());
         SpanExtraction extr = extrs.get(0);
         assertEquals(3, extr.getNumFields());
         assertEquals("Mike", extr.getField(0).getTokensAsString());
-        assertEquals("mayor", extr.getField(1).getTokensAsString());
+        assertEquals("Bürgermeister", extr.getField(1).getTokensAsString());
         assertEquals("Seattle", extr.getField(2).getTokensAsString());
     }
 

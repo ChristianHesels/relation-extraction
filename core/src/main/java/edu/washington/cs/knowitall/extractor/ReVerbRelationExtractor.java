@@ -18,6 +18,7 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 
 public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtractor {
 
+    // TODO
     /**
      * Definition of the "verb" of the relation pattern.
      */
@@ -34,7 +35,7 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      * Definition of the "non-verb/prep" part of the relation pattern.
      */
     public static final String WORD =
-        "[NE_pos NN_pos]";
+        "[NE_pos NN_pos ART_pos]";
 
     /**
      * Definition of the "preposition" part of the relation pattern.

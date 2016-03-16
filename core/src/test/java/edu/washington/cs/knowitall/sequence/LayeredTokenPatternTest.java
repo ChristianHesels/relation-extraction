@@ -28,9 +28,9 @@ public class LayeredTokenPatternTest {
 	@Before
 	public void setUp() throws Exception {
 		
-		String[] words = "There are 5 kinds of owls .".split(" ");
-		String[] pos = "EX VBP CD NNS IN NNS .".split(" ");
-		String[] np = "O O B-NP I-NP O B-NP O".split(" ");
+		String[] words = "Es gibt fünf Arten von Eulen .".split(" ");
+		String[] pos = "PPER VVFIN CARD NN APPR NN $.".split(" ");
+		String[] np = "B-NP B-VP B-NP I-NP B-PP I-PP O".split(" ");
 		
 		seq = new SimpleLayeredSequence(words.length);
 		seq.addLayer("w", words);
@@ -40,7 +40,7 @@ public class LayeredTokenPatternTest {
 
 	@Test
 	public void testMatcher1() throws SequenceException {
-		String patternStr = "There_w are_w CD_p [B-NP_n I-NP_n]+ (IN_p [B-NP_n I-NP_n]+)*";
+		String patternStr = "Es_w gibt_w CARD_p [B-NP_n I-NP_n]+ (APPR_p [B-PP_n I-PP_n]+)*";
 		LayeredTokenPattern pat = new LayeredTokenPattern(patternStr);
 		LayeredTokenMatcher m = pat.matcher(seq);
 		assertTrue(m.find());
@@ -54,21 +54,21 @@ public class LayeredTokenPatternTest {
 		LayeredTokenPattern pat = new LayeredTokenPattern(patternStr);
 		LayeredTokenMatcher m = pat.matcher(seq);
 		assertTrue(m.find());
+		assertEquals(0, m.start());
+		assertEquals(1, m.end());
+		assertTrue(m.find());
 		assertEquals(2, m.start());
 		assertEquals(4, m.end());
-		assertTrue(m.find());
-		assertEquals(5, m.start());
-		assertEquals(6, m.end());
 		assertFalse(m.find());
 	}
 	
 	@Test
 	public void testMatcher3() throws SequenceException {
-		String patternStr = "B-NP_n I-NP_n* ._p?$";
+		String patternStr = "B-PP_n I-PP_n* $._p?$";
 		LayeredTokenPattern pat = new LayeredTokenPattern(patternStr);
 		LayeredTokenMatcher m = pat.matcher(seq);
 		assertTrue(m.find());
-		assertEquals(5, m.start());
+		assertEquals(4, m.start());
 		assertEquals(7, m.end());
 		assertFalse(m.find());
 	}

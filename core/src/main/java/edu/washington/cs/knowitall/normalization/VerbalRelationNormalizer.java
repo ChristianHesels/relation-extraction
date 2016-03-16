@@ -30,9 +30,10 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
         ignorePosTags = new HashSet<String>();
         ignorePosTags.add("VMFIN"); // dürfen
         ignorePosTags.add("VMINF"); // wollen
+        ignorePosTags.add("PTKNEG"); // nicht
+        ignorePosTags.add("ART"); // der, die, das
         ignorePosTags.add("PDS"); // dieser, jener
         ignorePosTags.add("ADJA"); // adjectives
-        ignorePosTags.add("ADJD"); // adjectives
         ignorePosTags.add("ADV"); // adverbs
         ignorePosTags.add("PPOSAT"); // mein, deine
 
@@ -92,7 +93,7 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
         int i = 0;
         while (i < posTags.size()) {
             String tag = posTags.get(i);
-            boolean isAdj = tag.startsWith("J");
+            boolean isAdj = tag.startsWith("ADJ");
 
             /*
              * This is checking for a special case where the relation phrase
@@ -124,6 +125,8 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
         if (lastVerbIndex < 0) {
             return;
         }
+
+        // remove auxiliary verbs before other verbs
         int i = 0;
         while (i < lastVerbIndex) {
             String tok = tokens.get(i);
@@ -136,6 +139,22 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
                 lastVerbIndex--;
             } else {
                 i++;
+            }
+        }
+
+        // remove auxiliary verbs after other verbs
+        i = lastVerbIndex;
+        while (i > 0) {
+            String tok = tokens.get(i);
+            if (i - 1 >= 0 && !posTags.get(i - 1).startsWith("V")) {
+                break;
+            }
+            if (auxVerbs.contains(tok)) {
+                tokens.remove(i);
+                posTags.remove(i);
+                lastVerbIndex--;
+            } else {
+                i--;
             }
         }
     }

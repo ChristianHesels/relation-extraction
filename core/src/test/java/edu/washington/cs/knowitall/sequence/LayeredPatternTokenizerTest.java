@@ -23,7 +23,7 @@ private LayeredPatternTokenizer tokenizer;
 		
 		String pattern = "Hello_token";
 		String[] tokens = tokenizer.tokenize(pattern);
-		assertArrayEquals(new String[]{"Hello_token"}, tokens); 
+		assertArrayEquals(new String[]{"Hello_token"}, tokens);
 		
 		pattern = "   Hello_token ";
 		tokens = tokenizer.tokenize(pattern);
