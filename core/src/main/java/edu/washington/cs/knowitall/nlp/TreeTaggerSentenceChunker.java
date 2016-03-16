@@ -25,9 +25,7 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class TreeTaggerSentenceChunker implements SentenceChunker {
 
     private static final String
-        TREETAGGER_HOME =
-        "/opt/treetagger/";
-        // TODO System.getenv("TREETAGGER_HOME");
+        TREETAGGER_HOME = System.getenv("TREETAGGER_HOME");
     private static final String CHUNK_COMMAND = TREETAGGER_HOME + "cmd/tagger-chunker-german";
 
     private POSTagger posTagger;
@@ -53,8 +51,8 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
         // TODO: try to figure out what caused the NPE and actually fix the problem
         try {
             Span[] offsets = tokenizer.tokenizePos(sent);
-            ranges = new ArrayList<>();
-            ArrayList<String> tokenList = new ArrayList<>();
+            ranges = new ArrayList<Range>();
+            ArrayList<String> tokenList = new ArrayList<String>();
             for (Span span : offsets) {
                 ranges.add(Range.fromInterval(span.getStart(), span.getEnd()));
                 tokenList.add(sent.substring(span.getStart(), span.getEnd()));

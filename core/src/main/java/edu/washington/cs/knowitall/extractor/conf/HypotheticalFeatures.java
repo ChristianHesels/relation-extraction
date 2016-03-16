@@ -14,7 +14,7 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
-import edu.washington.cs.knowitall.normalization.BasicFieldNormalizer;
+import edu.washington.cs.knowitall.normalization.MateToolLemmatizer;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**
@@ -24,7 +24,7 @@ import edu.washington.cs.knowitall.sequence.SequenceException;
  */
 public class HypotheticalFeatures {
 
-    private BasicFieldNormalizer stemmer;
+    private MateToolLemmatizer lemmatizer;
 
     private HashMap<String, Predicate<ChunkedBinaryExtraction>> featureMap;
 
@@ -43,7 +43,7 @@ public class HypotheticalFeatures {
 
     public HypotheticalFeatures() {
 
-        this.stemmer = new BasicFieldNormalizer();
+        this.lemmatizer = new MateToolLemmatizer();
 
         initKeywordSets();
 
@@ -114,7 +114,7 @@ public class HypotheticalFeatures {
                     String token = sentence.getToken(i);
                     String pos = sentence.getPosTag(i);
 
-                    String lemma = stemmer.stemSingleToken(token, pos);
+                    String lemma = lemmatizer.lemmatize(token);
                     if (keyWords.contains(lemma.toLowerCase())) {
                         return true;
                     }
@@ -138,7 +138,7 @@ public class HypotheticalFeatures {
                 }
                 String token = sentence.getToken(i);
                 String pos = sentence.getPosTag(i);
-                String lemma = stemmer.stemSingleToken(token, pos);
+                String lemma = lemmatizer.lemmatize(token);
                 if (keyWords.contains(lemma.toLowerCase())) {
                     return true;
                 }

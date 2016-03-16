@@ -6,7 +6,7 @@ import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
-import edu.washington.cs.knowitall.normalization.BasicFieldNormalizer;
+import edu.washington.cs.knowitall.normalization.MateToolLemmatizer;
 
 /**
  * A parent class for any feature that picks a particular range and applies a test to all indices
@@ -21,11 +21,10 @@ import edu.washington.cs.knowitall.normalization.BasicFieldNormalizer;
 public abstract class ExtractionFeature implements
                                         Predicate<ChunkedBinaryExtraction> {
 
-    protected BasicFieldNormalizer stemmer;
+    protected MateToolLemmatizer lemmatizer;
 
     protected ExtractionFeature() {
-
-        stemmer = new BasicFieldNormalizer();
+        lemmatizer = new MateToolLemmatizer();
     }
 
     protected abstract Range rangeToExamine(ChunkedBinaryExtraction cbe);

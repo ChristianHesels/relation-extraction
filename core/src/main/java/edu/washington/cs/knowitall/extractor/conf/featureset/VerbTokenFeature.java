@@ -40,7 +40,7 @@ public abstract class VerbTokenFeature extends ExtractionFeature {
             return false;
         }
         String token = sentence.getToken(index);
-        token = stemmer.stemSingleToken(token, sentence.getPosTag(index));
+        token = lemmatizer.lemmatize(token);
         token = token.toLowerCase();
         return tokens.contains(token);
     }

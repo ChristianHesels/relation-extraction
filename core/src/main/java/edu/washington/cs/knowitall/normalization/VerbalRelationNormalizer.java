@@ -1,19 +1,16 @@
 package edu.washington.cs.knowitall.normalization;
 
-import uk.ac.susx.informatics.Morpha;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import edu.washington.cs.knowitall.morpha.MorphaStemmer;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**
  * A class that can be used to normalize verbal relation strings. It performs the following
  * normalization procedure on a {@link ChunkedExtraction} object: <ul> <li>Removes inflection in
- * each token using the {@link Morpha} class.</li> <li>Removes auxiliary verbs, determiners,
+ * each token using the {@link MateToolLemmatizer} class.</li> <li>Removes auxiliary verbs, determiners,
  * adjectives, and adverbs.</li> </ul>
  *
  * @author afader
@@ -23,25 +20,26 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
     private boolean stripBeAdj = false;
     private HashSet<String> ignorePosTags;
     private HashSet<String> auxVerbs;
+    private MateToolLemmatizer lemmatizer = new MateToolLemmatizer();
 
     /**
      * Constructs a new instance.
      */
     public VerbalRelationNormalizer() {
-
+        // TODO
         ignorePosTags = new HashSet<String>();
-        ignorePosTags.add("MD"); // can, must, should
-        ignorePosTags.add("DT"); // the, an, these
-        ignorePosTags.add("PDT"); // predeterminers
-        ignorePosTags.add("WDT"); // wh-determiners
-        ignorePosTags.add("JJ"); // adjectives
-        ignorePosTags.add("RB"); // adverbs
-        ignorePosTags.add("PRP$"); // my, your, our
+        ignorePosTags.add("VMFIN"); // dürfen
+        ignorePosTags.add("VMINF"); // wollen
+        ignorePosTags.add("PDS"); // dieser, jener
+        ignorePosTags.add("ADJA"); // adjectives
+        ignorePosTags.add("ADJD"); // adjectives
+        ignorePosTags.add("ADV"); // adverbs
+        ignorePosTags.add("PPOSAT"); // mein, deine
 
         auxVerbs = new HashSet<String>();
-        auxVerbs.add("be");
-        auxVerbs.add("have");
-        auxVerbs.add("do");
+        auxVerbs.add("sein");
+        auxVerbs.add("haben");
+        auxVerbs.add("werden");
     }
 
     /**
@@ -77,31 +75,12 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
     }
 
     private void normalizeModify(List<String> tokens, List<String> posTags) {
-        stemAll(tokens, posTags);
+        tokens = lemmatizer.lemmatize(tokens);
         removeIgnoredPosTags(tokens, posTags);
         removeLeadingBeHave(tokens, posTags);
     }
 
-    private String stem(String token, String posTag) {
-        token = token.toLowerCase();
-        try {
-            return MorphaStemmer.stemToken(token, posTag);
-        } catch (Throwable e) {
-            return token;
-        }
-    }
-
-    private void stemAll(List<String> tokens, List<String> posTags) {
-        for (int i = 0; i < tokens.size(); i++) {
-            String tok = tokens.get(i);
-            String tag = posTags.get(i);
-            String newTok = stem(tok, tag);
-            tokens.set(i, newTok);
-        }
-    }
-
     private void removeIgnoredPosTags(List<String> tokens, List<String> posTags) {
-
         boolean noNoun = true;
         for (int j = 0; j < posTags.size(); j++) {
             if (posTags.get(j).startsWith("N")) {
