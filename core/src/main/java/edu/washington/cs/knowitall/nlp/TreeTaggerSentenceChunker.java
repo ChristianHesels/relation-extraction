@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -62,6 +63,11 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
             posTags = posTagger.tag(tokens);
             try {
                 npChunkTags = chunk(tokens);
+                if (npChunkTags.length != tokens.length) {
+                    System.out.println("Invalid number of chunk tags for sentence " + sent);
+                    npChunkTags = new String[tokens.length];
+                    Arrays.fill(npChunkTags, "O");
+                }
             } catch (IOException | InterruptedException e) {
                 throw new ChunkerException("TreeTagger threw an exception on '" + sent + "'", e);
             }
