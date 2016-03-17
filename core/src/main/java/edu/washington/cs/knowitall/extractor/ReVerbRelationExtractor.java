@@ -19,6 +19,7 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtractor {
 
     // TODO
+    // can not be only a VAFIN (wurde)?
     /**
      * Definition of the "verb" of the relation pattern.
      */
@@ -41,7 +42,7 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      * Definition of the "preposition" part of the relation pattern.
      */
     public static final String PREP =
-        "APPR_pos? APPRART_pos?";
+        "[APPR_pos APPRART_pos]";
 
     /**
      * The pattern (V(W*P)?)+

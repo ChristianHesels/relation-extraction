@@ -101,10 +101,9 @@ public class ChunkedArgumentExtractor
         Collection<Range> npChunkRanges= removeRangeOverlapWithRelation(rel, sent.getNpChunkRanges());
         // TODO
         if (mode == Mode.RIGHT) {
-            npChunkRanges =
-                removeRangeOverlapWithRelation(rel, sent.getPpChunkRanges());
+            npChunkRanges.addAll(removeRangeOverlapWithRelation(rel, sent.getPpChunkRanges()));
         }
-        Collection<ChunkedArgumentExtraction> args = new ArrayList<ChunkedArgumentExtraction>();
+        Collection<ChunkedArgumentExtraction> args = new ArrayList<>();
         for (Range npChunkRange : npChunkRanges) {
             if (acceptRange(rel, npChunkRange)) {
                 ChunkedArgumentExtraction

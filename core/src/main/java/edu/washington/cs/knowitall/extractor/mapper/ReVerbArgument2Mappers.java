@@ -19,15 +19,31 @@ public class ReVerbArgument2Mappers extends
         addFirstPosTagNotEqualsFilter("PWS");
         addFirstPosTagNotEqualsFilter("PWAT");
         addFirstPosTagNotEqualsFilter("PWAV");
+
+        // Second argument can't be a number
+        addFirstPosTagNotEqualsFilter("CARD");
+
+        // Can't be reflexive pronoun
+        addFirstPosTagNotEqualsFilter("PRF");   // sich
+        addFirstPosTagNotEqualsFilter("PDS");   // dieser, jener
+        addFirstPosTagNotEqualsFilter("PPOSS"); // meins, deiner
+        addFirstPosTagNotEqualsFilter("PIS");   // man
+        addFirstPosTagNotEqualsFilter("PPER");  // er
+
+        // Can't be
 //        addFirstTokenNotEqualsFilter("which");
+
+        // TODO
+        // combine PPs and NPs?
+        // do not ignore comma
 
         // Second argument should be closest to relation that passes through
         // filters
         addMapper(new ClosestArgumentMapper());
 
-        // TODO Replace AdjacentToRelationFilter with ClosestArgumentMapper
-        // Second argument should be adjacent/closest to the relation
-        addMapper(new ClosestArgumentMapper());
+//        // TODO: do we need that?
+//        // Second argument should be adjacent/closest to the relation
+//        addMapper(new AdjacentToRelationFilter());
     }
 
     private void addFirstPosTagNotEqualsFilter(String posTag) {

@@ -64,9 +64,10 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
         }
         // The relation should have a minimum number of distinct arguments in a
         // large corpus
-        if (minFreq > 0) {
-            addMapper(new ReVerbRelationDictionaryFilter(minFreq));
-        }
+        // TODO
+//        if (minFreq > 0) {
+//            addMapper(new ReVerbRelationDictionaryFilter(minFreq));
+//        }
         // Overlapping relations should be merged together
         if (mergeOverlapRels) {
             addMapper(new MergeOverlappingMapper());
