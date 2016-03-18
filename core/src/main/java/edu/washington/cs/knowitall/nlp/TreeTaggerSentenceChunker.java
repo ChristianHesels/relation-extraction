@@ -1,10 +1,6 @@
 package edu.washington.cs.knowitall.nlp;
 
-import com.google.common.base.Joiner;
-
 import opennlp.tools.postag.POSTagger;
-import opennlp.tools.tokenize.Tokenizer;
-import opennlp.tools.util.Span;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
@@ -12,7 +8,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -20,8 +15,8 @@ import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
- * A class that combines OpenNLP tokenizer, POS tagger and Tree Tagger chunker objects into a single
- * object that converts String sentences to {@link ChunkedSentence} objects.
+ * A class that combines OpenNLP POS tagger and Tree Tagger tokenizer and chunker objects into a
+ * single object that converts String sentences to {@link ChunkedSentence} objects.
  */
 public class TreeTaggerSentenceChunker implements SentenceChunker {
 
@@ -30,12 +25,10 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
     private static final String CHUNK_COMMAND = TREETAGGER_HOME + "cmd/tagger-chunker-german";
 
     private POSTagger posTagger;
-    private Tokenizer tokenizer;
 
     Pattern convertToSpace = Pattern.compile("\\xa0");
 
     public TreeTaggerSentenceChunker() throws IOException {
-        this.tokenizer = DefaultObjects.getDefaultTokenizer();
         this.posTagger = DefaultObjects.getDefaultPosTagger();
     }
 
@@ -45,55 +38,44 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
         sent = convertToSpace.matcher(sent).replaceAll(" ");
 
         ArrayList<Range> ranges;
-        String[] tokens, posTags, npChunkTags;
+        String[] tokens, posTags, chunkTags;
 
-        // OpenNLP can throw a NullPointerException. Catch it, and raise it
-        // as a checked exception.
-        // TODO: try to figure out what caused the NPE and actually fix the problem
         try {
-            Span[] offsets = tokenizer.tokenizePos(sent);
-            ranges = new ArrayList<Range>();
-            ArrayList<String> tokenList = new ArrayList<String>();
-            for (Span span : offsets) {
-                ranges.add(Range.fromInterval(span.getStart(), span.getEnd()));
-                tokenList.add(sent.substring(span.getStart(), span.getEnd()));
-            }
-            tokens = tokenList.toArray(new String[tokenList.size()]);
+            List<String[]> treeTaggerResult = chunk(sent);
 
+            tokens = treeTaggerResult.get(0);
+            chunkTags = treeTaggerResult.get(1);
             posTags = posTagger.tag(tokens);
-            try {
-                npChunkTags = chunk(tokens);
-                if (npChunkTags.length != tokens.length) {
-                    System.out.println("Invalid number of chunk tags for sentence " + sent);
-                    npChunkTags = new String[tokens.length];
-                    Arrays.fill(npChunkTags, "O");
-                }
-            } catch (IOException | InterruptedException e) {
-                throw new ChunkerException("TreeTagger threw an exception on '" + sent + "'", e);
+
+            ranges = new ArrayList<>();
+            int start = 0;
+            for (String token : tokens) {
+                ranges.add(Range.fromInterval(start, start + token.length()));
+                start = start + token.length();
             }
 
-        } catch (NullPointerException e) {
-            throw new ChunkerException("OpenNLP threw NPE on '" + sent + "'", e);
-        }
+            return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokens, posTags,
+                                       chunkTags);
 
-        return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokens, posTags,
-                                   npChunkTags);
+        } catch (Exception e) {
+            throw new ChunkerException("Could not process sentence '" + sent + "'", e);
+        }
     }
 
 
     /**
-     * Chunk the given tokens using TreeTagger.
+     * Tokenize and chunk the given string using TreeTagger.
      *
-     * @param tokens the tokens
-     * @return an Array containing the chunk tags
+     * @param str the string
+     * @return a list containing the tokens in the first array and the chunk tags in the second array
      * @throws java.io.IOException  if the TreeTagger command could not be executed or if the result
      *                              could not be read
      * @throws InterruptedException if the process, which executes TreeTagger, got interrupted.
      */
-    private String[] chunk(String[] tokens) throws IOException, InterruptedException {
+    private List<String[]> chunk(String str) throws IOException, InterruptedException {
         Process p = Runtime.getRuntime().exec(
             new String[]{"/bin/sh", "-c",
-                         "echo \"" + Joiner.on(" ").join(tokens) + "\" | " + CHUNK_COMMAND}
+                         "echo \"" + str + "\" | " + CHUNK_COMMAND}
         );
         p.waitFor();
 
@@ -118,10 +100,11 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
      * Given the output of the TreeTagger, convert it into an array of chunk tags.
      *
      * @param content the output of the TreeTagger
-     * @return an array containing the chunk tags
+     * @return a list containing the tokens in the first array and the chunk tags in the second array
      */
-    private String[] getPhrases(String content) throws IOException {
+    private List<String[]> getPhrases(String content) throws IOException {
         List<String> chunkTags = new ArrayList<String>();
+        List<String> tokens = new ArrayList<String>();
 
         String[] lines = content.split(System.getProperty("line.separator"));
 
@@ -166,6 +149,8 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
 
                 // token
             } else {
+                String[] parts = line.split("\t");
+                tokens.add(parts[0]);
                 // token belongs to a chunk
                 if (inChunk) {
                     count++;
@@ -177,7 +162,11 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
             }
         }
 
-        return chunkTags.toArray(new String[chunkTags.size()]);
+        List<String[]> result = new ArrayList<>();
+        result.add(tokens.toArray(new String[tokens.size()]));
+        result.add(chunkTags.toArray(new String[chunkTags.size()]));
+
+        return result;
     }
 
 }
