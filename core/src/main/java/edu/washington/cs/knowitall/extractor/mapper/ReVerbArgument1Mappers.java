@@ -25,15 +25,18 @@ public class ReVerbArgument1Mappers extends
         addFirstPosTagNotEqualsFilter("APPR");
         addFirstPosTagNotEqualsFilter("APPRART");
 
-        // Can't be "that"
+        // Can't be
         addFirstTokenNotEqualsFilter("dass");
-        addFirstTokenNotEqualsFilter("wessen");
+        addFirstTokenNotEqualsFilter("es");
 
         // Can't be reflexive pronoun
         addFirstPosTagNotEqualsFilter("PRF");   // sich
         addFirstPosTagNotEqualsFilter("PDS");   // dieser, jener
         addFirstPosTagNotEqualsFilter("PPOSS"); // meins, deiner
         addFirstPosTagNotEqualsFilter("PDAT");  // diese
+
+        // Can't be a number
+        addFirstPosTagNotEqualsFilter("CARD");
 
 
         // First argument can't be a single article
@@ -65,7 +68,7 @@ public class ReVerbArgument1Mappers extends
         final String tokenCopy = token;
         addMapper(new FilterMapper<ChunkedArgumentExtraction>() {
             public boolean doFilter(ChunkedArgumentExtraction extr) {
-                return !extr.getTokens().get(0).equals(tokenCopy);
+                return !extr.getTokens().get(0).toLowerCase().equals(tokenCopy);
             }
         });
     }

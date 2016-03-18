@@ -31,7 +31,9 @@ public class ReVerbArgument2Mappers extends
         addFirstPosTagNotEqualsFilter("PPER");  // er
 
         // Can't be
-//        addFirstTokenNotEqualsFilter("which");
+        addFirstTokenNotEqualsFilter("diese");
+        addFirstTokenNotEqualsFilter("dieser");
+        addFirstTokenNotEqualsFilter("diese");
 
         // TODO
         // combine PPs and NPs?
@@ -42,8 +44,8 @@ public class ReVerbArgument2Mappers extends
         addMapper(new ClosestArgumentMapper());
 
 //        // TODO: do we need that?
-//        // Second argument should be adjacent/closest to the relation
-//        addMapper(new AdjacentToRelationFilter());
+        // Second argument should be adjacent/closest to the relation
+        addMapper(new AdjacentToRelationFilter());
     }
 
     private void addFirstPosTagNotEqualsFilter(String posTag) {
