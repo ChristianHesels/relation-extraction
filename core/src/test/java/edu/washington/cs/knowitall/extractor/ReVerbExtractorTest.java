@@ -70,7 +70,7 @@ public class ReVerbExtractorTest  {
     	got = extractRels(
                 "Das Unternehmen schließt einen Vertrag mit der C. H. Haake AG .",
                 "ART NN VVFIN ART NN APPR ART NE NE NN NN $.",
-                "B-NP I-NP B-VP B-NP I-NP B-PP I-PP I-PP I-PP I-PP I-PP O"
+                "B-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP I-NP I-NP O"
         );
         expected.add("schließt einen Vertrag mit");
         assertEquals(expected, got);
@@ -86,7 +86,7 @@ public class ReVerbExtractorTest  {
     	got = extractRels(
             "Das Unternehmen schließt einen Vertrag mit der C. H. Haake AG .",
             "ART NN VVFIN ART NN APPR ART NE NE NN NN $.",
-            "B-NP I-NP B-VP B-NP I-NP B-PP I-PP I-PP I-PP I-PP I-PP O"
+            "B-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP I-NP I-NP O"
         );
         expected.add("schließt einen Vertrag mit");
         expected.add("schließt");

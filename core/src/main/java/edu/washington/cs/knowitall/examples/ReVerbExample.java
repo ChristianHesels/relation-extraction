@@ -25,11 +25,11 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-//        String sentence = "Die Audi AG mit Sitz in Ingolstadt in Bayern ist ein deutscher Automobilhersteller , der dem Volkswagen-Konzern angehört .";
-//        extractFromSentence(sentence);
+        String sentence = "Mike Hanke ist ein ehemaliger Fußballspieler";
+        extractFromSentence(sentence);
 
-        String fileName = "/home/tanja/Repositories/reverb/core/zeit.txt";
-        extractFromFile(fileName);
+//        String fileName = "/home/tanja/Repositories/reverb/core/zeit.txt";
+//        extractFromFile(fileName);
     }
 
 
@@ -52,6 +52,7 @@ public class ReVerbExample {
         ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
 //        ConfidenceFunction confFunc = new ReVerbOpenNlpConfFunction();
         for (ChunkedBinaryExtraction extr : reverb.extract(sent)) {
+
 //            double conf = confFunc.getConf(extr);
             System.out.println();
             System.out.println("Arg1=" + extr.getArgument1());

@@ -164,6 +164,9 @@ public class ChunkedSentence extends BIOLayeredSequence {
 
     /**
      * Converts a character range into getTokensAsString into a bounding token range.
+     * @param charStart start of character range
+     * @param charEnd   end of character range
+     * @return token range
      */
     public Range getTokenRange(int charStart, int charEnd) {
         if (charStart < 0) {
@@ -199,7 +202,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * Returns a copy of this object.
+     * @return a copy of this object.
      */
     public ChunkedSentence clone() {
         try {
@@ -236,6 +239,9 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     *
+     * @param start     the start index
+     * @param length    the length
      * @return the first <code>length</code> tokens starting at index <code>start</code>.
      */
     public ImmutableList<String> getTokens(int start, int length) {
@@ -243,6 +249,8 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     *
+     * @param range the range
      * @return the tokens at the indexes given by <code>range</code>.
      */
     public ImmutableList<String> getTokens(Range range) {
@@ -250,6 +258,9 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     *
+     * @param start   the start index
+     * @param length  the length
      * @return the first <code>length</code> POS tags starting at index <code>start</code>.
      */
     public ImmutableList<String> getPosTags(int start, int length) {
@@ -257,6 +268,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param range the range
      * @return the POS tags at the indexes given by <code>range</code>.
      */
     public ImmutableList<String> getPosTags(Range range) {
@@ -285,6 +297,9 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     *
+     * @param start  the start index
+     * @param length the length
      * @return the first <code>length</code> NP chunk tags starting at index <code>start</code>.
      */
     public ImmutableList<String> getChunkTags(int start, int length) {
@@ -292,6 +307,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param range the range
      * @return the first <code>length</code> NP chunk tags in the range <code>range</code>.
      */
     public ImmutableList<String> getChunkTags(Range range) {
@@ -314,6 +330,9 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     *
+     * @param start  the start index
+     * @param length the length
      * @return <code>length</code> tokens starting at <code>start</code>, joined by spaces.
      */
     public String getTokensAsString(int start, int length) {
@@ -321,6 +340,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param range the range
      * @return the tokens at the indexes of <code>range</code>, joined by spaces.
      */
     public String getTokensAsString(Range range) {
@@ -328,6 +348,8 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param start  the start index
+     * @param length the length
      * @return <code>length</code> POS tags starting at <code>start</code>, joined by spaces.
      */
     public String getPosTagsAsString(int start, int length) {
@@ -335,6 +357,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param range the range
      * @return the POS tags at the indexes of <code>range</code>, joined by spaces.
      */
     public String getPosTagsAsString(Range range) {
@@ -385,6 +408,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param i the index i
      * @return the token at index i
      */
     public String getToken(int i) {
@@ -392,6 +416,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param i the index i
      * @return the part-of-speech tag at index i
      */
     public String getPosTag(int i) {
@@ -399,6 +424,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
+     * @param i the index i
      * @return the chunk tag at index i
      */
     public String getChunkTag(int i) {
