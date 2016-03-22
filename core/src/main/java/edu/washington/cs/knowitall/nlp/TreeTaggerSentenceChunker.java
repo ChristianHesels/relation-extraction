@@ -91,6 +91,7 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
 
         in.close();
         buff.close();
+        p.destroy();
 
         return getPhrases(output.trim());
     }

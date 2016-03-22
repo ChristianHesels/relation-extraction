@@ -17,7 +17,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 
 public class ReVerb {
 
-    private boolean debug;
+    private boolean debug = false;
 
     public ReVerb() {
         this(false);
@@ -48,9 +48,32 @@ public class ReVerb {
             ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
             relations.addAll(Lists.newArrayList(reverb.extract(sent)));
             sentences.add(sent);
+
         }
         if (this.debug) System.out.println("Done.");
 
         return new ChunkedDocument(sentences, relations);
+    }
+
+    public List<ChunkedBinaryExtraction> extractRelations(List<ChunkedSentence> sentences) throws IOException {
+        List<ChunkedBinaryExtraction> relations = new ArrayList<>();
+
+        if (this.debug) System.out.println("Process sentences ...");
+
+        int n = 0;
+        for (ChunkedSentence sent : sentences) {
+            // Output progress
+            if (this.debug && n % 50 == 0) {
+                System.out.print(n + " .. ");
+            }
+            n++;
+
+            ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
+            relations.addAll(Lists.newArrayList(reverb.extract(sent)));
+        }
+
+        if (this.debug) System.out.println("Done.");
+
+        return relations;
     }
 }

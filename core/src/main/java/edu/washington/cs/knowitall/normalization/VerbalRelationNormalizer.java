@@ -144,7 +144,7 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
 
         // remove auxiliary verbs after other verbs
         i = lastVerbIndex;
-        while (i > 0) {
+        while (i > 0 && i < tokens.size()) {
             String tok = tokens.get(i);
             if (i - 1 >= 0 && !posTags.get(i - 1).startsWith("V")) {
                 break;
