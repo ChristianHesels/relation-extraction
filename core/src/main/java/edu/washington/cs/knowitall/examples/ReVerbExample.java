@@ -25,10 +25,10 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "B1 Systems GmbH ist stolzer Sponsor des openSUSE Projekts .";
+        String sentence = "Hans-Joachim Greb wurde als Versammlungleiter gewählt .";
         extractFromSentence(sentence);
 
-//        String fileName = "/home/tanja/Repositories/reverb/core/test.txt";
+//        String fileName = "/home/tanja/Repositories/reverb/core/sentences.txt";
 //        extractFromFile(fileName);
     }
 
@@ -56,7 +56,11 @@ public class ReVerbExample {
 //            double conf = confFunc.getConf(extr);
             System.out.println();
             System.out.println("Arg1=" + extr.getArgument1());
-            System.out.println("Rel=" + extr.getRelation());
+            if (extr.getRelation().hasSubExtraction()) {
+                System.out.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubExtraction());
+            } else {
+                System.out.println("Rel=" + extr.getRelation());
+            }
             System.out.println("Arg2=" + extr.getArgument2());
 //            System.out.println("Conf=" + conf);
         }

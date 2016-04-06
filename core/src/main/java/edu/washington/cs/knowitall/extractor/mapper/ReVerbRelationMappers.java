@@ -71,6 +71,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
 
     private void init(int minFreq, boolean useLexSynConstraints,
                       boolean mergeOverlapRels) throws IOException {
+        addMapper(new SeparatedVerbMapper());
+
         // Add lexical and syntactic constraints on the relation.
         if (useLexSynConstraints) {
             addLexicalAndSyntacticConstraints();

@@ -44,6 +44,21 @@ public class ReVerbArgument2Mappers extends
 
         // Second argument should be adjacent to the relation
         addMapper(new AdjacentToRelationFilter());
+
+        // If the relation is a separated relation, the argument must be in between
+        addMapper(new FilterMapper<ChunkedArgumentExtraction>() {
+            public boolean doFilter(ChunkedArgumentExtraction extr) {
+                if (extr.getRelation().hasSubExtraction()) {
+                    int relEnd = extr.getRelation().getStart() + extr.getRelation().getLength() - 1;
+                    int subRelStart = extr.getRelation().getSubExtraction().getStart();
+                    int argEnd = extr.getStart() + extr.getLength() - 1;
+                    int argStart = extr.getStart();
+
+                    return argStart > relEnd && argEnd < subRelStart;
+                }
+                return true;
+            }
+        });
     }
 
     private void addFirstPosTagNotEqualsFilter(String posTag) {
@@ -63,5 +78,6 @@ public class ReVerbArgument2Mappers extends
             }
         });
     }
+
 
 }

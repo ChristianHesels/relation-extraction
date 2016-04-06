@@ -3,7 +3,7 @@ package edu.washington.cs.knowitall.extractor.mapper;
 import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.washington.cs.knowitall.commonlib.Range;
@@ -19,17 +19,37 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  */
 public class MergeOverlappingMapper extends Mapper<ChunkedExtraction> {
 
-    public static List<Range> mergeOverlapping(List<Range> ranges) {
 
-        Collections.sort(ranges, Range.getStartComparator());
-        List<Range> result = new ArrayList<Range>(ranges.size());
-        if (ranges.size() > 1) {
-            result.add(ranges.get(0));
-            for (int i = 1; i < ranges.size(); i++) {
-                Range curr = ranges.get(i);
-                Range prev = result.get(result.size() - 1);
+    private static ChunkedExtraction join(ChunkedExtraction curr, ChunkedExtraction prev) {
+        Range range = curr.getRange().join(prev.getRange());
+        ChunkedSentence sentence = curr.getSentence();
+
+        ChunkedExtraction newExtr = new ChunkedExtraction(sentence, range);
+        if (curr.hasSubExtraction()) {
+            newExtr.setSubExtraction(curr.getSubExtraction());
+        } else if (prev.hasSubExtraction()) {
+            newExtr.setSubExtraction(prev.getSubExtraction());
+        }
+
+        return newExtr;
+    }
+
+    private static List<ChunkedExtraction> mergeOverlapping(List<ChunkedExtraction> extractions) {
+        extractions.sort(new Comparator<ChunkedExtraction>() {
+            @Override
+            public int compare(ChunkedExtraction o1, ChunkedExtraction o2) {
+                return o1.getRange().compareTo(o2.getRange());
+            }
+        });
+
+        List<ChunkedExtraction> result = new ArrayList<ChunkedExtraction>(extractions.size());
+        if (extractions.size() > 1) {
+            result.add(extractions.get(0));
+            for (int i = 1; i < extractions.size(); i++) {
+                ChunkedExtraction curr = extractions.get(i);
+                ChunkedExtraction prev = result.get(result.size() - 1);
                 if (prev.isAdjacentOrOverlaps(curr)) {
-                    Range updated = curr.join(prev);
+                    ChunkedExtraction updated = join(curr, prev);
                     result.set(result.size() - 1, updated);
                 } else {
                     result.add(curr);
@@ -38,7 +58,7 @@ public class MergeOverlappingMapper extends Mapper<ChunkedExtraction> {
             return result;
 
         } else {
-            return ranges;
+            return extractions;
         }
     }
 
@@ -47,20 +67,9 @@ public class MergeOverlappingMapper extends Mapper<ChunkedExtraction> {
         Iterable<ChunkedExtraction> extrs) {
         List<ChunkedExtraction> extrList = new ArrayList<ChunkedExtraction>();
         Iterables.addAll(extrList, extrs);
+
         if (extrList.size() > 1) {
-            ChunkedSentence sent = extrList.get(0).getSentence();
-            List<Range> ranges = new ArrayList<Range>(extrList.size());
-            for (ChunkedExtraction e : extrList) {
-                ranges.add(e.getRange());
-            }
-            List<Range> mergedRanges = mergeOverlapping(ranges);
-            List<ChunkedExtraction> result = new ArrayList<ChunkedExtraction>(
-                mergedRanges.size());
-            for (Range r : mergedRanges) {
-                ChunkedExtraction extr = new ChunkedExtraction(sent, r);
-                result.add(extr);
-            }
-            return result;
+            return mergeOverlapping(extrList);
         } else {
             return extrList;
         }

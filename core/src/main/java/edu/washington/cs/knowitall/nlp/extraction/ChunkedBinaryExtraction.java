@@ -97,6 +97,9 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
     public String toString() {
         String arg1Str = getArgument1().toString();
         String relStr = getRelation().toString();
+        if (getRelation().hasSubExtraction()) {
+            relStr += " ; " + getRelation().getSubExtraction().toString();
+        }
         String arg2Str = getArgument2().toString();
         return String.format("(%s, %s, %s)", arg1Str, relStr, arg2Str);
     }
