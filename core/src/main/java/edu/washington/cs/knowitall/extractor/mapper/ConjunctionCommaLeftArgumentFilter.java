@@ -11,11 +11,10 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  *
  * @author afader
  */
-public class ConjunctionCommaArgumentFilter extends FilterMapper<ChunkedArgumentExtraction> {
+public class ConjunctionCommaLeftArgumentFilter extends FilterMapper<ChunkedArgumentExtraction> {
 
     @Override
     public boolean doFilter(ChunkedArgumentExtraction arg) {
-        // TODO
         ChunkedExtraction rel = arg.getRelation();
         ChunkedSentence sent = arg.getSentence();
         int relStart = rel.getStart();
@@ -37,6 +36,17 @@ public class ConjunctionCommaArgumentFilter extends FilterMapper<ChunkedArgument
         // Can't match "ARG, and REL"
         if (argEnd < sentLen - 2 && sent.getTokens().get(argEnd).equals(",") && sent.getTokens()
             .get(argEnd + 1).equals("und") && relStart == argEnd + 2) {
+            return false;
+        }
+
+        // Can't match "ARG ... , REL"
+        int count = 0;
+        for (int i = argEnd; i < relStart; i++) {
+            if (sent.getToken(i).equals(",")) {
+                count++;
+            }
+        }
+        if (argEnd < sentLen - 2 && sent.getTokens().get(relStart - 1).equals(",") && count % 2 != 0) {
             return false;
         }
 

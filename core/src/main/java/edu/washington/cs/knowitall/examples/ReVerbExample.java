@@ -25,11 +25,11 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Mike Hanke ist ein ehemaliger Fußballspieler";
-        extractFromSentence(sentence);
+//        String sentence = "Wenn die Menschen mit ihren Familien jedoch gut integriert seien und die Kinder schon in der Schule , sinke diese Bereitschaft deutlich .";
+//        extractFromSentence(sentence);
 
-//        String fileName = "/home/tanja/Repositories/reverb/core/zeit.txt";
-//        extractFromFile(fileName);
+        String fileName = "/home/tanja/Repositories/reverb/core/test.txt";
+        extractFromFile(fileName);
     }
 
 

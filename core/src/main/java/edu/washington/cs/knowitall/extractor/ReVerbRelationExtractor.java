@@ -18,31 +18,29 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 
 public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtractor {
 
-    // TODO
-    // can not be only a VAFIN (wurde)?
     /**
      * Definition of the "verb" of the relation pattern.
      */
     public static final String VERB =
         // Optional adverb
-        "[ADV_pos PROAV_pos PAV_pos]? " +
+        "[ADV_pos PAV_pos]? " +
         // Modal or other verbs
         "[VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos] "
         +
         // Optional particle/adverb
-        "[PTKZU_pos PTKNEG_pos PTKVZ_pos]?";
+        "[PTKNEG_pos PTKVZ_pos]?";
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
      */
     public static final String WORD =
-        "[NE_pos NN_pos ART_pos]";
+        "[NE_pos NN_pos ART_pos ADJA_pos ADV_pos CARD_pos KON_pos]";
 
     /**
      * Definition of the "preposition" part of the relation pattern.
      */
     public static final String PREP =
-        "[APPR_pos APPRART_pos APPO_pos APZR_pos]";
+        "[APPR_pos APPRART_pos PROAV_pos ART_pos ADJD_pos PPOSAT_pos]";
 
     /**
      * The pattern (V(W*P)?)+

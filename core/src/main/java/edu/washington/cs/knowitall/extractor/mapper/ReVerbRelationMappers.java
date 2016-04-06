@@ -54,6 +54,19 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
         // Overlapping relations should be merged together
         addMapper(new MergeOverlappingMapper());
 
+        // Extracted relation must contain at lease one VP chunk tag
+        addMapper(new FilterMapper<ChunkedExtraction>() {
+            public boolean doFilter(ChunkedExtraction rel) {
+                boolean containsVP = false;
+                for (String chunkTag : rel.getChunkTags()) {
+                    if (chunkTag.contains("VP")) {
+                        containsVP = true;
+                    }
+                }
+                return containsVP;
+            }
+        });
+
     }
 
     private void init(int minFreq, boolean useLexSynConstraints,
@@ -64,10 +77,9 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
         }
         // The relation should have a minimum number of distinct arguments in a
         // large corpus
-        // TODO
-//        if (minFreq > 0) {
-//            addMapper(new ReVerbRelationDictionaryFilter(minFreq));
-//        }
+        if (minFreq > 0) {
+            addMapper(new ReVerbRelationDictionaryFilter(minFreq));
+        }
         // Overlapping relations should be merged together
         if (mergeOverlapRels) {
             addMapper(new MergeOverlappingMapper());
@@ -98,7 +110,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
 //        relStopList.addStopToken("because");
         addMapper(relStopList);
 
-        // The POS tag of the first verb in the relation cannot be VBG or VBN
+        // The POS tag of the first verb in the relation cannot be VVPP, VAPP, VMPP
         addMapper(new FilterMapper<ChunkedExtraction>() {
             public boolean doFilter(ChunkedExtraction rel) {
                 ChunkedSentence sent = rel.getSentence();

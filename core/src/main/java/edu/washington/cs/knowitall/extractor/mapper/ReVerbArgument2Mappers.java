@@ -35,16 +35,14 @@ public class ReVerbArgument2Mappers extends
         addFirstTokenNotEqualsFilter("dieser");
         addFirstTokenNotEqualsFilter("diese");
 
-        // TODO
-        // combine PPs and NPs?
-        // do not ignore comma
+        // First argument can't match "REL, ARG2" or "REL and ARG2"
+        addMapper(new ConjunctionCommaRightArgumentFilter());
 
         // Second argument should be closest to relation that passes through
         // filters
         addMapper(new ClosestArgumentMapper());
 
-//        // TODO: do we need that?
-        // Second argument should be adjacent/closest to the relation
+        // Second argument should be adjacent to the relation
         addMapper(new AdjacentToRelationFilter());
     }
 
