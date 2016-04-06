@@ -25,11 +25,11 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-//        String sentence = "Wenn die Menschen mit ihren Familien jedoch gut integriert seien und die Kinder schon in der Schule , sinke diese Bereitschaft deutlich .";
-//        extractFromSentence(sentence);
+        String sentence = "B1 Systems GmbH ist stolzer Sponsor des openSUSE Projekts .";
+        extractFromSentence(sentence);
 
-        String fileName = "/home/tanja/Repositories/reverb/core/test.txt";
-        extractFromFile(fileName);
+//        String fileName = "/home/tanja/Repositories/reverb/core/test.txt";
+//        extractFromFile(fileName);
     }
 
 

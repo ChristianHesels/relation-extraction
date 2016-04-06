@@ -25,7 +25,7 @@ public class ReVerbExtractorTest  {
     @Before
     public void setUp() throws Exception {
     	if(regReverb == null) {
-        	regReverb = new ReVerbExtractor();
+        	regReverb = new ReVerbExtractor(0, true, true, false); // TODO
         }
         if (relaxedReverb == null) {
         	relaxedReverb = new ReVerbExtractor(0, false, false, true);
@@ -68,59 +68,83 @@ public class ReVerbExtractorTest  {
     public void testExtract1() throws Exception {
         reverb = regReverb;
     	got = extractRels(
-                "Das Unternehmen schließt einen Vertrag mit der C. H. Haake AG .",
-                "ART NN VVFIN ART NN APPR ART NE NE NN NN $.",
-                "B-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP I-NP I-NP O"
+                "Amazon ist ein sogenanntes Social-Commerce-Versandhaus .",
+                "NE VAFIN ART ADJA NN $.",
+                "B-NP B-VP B-NP I-NP I-NP O"
         );
-        expected.add("schließt einen Vertrag mit");
+        expected.add("ist ein");
+        assertEquals(expected, got);
+    }
+
+    @Test
+    public void testNoFiltersExtract1() throws Exception {
+        reverb = relaxedReverb;
+        got = extractRels(
+            "Amazon ist ein sogenanntes Social-Commerce-Versandhaus .",
+            "NE VAFIN ART ADJA NN $.",
+            "B-NP B-VP B-NP I-NP I-NP O"
+        );
+        expected.add("ist ein");
+        assertEquals(expected, got);
+    }
+    
+    @Test
+    public void testExtract2() throws Exception {
+    	reverb = regReverb;
+        got = extractRels(
+                "Das St. Johannes-Hospital ist heute ein modernes , leistungsfähiges Krankenhaus .",
+                "ART ADJA NE VAFIN ADV ART ADJA $, ADJA NN $.",
+                "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
+        );
+        expected.add("ist heute ein");
         assertEquals(expected, got);
     }
 
     @Test
     /**
-     * No filtering adds uninformative relations
+     * Adds unary relations.
      * @throws Exception
      */
-    public void testNoFiltersExtract1() throws Exception {
+    public void testNoFiltersExtract2() throws Exception {
         reverb = relaxedReverb;
-    	got = extractRels(
-            "Das Unternehmen schließt einen Vertrag mit der C. H. Haake AG .",
-            "ART NN VVFIN ART NN APPR ART NE NE NN NN $.",
-            "B-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP I-NP I-NP O"
+        got = extractRels(
+            "Das St. Johannes-Hospital ist heute ein modernes , leistungsfähiges Krankenhaus .",
+            "ART ADJA NE VAFIN ADV ART ADJA $, ADJA NN $.",
+            "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
         );
-        expected.add("schließt einen Vertrag mit");
-        expected.add("schließt");
+        expected.add("ist heute ein");
+        expected.add("ist");
         assertEquals(expected, got);
-        
     }
-    
-//    @Test
-//    public void testExtract2() throws Exception {
-//    	reverb = regReverb;
-//        got = extractRels(
-//                "Implisense stellt auf der Cebit in Hannover aus.",
-//                "",
-//                ""
-//        );
-//        expected.add("");
-//        assertEquals(expected, got);
-//    }
-//
-//    @Test
-//    /**
-//     * No change with no filtering.
-//     * @throws Exception
-//     */
-//    public void testNoFiltersExtract2() throws Exception {
-//    	reverb = relaxedReverb;
-//        got = extractRels(
-//            "Implisense stellt auf der Cebit in Hannover aus.",
-//            "",
-//            ""
-//        );
-//        expected.add("");
-//        assertEquals(expected, got);
-//    }
+
+    @Test
+    public void testExtract3() throws Exception {
+        reverb = regReverb;
+        got = extractRels(
+            "B1 Systems GmbH ist stolzer Sponsor des openSUSE Projekts .",
+            "ADJA NN NN VAFIN ADJA NN ART ADJA NN $.",
+            "B-NP I-NP I-NP B-VP B-NP I-NP B-NP I-NP I-NP O"
+        );
+        expected.add("ist stolzer Sponsor des");
+        assertEquals(expected, got);
+    }
+
+    @Test
+    /**
+     * Adds uninformative relations.
+     * @throws Exception
+     */
+    public void testNoFiltersExtract3() throws Exception {
+        reverb = relaxedReverb;
+        got = extractRels(
+            "B1 Systems GmbH ist stolzer Sponsor des openSUSE Projekts .",
+            "ADJA NN NN VAFIN ADJA N ART ADJA NN $.",
+            "B-NP I-NP I-NP B-VP B-NP I-NP B-NP I-NP I-NP O"
+        );
+        expected.add("ist");
+        assertEquals(expected, got);
+    }
+
 //    @Test
 //    public void testExtract3() throws Exception {
 //
