@@ -23,17 +23,13 @@ public class ReVerbArgument2Mappers extends
         // Second argument can't be a number
         addFirstPosTagNotEqualsFilter("CARD");
 
-        // Can't be reflexive pronoun
+        // Can't be pronoun
         addFirstPosTagNotEqualsFilter("PRF");   // sich
         addFirstPosTagNotEqualsFilter("PDS");   // dieser, jener
+        addFirstPosTagNotEqualsFilter("PDAT");  // dieser, jener
         addFirstPosTagNotEqualsFilter("PPOSS"); // meins, deiner
         addFirstPosTagNotEqualsFilter("PIS");   // man
         addFirstPosTagNotEqualsFilter("PPER");  // er
-
-        // Can't be
-        addFirstTokenNotEqualsFilter("diese");
-        addFirstTokenNotEqualsFilter("dieser");
-        addFirstTokenNotEqualsFilter("diese");
 
         // First argument can't match "REL, ARG2" or "REL and ARG2"
         addMapper(new ConjunctionCommaRightArgumentFilter());

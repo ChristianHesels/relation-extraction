@@ -34,7 +34,7 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      * Definition of the "non-verb/prep" part of the relation pattern.
      */
     public static final String WORD =
-        "[NE_pos NN_pos ART_pos ADJA_pos ADV_pos CARD_pos KON_pos]";
+        "[NE_pos NN_pos ART_pos ADJA_pos ADV_pos CARD_pos]";
 
     /**
      * Definition of the "preposition" part of the relation pattern.

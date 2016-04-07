@@ -25,6 +25,9 @@ public class ReVerbArgument1Mappers extends
         addFirstPosTagNotEqualsFilter("APPR");
         addFirstPosTagNotEqualsFilter("APPRART");
 
+        // Second argument can't be a number
+        addFirstPosTagNotEqualsFilter("CARD");
+
         // Can't be
         addFirstTokenNotEqualsFilter("dass");
         addFirstTokenNotEqualsFilter("es");

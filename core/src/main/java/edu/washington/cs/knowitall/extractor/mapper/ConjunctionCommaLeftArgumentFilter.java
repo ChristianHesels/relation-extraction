@@ -33,20 +33,17 @@ public class ConjunctionCommaLeftArgumentFilter extends FilterMapper<ChunkedArgu
             return false;
         }
 
-        // Can't match "ARG, and REL"
-        if (argEnd < sentLen - 2 && sent.getTokens().get(argEnd).equals(",") && sent.getTokens()
-            .get(argEnd + 1).equals("und") && relStart == argEnd + 2) {
-            return false;
-        }
-
-        // Can't match "ARG ... , REL"
-        int count = 0;
+        // Can't match "ARG ... ,/and ... REL"
+        int commaCount = 0;
+        int conjunctionCount = 0;
         for (int i = argEnd; i < relStart; i++) {
-            if (sent.getToken(i).equals(",")) {
-                count++;
+            if (sent.getPosTag(i).equals("$,")) {
+                commaCount++;
+            } else if (sent.getPosTag(i).equals("KON")) {
+                conjunctionCount++;
             }
         }
-        if (argEnd < sentLen - 2 && sent.getTokens().get(relStart - 1).equals(",") && count % 2 != 0) {
+        if (commaCount % 2 != 0 || conjunctionCount % 2 != 0) {
             return false;
         }
 
