@@ -13,6 +13,8 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
 import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.normalization.BinaryExtractionNormalizer;
+import edu.washington.cs.knowitall.normalization.NormalizedBinaryExtraction;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /* String -> ChunkedSentence */
@@ -25,10 +27,10 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Dainis Senbergs ist Finanzvorstand der Valmiera Glasfaser AG .";
+        String sentence = "Sowohl amerikanische Farmer als auch afrikanische Kleinbauern bauen Baumwolle an .";
         extractFromSentence(sentence);
 
-        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
+        String fileName = "/home/tanja/Repositories/reverb/core/text/sentences.txt";
 //        extractFromFile(fileName);
     }
 
@@ -50,25 +52,25 @@ public class ReVerbExample {
 
         // Prints out extractions from the sentence.
         ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
+        BinaryExtractionNormalizer normalizer = new BinaryExtractionNormalizer();
 //        ConfidenceFunction confFunc = new ReVerbOpenNlpConfFunction();
         for (ChunkedBinaryExtraction extr : reverb.extract(sent)) {
 
 //            double conf = confFunc.getConf(extr);
             System.out.println();
-            System.out.println("Arg1=" + extr.getArgument1());
-            if (extr.getRelation().hasSubRelation()) {
-                System.out.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubRelation());
-            } else {
-                System.out.println("Rel=" + extr.getRelation());
-            }
-            System.out.println("Arg2=" + extr.getArgument2());
+            System.out.println(extr);
 //            System.out.println("Conf=" + conf);
+
+            NormalizedBinaryExtraction normExtr = normalizer.normalize(extr);
+            System.out.println();
+            System.out.println(normExtr);
         }
     }
 
     private static void extractFromFile(String fileName) throws IOException {
         PrintWriter writer = new PrintWriter(fileName.replace(".txt", ".output.txt"));
         ChunkedSentenceReader reader = new ChunkedSentenceReader(new FileReader(fileName), DefaultObjects.getDefaultSentenceExtractor());
+        BinaryExtractionNormalizer normalizer = new BinaryExtractionNormalizer();
 
         System.out.println("Process sentences ...");
         int n = 0;
@@ -95,14 +97,12 @@ public class ReVerbExample {
             for (ChunkedBinaryExtraction extr : reverb.extract(s)) {
 //                double conf = confFunc.getConf(extr);
                 writer.println();
-                writer.println("Arg1=" + extr.getArgument1());
-                if (extr.getRelation().hasSubRelation()) {
-                    writer.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubRelation());
-                } else {
-                    writer.println("Rel=" + extr.getRelation());
-                }
-                writer.println("Arg2=" + extr.getArgument2());
+                writer.println(extr);
 //                System.out.println("Conf=" + conf);
+
+                NormalizedBinaryExtraction normExtr = normalizer.normalize(extr);
+                writer.println();
+                writer.println(normExtr);
             }
             writer.println();
             writer.println(StringUtils.repeat("-", 100));

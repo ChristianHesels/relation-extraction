@@ -9,7 +9,7 @@ import java.util.List;
 
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +19,7 @@ public class VerbalRelationNormalizerTest {
 
 	@Before
 	public void setUp() throws Exception {
-		normalizer = new VerbalRelationNormalizer();
+		normalizer = new VerbalRelationNormalizer(true, false);
 	}
 	
 	private static void assertNorm(String expectedStr, String tokensStr, String posTagsStr) throws Exception {
@@ -29,7 +29,7 @@ public class VerbalRelationNormalizerTest {
 		for (int i = 0; i < posTags.size(); i++) npChunkTags.add("O");
 		
 		ChunkedSentence sent = new ChunkedSentence(tokens, posTags, npChunkTags);
-		ChunkedExtraction extr = new ChunkedExtraction(sent, new Range(0, posTags.size()));
+		ChunkedRelationExtraction extr = new ChunkedRelationExtraction(sent, new Range(0, posTags.size()));
 		
 		NormalizedField normField = normalizer.normalizeField(extr);
 		String resultStr = normField.toString();
@@ -44,9 +44,9 @@ public class VerbalRelationNormalizerTest {
 		assertNorm("nehmen durchschnittlich", "nahm durchschnittlich", "VVFIN ADJD");
 		assertNorm("sein zeit für", "ist die perfekte Zeit für", "VAFIN ART ADJA NN APPR");
 		assertNorm("sein ergebnis von", "ist das Ergebnis von", "VAFIN ART NN APPR");
-		assertNorm("kaufen an", "kann gekauft werden am", "VMFIN VVPP VAINF APPRART");
-		assertNorm("löschen von", "kann nicht gelöscht werden von", "VMFIN PTKNEG VVPP VAFIN APPR");
-		assertNorm("sein", "kann nicht sein", "VMFIN PTKNEG VAINF");
+		assertNorm("können kaufen an", "kann gekauft werden am", "VMFIN VVPP VAINF APPRART");
+		assertNorm("können nicht löschen von", "kann nicht gelöscht werden von", "VMFIN PTKNEG VVPP VAFIN APPR");
+		assertNorm("können nicht sein", "kann nicht sein", "VMFIN PTKNEG VAINF");
 		assertNorm("benötigen level an", "benötigt auch ein hohes Level an", "ADJD ADV ART ADJA NN APPR");
 		assertNorm("nehmen kind mit zu", "nahm meine Kinder mit zu", "VVFIN PPOSAT NN APPR APPR");
 		assertNorm("verwüsten von", "wurde verwüstet von", "VAFIN VVFIN APPR");

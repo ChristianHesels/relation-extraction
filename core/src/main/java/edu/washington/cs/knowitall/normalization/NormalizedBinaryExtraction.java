@@ -9,17 +9,18 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
  */
 public class NormalizedBinaryExtraction extends ChunkedBinaryExtraction {
 
-    private NormalizedField arg1Norm;
+    private NormalizedArgumentField arg1Norm;
     private NormalizedField relNorm;
-    private NormalizedField arg2Norm;
+    private NormalizedArgumentField arg2Norm;
 
     /**
      * Constructs a new normalized extraction from the given source extraction and its normalized
      * fields.
      */
     public NormalizedBinaryExtraction(ChunkedBinaryExtraction extr,
-                                      NormalizedField arg1Norm, NormalizedField relNorm,
-                                      NormalizedField arg2Norm) {
+                                      NormalizedArgumentField arg1Norm,
+                                      NormalizedField relNorm,
+                                      NormalizedArgumentField arg2Norm) {
         super(extr.getRelation(), extr.getArgument1(), extr.getArgument2());
         this.arg1Norm = arg1Norm;
         this.relNorm = relNorm;
@@ -29,7 +30,7 @@ public class NormalizedBinaryExtraction extends ChunkedBinaryExtraction {
     /**
      * @return normalized argument1
      */
-    public NormalizedField getArgument1Norm() {
+    public NormalizedArgumentField getArgument1Norm() {
         return arg1Norm;
     }
 
@@ -43,8 +44,16 @@ public class NormalizedBinaryExtraction extends ChunkedBinaryExtraction {
     /**
      * @return normalized argument2
      */
-    public NormalizedField getArgument2Norm() {
+    public NormalizedArgumentField getArgument2Norm() {
         return arg2Norm;
+    }
+
+    @Override
+    public String toString() {
+        String arg1Str = getArgument1Norm().toString();
+        String relStr = getRelationNorm().toString();
+        String arg2Str = getArgument2Norm().toString();
+        return String.format("(%s, %s, %s)", arg1Str, relStr, arg2Str);
     }
 
 }

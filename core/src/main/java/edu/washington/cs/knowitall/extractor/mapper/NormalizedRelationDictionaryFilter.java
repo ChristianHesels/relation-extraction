@@ -25,8 +25,7 @@ public class NormalizedRelationDictionaryFilter extends
      */
     public NormalizedRelationDictionaryFilter(HashSet<String> relations) {
         this.relations = relations;
-        normalizer = new VerbalRelationNormalizer();
-        normalizer.stripBeAdj(true);
+        normalizer = new VerbalRelationNormalizer(true, true);
     }
 
     /**

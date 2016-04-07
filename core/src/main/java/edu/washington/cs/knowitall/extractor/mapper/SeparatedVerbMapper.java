@@ -30,7 +30,7 @@ public class SeparatedVerbMapper extends Mapper<ChunkedRelationExtraction> {
     private boolean containsOnlyVerbForms(List<String> posTags) {
         boolean verbForms = true;
         for (String pos : posTags) {
-            if (!pos.startsWith("V")) {
+            if (!pos.startsWith("V") && !pos.equals("PTKVZ")) {
                 verbForms = false;
                 break;
             }

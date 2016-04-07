@@ -1,7 +1,8 @@
 package edu.washington.cs.knowitall.normalization;
 
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * A class for normalizing {@link ChunkedBinaryExtraction} objects. This class uses {@link
@@ -20,7 +21,7 @@ public class BinaryExtractionNormalizer {
      */
     public BinaryExtractionNormalizer() {
         this.argNormalizer = new ArgumentNormalizer();
-        this.relNormalizer = new VerbalRelationNormalizer();
+        this.relNormalizer = new VerbalRelationNormalizer(false, false);
     }
 
     /**
@@ -28,7 +29,7 @@ public class BinaryExtractionNormalizer {
      *
      * @return the normalized argument
      */
-    public NormalizedField normalizeArgument(ChunkedExtraction arg) {
+    public NormalizedArgumentField normalizeArgument(ChunkedArgumentExtraction arg) {
         return argNormalizer.normalizeField(arg);
     }
 
@@ -37,7 +38,7 @@ public class BinaryExtractionNormalizer {
      *
      * @return the normalized phrase
      */
-    public NormalizedField normalizeRelation(ChunkedExtraction rel) {
+    public NormalizedField normalizeRelation(ChunkedRelationExtraction rel) {
         return relNormalizer.normalizeField(rel);
     }
 
@@ -47,8 +48,8 @@ public class BinaryExtractionNormalizer {
      * @return the normalized extraction
      */
     public NormalizedBinaryExtraction normalize(ChunkedBinaryExtraction extr) {
-        NormalizedField arg1Norm = normalizeArgument(extr.getArgument1());
-        NormalizedField arg2Norm = normalizeArgument(extr.getArgument2());
+        NormalizedArgumentField arg1Norm = normalizeArgument(extr.getArgument1());
+        NormalizedArgumentField arg2Norm = normalizeArgument(extr.getArgument2());
         NormalizedField relNorm = normalizeRelation(extr.getRelation());
         return new NormalizedBinaryExtraction(extr, arg1Norm, relNorm, arg2Norm);
     }

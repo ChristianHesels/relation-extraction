@@ -25,7 +25,7 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
         // Optional adverb
         "[ADV_pos PAV_pos]? " +
         // Modal or other verbs
-        "[VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos] "
+        "[VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos] "
         +
         // Optional particle/adverb
         "[PTKNEG_pos PTKVZ_pos]?";

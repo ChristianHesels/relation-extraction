@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**
@@ -15,27 +16,24 @@ import edu.washington.cs.knowitall.sequence.SequenceException;
  *
  * @author afader
  */
-public class VerbalRelationNormalizer implements FieldNormalizer {
+public class VerbalRelationNormalizer {
 
-    private boolean stripBeAdj = false;
+    private boolean stripAdj = false;
+    private boolean lemmatize = false;
+
     private HashSet<String> ignorePosTags;
     private HashSet<String> auxVerbs;
-    private MateToolLemmatizer lemmatizer = new MateToolLemmatizer();
 
-    /**
-     * Constructs a new instance.
-     */
+    private MateToolLemmatizer lemmatizer = null;
+
+
     public VerbalRelationNormalizer() {
-        // TODO
         ignorePosTags = new HashSet<String>();
-        ignorePosTags.add("VMFIN"); // dürfen
-        ignorePosTags.add("VMINF"); // wollen
-        ignorePosTags.add("PTKNEG"); // nicht
-        ignorePosTags.add("ART"); // der, die, das
-        ignorePosTags.add("PDS"); // dieser, jener
-        ignorePosTags.add("ADJA"); // adjectives
-        ignorePosTags.add("ADV"); // adverbs
-        ignorePosTags.add("PPOSAT"); // mein, deine
+        ignorePosTags.add("ART");
+        ignorePosTags.add("ADV");
+        ignorePosTags.add("PPOSAT");
+        ignorePosTags.add("ADJA");
+//        ignorePosTags.add("PROAV");
 
         auxVerbs = new HashSet<String>();
         auxVerbs.add("sein");
@@ -43,25 +41,33 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
         auxVerbs.add("werden");
     }
 
-    /**
-     * If set to true, then will not remove adjectives in phrases like "is happy about".
-     */
-    public void stripBeAdj(boolean value) {
-        stripBeAdj = value;
+    public VerbalRelationNormalizer(boolean lemmatize, boolean stripAdj) {
+        this();
+
+        this.lemmatize = lemmatize;
+        this.stripAdj = stripAdj;
     }
 
     /**
      * Normalizes the given field.
      */
-    public NormalizedField normalizeField(ChunkedExtraction field) {
-
+    public NormalizedField normalizeField(ChunkedRelationExtraction field) {
         List<String> tokens = field.getTokens();
         List<String> posTags = field.getPosTags();
 
-        ArrayList<String> tokensCopy = new ArrayList<String>(tokens.size());
+        List<String> subPosTags = new ArrayList<>();
+        List<String> subTokens = new ArrayList<>();
+        if (field.hasSubRelation()) {
+            subTokens = field.getSubRelation().getTokens();
+            subPosTags = field.getSubRelation().getPosTags();
+        }
+
+        ArrayList<String> tokensCopy = new ArrayList<String>(tokens.size() + subTokens.size());
         tokensCopy.addAll(tokens);
-        ArrayList<String> posTagsCopy = new ArrayList<String>(posTags.size());
+        tokensCopy.addAll(subTokens);
+        ArrayList<String> posTagsCopy = new ArrayList<String>(posTags.size() + subPosTags.size());
         posTagsCopy.addAll(posTags);
+        posTagsCopy.addAll(subPosTags);
 
         normalizeModify(tokensCopy, posTagsCopy);
 
@@ -76,36 +82,42 @@ public class VerbalRelationNormalizer implements FieldNormalizer {
     }
 
     private void normalizeModify(List<String> tokens, List<String> posTags) {
-        tokens = lemmatizer.lemmatize(tokens);
-        removeIgnoredPosTags(tokens, posTags);
-        removeLeadingBeHave(tokens, posTags);
-    }
-
-    private void removeIgnoredPosTags(List<String> tokens, List<String> posTags) {
-        boolean noNoun = true;
-        for (int j = 0; j < posTags.size(); j++) {
-            if (posTags.get(j).startsWith("N")) {
-                noNoun = false;
-                break;
-            }
+        if (lemmatize && lemmatizer == null) {
+            lemmatizer = new MateToolLemmatizer();
         }
 
-        int i = 0;
-        while (i < posTags.size()) {
-            String tag = posTags.get(i);
-            boolean isAdj = tag.startsWith("ADJ");
+        removeIgnoredPosTags(tokens, posTags);
+        if (stripAdj) {
+            removeAdj(tokens, posTags);
+        }
 
-            /*
-             * This is checking for a special case where the relation phrase
-             * contains an adjective, but no noun. This covers cases like
-             * "is high in" or "looks perfect for" where the adjective carries
-             * most of the semantics of the relation phrase. In these cases, we
-             * don't want to strip out the adjectives.
-             */
-            boolean keepAdj = isAdj && noNoun;
-            if (ignorePosTags.contains(tag) && (!keepAdj || stripBeAdj)) {
+        if (lemmatize) {
+            tokens = lemmatizer.lemmatize(tokens);
+            removeLeadingBeHave(tokens, posTags);
+        }
+    }
+
+    private void removeIgnoredPosTags(List<String> tokens, List<String> tags) {
+        int i = 0;
+        while (i < tokens.size()) {
+            String token = tokens.get(i);
+            String tag = tags.get(i);
+            if (ignorePosTags.contains(tag)) {
                 tokens.remove(i);
-                posTags.remove(i);
+                tags.remove(i);
+            } else {
+                i++;
+            }
+        }
+    }
+
+    private void removeAdj(List<String> tokens, List<String> tags) {
+        int i = 0;
+        while (i < tokens.size()) {
+            String tag = tags.get(i);
+            if (tag.equals("ADJD")) {
+                tokens.remove(i);
+                tags.remove(i);
             } else {
                 i++;
             }

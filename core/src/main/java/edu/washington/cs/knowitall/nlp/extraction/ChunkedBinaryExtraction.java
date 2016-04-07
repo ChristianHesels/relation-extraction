@@ -157,4 +157,8 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
         return results;
     }
 
+    public void normalize() {
+
+    }
+
 }
