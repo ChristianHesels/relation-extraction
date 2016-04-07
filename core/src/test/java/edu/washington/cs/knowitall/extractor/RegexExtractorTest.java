@@ -11,6 +11,7 @@ import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 import static org.junit.Assert.assertEquals;
 
@@ -36,7 +37,7 @@ public class RegexExtractorTest {
         String pattern = "(" + verb + np + prep + "|" + verb + ")+";
 
         RegexExtractor extractor = new RegexExtractor(pattern);
-        Iterable<ChunkedExtraction> extrIter = extractor.extract(sent1);
+        Iterable<ChunkedRelationExtraction> extrIter = extractor.extract(sent1);
         List<ChunkedExtraction> extrs = new ArrayList<ChunkedExtraction>();
         Iterables.addAll(extrs, extrIter);
 

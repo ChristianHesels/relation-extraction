@@ -7,6 +7,7 @@ import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * An <code>Extractor</code> class for extracting noun phrase arguments, given a relation
@@ -18,7 +19,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  * @author afader
  */
 public class ChunkedArgumentExtractor
-    extends Extractor<ChunkedExtraction, ChunkedArgumentExtraction> {
+    extends Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> {
 
     /**
      * Controls the mode of an <code>NpChunkArgumentExtractor</code>: the <code>LEFT</code> mode
@@ -96,7 +97,7 @@ public class ChunkedArgumentExtractor
      * the left of <code>rel</code>. If the mode is <code>RIGHT</code>, then returns all noun phrases
      * to the right of <code>rel</code>.
      */
-    protected Collection<ChunkedArgumentExtraction> extractCandidates(ChunkedExtraction rel) {
+    protected Collection<ChunkedArgumentExtraction> extractCandidates(ChunkedRelationExtraction rel) {
         ChunkedSentence sent = rel.getSentence();
         Collection<Range> npChunkRanges= removeRangeOverlapWithRelation(rel, sent.getNpChunkRanges());
         Collection<ChunkedArgumentExtraction> args = new ArrayList<>();

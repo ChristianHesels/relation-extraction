@@ -8,12 +8,13 @@ import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * Given a set of <code>ChunkedExtraction</code>s from the same sentence, combine those
  * extractions, which are separated verbs.
  */
-public class SeparatedVerbMapper extends Mapper<ChunkedExtraction> {
+public class SeparatedVerbMapper extends Mapper<ChunkedRelationExtraction> {
 
     private boolean containsOnlyNPAndO(List<String> chunkTags) {
         boolean npo = true;
@@ -67,8 +68,8 @@ public class SeparatedVerbMapper extends Mapper<ChunkedExtraction> {
     }
 
     @Override
-    protected Iterable<ChunkedExtraction> doMap(Iterable<ChunkedExtraction> extrs) {
-        List<ChunkedExtraction> extrList = new ArrayList<ChunkedExtraction>();
+    protected Iterable<ChunkedRelationExtraction> doMap(Iterable<ChunkedRelationExtraction> extrs) {
+        List<ChunkedRelationExtraction> extrList = new ArrayList<ChunkedRelationExtraction>();
         Iterables.addAll(extrList, extrs);
 
         extrList.sort(new Comparator<ChunkedExtraction>() {
@@ -79,12 +80,12 @@ public class SeparatedVerbMapper extends Mapper<ChunkedExtraction> {
         });
 
         for (int i = 0; i < extrList.size() - 1; i++) {
-            ChunkedExtraction verb1 = extrList.get(i);
+            ChunkedRelationExtraction verb1 = extrList.get(i);
             for (int j = i; j < extrList.size(); j++) {
-                ChunkedExtraction verb2 = extrList.get(j);
+                ChunkedRelationExtraction verb2 = extrList.get(j);
 
                 if (verb1.getStart() < verb2.getStart() && separatedVerbs(verb1, verb2)) {
-                    verb1.setSubExtraction(verb2);
+                    verb1.setSubRelation(verb2);
                 }
             }
         }

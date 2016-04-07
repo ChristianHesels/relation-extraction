@@ -11,7 +11,7 @@ import edu.washington.cs.knowitall.extractor.mapper.ReVerbRelationMappers;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
@@ -109,8 +109,8 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
     protected void initializeRelationExtractor(int minFreq, boolean useLexSynConstraints,
                                                boolean mergeOverlapRels, boolean allowUnary)
         throws ExtractorException {
-        ExtractorUnion<ChunkedSentence, ChunkedExtraction> relExtractor =
-            new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
+        ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction> relExtractor =
+            new ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction>();
 
         try {
             relExtractor.addExtractor(new RegexExtractor(SHORT_RELATION_PATTERN));

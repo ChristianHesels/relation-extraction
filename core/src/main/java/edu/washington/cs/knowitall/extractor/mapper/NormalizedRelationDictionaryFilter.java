@@ -2,7 +2,7 @@ package edu.washington.cs.knowitall.extractor.mapper;
 
 import java.util.HashSet;
 
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.normalization.NormalizedField;
 import edu.washington.cs.knowitall.normalization.VerbalRelationNormalizer;
 
@@ -13,7 +13,7 @@ import edu.washington.cs.knowitall.normalization.VerbalRelationNormalizer;
  * @author afader
  */
 public class NormalizedRelationDictionaryFilter extends
-                                                FilterMapper<ChunkedExtraction> {
+                                                FilterMapper<ChunkedRelationExtraction> {
 
     private HashSet<String> relations;
     private VerbalRelationNormalizer normalizer;
@@ -33,7 +33,7 @@ public class NormalizedRelationDictionaryFilter extends
      * Returns true if the tokens in the given extraction appear in the set of relations passed to
      * the constructor.
      */
-    public boolean doFilter(ChunkedExtraction extr) {
+    public boolean doFilter(ChunkedRelationExtraction extr) {
         NormalizedField normField = normalizer.normalizeField(extr);
         return relations.contains(normField.toString());
     }

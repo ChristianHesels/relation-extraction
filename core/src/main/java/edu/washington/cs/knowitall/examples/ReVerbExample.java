@@ -25,10 +25,10 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Das generierte Captcha wird anschließend auf unserem Server gespeichert , damit Sie die Möglichkeit haben es herunterzuladen oder den Link auf eine         andere Seite zu kopieren . ";
+        String sentence = "Dainis Senbergs ist Finanzvorstand der Valmiera Glasfaser AG .";
         extractFromSentence(sentence);
 
-        String fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
+        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
 //        extractFromFile(fileName);
     }
 
@@ -56,8 +56,8 @@ public class ReVerbExample {
 //            double conf = confFunc.getConf(extr);
             System.out.println();
             System.out.println("Arg1=" + extr.getArgument1());
-            if (extr.getRelation().hasSubExtraction()) {
-                System.out.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubExtraction());
+            if (extr.getRelation().hasSubRelation()) {
+                System.out.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubRelation());
             } else {
                 System.out.println("Rel=" + extr.getRelation());
             }
@@ -96,8 +96,8 @@ public class ReVerbExample {
 //                double conf = confFunc.getConf(extr);
                 writer.println();
                 writer.println("Arg1=" + extr.getArgument1());
-                if (extr.getRelation().hasSubExtraction()) {
-                    writer.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubExtraction());
+                if (extr.getRelation().hasSubRelation()) {
+                    writer.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubRelation());
                 } else {
                     writer.println("Rel=" + extr.getRelation());
                 }

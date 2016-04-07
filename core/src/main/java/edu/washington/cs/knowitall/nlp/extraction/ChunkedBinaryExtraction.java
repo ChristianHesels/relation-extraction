@@ -18,7 +18,7 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
  */
 public class ChunkedBinaryExtraction extends SpanExtraction {
 
-    private ChunkedExtraction rel;
+    private ChunkedRelationExtraction rel;
     private ChunkedArgumentExtraction arg1;
     private ChunkedArgumentExtraction arg2;
 
@@ -43,7 +43,7 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
      * Constructs a new instance using the given relation and arguments. The relation and arguments
      * must all be from the same sentence.
      */
-    public ChunkedBinaryExtraction(ChunkedExtraction rel,
+    public ChunkedBinaryExtraction(ChunkedRelationExtraction rel,
                                    ChunkedArgumentExtraction arg1, ChunkedArgumentExtraction arg2) {
         super(new ChunkedExtraction[]{arg1, rel, arg2}, fieldNames);
         this.rel = rel;
@@ -61,7 +61,7 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
     /**
      * @return the relation
      */
-    public ChunkedExtraction getRelation() {
+    public ChunkedRelationExtraction getRelation() {
         return rel;
     }
 
@@ -97,8 +97,8 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
     public String toString() {
         String arg1Str = getArgument1().toString();
         String relStr = getRelation().toString();
-        if (getRelation().hasSubExtraction()) {
-            relStr += " ; " + getRelation().getSubExtraction().toString();
+        if (getRelation().hasSubRelation()) {
+            relStr += " ; " + getRelation().getSubRelation().toString();
         }
         String arg2Str = getArgument2().toString();
         return String.format("(%s, %s, %s)", arg1Str, relStr, arg2Str);
@@ -109,7 +109,7 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
      * arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<ChunkedBinaryExtraction> productOfArgs(
-        ChunkedExtraction rel,
+        ChunkedRelationExtraction rel,
         Iterable<? extends ChunkedArgumentExtraction> arg1s,
         Iterable<? extends ChunkedArgumentExtraction> arg2s) {
         return ChunkedBinaryExtraction.productOfArgs(rel, arg1s, arg2s, false);
@@ -120,7 +120,7 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
      * arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<ChunkedBinaryExtraction> productOfArgs(
-        ChunkedExtraction rel,
+        ChunkedRelationExtraction rel,
         Iterable<? extends ChunkedArgumentExtraction> arg1s,
         Iterable<? extends ChunkedArgumentExtraction> arg2s,
         boolean allowUnaryRelations) {

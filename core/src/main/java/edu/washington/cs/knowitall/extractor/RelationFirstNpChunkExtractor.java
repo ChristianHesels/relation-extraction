@@ -6,7 +6,7 @@ import java.util.Collection;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * <p> Extracts {@link ChunkedBinaryExtraction} objects by first extracting relations, and then for
@@ -28,14 +28,14 @@ public abstract class RelationFirstNpChunkExtractor
     // Allow unary relations to be extracted.
     protected boolean allowUnary = false;
 
-    protected Extractor<ChunkedSentence, ChunkedExtraction> relExtr;
-    protected Extractor<ChunkedExtraction, ChunkedArgumentExtraction> arg1Extr;
-    protected Extractor<ChunkedExtraction, ChunkedArgumentExtraction> arg2Extr;
+    protected Extractor<ChunkedSentence, ChunkedRelationExtraction> relExtr;
+    protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr;
+    protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr;
 
     /**
      * @return the extractor used to extract relations.
      */
-    public Extractor<ChunkedSentence, ChunkedExtraction>
+    public Extractor<ChunkedSentence, ChunkedRelationExtraction>
     getRelationExtractor() {
         return relExtr;
     }
@@ -43,7 +43,7 @@ public abstract class RelationFirstNpChunkExtractor
     /**
      * @return the extractor used to extract argument1.
      */
-    public Extractor<ChunkedExtraction, ChunkedArgumentExtraction>
+    public Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction>
     getArgument1Extractor() {
         return arg1Extr;
     }
@@ -51,7 +51,7 @@ public abstract class RelationFirstNpChunkExtractor
     /**
      * @return the extractor used to extract argument2.
      */
-    public Extractor<ChunkedExtraction, ChunkedArgumentExtraction>
+    public Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction>
     getArgument2Extractor() {
         return arg2Extr;
     }
@@ -60,7 +60,7 @@ public abstract class RelationFirstNpChunkExtractor
      * Sets the relation extractor.
      */
     public void setRelationExtractor(
-        Extractor<ChunkedSentence, ChunkedExtraction> relExtr) {
+        Extractor<ChunkedSentence, ChunkedRelationExtraction> relExtr) {
         this.relExtr = relExtr;
     }
 
@@ -68,7 +68,7 @@ public abstract class RelationFirstNpChunkExtractor
      * Sets the argument1 extractor.
      */
     public void setArgument1Extractor(
-        Extractor<ChunkedExtraction, ChunkedArgumentExtraction> arg1Extr) {
+        Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr) {
         this.arg1Extr = arg1Extr;
     }
 
@@ -76,7 +76,7 @@ public abstract class RelationFirstNpChunkExtractor
      * Sets the argument2 extractor.
      */
     public void setArgument2Extractor(
-        Extractor<ChunkedExtraction, ChunkedArgumentExtraction> arg2Extr) {
+        Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr) {
         this.arg2Extr = arg2Extr;
     }
 
@@ -96,17 +96,17 @@ public abstract class RelationFirstNpChunkExtractor
     protected Collection<ChunkedBinaryExtraction>
     extractCandidates(ChunkedSentence source) throws ExtractorException {
 
-        Extractor<ChunkedSentence, ChunkedExtraction> relExtr =
+        Extractor<ChunkedSentence, ChunkedRelationExtraction> relExtr =
             getRelationExtractor();
-        Extractor<ChunkedExtraction, ChunkedArgumentExtraction> arg1Extr =
+        Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr =
             getArgument1Extractor();
-        Extractor<ChunkedExtraction, ChunkedArgumentExtraction> arg2Extr =
+        Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr =
             getArgument2Extractor();
 
-        Iterable<? extends ChunkedExtraction> rels = relExtr.extract(source);
+        Iterable<? extends ChunkedRelationExtraction> rels = relExtr.extract(source);
         Collection<ChunkedBinaryExtraction> extrs =
             new ArrayList<ChunkedBinaryExtraction>();
-        for (ChunkedExtraction rel : rels) {
+        for (ChunkedRelationExtraction rel : rels) {
             Iterable<? extends ChunkedArgumentExtraction> arg1s =
                 arg1Extr.extract(rel);
             Iterable<? extends ChunkedArgumentExtraction> arg2s =

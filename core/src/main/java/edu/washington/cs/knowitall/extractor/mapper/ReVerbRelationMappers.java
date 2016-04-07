@@ -4,13 +4,14 @@ import java.io.IOException;
 
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * A list of mappers for <code>ReVerbExtractor</code>'s relations.
  *
  * @author afader
  */
-public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
+public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction> {
 
     /**
      * Default construction of ReVerbRelationMappers. Uses Lexical and Syntactic constraints, merges
@@ -55,8 +56,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
         addMapper(new MergeOverlappingMapper());
 
         // Extracted relation must contain at lease one VP chunk tag
-        addMapper(new FilterMapper<ChunkedExtraction>() {
-            public boolean doFilter(ChunkedExtraction rel) {
+        addMapper(new FilterMapper<ChunkedRelationExtraction>() {
+            public boolean doFilter(ChunkedRelationExtraction rel) {
                 boolean containsVP = false;
                 for (String chunkTag : rel.getChunkTags()) {
                     if (chunkTag.contains("VP")) {
@@ -95,8 +96,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
          * happens due to errors in the various NLP tools (sentence detector,
          * tokenizer, POS tagger, chunker).
          */
-        addMapper(new FilterMapper<ChunkedExtraction>() {
-            public boolean doFilter(ChunkedExtraction rel) {
+        addMapper(new FilterMapper<ChunkedRelationExtraction>() {
+            public boolean doFilter(ChunkedRelationExtraction rel) {
                 if (rel.getLength() == 1) {
                     return rel.getToken(0).length() > 1;
                 } else {
@@ -113,8 +114,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
         addMapper(relStopList);
 
         // The POS tag of the first verb in the relation cannot be VVPP, VAPP, VMPP
-        addMapper(new FilterMapper<ChunkedExtraction>() {
-            public boolean doFilter(ChunkedExtraction rel) {
+        addMapper(new FilterMapper<ChunkedRelationExtraction>() {
+            public boolean doFilter(ChunkedRelationExtraction rel) {
                 ChunkedSentence sent = rel.getSentence();
                 int start = rel.getStart();
                 int length = rel.getLength();
@@ -131,8 +132,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedExtraction> {
         });
 
         // The previous tag can't be a "zu"
-        addMapper(new FilterMapper<ChunkedExtraction>() {
-            public boolean doFilter(ChunkedExtraction rel) {
+        addMapper(new FilterMapper<ChunkedRelationExtraction>() {
+            public boolean doFilter(ChunkedRelationExtraction rel) {
                 int s = rel.getStart();
                 if (s == 0) {
                     return true;

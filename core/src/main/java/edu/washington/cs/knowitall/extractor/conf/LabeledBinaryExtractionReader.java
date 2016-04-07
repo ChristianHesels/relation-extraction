@@ -10,7 +10,7 @@ import java.io.InputStreamReader;
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 import edu.washington.cs.knowitall.util.IterableAdapter;
 
@@ -103,7 +103,7 @@ public class LabeledBinaryExtractionReader {
                 int label = Integer.parseInt(lines[9]);
 
                 // Construct the extraction
-                ChunkedExtraction rel = new ChunkedExtraction(sent, relRange);
+                ChunkedRelationExtraction rel = new ChunkedRelationExtraction(sent, relRange);
                 ChunkedArgumentExtraction arg1 = new ChunkedArgumentExtraction(
                     sent, arg1Range, rel);
                 ChunkedArgumentExtraction arg2 = new ChunkedArgumentExtraction(

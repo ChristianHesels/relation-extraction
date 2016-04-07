@@ -14,8 +14,6 @@ public class ChunkedExtraction extends ChunkedSentence {
     private final Range range;
     private final ChunkedSentence sent;
     private String string;
-    // sub extraction for separated verbs
-    private ChunkedExtraction subExtraction;
 
     /**
      * Constructs a new {@link ChunkedExtraction} object representing range in the sentence sent.
@@ -29,7 +27,6 @@ public class ChunkedExtraction extends ChunkedSentence {
         this.range = range;
         this.sent = sent;
         this.string = null;
-        this.subExtraction = null;
     }
 
     /**
@@ -47,7 +44,6 @@ public class ChunkedExtraction extends ChunkedSentence {
         this.range = range;
         this.sent = sent;
         this.string = string;
-        this.subExtraction = null;
     }
 
     /**
@@ -69,18 +65,6 @@ public class ChunkedExtraction extends ChunkedSentence {
      */
     public ChunkedSentence getSentence() {
         return sent;
-    }
-
-    public boolean hasSubExtraction() {
-        return subExtraction != null;
-    }
-
-    public ChunkedExtraction getSubExtraction() {
-        return subExtraction;
-    }
-
-    public void setSubExtraction(ChunkedExtraction subExtraction) {
-        this.subExtraction = subExtraction;
     }
 
     /**

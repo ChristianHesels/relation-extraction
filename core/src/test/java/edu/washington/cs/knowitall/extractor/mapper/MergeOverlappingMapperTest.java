@@ -7,15 +7,15 @@ import org.junit.Test;
 import edu.washington.cs.knowitall.extractor.ExtractorUnion;
 import edu.washington.cs.knowitall.extractor.RegexExtractor;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 import static org.junit.Assert.assertEquals;
 
 public class MergeOverlappingMapperTest {
 	
-	ExtractorUnion<ChunkedSentence, ChunkedExtraction> e1;
-	ExtractorUnion<ChunkedSentence, ChunkedExtraction> e2;
-	ExtractorUnion<ChunkedSentence, ChunkedExtraction> e3;
+	ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction> e1;
+	ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction> e2;
+	ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction> e3;
 
 	@Before
 	public void setUp() throws Exception {
@@ -23,17 +23,17 @@ public class MergeOverlappingMapperTest {
 		RegexExtractor r2 = new RegexExtractor("ist_tok Professor_tok für_tok");
 		RegexExtractor r3 = new RegexExtractor("ist_tok Professor_tok für_tok Biologie_tok an_tok der_tok");
 		
-		e1 = new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
+		e1 = new ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction>();
 		e1.addExtractor(r1);
 		e1.addExtractor(r2);
 		e1.addMapper(new MergeOverlappingMapper());
 		
-		e2 = new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
+		e2 = new ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction>();
 		e2.addExtractor(r1);
 		e2.addExtractor(r3);
 		e2.addMapper(new MergeOverlappingMapper());
 		
-		e3 = new ExtractorUnion<ChunkedSentence, ChunkedExtraction>();
+		e3 = new ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction>();
 		e3.addExtractor(r2);
 		e3.addExtractor(r3);
 		e3.addMapper(new MergeOverlappingMapper());

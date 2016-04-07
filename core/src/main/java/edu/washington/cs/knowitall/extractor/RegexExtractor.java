@@ -5,7 +5,7 @@ import java.util.Collection;
 
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.LayeredTokenMatcher;
 import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
 import edu.washington.cs.knowitall.sequence.SequenceException;
@@ -17,7 +17,7 @@ import edu.washington.cs.knowitall.sequence.SequenceException;
  * @author afader
  */
 public class RegexExtractor extends
-                            Extractor<ChunkedSentence, ChunkedExtraction> {
+                            Extractor<ChunkedSentence, ChunkedRelationExtraction> {
 
     private String patternString;
     private LayeredTokenPattern pattern;
@@ -51,19 +51,19 @@ public class RegexExtractor extends
     /**
      * Extracts relations matching the regular expression.
      */
-    public Collection<ChunkedExtraction> extractCandidates(
+    public Collection<ChunkedRelationExtraction> extractCandidates(
         ChunkedSentence sentence) throws ExtractorException {
 
         try {
 
             LayeredTokenMatcher m = pattern.matcher(sentence);
-            Collection<ChunkedExtraction> results = new ArrayList<ChunkedExtraction>();
+            Collection<ChunkedRelationExtraction> results = new ArrayList<ChunkedRelationExtraction>();
 
             while (m.find()) {
                 int start = m.start();
                 int length = m.end() - start;
                 Range r = new Range(start, length);
-                ChunkedExtraction extr = new ChunkedExtraction(sentence, r);
+                ChunkedRelationExtraction extr = new ChunkedRelationExtraction(sentence, r);
                 results.add(extr);
             }
             return results;

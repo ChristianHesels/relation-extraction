@@ -8,7 +8,7 @@ import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * Some extractions that are used by other test cases.
@@ -102,7 +102,7 @@ public abstract class TestExtractions {
     
     private static ChunkedBinaryExtraction toExtr(ChunkedSentence sent, 
         int xs, int xl, int rs, int rl, int ys, int yl) {
-        ChunkedExtraction rel = new ChunkedExtraction(sent, new Range(rs, rl));
+        ChunkedRelationExtraction rel = new ChunkedRelationExtraction(sent, new Range(rs, rl));
         ChunkedArgumentExtraction x = new ChunkedArgumentExtraction(sent,
                 new Range(xs,xl), rel);
         ChunkedArgumentExtraction y = new ChunkedArgumentExtraction(sent, 

@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 import edu.washington.cs.knowitall.commonlib.ResourceUtils;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * Filters relations based on how many distinct arg2 values it takes in a large corpus. These
@@ -23,7 +23,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
  * @author afader
  */
 public class ReVerbRelationDictionaryFilter extends
-                                            FilterMapper<ChunkedExtraction> {
+                                            FilterMapper<ChunkedRelationExtraction> {
 
     // TODO update dictionary file
     private static final String relationDictFile = "freq_rel_de.txt.gz";
@@ -96,7 +96,7 @@ public class ReVerbRelationDictionaryFilter extends
     }
 
     @Override
-    public boolean doFilter(ChunkedExtraction extr) {
+    public boolean doFilter(ChunkedRelationExtraction extr) {
         return filter.doFilter(extr);
     }
 

@@ -4,13 +4,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * A mapper that filters out any extractions containing a token or POS tag from a given set.
  *
  * @author afader
  */
-public class StopListFilter extends FilterMapper<ChunkedExtraction> {
+public class StopListFilter extends FilterMapper<ChunkedRelationExtraction> {
 
     private Set<String> stopTokens;
     private Set<String> stopPosTags;
@@ -83,7 +84,7 @@ public class StopListFilter extends FilterMapper<ChunkedExtraction> {
     /**
      * Filters out extractions that contain a stop POS tag or stop token.
      */
-    public boolean doFilter(ChunkedExtraction extr) {
+    public boolean doFilter(ChunkedRelationExtraction extr) {
         return tokensValid(extr) && posTagsValid(extr);
     }
 

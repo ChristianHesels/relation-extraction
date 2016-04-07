@@ -3,6 +3,7 @@ package edu.washington.cs.knowitall.extractor.conf;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
  * Extends the <code>ChunkedBinaryExtraction</code> class to have a binary label.
@@ -28,7 +29,7 @@ public class LabeledBinaryExtraction extends ChunkedBinaryExtraction {
      *
      * @param label either <code>LabeledBinaryExtraction.POS</code> or <code>LabeledBinaryExtraction.NEG</code>.
      */
-    public LabeledBinaryExtraction(ChunkedExtraction relation,
+    public LabeledBinaryExtraction(ChunkedRelationExtraction relation,
                                    ChunkedArgumentExtraction argument1,
                                    ChunkedArgumentExtraction argument2, int label) {
         super(relation, argument1, argument2);

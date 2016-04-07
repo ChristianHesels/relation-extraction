@@ -10,7 +10,7 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
  */
 public class ChunkedArgumentExtraction extends ChunkedExtraction {
 
-    private ChunkedExtraction relation;
+    private ChunkedRelationExtraction relation;
     private double confidence = .5;
 
     /**
@@ -22,20 +22,20 @@ public class ChunkedArgumentExtraction extends ChunkedExtraction {
      * @param relation the relation
      */
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
-                                     ChunkedExtraction relation) {
+                                     ChunkedRelationExtraction relation) {
         super(sent, range);
         this.relation = relation;
     }
 
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
-                                     ChunkedExtraction relation, double confidence) {
+                                     ChunkedRelationExtraction relation, double confidence) {
         super(sent, range);
         this.relation = relation;
         this.confidence = confidence;
     }
 
     public ChunkedArgumentExtraction(ChunkedSentence sent, Range range,
-                                     ChunkedExtraction relation, String string) {
+                                     ChunkedRelationExtraction relation, String string) {
         super(sent, range, string);
         this.relation = relation;
     }
@@ -43,7 +43,7 @@ public class ChunkedArgumentExtraction extends ChunkedExtraction {
     /**
      * @return the relation this is an argument to.
      */
-    public ChunkedExtraction getRelation() {
+    public ChunkedRelationExtraction getRelation() {
         return relation;
     }
 
