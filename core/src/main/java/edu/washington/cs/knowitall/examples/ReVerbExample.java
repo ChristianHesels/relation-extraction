@@ -25,10 +25,10 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Hans-Joachim Greb wurde als Versammlungleiter gewählt .";
+        String sentence = "Das generierte Captcha wird anschließend auf unserem Server gespeichert , damit Sie die Möglichkeit haben es herunterzuladen oder den Link auf eine         andere Seite zu kopieren . ";
         extractFromSentence(sentence);
 
-//        String fileName = "/home/tanja/Repositories/reverb/core/sentences.txt";
+        String fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
 //        extractFromFile(fileName);
     }
 
@@ -96,7 +96,11 @@ public class ReVerbExample {
 //                double conf = confFunc.getConf(extr);
                 writer.println();
                 writer.println("Arg1=" + extr.getArgument1());
-                writer.println("Rel=" + extr.getRelation());
+                if (extr.getRelation().hasSubExtraction()) {
+                    writer.println("Rel=" + extr.getRelation() + "; " + extr.getRelation().getSubExtraction());
+                } else {
+                    writer.println("Rel=" + extr.getRelation());
+                }
                 writer.println("Arg2=" + extr.getArgument2());
 //                System.out.println("Conf=" + conf);
             }
@@ -104,6 +108,7 @@ public class ReVerbExample {
             writer.println(StringUtils.repeat("-", 100));
             writer.println();
         }
+        writer.close();
         System.out.println("Done.");
     }
 }
