@@ -16,19 +16,19 @@ import static org.junit.Assert.assertEquals;
 
 public class ReVerbExtractorTest  {
 
-    private static ReVerbExtractor reverb;
-    private static ReVerbExtractor regReverb;
-    private static ReVerbExtractor relaxedReverb;
+    private static ReVerbIExtractor reverb;
+    private static ReVerbIExtractor regReverb;
+    private static ReVerbIExtractor relaxedReverb;
     private static HashSet<String> expected, got;
     
     
     @Before
     public void setUp() throws Exception {
     	if(regReverb == null) {
-        	regReverb = new ReVerbExtractor(0, true, true, false); // TODO
+        	regReverb = new ReVerbIExtractor(0, true, true, false, false); // TODO
         }
         if (relaxedReverb == null) {
-        	relaxedReverb = new ReVerbExtractor(0, false, false, true);
+        	relaxedReverb = new ReVerbIExtractor(0, false, false, false, true);
         }
         expected = new HashSet<String>();
     }

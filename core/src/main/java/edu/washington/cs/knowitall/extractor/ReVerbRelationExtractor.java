@@ -1,22 +1,15 @@
 package edu.washington.cs.knowitall.extractor;
 
-import com.google.common.collect.Iterables;
-
 import java.io.IOException;
-import java.io.StringReader;
-import java.util.ArrayList;
 
 import edu.washington.cs.knowitall.extractor.mapper.ReVerbRelationDictionaryFilter;
 import edu.washington.cs.knowitall.extractor.mapper.ReVerbRelationMappers;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
-import edu.washington.cs.knowitall.util.DefaultObjects;
 
 
-public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtractor {
+public class ReVerbRelationExtractor extends ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction> {
 
     /**
      * Definition of the "verb" of the relation pattern.
@@ -61,8 +54,7 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      * @throws ExtractorException if unable to initialize the extractor
      */
     public ReVerbRelationExtractor() throws ExtractorException {
-        initializeRelationExtractor();
-        initializeArgumentExtractors();
+        init();
     }
 
 
@@ -74,26 +66,23 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      * @param mergeOverlapRels     - Merge overlapping relations?
-     * @param allowUnary           - Allow relations with one argument to be output.
+     * @param combineVerbs         - Combine separated verbs?
      * @throws ExtractorException if unable to initialize the extractor
      */
     public ReVerbRelationExtractor(int minFreq, boolean useLexSynConstraints,
-                                   boolean mergeOverlapRels, boolean allowUnary)
+                                   boolean mergeOverlapRels, boolean combineVerbs)
         throws ExtractorException {
-        initializeRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, allowUnary);
-        initializeArgumentExtractors();
+        init(
+            minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
     }
-
-    protected abstract void initializeArgumentExtractors();
 
     /**
      * Wrapper for default initialization of the reverb relation extractor. Use lexical and
-     * syntactic constraints, merge overlapping relations,require a minimum of 20 distinct arguments
-     * for support, and do not allow unary relations.
+     * syntactic constraints, merge overlapping relations, require a minimum of 20 distinct arguments
+     * for support, do not combine separated verbs
      */
-    protected void initializeRelationExtractor() throws ExtractorException {
-        initializeRelationExtractor(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true,
-                                    false);
+    protected void init() throws ExtractorException {
+        init(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true, false);
     }
 
     /**
@@ -103,79 +92,36 @@ public abstract class ReVerbRelationExtractor extends RelationFirstNpChunkExtrac
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      * @param mergeOverlapRels     - Merge overlapping relations?
-     * @param allowUnary           - Allow relations with one argument to be output.
+     * @param combineVerbs         - Combine separated verbs?
      * @throws ExtractorException if unable to initialize the extractor
      */
-    protected void initializeRelationExtractor(int minFreq, boolean useLexSynConstraints,
-                                               boolean mergeOverlapRels, boolean allowUnary)
+    protected void init(int minFreq, boolean useLexSynConstraints,
+                        boolean mergeOverlapRels, boolean combineVerbs)
         throws ExtractorException {
-        ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction> relExtractor =
-            new ExtractorUnion<ChunkedSentence, ChunkedRelationExtraction>();
 
         try {
-            relExtractor.addExtractor(new RegexExtractor(SHORT_RELATION_PATTERN));
+            this.addExtractor(new RegexExtractor(SHORT_RELATION_PATTERN));
         } catch (SequenceException e) {
             throw new ExtractorException(
                 "Unable to initialize short pattern extractor", e);
         }
 
         try {
-            relExtractor.addExtractor(new RegexExtractor(LONG_RELATION_PATTERN));
+            this.addExtractor(new RegexExtractor(LONG_RELATION_PATTERN));
         } catch (SequenceException e) {
             throw new ExtractorException(
                 "Unable to initialize long pattern extractor", e);
         }
+
         try {
-            relExtractor.addMapper(
-                new ReVerbRelationMappers(minFreq, useLexSynConstraints, mergeOverlapRels));
+            this.addMapper(
+                new ReVerbRelationMappers(minFreq, useLexSynConstraints, mergeOverlapRels,
+                                          combineVerbs));
         } catch (IOException e) {
             throw new ExtractorException(
                 "Unable to initialize relation mappers", e);
         }
-
-        // Hack to allow unary relations.
-        super.setAllowUnary(allowUnary);
-
-        setRelationExtractor(relExtractor);
     }
 
-    /**
-     * Extracts from the given text using the default sentence reader returned by {@link
-     * DefaultObjects#getDefaultSentenceReader(java.io.Reader)}.
-     *
-     * @return an iterable object over the extractions
-     * @throws ExtractorException if unable to extract
-     */
-    public Iterable<ChunkedBinaryExtraction> extractFromString(String text)
-        throws ExtractorException {
-        try {
-            StringReader in = new StringReader(text);
-            return extractUsingReader(
-                DefaultObjects.getDefaultSentenceReader(in));
-        } catch (IOException e) {
-            throw new ExtractorException(e);
-        }
-
-    }
-
-    /**
-     * Extracts from the given reader
-     *
-     * @return extractions
-     * @throws ExtractorException if unable to extract
-     */
-    private Iterable<ChunkedBinaryExtraction> extractUsingReader(
-        ChunkedSentenceReader reader) throws ExtractorException {
-
-        ArrayList<ChunkedBinaryExtraction> results =
-            new ArrayList<ChunkedBinaryExtraction>();
-
-        Iterable<ChunkedSentence> sents =
-            reader.getSentences();
-        for (ChunkedSentence sent : sents) {
-            Iterables.addAll(results, extract(sent));
-        }
-        return results;
-    }
 }
 

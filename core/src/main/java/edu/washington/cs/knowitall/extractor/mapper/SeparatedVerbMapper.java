@@ -81,7 +81,7 @@ public class SeparatedVerbMapper extends Mapper<ChunkedRelationExtraction> {
 
         for (int i = 0; i < extrList.size() - 1; i++) {
             ChunkedRelationExtraction verb1 = extrList.get(i);
-            for (int j = i; j < extrList.size(); j++) {
+            for (int j = i + 1; j < extrList.size(); j++) {
                 ChunkedRelationExtraction verb2 = extrList.get(j);
 
                 if (verb1.getStart() < verb2.getStart() && separatedVerbs(verb1, verb2)) {

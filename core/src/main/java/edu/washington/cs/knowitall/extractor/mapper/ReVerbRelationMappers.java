@@ -3,7 +3,6 @@ package edu.washington.cs.knowitall.extractor.mapper;
 import java.io.IOException;
 
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 
 /**
@@ -27,8 +26,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
     }
 
     public ReVerbRelationMappers(int minFreq, boolean useLexSynConstraints,
-                                 boolean mergeOverlapRels) throws IOException {
-        init(minFreq, useLexSynConstraints, mergeOverlapRels);
+                                 boolean mergeOverlapRels, boolean combineVerbs) throws IOException {
+        init(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
     }
 
     private void init() throws IOException {
@@ -41,6 +40,9 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
 
         // Overlapping relations should be merged together
         addMapper(new MergeOverlappingMapper());
+
+        // Extracted relation must contain at lease one VP chunk tag
+        addMapper(new ContainsVerbFilter());
 
     }
 
@@ -56,23 +58,16 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         addMapper(new MergeOverlappingMapper());
 
         // Extracted relation must contain at lease one VP chunk tag
-        addMapper(new FilterMapper<ChunkedRelationExtraction>() {
-            public boolean doFilter(ChunkedRelationExtraction rel) {
-                boolean containsVP = false;
-                for (String chunkTag : rel.getChunkTags()) {
-                    if (chunkTag.contains("VP")) {
-                        containsVP = true;
-                    }
-                }
-                return containsVP;
-            }
-        });
+        addMapper(new ContainsVerbFilter());
 
     }
 
     private void init(int minFreq, boolean useLexSynConstraints,
-                      boolean mergeOverlapRels) throws IOException {
-        addMapper(new SeparatedVerbMapper());
+                      boolean mergeOverlapRels, boolean combineVerbs) throws IOException {
+        // Combine separated verbs
+        if (combineVerbs) {
+            addMapper(new SeparatedVerbMapper());
+        }
 
         // Add lexical and syntactic constraints on the relation.
         if (useLexSynConstraints) {
@@ -86,8 +81,11 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         // Overlapping relations should be merged together
         if (mergeOverlapRels) {
             addMapper(new MergeOverlappingMapper());
-
         }
+
+        // Extracted relation must contain at lease one VP chunk tag
+        addMapper(new ContainsVerbFilter());
+
     }
 
     private void addLexicalAndSyntacticConstraints() {

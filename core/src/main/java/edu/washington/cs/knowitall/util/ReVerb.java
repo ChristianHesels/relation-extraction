@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.washington.cs.knowitall.extractor.ReVerbExtractor;
+import edu.washington.cs.knowitall.extractor.ReVerbIExtractor;
 import edu.washington.cs.knowitall.nlp.ChunkedDocument;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
@@ -45,7 +45,7 @@ public class ReVerb {
             }
             n++;
 
-            ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
+            ReVerbIExtractor reverb = new ReVerbIExtractor(0, true, true, false, false);
             relations.addAll(Lists.newArrayList(reverb.extract(sent)));
             sentences.add(sent);
 
@@ -68,7 +68,7 @@ public class ReVerb {
             }
             n++;
 
-            ReVerbExtractor reverb = new ReVerbExtractor(0, true, true, false);
+            ReVerbIExtractor reverb = new ReVerbIExtractor(0, true, true, false, false);
             relations.addAll(Lists.newArrayList(reverb.extract(sent)));
         }
 

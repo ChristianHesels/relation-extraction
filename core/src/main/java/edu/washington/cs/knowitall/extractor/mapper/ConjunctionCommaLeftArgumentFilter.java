@@ -43,7 +43,7 @@ public class ConjunctionCommaLeftArgumentFilter extends FilterMapper<ChunkedArgu
                 conjunctionCount++;
             }
         }
-        if (commaCount % 2 != 0 || conjunctionCount % 2 != 0) {
+        if (commaCount > 0 || conjunctionCount > 0) {
             return false;
         }
 

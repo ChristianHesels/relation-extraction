@@ -6,7 +6,7 @@ import java.io.FileReader;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 
-import edu.washington.cs.knowitall.extractor.ReVerbExtractor;
+import edu.washington.cs.knowitall.extractor.ReVerbIExtractor;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
@@ -46,7 +46,7 @@ public class ReVerbDataSetCreator {
         LabeledBinaryExtractionWriter out = new LabeledBinaryExtractionWriter(
             outStream);
 
-        ReVerbExtractor extractor = new ReVerbExtractor();
+        ReVerbIExtractor extractor = new ReVerbIExtractor();
 
         for (ChunkedSentence sent : sentReader.getSentences()) {
             for (ChunkedBinaryExtraction extr : extractor.extract(sent)) {

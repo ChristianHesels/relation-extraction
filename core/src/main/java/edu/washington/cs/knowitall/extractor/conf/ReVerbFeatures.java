@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.extractor.ReVerbExtractor;
+import edu.washington.cs.knowitall.extractor.ReVerbRelationExtractor;
 import edu.washington.cs.knowitall.extractor.conf.featureset.BooleanFeatureSet;
 import edu.washington.cs.knowitall.extractor.conf.featureset.ChunkFeature;
 import edu.washington.cs.knowitall.extractor.conf.featureset.PosFeature;
@@ -129,9 +129,9 @@ public class ReVerbFeatures {
      */
 
     // Used for features related to the relation string
-    private String VERB = ReVerbExtractor.VERB;
-    private String WORD = ReVerbExtractor.WORD;
-    private String PREP = ReVerbExtractor.PREP;
+    private String VERB = ReVerbRelationExtractor.VERB;
+    private String WORD = ReVerbRelationExtractor.WORD;
+    private String PREP = ReVerbRelationExtractor.PREP;
 
     // Used for the list feature
     private String
