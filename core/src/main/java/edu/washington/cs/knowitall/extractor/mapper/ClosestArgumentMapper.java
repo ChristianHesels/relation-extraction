@@ -6,7 +6,6 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
 /**
  * A mapper object for <code>NpChunkArgumentExtraction</code> objects that returns the object
  * closest to the relation.
- *
  * @author afader
  */
 public class ClosestArgumentMapper extends

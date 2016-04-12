@@ -23,7 +23,7 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
         this.relExtr = new ReVerbRelationExtractor();
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers());
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(false));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());
@@ -46,7 +46,7 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
         this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers());
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(false));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());

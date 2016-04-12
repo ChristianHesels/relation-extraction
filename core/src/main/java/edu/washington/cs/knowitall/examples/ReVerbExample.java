@@ -29,11 +29,11 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Mit der nächsten Stufe der Digitalisierung werden Autofahrer ihre Freiheit nun endgültig los .";
-        extractFromSentence(sentence);
+        String sentence = "Die Schale des Apfels ist ein leckeres Nahrungsmittel .";
+//        extractFromSentence(sentence);
 
-        String fileName = "/home/tanja/Repositories/reverb/core/text/zeit.txt";
-//        extractFromFile(fileName);
+        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
+        extractFromFile(fileName);
     }
 
 

@@ -1,5 +1,7 @@
 package edu.washington.cs.knowitall.util;
 
+import de.hpi.morphology.Morphy;
+
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTagger;
 import opennlp.tools.postag.POSTaggerME;
@@ -13,6 +15,7 @@ import opennlp.tools.tokenize.TokenizerModel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.net.URL;
 
 import edu.washington.cs.knowitall.extractor.SentenceExtractor;
 import edu.washington.cs.knowitall.extractor.mapper.BracketsRemover;
@@ -27,6 +30,7 @@ public class DefaultObjects {
     public static final String taggerModelFile = "de-pos-maxent.bin";
     public static final String sentDetectorModelFile = "de-sent.bin";
     public static final String confFunctionModelFile = "reverb-conf-maxent.gz";
+    public static final String morphologyLexiconFile = "morphy-export-20110722.xml";
 
     /**
      * Default singleton objects
@@ -34,6 +38,7 @@ public class DefaultObjects {
     private static BracketsRemover BRACKETS_REMOVER;
     private static SentenceStartFilter SENTENCE_START_FILTER;
     private static SentenceEndFilter SENTENCE_END_FILTER;
+    private static Morphy MORPHY = null;
 
     public static InputStream getResourceAsStream(String resource)
         throws IOException {
@@ -43,6 +48,18 @@ public class DefaultObjects {
         } else {
             return in;
         }
+    }
+
+    public static Morphy getMorphy() throws IOException {
+        if (MORPHY == null) {
+            URL f = DefaultObjects.class.getClassLoader().getResource(morphologyLexiconFile);
+            if (f == null) {
+                throw new IOException("Couldn't load resource: " + morphologyLexiconFile);
+            } else {
+                MORPHY = new Morphy(f.getPath());
+            }
+        }
+        return MORPHY;
     }
 
     public static Tokenizer getDefaultTokenizer() throws IOException {
