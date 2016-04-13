@@ -45,7 +45,7 @@ public class ReVerb {
             }
             n++;
 
-            ReVerbIExtractor reverb = new ReVerbIExtractor(0, true, true, false, false);
+            ReVerbIExtractor reverb = new ReVerbIExtractor(0, true);
             relations.addAll(Lists.newArrayList(reverb.extract(sent)));
             sentences.add(sent);
 
@@ -68,7 +68,7 @@ public class ReVerb {
             }
             n++;
 
-            ReVerbIExtractor reverb = new ReVerbIExtractor(0, true, true, false, false);
+            ReVerbIExtractor reverb = new ReVerbIExtractor(0, true);
             relations.addAll(Lists.newArrayList(reverb.extract(sent)));
         }
 

@@ -25,10 +25,10 @@ public class ReVerbExtractorTest  {
     @Before
     public void setUp() throws Exception {
     	if(regReverb == null) {
-        	regReverb = new ReVerbIExtractor(0, true, true, false, false); // TODO
+        	regReverb = new ReVerbIExtractor(0, true); // TODO
         }
         if (relaxedReverb == null) {
-        	relaxedReverb = new ReVerbIExtractor(0, false, false, false, true);
+        	relaxedReverb = new ReVerbIExtractor(0, false);
         }
         expected = new HashSet<String>();
     }
@@ -102,7 +102,6 @@ public class ReVerbExtractorTest  {
 
     @Test
     /**
-     * Adds unary relations.
      * @throws Exception
      */
     public void testNoFiltersExtract2() throws Exception {
@@ -113,7 +112,6 @@ public class ReVerbExtractorTest  {
             "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
         );
         expected.add("ist heute ein");
-        expected.add("ist");
         assertEquals(expected, got);
     }
 
