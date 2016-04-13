@@ -29,11 +29,11 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Die Schale des Apfels ist ein leckeres Nahrungsmittel .";
-//        extractFromSentence(sentence);
+        String sentence = "Altglas ist ein Rohstoff für viele neue Glasprodukte .";
+        extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
-        extractFromFile(fileName);
+//        extractFromFile(fileName);
     }
 
 
@@ -46,10 +46,10 @@ public class ReVerbExample {
         System.out.println(sentenceAsString(sent));
 
         // Prints out extractions from the sentence.
-        ReVerbIExtractor reverbI = new ReVerbIExtractor(0, true, true, false, false);
+        ReVerbIExtractor reverbI = new ReVerbIExtractor(0, true);
         System.out.println("ReVerb I:");
         System.out.print(extractionAsString(reverbI, sent));
-        ReVerbIIExtractor reverbII = new ReVerbIIExtractor(0, true, true, true, false);
+        ReVerbIIExtractor reverbII = new ReVerbIIExtractor(0, true);
         System.out.println("ReVerb II:");
         System.out.print(extractionAsString(reverbII, sent));
     }
@@ -60,8 +60,8 @@ public class ReVerbExample {
         ChunkedSentenceReader reader = new ChunkedSentenceReader(new FileReader(fileName), DefaultObjects.getDefaultSentenceExtractor());
         BinaryExtractionNormalizer normalizer = new BinaryExtractionNormalizer();
 
-        ReVerbIExtractor reverbI = new ReVerbIExtractor(0, true, true, false, false);
-        ReVerbIIExtractor reverbII = new ReVerbIIExtractor(0, true, true, true, false);
+        ReVerbIExtractor reverbI = new ReVerbIExtractor(0, true);
+        ReVerbIIExtractor reverbII = new ReVerbIIExtractor(0, true);
 
         System.out.println("Process sentences ...");
         int n = 0;

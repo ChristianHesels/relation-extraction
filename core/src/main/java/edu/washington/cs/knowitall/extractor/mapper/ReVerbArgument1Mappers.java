@@ -10,14 +10,14 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 public class ReVerbArgument1Mappers extends
                                     MapperList<ChunkedArgumentExtraction> {
 
-    boolean nominativeFilter;
+    boolean useMorphologyLexicon;
 
     public ReVerbArgument1Mappers() {
-        this.nominativeFilter = false;
+        this.useMorphologyLexicon = false;
         init();
     }
-    public ReVerbArgument1Mappers(boolean nominativeFilter) {
-        this.nominativeFilter = nominativeFilter;
+    public ReVerbArgument1Mappers(boolean useMorphologyLexicon) {
+        this.useMorphologyLexicon = useMorphologyLexicon;
         init();
     }
 
@@ -58,7 +58,7 @@ public class ReVerbArgument1Mappers extends
 
         // First argument should be closest to relation that passes through
         // filters
-        if (nominativeFilter) {
+        if (useMorphologyLexicon) {
             addMapper(new ClosestNominativeArgumentMapper());
         } else {
             addMapper(new ClosestArgumentMapper());

@@ -3,6 +3,7 @@ package edu.washington.cs.knowitall.extractor;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import edu.washington.cs.knowitall.extractor.mapper.ChunkedBinaryExtractionMergeOverlappingMapper;
 import edu.washington.cs.knowitall.extractor.mapper.ReVerbArgument1Mappers;
 import edu.washington.cs.knowitall.extractor.mapper.ReVerbArgument2Mappers;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
@@ -18,7 +19,10 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr;
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr;
 
-    private boolean allowUnary;
+    private static final boolean allowUnary = false;
+    private static final boolean mergeOverlapRels = false;
+    private static final boolean combineVerbs = true;
+    private static final boolean useMorphologyLexicon = true;
 
     public ReVerbIIExtractor() {
         this.sentExtr = new SubsentenceExtractor();
@@ -26,12 +30,12 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
         this.relExtr = new ReVerbRelationExtractor();
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(true));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());
 
-        allowUnary = false;
+        this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
     }
 
     /**
@@ -40,23 +44,19 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
      * @param minFreq              - The minimum distinct arguments to be observed in a large
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
-     * @param mergeOverlapRels     - Merge overlapping relations?
-     * @param combineVerbs         - Combine separated verbs?
-     * @param allowUnary           - Allow relations with one argument to be output.
      */
-    public ReVerbIIExtractor(int minFreq, boolean useLexSynConstraints,
-                             boolean mergeOverlapRels, boolean combineVerbs, boolean allowUnary) {
+    public ReVerbIIExtractor(int minFreq, boolean useLexSynConstraints) {
         this.sentExtr = new SubsentenceExtractor();
 
         this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(true));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());
 
-        this.allowUnary = allowUnary;
+        this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
     }
 
     @Override

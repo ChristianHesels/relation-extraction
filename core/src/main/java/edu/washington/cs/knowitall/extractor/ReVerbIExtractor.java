@@ -17,18 +17,19 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr;
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr;
 
-    private boolean allowUnary;
+    private static final boolean allowUnary = false;
+    private static final boolean mergeOverlapRels = true;
+    private static final boolean combineVerbs = false;
+    private static final boolean useMorphologyLexicon = false;
 
     public ReVerbIExtractor() {
         this.relExtr = new ReVerbRelationExtractor();
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(false));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());
-
-        allowUnary = false;
     }
 
     /**
@@ -37,21 +38,15 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
      * @param minFreq              - The minimum distinct arguments to be observed in a large
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
-     * @param mergeOverlapRels     - Merge overlapping relations?
-     * @param combineVerbs         - Combine separated verbs?
-     * @param allowUnary           - Allow relations with one argument to be output.
      */
-    public ReVerbIExtractor(int minFreq, boolean useLexSynConstraints,
-                            boolean mergeOverlapRels, boolean combineVerbs, boolean allowUnary) {
+    public ReVerbIExtractor(int minFreq, boolean useLexSynConstraints) {
         this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(false));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
         arg2Extr.addMapper(new ReVerbArgument2Mappers());
-
-        this.allowUnary = allowUnary;
     }
 
     @Override
