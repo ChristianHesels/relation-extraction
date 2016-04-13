@@ -32,8 +32,6 @@ public class ReVerbArgument1Mappers extends
         addFirstPosTagNotEqualsFilter("APPR");
         addFirstPosTagNotEqualsFilter("APPRART");
 
-        // Second argument can't be a number
-        addFirstPosTagNotEqualsFilter("CARD");
 
         // Can't be
         addFirstTokenNotEqualsFilter("dass");
@@ -51,6 +49,9 @@ public class ReVerbArgument1Mappers extends
         addArgumentNotEqualsFilter("ART");      // der, die, das
         addArgumentNotEqualsFilter("PRELS");    // ..., der
         addArgumentNotEqualsFilter("PIS");      // keiner viele man niemand
+
+        // First argument can't be a single number
+        addArgumentNotEqualsFilter("CARD");
 
         // First argument can't match "ARG1, REL" "ARG1 and REL" or
         // "ARG1, and REL"

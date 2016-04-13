@@ -29,7 +29,7 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Altglas ist ein Rohstoff für viele neue Glasprodukte .";
+        String sentence = "m2 Immobilien GmbH Ist ein sächsisches Immobilien-Makler und Immobilien-Verwaltungs-Unternehmen .";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";

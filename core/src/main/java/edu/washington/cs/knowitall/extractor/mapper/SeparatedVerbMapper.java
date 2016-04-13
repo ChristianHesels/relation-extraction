@@ -19,7 +19,7 @@ public class SeparatedVerbMapper extends Mapper<ChunkedRelationExtraction> {
     private boolean containsOnlyNPAndO(List<String> chunkTags) {
         boolean npo = true;
         for (String chunk : chunkTags) {
-            if (!chunk.equals("O") && !chunk.contains("NP")) {
+            if (!chunk.equals("O") && !chunk.contains("NP") && !chunk.contains("PP")) {
                 npo = false;
                 break;
             }
@@ -48,7 +48,7 @@ public class SeparatedVerbMapper extends Mapper<ChunkedRelationExtraction> {
                 conjunctionCount++;
             }
         }
-        return commaCount % 2 == 0 && conjunctionCount % 2 == 0;
+        return commaCount == 0 && conjunctionCount == 0;
     }
 
     /**
@@ -84,8 +84,9 @@ public class SeparatedVerbMapper extends Mapper<ChunkedRelationExtraction> {
             for (int j = i + 1; j < extrList.size(); j++) {
                 ChunkedRelationExtraction verb2 = extrList.get(j);
 
-                if (verb1.getStart() < verb2.getStart() && separatedVerbs(verb1, verb2)) {
-                    verb1.setSubRelation(verb2);
+                if (verb1.getStart() < verb2.getStart()) {
+                    boolean s = separatedVerbs(verb1, verb2);
+                    if (s) verb1.setSubRelation(verb2);
                 }
             }
         }
