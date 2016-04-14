@@ -17,10 +17,10 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr;
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr;
 
-    private static final boolean allowUnary = false;
-    private static final boolean mergeOverlapRels = true;
-    private static final boolean combineVerbs = false;
-    private static final boolean useMorphologyLexicon = false;
+    private boolean allowUnary = false;
+    private boolean mergeOverlapRels = true;
+    private boolean combineVerbs = false;
+    private boolean useMorphologyLexicon = false;
 
     public ReVerbIExtractor() {
         this.relExtr = new ReVerbRelationExtractor();
@@ -67,6 +67,22 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
         }
 
         return extrs;
+    }
+
+    public void setAllowUnary(boolean allowUnary) {
+        this.allowUnary = allowUnary;
+    }
+
+    public void setMergeOverlapRels(boolean mergeOverlapRels) {
+        this.mergeOverlapRels = mergeOverlapRels;
+    }
+
+    public void setCombineVerbs(boolean combineVerbs) {
+        this.combineVerbs = combineVerbs;
+    }
+
+    public void setUseMorphologyLexicon(boolean useMorphologyLexicon) {
+        this.useMorphologyLexicon = useMorphologyLexicon;
     }
 }
 
