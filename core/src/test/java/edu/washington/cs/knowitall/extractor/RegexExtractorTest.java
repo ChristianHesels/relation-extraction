@@ -26,9 +26,12 @@ public class RegexExtractorTest {
     @Before
     public void setUp() throws Exception {
         sent1 = new ChunkedSentence(
-                new String[] { "Obama", "war", "ein", "Professor", "für", "Recht", "an", "der", "Universität", "in", "Chicago", "." },
-                new String[] { "NE", "VAFIN", "ART", "NN", "APPR", "NN", "APPR", "ART", "NN", "APPR", "NE", "$." },
-                new String[] { "B-NP", "B-VP", "B-NP", "I-NP", "B-PP", "I-PP", "B-PP", "I-PP", "I-PP", "B-PP", "IPP", "O" }
+            new String[]{"Obama", "war", "ein", "Professor", "für", "Recht", "an", "der",
+                         "Universität", "in", "Chicago", "."},
+            new String[]{"NE", "VAFIN", "ART", "NN", "APPR", "NN", "APPR", "ART", "NN", "APPR",
+                         "NE", "$."},
+            new String[]{"B-NP", "B-VP", "B-NP", "I-NP", "B-PP", "I-PP", "B-PP", "I-PP", "I-PP",
+                         "B-PP", "IPP", "O"}
         );
     }
 

@@ -14,21 +14,23 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 
 import static org.junit.Assert.assertEquals;
 
-public class ReVerbExtractorTest  {
+public class ReVerbExtractorTest {
 
     private static ReVerbIExtractor reverb;
     private static ReVerbIExtractor regReverb;
     private static ReVerbIExtractor relaxedReverb;
     private static HashSet<String> expected, got;
-    
-    
+
+
     @Before
     public void setUp() throws Exception {
-    	if(regReverb == null) {
-        	regReverb = new ReVerbIExtractor(0, true); // TODO
+        if (regReverb == null) {
+            regReverb = new ReVerbIExtractor(0, true); // TODO
         }
         if (relaxedReverb == null) {
-        	relaxedReverb = new ReVerbIExtractor(0, false);
+            relaxedReverb = new ReVerbIExtractor(0, false);
+            relaxedReverb.setAllowUnary(true);
+            relaxedReverb.setMergeOverlapRels(false);
         }
         expected = new HashSet<String>();
     }
@@ -48,16 +50,20 @@ public class ReVerbExtractorTest  {
         return results;
     }
 
-    private static HashSet<String> extractTriples(String ts, String ps, String cs) throws Exception {
+    private static HashSet<String> extractTriples(String ts, String ps, String cs)
+        throws Exception {
         List<ChunkedBinaryExtraction> extrs = extract(asSentence(ts, ps, cs));
         HashSet<String> results = new HashSet<String>();
         for (ChunkedBinaryExtraction extr : extrs) {
-            results.add("("+ extr.getArgument1() + ", " + extr.getRelation() + ", " + extr.getArgument2() + ")");
+            results.add(
+                "(" + extr.getArgument1() + ", " + extr.getRelation() + ", " + extr.getArgument2()
+                + ")");
         }
         return results;
     }
 
-    public static ChunkedSentence asSentence(String tokensStr, String posTagsStr, String npChunkTagsStr) throws Exception {
+    public static ChunkedSentence asSentence(String tokensStr, String posTagsStr,
+                                             String npChunkTagsStr) throws Exception {
         String[] tokens = tokensStr.split(" ");
         String[] posTags = posTagsStr.split(" ");
         String[] npChunkTags = npChunkTagsStr.split(" ");
@@ -67,10 +73,10 @@ public class ReVerbExtractorTest  {
     @Test
     public void testExtract1() throws Exception {
         reverb = regReverb;
-    	got = extractRels(
-                "Amazon ist ein sogenanntes Social-Commerce-Versandhaus .",
-                "NE VAFIN ART ADJA NN $.",
-                "B-NP B-VP B-NP I-NP I-NP O"
+        got = extractRels(
+            "Amazon ist ein sogenanntes Social-Commerce-Versandhaus .",
+            "NE VAFIN ART ADJA NN $.",
+            "B-NP B-VP B-NP I-NP I-NP O"
         );
         expected.add("ist ein");
         assertEquals(expected, got);
@@ -87,14 +93,14 @@ public class ReVerbExtractorTest  {
         expected.add("ist ein");
         assertEquals(expected, got);
     }
-    
+
     @Test
     public void testExtract2() throws Exception {
-    	reverb = regReverb;
+        reverb = regReverb;
         got = extractRels(
-                "Das St. Johannes-Hospital ist heute ein modernes , leistungsfähiges Krankenhaus .",
-                "ART ADJA NE VAFIN ADV ART ADJA $, ADJA NN $.",
-                "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
+            "Das St. Johannes-Hospital ist heute ein modernes , leistungsfähiges Krankenhaus .",
+            "ART ADJA NE VAFIN ADV ART ADJA $, ADJA NN $.",
+            "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
         );
         expected.add("ist heute ein");
         assertEquals(expected, got);

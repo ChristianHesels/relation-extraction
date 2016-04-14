@@ -20,11 +20,13 @@ public class ChunkedBinaryExtractionMergeOverlappingMapper extends Mapper<Chunke
         List<ChunkedBinaryExtraction> result = new ArrayList<ChunkedBinaryExtraction>(extractions.size());
         if (extractions.size() > 1) {
 
-            for (int i = 0; i < extractions.size() - 1; i++) {
+            for (int i = 0; i < extractions.size(); i++) {
                 ChunkedBinaryExtraction extr1 = extractions.get(i);
                 boolean isContained = false;
 
-                for (int j = i + 1; j < extractions.size(); j++) {
+                for (int j = 0; j < extractions.size(); j++) {
+                    if (i == j) continue;
+
                     ChunkedBinaryExtraction extr2 = extractions.get(j);
 
                     if (isContainedIn(extr1, extr2)) {
@@ -37,7 +39,6 @@ public class ChunkedBinaryExtractionMergeOverlappingMapper extends Mapper<Chunke
                     result.add(extr1);
                 }
             }
-            result.add(extractions.get(extractions.size() - 1));
             return result;
 
         } else {

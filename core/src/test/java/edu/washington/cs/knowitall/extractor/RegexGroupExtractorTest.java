@@ -14,14 +14,15 @@ import edu.washington.cs.knowitall.nlp.extraction.SpanExtraction;
 import static org.junit.Assert.assertEquals;
 
 public class RegexGroupExtractorTest {
-    
+
     public List<ChunkedSentence> sents = TestExtractions.sentences;
 
     @Before
     public void setUp() throws Exception {
     }
-    
-    public List<SpanExtraction> extract(RegexGroupExtractor extractor, ChunkedSentence sent) throws Exception {
+
+    public List<SpanExtraction> extract(RegexGroupExtractor extractor, ChunkedSentence sent)
+        throws Exception {
         List<SpanExtraction> extrs = new ArrayList<SpanExtraction>();
         Iterables.addAll(extrs, extractor.extract(sent));
         return extrs;
@@ -29,7 +30,10 @@ public class RegexGroupExtractorTest {
 
     @Test
     public void testExtract1() throws Exception {
-        RegexGroupExtractor extractor = new RegexGroupExtractor("(B-NP_np I-NP_np*) ist_tok der_tok Bürgermeister_tok von_tok (NE_pos)");
+        RegexGroupExtractor
+            extractor =
+            new RegexGroupExtractor(
+                "(B-NP_np I-NP_np*) ist_tok der_tok Bürgermeister_tok von_tok (NE_pos)");
         List<SpanExtraction> extrs = extract(extractor, sents.get(0));
         assertEquals(1, extrs.size());
         SpanExtraction extr = extrs.get(0);
@@ -37,10 +41,12 @@ public class RegexGroupExtractorTest {
         assertEquals("Mike", extr.getField(0).getTokensAsString());
         assertEquals("Seattle", extr.getField(1).getTokensAsString());
     }
-    
+
     @Test
     public void testExtract2() throws Exception {
-        RegexGroupExtractor extractor = new RegexGroupExtractor("(B-NP_np I-NP_np*) ist_tok der_tok (NN_pos) von_tok (NE_pos)");
+        RegexGroupExtractor
+            extractor =
+            new RegexGroupExtractor("(B-NP_np I-NP_np*) ist_tok der_tok (NN_pos) von_tok (NE_pos)");
         List<SpanExtraction> extrs = extract(extractor, sents.get(0));
         assertEquals(1, extrs.size());
         SpanExtraction extr = extrs.get(0);

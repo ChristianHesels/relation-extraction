@@ -1,8 +1,8 @@
 package edu.washington.cs.knowitall.extractor.conf;
 
-import java.util.HashMap;
-
 import com.google.common.base.Predicate;
+
+import java.util.HashMap;
 
 import edu.washington.cs.knowitall.extractor.conf.featureset.BooleanFeatureSet;
 import edu.washington.cs.knowitall.extractor.conf.opennlp.OpenNlpDataSet;

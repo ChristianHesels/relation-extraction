@@ -18,7 +18,7 @@ public class WekaClassifierConfFunctionTest {
         BooleanFeatureSet<String> features = StringFeatures.featureSet;
         GIS.PRINT_MESSAGES = false;
         GISModel model = GIS.trainModel(
-                new ListEventStream(StringFeatures.dataSet.getInstances()), 100, 0);
+            new ListEventStream(StringFeatures.dataSet.getInstances()), 100, 0);
         OpenNlpConfFunction<String> conf = new OpenNlpConfFunction<String>(model, features);
         double janeConf = conf.getConf("jane");
         double ofConf = conf.getConf("of");

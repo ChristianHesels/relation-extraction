@@ -12,7 +12,7 @@ public class SubsentenceExtractor extends ExtractorUnion<ChunkedSentence, Chunke
     public static final String PP = "(B-PP_np (I-PP_np)*)";
     public static final String O = "(O_np)";
 
-    public static final String WORD = "[ADJA_pos ADJD_pos ADV_pos APPR_pos APPRART_pos APPO_pos APZR_pos ART_pos CARD_pos NN_pos NE_pos PDS_pos PDAT_pos PIS_pos PIAT_pos PIDAT_pos PPER_pos PPOSS_pos PPOSAT_pos PRELS_pos PRELAT_pos PRF_pos PWS_pos PWAT_pos PWAV_pos PROAV_pos PTKA_pos PTKNEG_pos PTKZU_pos TRUNC_pos (TRUNC_pos KON_pos)]";
+    public static final String WORD = "[ADJA_pos ADJD_pos ADV_pos APPR_pos APPRART_pos APPO_pos APZR_pos ART_pos CARD_pos NN_pos NE_pos PDS_pos PDAT_pos PIS_pos PIAT_pos PIDAT_pos PPER_pos PPOSS_pos PPOSAT_pos PRELS_pos PRELAT_pos PRF_pos PWS_pos PWAT_pos PWAV_pos PROAV_pos PTKA_pos PTKNEG_pos PTKZU_pos TRUNC_pos]";
 
     // The pattern representing some text including a NP
     public static final String TEXT = String.format("%s* %s %s*", WORD, NP, WORD);
