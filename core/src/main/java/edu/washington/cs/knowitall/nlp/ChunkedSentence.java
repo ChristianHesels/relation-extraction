@@ -42,6 +42,9 @@ public class ChunkedSentence extends BIOLayeredSequence {
      * must have the same length. The NP chunks should be expressed using the standard B-NP, I-NP, O
      * tags.
      *
+     * @param tokens        the tokens
+     * @param posTags       the pos tags
+     * @param npChunkTags   the np chunk tags
      * @throws SequenceException if the layers are of different lengths, or if unable to interpret
      *                           npChunkTags
      */
@@ -63,6 +66,10 @@ public class ChunkedSentence extends BIOLayeredSequence {
      * must have the same length. The NP chunks should be expressed using the standard B-NP, I-NP, O
      * tags.
      *
+     * @param offsets       the offsets
+     * @param tokens        the tokens
+     * @param posTags       the pos tags
+     * @param npChunkTags   the np chunk tags
      * @throws SequenceException if the layers are of different lengths, or if unable to interpret
      *                           npChunkTags
      */
@@ -94,6 +101,8 @@ public class ChunkedSentence extends BIOLayeredSequence {
      * Constructs a new instance using the given tokens, POS tags, and NP chunk tags, each of which
      * must have the same length. The NP chunks should be expressed using the standard B-NP, I-NP, O
      * tags.
+     *
+     * @param sent the chunked sentence
      */
     public ChunkedSentence(ChunkedSentence sent) {
         super(sent.getLength());
@@ -126,14 +135,17 @@ public class ChunkedSentence extends BIOLayeredSequence {
     }
 
     /**
-     * Returns a new ChunkedSentence object that starts at the given range.
+     * @param range the range of the subsequence
+     * @return  a new ChunkedSentence object that starts at the given range.
      */
     public ChunkedSentence getSubSequence(Range range) {
         return getSubSequence(range.getStart(), range.getLength());
     }
 
     /**
-     * Returns a new ChunkedSentence object that starts at the given start index and has the given
+     * @param length the length of the subsequence
+     * @param start  the start index
+     * @return  a new ChunkedSentence object that starts at the given start index and has the given
      * length.
      */
     public ChunkedSentence getSubSequence(int start, int length) {

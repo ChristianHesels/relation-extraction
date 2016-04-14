@@ -7,12 +7,17 @@ import java.util.List;
 
 import is2.data.SentenceData09;
 import is2.lemmatizer.Lemmatizer;
+import is2.util.DB;
 
 public class MateToolLemmatizer {
 
     // Load lemmatizer
     URL in = VerbalRelationNormalizer.class.getClassLoader().getResource("lemma-ger-3.6.model");
     Lemmatizer lemmatizer = new Lemmatizer(in.getPath(), false);
+
+    public MateToolLemmatizer() {
+        DB.setDebug(false);
+    }
 
     public List<String> lemmatize(List<String> tokens) {
         // convert tokens into array with 'root' element

@@ -14,9 +14,9 @@ import java.util.Collection;
 public interface LayeredSequence {
 
     /**
+     * @param layerName the layer name
+     * @param index     the index
      * @return the value at the given position.
-     * @throws IndexOutOfBoundsException if the index is out of range
-     * @throws IllegalArgumentException  if a layer with name layerName does not exist
      */
     public String get(String layerName, int index);
 
@@ -26,6 +26,7 @@ public interface LayeredSequence {
     public Collection<String> getLayerNames();
 
     /**
+     * @param layerName the layer name
      * @return true if this sequence has a layer with the given name
      */
     public boolean hasLayer(String layerName);

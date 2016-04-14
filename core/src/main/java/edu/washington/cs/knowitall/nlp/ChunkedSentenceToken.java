@@ -39,21 +39,21 @@ public class ChunkedSentenceToken {
     }
 
     /**
-     * The string of this token.
+     * @return The string of this token.
      */
     public String string() {
         return this.ChunkedSentence.getTokens().get(this.index);
     }
 
     /**
-     * The part of speech tag of this token.
+     * @return The part of speech tag of this token.
      */
     public String pos() {
         return this.ChunkedSentence.getPosTag(this.index);
     }
 
     /**
-     * The chunk tag of this token.
+     * @return The chunk tag of this token.
      */
     public String chunk() {
         return this.ChunkedSentence.getChunkTag(this.index);

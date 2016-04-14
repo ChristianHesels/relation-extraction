@@ -27,7 +27,10 @@ public class ChunkedSentencePattern {
      * should only be used on multi-ChunkedSentenceToken sequences. <p> The Regular Expressions
      * support named groups (<name>: ... ), unnamed groups (?: ... ), and capturing groups ( ... ).
      * The operators allowed are +, ?, *, and |. The Logic Expressions (that describe each
-     * ChunkedSentenceToken) allow grouping "( ... )", not '!', or '|', and and '&'.
+     * ChunkedSentenceToken) allow grouping "( ... )", not '!', or '|', and and '\&'.
+     *
+     * @param regex the regex
+     * @return a regular expression of chunked sentence token
      */
     public static RegularExpression<ChunkedSentenceToken> compile(String regex) {
         return RegularExpression.compile(regex,

@@ -32,6 +32,9 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     /**
      * Constructs a reader from <code>r</code> using the sentence extractor <code>se</code> and the
      * default <code>TreeTaggerSentenceChunker</code> object.
+     *
+     * @param r  the reader
+     * @param se the sentence extractor
      */
     public ChunkedSentenceReader(Reader r, SentenceExtractor se)
         throws IOException {
@@ -44,6 +47,9 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     /**
      * Constructs a reader from <code>r</code> using the chunker <code>sc</code> and the default
      * <code>SentenceExtractor</code>.
+     *
+     * @param r  the reader
+     * @param sc the sentence chunker
      */
     public ChunkedSentenceReader(Reader r, SentenceChunker sc)
         throws IOException {
@@ -53,6 +59,8 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     /**
      * Constructs a reader from <code>r</code> using the default <code>SentenceExtractor</code> and
      * <code>OpenNlpSentenceChunker</code>.
+     *
+     * @param r  the reader
      */
     public ChunkedSentenceReader(Reader r) throws IOException {
         if (SENT_CHUNKER == null) {
@@ -64,6 +72,10 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
     /**
      * Constructs a reader from <code>r</code> using the sentence extractor <code>se</code> and the
      * sentence chunker <code>sc</code>.
+     *
+     * @param r  the reader
+     * @param se the sentence extractor
+     * @param sc the sentence chunker
      */
     public ChunkedSentenceReader(Reader r, SentenceExtractor se,
                                  SentenceChunker sc) {
@@ -83,6 +95,8 @@ public class ChunkedSentenceReader implements Iterable<ChunkedSentence> {
 
     /**
      * This filter is used for sentences AFTER they have been chunked.
+     *
+     * @param filter the filter to add
      */
     public void addFilter(Predicate<ChunkedSentence> filter) {
         this.chunkedSentIter.addFilter(filter);

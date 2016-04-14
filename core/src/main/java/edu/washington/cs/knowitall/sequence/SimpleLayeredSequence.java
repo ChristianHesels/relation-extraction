@@ -28,6 +28,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
 
     /**
      * Constructs a new layered sequence with the given length
+     *
+     * @param length the length
      */
     public SimpleLayeredSequence(int length) {
         init();
@@ -41,6 +43,7 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName layer name
      * @return an immutable list of the layer
      */
     public ImmutableList<String> getLayer(String layerName) {
@@ -69,6 +72,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
     /**
      * Adds a new layer to the sequence
      *
+     * @param layerName the name of the layer
+     * @param layer     the layer to add
      * @throws SequenceException if a layer with layerName already exists or the given layer has the
      *                           incorrect length
      */
@@ -95,6 +100,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
      * Adds a new layer to the sequence. An immutable list will be instantiated around
      * <code>layer</code>.
      *
+     * @param layerName the name of the layer
+     * @param layer     the layer to add
      * @throws SequenceException if a layer with layerName already exists or the given layer has the
      *                           incorrect length
      */
@@ -105,6 +112,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
     /**
      * Adds a new layer to the sequence
      *
+     * @param layerName the name of the layer
+     * @param layer     the layer to add
      * @throws SequenceException if a layer with layerName already exists or the given layer has the
      *                           incorrect length
      */
@@ -118,6 +127,7 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the layer name
      * @return true if this sequence has a layer with the given name
      */
     public boolean hasLayer(String layerName) {
@@ -125,6 +135,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the layer name
+     * @param index     the index
      * @return the value of the given layer at the given index
      */
     public String get(String layerName, int index) {
@@ -133,6 +145,9 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the name of the layer
+     * @param start     the start index
+     * @param length    the length of the layer
      * @return an immutable subsequence of the layer
      */
     public ImmutableList<String> getSubSequence(String layerName, int start,
@@ -145,6 +160,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the name of the layer
+     * @param r         the range of the layer
      * @return an immutable subsequence of the layer
      */
     public List<String> getSubSequence(String layerName, Range r) {
@@ -152,7 +169,9 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
-     * Returns the subsequence of this layered sequence starting at the given position with the
+     * @param start     the start index
+     * @param length    the length of the layer
+     * @return the subsequence of this layered sequence starting at the given position with the
      * given length
      */
     public SimpleLayeredSequence getSubSequence(int start, int length) {
@@ -173,7 +192,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
-     * Returns the subsequence of this layered sequence starting at the given position with the
+     * @param r the range of the layer
+     * @return  the subsequence of this layered sequence starting at the given position with the
      * given length
      */
     public SimpleLayeredSequence getSubSequence(Range r) {
@@ -188,6 +208,7 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the layer name
      * @return the tokens in the given layer name, joined by spaces
      */
     public String getLayerAsString(String layerName) {
@@ -195,6 +216,8 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the layer name
+     * @param r         the range of the layer
      * @return the tokens in the given layer name in the given range, joined by spaces
      */
     public String getLayerAsString(String layerName, Range r) {
@@ -202,6 +225,9 @@ public class SimpleLayeredSequence implements LayeredSequence {
     }
 
     /**
+     * @param layerName the layer name
+     * @param length    the length of the layer
+     * @param start     the start index
      * @return returns the tokens of the given layer name, joined by spaces, starting at the start
      * position and ending at start+length
      */

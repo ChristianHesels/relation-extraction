@@ -33,7 +33,7 @@ public class ReVerbRelationExtractor extends ExtractorUnion<ChunkedSentence, Chu
      * Definition of the "preposition" part of the relation pattern.
      */
     public static final String PREP =
-        "[APPR_pos APPRART_pos PROAV_pos ART_pos ADJD_pos PPOSAT_pos]";
+        "[APPR_pos APPRART_pos PAV_pos ART_pos ADJD_pos PPOSAT_pos]";
 
     /**
      * The pattern (V(W*P)?)+

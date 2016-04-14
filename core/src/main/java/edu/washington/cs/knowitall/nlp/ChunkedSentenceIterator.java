@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * A class that combines an Iterator<String> object over sentences with a SentenceChunker object to
+ * A class that combines an <code>Iterator<String></code> object over sentences with a SentenceChunker object to
  * produce an iterator over {@link ChunkedSentence} objects.
  *
  * @author afader
@@ -23,6 +23,7 @@ public class ChunkedSentenceIterator extends AbstractIterator<ChunkedSentence> {
 
     /**
      * @param sentIter an iterator over <code>String</code> sentences.
+     * @param chunker  the sentence chunker
      */
     public ChunkedSentenceIterator(Iterator<String> sentIter,
                                    SentenceChunker chunker) {

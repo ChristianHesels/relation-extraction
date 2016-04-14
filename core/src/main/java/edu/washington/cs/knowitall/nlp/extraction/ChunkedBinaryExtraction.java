@@ -42,6 +42,10 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
     /**
      * Constructs a new instance using the given relation and arguments. The relation and arguments
      * must all be from the same sentence.
+     *
+     * @param rel   the chunked relation
+     * @param arg1  the chunked argument 1
+     * @param arg2  the chunked argument 2
      */
     public ChunkedBinaryExtraction(ChunkedRelationExtraction rel,
                                    ChunkedArgumentExtraction arg1, ChunkedArgumentExtraction arg2) {
@@ -107,6 +111,8 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
     /**
      * Given a collection of arg1s, a collection of arg2s, and a relation, returns all (arg1, rel,
      * arg2) extractions, where arg1 and arg2 range over the given collections.
+     *
+     * @return all (arg1, rel, arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<ChunkedBinaryExtraction> productOfArgs(
         ChunkedRelationExtraction rel,
@@ -118,6 +124,8 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
     /**
      * Given a collection of arg1s, a collection of arg2s, and a relation, returns all (arg1, rel,
      * arg2) extractions, where arg1 and arg2 range over the given collections.
+     *
+     * @return all (arg1, rel, arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<ChunkedBinaryExtraction> productOfArgs(
         ChunkedRelationExtraction rel,
