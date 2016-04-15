@@ -11,12 +11,16 @@ import is2.util.DB;
 
 public class MateToolLemmatizer {
 
-    // Load lemmatizer
-    URL in = VerbalRelationNormalizer.class.getClassLoader().getResource("lemma-ger-3.6.model");
-    Lemmatizer lemmatizer = new Lemmatizer(in.getPath(), false);
+    Lemmatizer lemmatizer;
 
     public MateToolLemmatizer() {
         DB.setDebug(false);
+
+        // Load lemmatizer
+        URL in = VerbalRelationNormalizer.class.getClassLoader().getResource("lemma-ger-3.6.model");
+        if (in != null) {
+            lemmatizer = new Lemmatizer(in.getPath(), false);
+        }
     }
 
     public List<String> lemmatize(List<String> tokens) {
