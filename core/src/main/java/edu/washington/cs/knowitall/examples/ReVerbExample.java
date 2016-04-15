@@ -29,10 +29,14 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "m2 Immobilien GmbH Ist ein sächsisches Immobilien-Makler und Immobilien-Verwaltungs-Unternehmen .";
+        String sentence = "Das gesamte Haus besitzt hochwertige Elektro-Installationen und elektrische Rollladen";
         extractFromSentence(sentence);
 
-        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
+//        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
+//        extractFromFile(fileName);
+//        fileName = "/home/tanja/Repositories/reverb/core/text/zeit.txt";
+//        extractFromFile(fileName);
+//        fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
 //        extractFromFile(fileName);
     }
 

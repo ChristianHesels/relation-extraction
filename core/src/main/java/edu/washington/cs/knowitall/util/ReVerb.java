@@ -83,13 +83,10 @@ public class ReVerb {
             ReVerbIExtractor reverbExtractor = new ReVerbIExtractor(minFreq, useLexSynConstraints);
             reverbExtractor.setAllowUnary(allowUnary);
             reverbExtractor.setMergeOverlapRels(mergeOverlapRels);
-            reverbExtractor.setCombineVerbs(combineVerbs);
-            reverbExtractor.setUseMorphologyLexicon(useMorphologyLexicon);
             this.reverbExtractor = reverbExtractor;
         } else if (system == ReVerbSystem.ReVerbII) {
             ReVerbIIExtractor reverbExtractor = new ReVerbIIExtractor(minFreq, useLexSynConstraints);
             reverbExtractor.setAllowUnary(allowUnary);
-            reverbExtractor.setMergeOverlapRels(mergeOverlapRels);
             reverbExtractor.setCombineVerbs(combineVerbs);
             reverbExtractor.setUseMorphologyLexicon(useMorphologyLexicon);
             this.reverbExtractor = reverbExtractor;
