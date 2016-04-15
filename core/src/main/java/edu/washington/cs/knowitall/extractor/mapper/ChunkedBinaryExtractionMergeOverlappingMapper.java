@@ -3,6 +3,7 @@ package edu.washington.cs.knowitall.extractor.mapper;
 import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
@@ -17,14 +18,21 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 public class ChunkedBinaryExtractionMergeOverlappingMapper extends Mapper<ChunkedBinaryExtraction> {
 
     private List<ChunkedBinaryExtraction> mergeOverlapping(List<ChunkedBinaryExtraction> extractions) {
+        extractions.sort(new Comparator<ChunkedBinaryExtraction>() {
+            @Override
+            public int compare(ChunkedBinaryExtraction o1, ChunkedBinaryExtraction o2) {
+                return Integer.compare(o1.getRelation().getRange().getEnd(), o2.getRelation().getRange().getEnd());
+            }
+        });
+
         List<ChunkedBinaryExtraction> result = new ArrayList<ChunkedBinaryExtraction>(extractions.size());
         if (extractions.size() > 1) {
 
-            for (int i = 0; i < extractions.size(); i++) {
+            for (int i = 0; i < extractions.size() - 1; i++) {
                 ChunkedBinaryExtraction extr1 = extractions.get(i);
                 boolean isContained = false;
 
-                for (int j = 0; j < extractions.size(); j++) {
+                for (int j = i + 1; j < extractions.size(); j++) {
                     if (i == j) continue;
 
                     ChunkedBinaryExtraction extr2 = extractions.get(j);
@@ -39,6 +47,7 @@ public class ChunkedBinaryExtractionMergeOverlappingMapper extends Mapper<Chunke
                     result.add(extr1);
                 }
             }
+            result.add(extractions.get(extractions.size() - 1));
             return result;
 
         } else {

@@ -23,13 +23,13 @@ public class ConjunctionCommaRightArgumentFilter extends FilterMapper<ChunkedArg
         int sentLen = sent.getLength();
 
         // Can't match "REL, ARG"
-        if (argEnd < sentLen - 1 && sent.getTokens().get(relEnd).equals(",")
+        if (argEnd < sentLen && sent.getTokens().get(relEnd).equals(",")
             && argStart == relEnd + 1) {
             return false;
         }
 
         // Can't match "REL and ARG"
-        if (argEnd < sentLen - 1 && sent.getTokens().get(relEnd).equals("und")
+        if (argEnd < sentLen && sent.getTokens().get(relEnd).equals("und")
             && argStart == relEnd + 1) {
             return false;
         }
