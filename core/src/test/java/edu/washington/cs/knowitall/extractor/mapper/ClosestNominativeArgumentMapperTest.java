@@ -30,7 +30,7 @@ public class ClosestNominativeArgumentMapperTest {
 
     @Test
     public void testDoFilter() throws Exception {
-        ClosestNominativeArgumentMapper mapper = new ClosestNominativeArgumentMapper();
+        ClosestNominativeArgumentMapper mapper = new ClosestNominativeArgumentMapper(true);
 
         assertTrue(mapper.doValueMap(extraction1) > mapper.doValueMap(extraction2));
     }

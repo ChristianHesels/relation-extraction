@@ -1,7 +1,5 @@
 package edu.washington.cs.knowitall.util;
 
-import de.hpi.morphology.Morphy;
-
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTagger;
 import opennlp.tools.postag.POSTaggerME;
@@ -23,6 +21,7 @@ import edu.washington.cs.knowitall.extractor.mapper.SentenceEndFilter;
 import edu.washington.cs.knowitall.extractor.mapper.SentenceLengthFilter;
 import edu.washington.cs.knowitall.extractor.mapper.SentenceStartFilter;
 import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
+import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 
 public class DefaultObjects {
 
@@ -31,6 +30,7 @@ public class DefaultObjects {
     public static final String sentDetectorModelFile = "de-sent.bin";
     public static final String confFunctionModelFile = "reverb-conf-maxent.gz";
     public static final String morphologyLexiconFile = "morphy-export-20110722.xml";
+    public static final String smallMorphologyLexiconFile = "morphy-export-20110722.small.xml";
 
     /**
      * Default singleton objects
@@ -50,13 +50,22 @@ public class DefaultObjects {
         }
     }
 
-    public static Morphy getMorphy() throws IOException {
+    public static Morphy getMorphy(boolean test) throws IOException {
         if (MORPHY == null) {
-            URL f = DefaultObjects.class.getClassLoader().getResource(morphologyLexiconFile);
+            URL f;
+            if (test) {
+                f = DefaultObjects.class.getClassLoader().getResource(smallMorphologyLexiconFile);
+            } else {
+                f = DefaultObjects.class.getClassLoader().getResource(morphologyLexiconFile);
+            }
             if (f == null) {
                 throw new IOException("Couldn't load resource: " + morphologyLexiconFile);
             } else {
-                MORPHY = new Morphy(f.getPath());
+                if (test) {
+                    MORPHY = new Morphy(f.getPath(), true);
+                } else {
+                    MORPHY = new Morphy(f.getPath());
+                }
             }
         }
         return MORPHY;

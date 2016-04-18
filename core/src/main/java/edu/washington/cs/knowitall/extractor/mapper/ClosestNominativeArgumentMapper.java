@@ -1,13 +1,12 @@
 package edu.washington.cs.knowitall.extractor.mapper;
 
-import de.hpi.morphology.Morphy;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
@@ -17,6 +16,15 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ClosestNominativeArgumentMapper extends
                                    MaxMapper<Integer, ChunkedArgumentExtraction> {
 
+    private boolean test = false;
+
+    public ClosestNominativeArgumentMapper() {
+    }
+
+    public ClosestNominativeArgumentMapper(boolean test) {
+        this.test = test;
+    }
+
     @Override
     /**
      * Returns the distance between <code>arg</code> and its relation, in number of words.
@@ -24,7 +32,7 @@ public class ClosestNominativeArgumentMapper extends
     public Integer doValueMap(ChunkedArgumentExtraction arg) {
         Morphy morphy = null;
         try {
-            morphy = DefaultObjects.getMorphy();
+            morphy = DefaultObjects.getMorphy(test);
         } catch (IOException e) {
             System.out.println("Could not load Morphy!");
         }
