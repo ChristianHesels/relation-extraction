@@ -164,4 +164,13 @@ public class ReVerb {
 
         return relations;
     }
+
+    /**
+     * Extract relations from the given list of chunked sentences.
+     * @param sentences a list of chunked sentences
+     * @return the extracted relations
+     */
+    public Iterable<ChunkedBinaryExtraction> extractRelationsFrom(ChunkedSentence sentences) {
+        return this.reverbExtractor.extract(sentences);
+    }
 }
