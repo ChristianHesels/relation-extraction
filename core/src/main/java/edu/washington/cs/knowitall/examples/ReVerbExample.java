@@ -2,99 +2,110 @@ package edu.washington.cs.knowitall.examples;
 
 /* For representing a sentence that is annotated with pos tags and np chunks.*/
 
-import org.apache.commons.lang.StringUtils;
-
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.List;
 
-import edu.washington.cs.knowitall.extractor.Extractor;
-import edu.washington.cs.knowitall.extractor.ReVerbIExtractor;
-import edu.washington.cs.knowitall.extractor.ReVerbIIExtractor;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
 import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.normalization.BinaryExtractionNormalizer;
-import edu.washington.cs.knowitall.normalization.NormalizedBinaryExtraction;
-import edu.washington.cs.knowitall.util.DefaultObjects;
+import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
+import edu.washington.cs.knowitall.util.ReVerbI;
+import edu.washington.cs.knowitall.util.ReVerbII;
+import edu.washington.cs.knowitall.util.ReVerbIII;
 
-/* String -> ChunkedSentence */
-/* The class that is responsible for extraction. */
-/* The class that is responsible for assigning a confidence score to an
- * extraction.
- */
-/* A class for holding a (arg1, rel, arg2) triple. */
 
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Das gesamte Haus besitzt hochwertige Elektro-Installationen und elektrische Rollladen";
+        String sentence = "Tanja Bergmann spielt Volleyball.";
         extractFromSentence(sentence);
 
-//        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
-//        extractFromFile(fileName);
-//        fileName = "/home/tanja/Repositories/reverb/core/text/zeit.txt";
-//        extractFromFile(fileName);
-//        fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
-//        extractFromFile(fileName);
+        String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
+        List<String> sentences = readSentences(fileName);
+        extractFromSentences(sentences, fileName);
     }
-
 
     private static void extractFromSentence(String sentStr) throws IOException {
-        // Looks on the classpath for the default model files.
-        TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
-        ChunkedSentence sent = taggerSentenceChunker.chunkSentence(sentStr);
+        System.out.println(sentenceAsString(sentStr));
+        System.out.println("");
 
-        // Prints out the (token, tag, chunk-tag) for the sentence
-        System.out.println(sentenceAsString(sent));
-
-        // Prints out extractions from the sentence.
-        ReVerbIExtractor reverbI = new ReVerbIExtractor(0, true);
+        ReVerbI reVerbI = new ReVerbI(false, 0, true);
+        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
         System.out.println("ReVerb I:");
-        System.out.print(extractionAsString(reverbI, sent));
-        ReVerbIIExtractor reverbII = new ReVerbIIExtractor(0, true);
+        System.out.println(chunkRelationsAsString(relationsI));
+        System.out.println("");
+
+        ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
+        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
         System.out.println("ReVerb II:");
-        System.out.print(extractionAsString(reverbII, sent));
+        System.out.println(chunkRelationsAsString(relationsII));
+        System.out.println("");
+
+        ReVerbIII reVerbIII = new ReVerbIII();
+        Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);
+        System.out.println("ReVerb III:");
+        System.out.println(treeRelationsAsString(relations));
+        System.out.println("");
     }
 
-
-    private static void extractFromFile(String fileName) throws IOException {
+    private static void extractFromSentences(List<String> sentences, String fileName) throws IOException {
         PrintWriter writer = new PrintWriter(fileName.replace(".txt", ".output.txt"));
-        ChunkedSentenceReader reader = new ChunkedSentenceReader(new FileReader(fileName), DefaultObjects.getDefaultSentenceExtractor());
-        BinaryExtractionNormalizer normalizer = new BinaryExtractionNormalizer();
 
-        ReVerbIExtractor reverbI = new ReVerbIExtractor(0, true);
-        ReVerbIIExtractor reverbII = new ReVerbIIExtractor(0, true);
+        ReVerbI reVerbI = new ReVerbI(false, 0, true);
+        ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
+        ReVerbIII reVerbIII = new ReVerbIII();
 
-        System.out.println("Process sentences ...");
-        int n = 0;
-        for (ChunkedSentence s : reader.getSentences()) {
-            // Output progress
-            if (n % 10 == 0) {
-                System.out.print(n + " .. ");
+        System.out.print("Process sentences ");
+        int i = 0;
+        for (String sentStr : sentences) {
+            if (i % 10 == 0) {
+                System.out.print(i + " .. ");
             }
-            n++;
+            i++;
 
-            // Prints out the (token, tag, chunk-tag) for the sentence
-            writer.println(sentenceAsString(s));
+            writer.write(sentenceAsString(sentStr));
+            writer.write("\n");
 
-            // Prints out extractions from the sentence.
-            writer.println("ReVerb I:");
-            writer.println(extractionAsString(reverbI, s));
-            writer.println("ReVerb II:");
-            writer.println(extractionAsString(reverbII, s));
+            Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
+            writer.write("ReVerb I:");
+            writer.write(chunkRelationsAsString(relationsI));
+            writer.write("\n");
 
-            writer.println();
-            writer.println(StringUtils.repeat("-", 100));
-            writer.println();
+            Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
+            writer.write("ReVerb II:");
+            writer.write(chunkRelationsAsString(relationsII));
+            writer.write("\n");
+
+            Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);
+            writer.write("ReVerb III:");
+            writer.write(treeRelationsAsString(relations));
+            writer.write("\n");
         }
-        writer.close();
-        System.out.println("Done.");
+        System.out.print("Done.");
     }
 
+    private static List<String> readSentences(String fileName) throws IOException {
+        BufferedReader br = new BufferedReader(new FileReader(fileName));
 
-    private static String sentenceAsString(ChunkedSentence sentence) {
+        List<String> sentences = new ArrayList<>();
+        String line = br.readLine();
+        while (line != null && !line.isEmpty()) {
+            sentences.add(line);
+            line = br.readLine();
+        }
+        br.close();
+
+        return sentences;
+    }
+
+    private static String sentenceAsString(String sentStr) throws IOException {
+        TreeTaggerSentenceChunker chunker = new TreeTaggerSentenceChunker();
+        ChunkedSentence sentence = chunker.chunkSentence(sentStr);
+
         String str = sentence.toString() + "\n";
 
         for (int i = 0; i < sentence.getLength(); i++) {
@@ -107,13 +118,18 @@ public class ReVerbExample {
         return str;
     }
 
-    private static String extractionAsString(Extractor<ChunkedSentence, ChunkedBinaryExtraction> extractor, ChunkedSentence sentence) {
+    private static String chunkRelationsAsString(Iterable<ChunkedBinaryExtraction> relations) {
         String str = "";
-        BinaryExtractionNormalizer normalizer = new BinaryExtractionNormalizer();
-        for (ChunkedBinaryExtraction extr : extractor.extract(sentence)) {
+        for (ChunkedBinaryExtraction extr : relations) {
             str += "Extraction: " + extr + "\n";
-            NormalizedBinaryExtraction normExtr = normalizer.normalize(extr);
-            str += "Normalized extraction: " + normExtr + "\n";
+        }
+        return str;
+    }
+
+    private static String treeRelationsAsString(Iterable<TreeBinaryExtraction> relations) {
+        String str = "";
+        for (TreeBinaryExtraction extr : relations) {
+            str += "Extraction: " + extr + "\n";
         }
         return str;
     }

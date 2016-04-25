@@ -10,8 +10,10 @@ import edu.washington.cs.knowitall.nlp.NlpException;
 
 public class BitParSentenceParser {
 
+    // TODO: BitPar splits the sentence on words like 'bzw.' 'Dr.'
+
     private static final String
-        GERMANPARSER_HOME = System.getenv("GERMANPARSER_HOME");
+        GERMANPARSER_HOME = "/opt/GermanParser/"; // System.getenv("GERMANPARSER_HOME");
     private static final String PARSE_COMMAND = "sh " + GERMANPARSER_HOME + "parse.sh";
 
     public DependencyParseTree parseSentence(String sent) {
