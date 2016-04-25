@@ -1,5 +1,7 @@
 package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
+import java.util.List;
+
 /**
  * Represents a leaf node of a dependency parse tree.
  * A leaf node contains information about a word.
@@ -41,6 +43,21 @@ public class LeafNode extends Node {
         if (subparts.length > 2) {
             this.morphology = subparts[2].split("\\\\/")[0];
         }
+    }
+
+    @Override
+    public boolean matchLabel(List<String> labels) {
+        return labels.contains(label);
+    }
+
+    @Override
+    public boolean matchFeature(List<String> features) {
+        return false;
+    }
+
+    @Override
+    public boolean matchPosTag(List<String> posTags) {
+        return posTags.contains(pos);
     }
 
     @Override

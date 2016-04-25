@@ -91,18 +91,6 @@ public abstract class Node {
     }
 
     /**
-     * Walks the tree in pre-order style.
-     * @param element the starting element.
-     * @param list the output of the walk.
-     */
-    private void walk(Node element, List<Node> list) {
-        list.add(element);
-        for (Node data : element.getChildren()) {
-            walk(data, list);
-        }
-    }
-
-    /**
      * Remove this node from the tree.
      */
     public void remove() {
@@ -117,6 +105,15 @@ public abstract class Node {
     }
 
     /**
+     * @return a list of all leaf nodes in pre-order
+     */
+    public List<Node> getLeafNodes() {
+        List<Node> list = new ArrayList<>();
+        walkChildren(this, list);
+        return list;
+    }
+
+    /**
      * @param data the data string to parse
      */
     protected abstract void parse(String data);
@@ -125,4 +122,90 @@ public abstract class Node {
 
     public abstract boolean isLeafNode();
 
+    /**
+     * @param labels a list of labels
+     * @return true, if the current node has a label of the given list, false otherwise
+     */
+    public abstract boolean matchLabel(List<String> labels);
+    /**
+     * @param features a list of features
+     * @return true, if the current node has a feature of the given list, false otherwise
+     */
+    public abstract boolean matchFeature(List<String> features);
+    /**
+     * @param posTags a list of labels
+     * @return true, if the current node has a pos tag of the given list, false otherwise
+     */
+    public abstract boolean matchPosTag(List<String> posTags);
+
+    /**
+     * Finds all nodes of the tree, which match the given pattern.
+     * @param pattern the pattern
+     * @return a list of nodes
+     */
+    public List<Node> find(String pattern) {
+        String[] parts = pattern.split(" ");
+
+        List<String> posTags = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+        List<String> features = new ArrayList<>();
+
+        for (String p : parts) {
+            if (p.endsWith("_pos")) {
+                posTags.add(p.substring(0, p.length() - 4));
+            } else if (p.endsWith("_lab")) {
+                labels.add(p.substring(0, p.length() - 4));
+            } else if (p.endsWith("_fea")) {
+                features.add(p.substring(0, p.length() - 4));
+            }
+        }
+
+        List<Node> nodes = new ArrayList<>();
+        walkMatchPattern(this, nodes, labels, features, posTags);
+        return nodes;
+    }
+
+    /**
+     * Walks the tree in pre-order style.
+     * @param element the starting element.
+     * @param list the output of the walk.
+     */
+    private void walk(Node element, List<Node> list) {
+        list.add(element);
+        for (Node data : element.getChildren()) {
+            walk(data, list);
+        }
+    }
+
+    /**
+     * Walks the tree in pre-order style and collects all leaf nodes.
+     * @param element the starting element.
+     * @param list the output of the walk.
+     */
+    private void walkChildren(Node element, List<Node> list) {
+        if (element.isLeafNode()) {
+            list.add(element);
+        }
+        for (Node data : element.getChildren()) {
+            walk(data, list);
+        }
+    }
+
+    /**
+     * Walks the tree in pre-order style and collects all nodes, which match one of the given
+     * patterns.
+     * @param element   the starting element
+     * @param list      the output of the walk
+     * @param labels    a list of labels
+     * @param features  a list of features
+     * @param posTags   a list of pos tags
+     */
+    private void walkMatchPattern(Node element, List<Node> list, List<String> labels, List<String> features, List<String> posTags) {
+        if (element.matchFeature(features) || element.matchLabel(labels) || element.matchPosTag(posTags)) {
+            list.add(element);
+        }
+        for (Node data : element.getChildren()) {
+            walkMatchPattern(data, list, labels, features, posTags);
+        }
+    }
 }

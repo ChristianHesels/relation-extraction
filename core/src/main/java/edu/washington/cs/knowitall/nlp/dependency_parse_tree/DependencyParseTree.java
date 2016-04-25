@@ -46,5 +46,20 @@ public class DependencyParseTree {
         return rootElement.toString();
     }
 
+    /**
+     * @return a list of all leaf nodes of the tree
+     */
+    public List<Node> getLeafNodes() {
+        return rootElement.getLeafNodes();
+    }
+
+    /**
+     * Finds all nodes, which match the given pattern.
+     * @param pattern the pattern
+     * @return list of nodes
+     */
+    public List<Node> find(String pattern) {
+        return rootElement.find(pattern);
+    }
 
 }

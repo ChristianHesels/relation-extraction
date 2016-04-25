@@ -1,5 +1,7 @@
 package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
+import java.util.List;
+
 public class InnerNode extends Node {
 
     public String feature = "";
@@ -28,6 +30,21 @@ public class InnerNode extends Node {
         if (parts.length > 1) {
             this.label = parts[1].split("\\\\/")[0];
         }
+    }
+
+    @Override
+    public boolean matchLabel(List<String> labels) {
+        return labels.contains(label);
+    }
+
+    @Override
+    public boolean matchFeature(List<String> features) {
+        return features.contains(feature);
+    }
+
+    @Override
+    public boolean matchPosTag(List<String> posTags) {
+        return false;
     }
 
     @Override
