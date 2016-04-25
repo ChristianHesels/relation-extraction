@@ -23,6 +23,7 @@ To set up ReVerb locally, you have to
  * 	`de-token.bin`, `de-sent.bin`, `de-pos-maxent.bin` from http://opennlp.sourceforge.net/models-1.5/
  * 	`parser-ger-3.6.model`, `tag-ger-3.6.model`, `morphology-ger-3.6.model`, `lemma-ger-3.6.model` from the archive `ger-tagger+lemmatizer+morphology+graph-based-3.6+.tgz`, which can be downloaded from https://code.google.com/archive/p/mate-tools/downloads
 3. Download `Vollformenlexikon 2011-07-22` from http://www.danielnaber.de/morphologie/ and put the extracted `morphy-export-20110722.xml`-file to the resource folder (src/main/resources)
+4. Download and install BitPar (http://www.cis.uni-muenchen.de/~schmid/tools/BitPar/), use the UTF-8 version of the German grammar. Set the environment variable 'GERMANPARSER_HOME' to the installation directory and replace the `parse.sh` file in the GermanParser folder with the `parse.sh` file you found under `models/`.
 
 # Running ReVerb
 
