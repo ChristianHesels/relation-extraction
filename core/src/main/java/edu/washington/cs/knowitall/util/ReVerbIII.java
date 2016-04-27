@@ -18,9 +18,9 @@ import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
  * Utility class to call ReVerb III.
  * ReVerb III uses dependency parse trees to extract relations from strings.
  */
-public class ReVerbIII {
+public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction> {
 
-    private boolean debug;
+    private ReVerbIIIExtractor extractor;
 
     /**
      * Constructor of ReVerb
@@ -34,7 +34,8 @@ public class ReVerbIII {
      * @param debug  enable debug mode?
      */
     public ReVerbIII(boolean debug) {
-        this.debug = debug;
+        super(debug);
+        this.extractor = new ReVerbIIIExtractor();
     }
 
     /**
@@ -48,7 +49,6 @@ public class ReVerbIII {
         DependencyParseTree tree = parser.parseSentence(sentStr);
 
         // Extract relations
-        ReVerbIIIExtractor extractor = new ReVerbIIIExtractor();
         return extractor.extract(tree);
     }
 

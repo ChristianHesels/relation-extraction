@@ -18,9 +18,8 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 /**
  * Utility class to call ReVerb.
  */
-public class ReVerbII {
+public class ReVerbII extends ReVerb<ChunkedSentence, ChunkedBinaryExtraction> {
 
-    private boolean debug = false;
     private ReVerbIIExtractor extractor;
 
     /**
@@ -35,7 +34,7 @@ public class ReVerbII {
      * @param debug  enable debug mode?
      */
     public ReVerbII(boolean debug) {
-        this.debug = debug;
+        super(debug);
         this.extractor = new ReVerbIIExtractor();
     }
 

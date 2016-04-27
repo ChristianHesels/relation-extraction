@@ -18,15 +18,9 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
 /**
  * Utility class to call ReVerb.
  */
-public class ReVerbI {
+public class ReVerbI extends ReVerb<ChunkedSentence, ChunkedBinaryExtraction> {
 
-    private boolean debug = false;
     private ReVerbIExtractor extractor;
-
-    // ReVerb I and II: the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
-    private int minFreq;
-    // ReVerb I and II: use syntactic and lexical constraints that are part of Reverb?
-    private boolean useLexSynConstraints;
 
     /**
      * Constructor of ReVerb
@@ -40,18 +34,18 @@ public class ReVerbI {
      * @param debug  enable debug mode?
      */
     public ReVerbI(boolean debug) {
-        this.debug = debug;
+        super(debug);
         this.extractor = new ReVerbIExtractor();
     }
 
     /**
      * Constructor of ReVerb
      * @param debug  enable debug mode?
+     * @param minFreq the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
+     * @param useLexSynConstraints use syntactic and lexical constraints that are part of Reverb?
      */
     public ReVerbI(boolean debug, int minFreq, boolean useLexSynConstraints) {
         this.debug = debug;
-        this.minFreq = minFreq;
-        this.useLexSynConstraints = useLexSynConstraints;
         this.extractor = new ReVerbIExtractor(minFreq, useLexSynConstraints);
     }
 
