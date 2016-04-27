@@ -56,4 +56,16 @@ public class InnerNode extends Node {
     public boolean isLeafNode() {
         return false;
     }
+
+    @Override
+    public String getDataString() {
+        if (!feature.isEmpty() && !label.isEmpty()) {
+            return feature + "-" + label;
+        } else if (feature.isEmpty() && !label.isEmpty()) {
+            return label;
+        } else if (!feature.isEmpty()) {
+            return feature;
+        }
+        return "";
+    }
 }

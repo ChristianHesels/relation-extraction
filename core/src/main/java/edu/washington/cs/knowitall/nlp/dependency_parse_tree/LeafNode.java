@@ -69,4 +69,29 @@ public class LeafNode extends Node {
     public boolean isLeafNode() {
         return true;
     }
+
+    @Override
+    public String getDataString() {
+        String str = pos;
+
+        if (!label.isEmpty()) {
+            if (!str.isEmpty()) {
+                str += "-" + label;
+            } else {
+                str = label;
+            }
+        }
+
+        if (!morphology.isEmpty()) {
+            if (!str.isEmpty()) {
+                str += "-" + morphology;
+            } else {
+                str = morphology;
+            }
+        }
+
+        str += " " + word;
+
+        return str;
+    }
 }

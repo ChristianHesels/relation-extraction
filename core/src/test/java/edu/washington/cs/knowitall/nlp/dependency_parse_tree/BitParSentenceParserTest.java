@@ -41,4 +41,15 @@ public class BitParSentenceParserTest {
 
         assertEquals("war ein Fußballspieler .", tree.toString());
     }
+
+    @Test
+    public void testPrintTree() {
+        BitParSentenceParser parser = new BitParSentenceParser();
+        DependencyParseTree tree = parser.parseSentence(
+            "Franz Beckenbauer war ein Fußballspieler.");
+
+        String treeStr = tree.printTree();
+
+        assertEquals("( TOP ( S-TOP ( NP-SB ( PN-HD ( NE-PNC-Nom.Sg.Masc Franz ) ( NE-PNC-Nom.Sg.Masc Beckenbauer ) ) ) ( VAFIN-HD-Sg war ) ( NP-PD ( ART-HD-Nom.Sg.Masc ein ) ( NN-HD-Nom.Sg.Masc Fußballspieler ) ) ) ( \\$. . ) )", treeStr);
+    }
 }

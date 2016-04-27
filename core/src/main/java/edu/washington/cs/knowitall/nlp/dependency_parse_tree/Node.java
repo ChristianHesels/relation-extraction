@@ -139,6 +139,11 @@ public abstract class Node {
     public abstract boolean matchPosTag(List<String> posTags);
 
     /**
+     * @return the node data as string
+     */
+    public abstract String getDataString();
+
+    /**
      * Finds all nodes of the tree, which match the given pattern.
      * @param pattern the pattern
      * @return a list of nodes
@@ -207,5 +212,17 @@ public abstract class Node {
         for (Node data : element.getChildren()) {
             walkMatchPattern(data, list, labels, features, posTags);
         }
+    }
+
+    public void printTree(StringBuilder sb) {
+        sb.append(" ( ");
+        sb.append(getDataString());
+
+        if (children != null && children.size() > 0) {
+            for (Node child : children) {
+                child.printTree(sb);
+            }
+        }
+        sb.append(" )");
     }
 }

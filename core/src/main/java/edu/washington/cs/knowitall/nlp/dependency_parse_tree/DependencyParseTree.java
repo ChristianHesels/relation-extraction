@@ -64,4 +64,14 @@ public class DependencyParseTree {
         return rootElement.find(pattern);
     }
 
+    /**
+     * Prints the tree.
+     * @return the tree as string
+     */
+    public String printTree() {
+        StringBuilder sb = new StringBuilder();
+        rootElement.printTree(sb);
+        return sb.toString().trim();
+    }
+
 }
