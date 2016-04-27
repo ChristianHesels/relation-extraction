@@ -26,9 +26,9 @@ public class BitParSentenceParserTest {
         BitParSentenceParser parser = new BitParSentenceParser();
 
         DependencyParseTree tree = parser.parseSentence(
-            "Franz Beckenbauer war ein Fußballspieler.");
+            "Franz Beckenbauer war z.B. ein Fußballspieler.");
 
-        assertEquals("Franz Beckenbauer war ein Fußballspieler .", tree.toString());
+        assertEquals("Franz Beckenbauer war zB ein Fußballspieler .", tree.toString());
     }
 
     @Test

@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-
-import edu.washington.cs.knowitall.nlp.NlpException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class BitParSentenceParser {
 
@@ -18,10 +18,12 @@ public class BitParSentenceParser {
 
     public DependencyParseTree parseSentence(String sent) {
         try {
+            sent = clean(sent);
             List<String> dependencyParseTreeStr = parse(sent);
             return convert(dependencyParseTreeStr);
         } catch (Exception e) {
-            throw new NlpException("Could not process sentence '" + sent + "'", e);
+            System.out.println("BitPar: Could not process sentence '" + sent + "'");
+            return new DependencyParseTree();
         }
     }
 
@@ -47,7 +49,6 @@ public class BitParSentenceParser {
         String line;
         // skip the first two lines
         stdInput.readLine();
-        stdInput.readLine();
         while ((line = stdInput.readLine()) != null) {
             output.add(line);
         }
@@ -65,13 +66,14 @@ public class BitParSentenceParser {
      * @param content the output of the BitPar
      * @return a dependency parse tree
      */
-    private DependencyParseTree convert(List<String> content) throws IOException {
+    public DependencyParseTree convert(List<String> content) {
         Node rootElement = new InnerNode("TOP");
         DependencyParseTree tree = new DependencyParseTree(rootElement);
 
         int lastCount = 0;
         Node lastNode = rootElement;
-        for(String line : content) {
+        for(int i = 1; i < content.size(); i++) {
+            String line = content.get(i);
             int currentCount = countLeadingWhitespace(line);
 
             line = line.trim();
@@ -94,7 +96,7 @@ public class BitParSentenceParser {
 
             else {
                 int diff = ((lastCount - currentCount) / 2) + 1;
-                for (int i = 0; i < diff; i++) {
+                for (int j = 0; j < diff; j++) {
                     lastNode = lastNode.parent;
                 }
                 node.parent = lastNode;
@@ -118,12 +120,31 @@ public class BitParSentenceParser {
         int i = 0;
         char[] chars = line.toCharArray();
 
-        while(chars[i] == ' ') {
+        while(i < chars.length && chars[i] == ' ') {
             count++;
             i++;
         }
 
         return count;
+    }
+
+    /**
+     * BitPar split a string on every '.', which occurs in the string, even if the '.' comes form
+     * an abbreviation. To avoid this, we remove those '.'.
+     * @param str the string
+     * @return the cleaned string
+     */
+    private String clean(String str) {
+        String pattern = ".*(\\w\\.).+";
+        Pattern r = Pattern.compile(pattern);
+        Matcher m = r.matcher(str);
+
+        while (m.find()) {
+            str = str.replace(m.group(1), m.group(1).substring(0, 1));
+            m = r.matcher(str);
+        }
+
+        return str;
     }
 
 }
