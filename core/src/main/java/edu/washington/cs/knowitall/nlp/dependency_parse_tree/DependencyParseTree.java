@@ -10,6 +10,8 @@ public class DependencyParseTree {
 
     private Node rootElement;
 
+    public DependencyParseTree() {}
+
     public DependencyParseTree(Node rootElement) {
         this.rootElement = rootElement;
     }

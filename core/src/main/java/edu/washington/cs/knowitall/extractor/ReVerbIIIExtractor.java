@@ -21,7 +21,9 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
         List<Node> verbTree = dependencyParseTree.find("VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos");
         List<Node> objectTree = dependencyParseTree.find("OA_lab OC_lab OG_lab OP_lab");
 
-        extrs.add(new TreeBinaryExtraction(verbTree, subjectTree, objectTree));
+        if (subjectTree.size() > 0 && verbTree.size() > 0 && objectTree.size() > 0) {
+            extrs.add(new TreeBinaryExtraction(verbTree, subjectTree, objectTree));
+        }
         return extrs;
     }
 
