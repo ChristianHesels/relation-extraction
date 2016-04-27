@@ -16,7 +16,7 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
  *
  * @author afader
  */
-public class ChunkedBinaryExtraction extends SpanExtraction {
+public class ChunkedBinaryExtraction extends SpanExtraction implements ExtractionConverter {
 
     private ChunkedRelationExtraction rel;
     private ChunkedArgumentExtraction arg1;
@@ -169,4 +169,8 @@ public class ChunkedBinaryExtraction extends SpanExtraction {
 
     }
 
+    @Override
+    public SimpleBinaryRelation convert() {
+        return new SimpleBinaryRelation(rel.toString(), arg1.toString(), arg2.toString());
+    }
 }

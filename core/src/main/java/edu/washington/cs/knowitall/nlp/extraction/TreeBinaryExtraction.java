@@ -7,7 +7,7 @@ import java.util.List;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 
-public class TreeBinaryExtraction {
+public class TreeBinaryExtraction implements ExtractionConverter {
 
     private DependencyParseTree tree;
     private List<Node> relationNodes;
@@ -59,5 +59,10 @@ public class TreeBinaryExtraction {
 
     public void setArgument2Nodes(List<Node> argument2Nodes) {
         this.argument2Nodes = argument2Nodes;
+    }
+
+    @Override
+    public SimpleBinaryRelation convert() {
+        return new SimpleBinaryRelation(relationNodes.toString(), argument1Nodes.toString(), argument2Nodes.toString());
     }
 }
