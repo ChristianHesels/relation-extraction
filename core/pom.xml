@@ -140,6 +140,11 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <version>2.3</version>
                 <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>edu.washington.cs.knowitall.examples.ReVerbExample</mainClass>
+                        </manifest>
+                    </archive>
                     <descriptorRefs>
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
