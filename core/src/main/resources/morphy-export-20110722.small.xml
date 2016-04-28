@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+# Deutsche Morphologie-Daten, basierend auf Morphy
+#
+# This data is available under the the following license:
+# Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)
+# http://creativecommons.org/licenses/by-sa/4.0/legalcode
+#
+# Quelle: http://www.danielnaber.de/morphologie/
+# Original-Quelle: http://www.wolfganglezius.de/doku.php?id=public:cl:morphy
+#
+# Hinweis: die Wörter sind nicht vollständig alphabetisch sortiert, da neue
+# Wörter unten angefügt wurden.
+#
+# Changelog:
+# Die Version vor 2011-07-02 entspricht der originalen Morphy-Ausgabe
+# Version 2011-07-02: ca. 2100 Schreibvarianten (vor allem neue Rechtschreibung) hinzugefügt
+# Version 2011-07-10: Tippfehler in einigen der neuen Elemente korrigiert
+# Version 2011-07-17: Weitere fehlende Lemmata der neuen Rechtschreibung hinzugefügt
+# Version 2011-07-21: nach XML konvertiert (mit sgm2xml und anschließender
+#   Nachbearbeitung), einige falsch geschriebene Attributnamen korrigiert,
+#   einige ss/ß-Fehler korrigiert
+# Version 2011-07-22: fehlerhafte Einträge mit dem Attribut stellung="B/S"
+#   korrigiert, die bei der SGML-XML-Konvertierung kaputtgegangen waren
+# Version 2014-12-20: Updated license to Creative Commons BY-SA 4.0
+#
+-->
+<inflections>
+<item>
+<form>Apfel</form>
+<lemma wkl="SUB" kas="NOM" num="SIN" gen="MAS">Apfel</lemma>
+<lemma wkl="SUB" kas="DAT" num="SIN" gen="MAS">Apfel</lemma>
+<lemma wkl="SUB" kas="AKK" num="SIN" gen="MAS">Apfel</lemma>
+</item>
+<item>
+<form>Apfels</form>
+<lemma wkl="SUB" kas="GEN" num="SIN" gen="MAS">Apfel</lemma>
+</item>
+<item>
+<form>Schale</form>
+<lemma wkl="SUB" kas="NOM" num="SIN" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="GEN" num="SIN" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="DAT" num="SIN" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="AKK" num="SIN" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="DAT" num="SIN" gen="MAS">Schal</lemma>
+<lemma wkl="SUB" kas="NOM" num="PLU" gen="MAS">Schal</lemma>
+<lemma wkl="SUB" kas="GEN" num="PLU" gen="MAS">Schal</lemma>
+<lemma wkl="SUB" kas="AKK" num="PLU" gen="MAS">Schal</lemma>
+<lemma wkl="VER" num="SIN" konj="SFT" pers="1" modtemp="PRÄ">*schalen</lemma>
+<lemma wkl="VER" num="SIN" konj="SFT" pers="1" modtemp="KJ1">*schalen</lemma>
+<lemma wkl="VER" num="SIN" konj="SFT" pers="3" modtemp="KJ1">*schalen</lemma>
+<lemma wkl="VER" num="SIN" form="IMP" konj="SFT">*schalen</lemma>
+</item>
+<item>
+<form>Schalen</form>
+<lemma wkl="SUB" kas="NOM" num="SIN" gen="NEU" der="INF">Schalen</lemma>
+<lemma wkl="SUB" kas="DAT" num="SIN" gen="NEU" der="INF">Schalen</lemma>
+<lemma wkl="SUB" kas="AKK" num="SIN" gen="NEU" der="INF">Schalen</lemma>
+<lemma wkl="SUB" kas="NOM" num="PLU" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="GEN" num="PLU" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="DAT" num="PLU" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="AKK" num="PLU" gen="FEM">Schale</lemma>
+<lemma wkl="SUB" kas="DAT" num="PLU" gen="MAS">Schal</lemma>
+<lemma wkl="VER" num="PLU" konj="SFT" pers="1" modtemp="PRÄ">*schalen</lemma>
+<lemma wkl="VER" num="PLU" konj="SFT" pers="3" modtemp="PRÄ">*schalen</lemma>
+<lemma wkl="VER" num="PLU" konj="SFT" pers="1" modtemp="KJ1">*schalen</lemma>
+<lemma wkl="VER" num="PLU" konj="SFT" pers="3" modtemp="KJ1">*schalen</lemma>
+<lemma wkl="VER" form="INF" konj="SFT">*schalen</lemma>
+</item>
+</inflections>
