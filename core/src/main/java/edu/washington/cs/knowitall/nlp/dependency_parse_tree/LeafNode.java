@@ -24,6 +24,13 @@ public class LeafNode extends Node {
     @Override
     protected void parse(String data) {
         data = data.trim();
+        // handle parentheses
+        if (data.contains("\\)")) {
+            data = data.replace("\\)", "#CP");
+        } else if (data.contains("\\(")) {
+            data = data.replace("\\(", "#OP");
+        }
+        // replace parentheses belonging to the tree structure
         data = data.replace("(", "").replace(")", "");
 
         // split line into 'information' and 'word'
@@ -36,7 +43,14 @@ public class LeafNode extends Node {
 
         // set variables
         this.word = parts[1];
-        this.pos = subparts[0];
+        // handle parentheses
+        if (this.word.equals("#CP")) {
+            this.word = ")";
+        } else if (this.word.equals("#OP")) {
+            this.word = "(";
+        }
+
+        this.pos = subparts[0].replace("\\", "");
         if (subparts.length > 1) {
             this.label = subparts[1];
         }

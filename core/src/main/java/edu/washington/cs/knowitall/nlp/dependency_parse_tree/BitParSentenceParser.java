@@ -10,20 +10,23 @@ import java.util.regex.Pattern;
 
 public class BitParSentenceParser {
 
-    // TODO: BitPar splits the sentence on words like 'bzw.' 'Dr.'
-
     private static final String
-        GERMANPARSER_HOME = "/opt/GermanParser/"; // System.getenv("GERMANPARSER_HOME");
+        GERMANPARSER_HOME = System.getenv("GERMANPARSER_HOME");
     private static final String PARSE_COMMAND = "sh " + GERMANPARSER_HOME + "parse.sh";
 
-    public DependencyParseTree parseSentence(String sent) {
+    /**
+     * Parses the sentence and converts it into dependency parse trees.
+     * @param sent the sentence
+     * @return a list of dependency parse trees
+     */
+    public List<DependencyParseTree> parseSentence(String sent) {
         try {
             sent = clean(sent);
             List<String> dependencyParseTreeStr = parse(sent);
             return convert(dependencyParseTreeStr);
         } catch (Exception e) {
             System.out.println("BitPar: Could not process sentence '" + sent + "'");
-            return new DependencyParseTree();
+            return new ArrayList<>();
         }
     }
 
@@ -47,7 +50,7 @@ public class BitParSentenceParser {
 
         List<String> output = new ArrayList<>();
         String line;
-        // skip the first two lines
+        // skip the first line
         stdInput.readLine();
         while ((line = stdInput.readLine()) != null) {
             output.add(line);
@@ -66,17 +69,34 @@ public class BitParSentenceParser {
      * @param content the output of the BitPar
      * @return a dependency parse tree
      */
-    public DependencyParseTree convert(List<String> content) {
+    public List<DependencyParseTree> convert(List<String> content) {
         Node rootElement = new InnerNode("TOP");
         DependencyParseTree tree = new DependencyParseTree(rootElement);
+
+        List<DependencyParseTree> trees = new ArrayList<>();
 
         int lastCount = 0;
         Node lastNode = rootElement;
         for(int i = 1; i < content.size(); i++) {
             String line = content.get(i);
-            int currentCount = countLeadingWhitespace(line);
 
+            if (line.startsWith("No parse for:")) {
+                continue;
+            }
+
+            if (line.isEmpty()) {
+                trees.add(tree);
+                rootElement = new InnerNode("TOP");
+                tree = new DependencyParseTree(rootElement);
+                lastCount = 0;
+                lastNode = rootElement;
+                i = i + 1;
+                continue;
+            }
+
+            int currentCount = countLeadingWhitespace(line);
             line = line.trim();
+
             Node node;
             if (line.endsWith(")")) {
                 node = new LeafNode(line);
@@ -107,7 +127,9 @@ public class BitParSentenceParser {
             lastCount = currentCount;
         }
 
-        return tree;
+        trees.add(tree);
+
+        return trees;
     }
 
     /**

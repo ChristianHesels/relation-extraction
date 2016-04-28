@@ -46,10 +46,14 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
     public Iterable<TreeBinaryExtraction> extractRelations(String sentStr) {
         // Convert sentence into a dependency parse tree
         BitParSentenceParser parser = new BitParSentenceParser();
-        DependencyParseTree tree = parser.parseSentence(sentStr);
+        List<DependencyParseTree> trees = parser.parseSentence(sentStr);
 
         // Extract relations
-        return extractor.extract(tree);
+        List<TreeBinaryExtraction> extractions = new ArrayList<>();
+        for (DependencyParseTree tree : trees) {
+            extractions.addAll(Lists.newArrayList(extractor.extract(tree)));
+        }
+        return extractions;
     }
 
     /**
@@ -71,8 +75,12 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
             }
             n++;
             // parse sentence and extract relations
-            DependencyParseTree sent = parser.parseSentence(sentence);
-            sent2relations.put(sentence, extractor.extract(sent));
+            List<DependencyParseTree> trees = parser.parseSentence(sentence);
+            List<TreeBinaryExtraction> extractions = new ArrayList<>();
+            for (DependencyParseTree tree : trees) {
+                extractions.addAll(Lists.newArrayList(extractor.extract(tree)));
+            }
+            sent2relations.put(sentence, extractions);
         }
         if (this.debug) System.out.println("Done.");
 
