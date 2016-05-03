@@ -8,8 +8,8 @@ import java.util.HashSet;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
-import edu.washington.cs.knowitall.commonlib.ResourceUtils;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
  * Filters relations based on how many distinct arg2 values it takes in a large corpus. These
@@ -25,7 +25,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 public class ReVerbRelationDictionaryFilter extends
                                             FilterMapper<ChunkedRelationExtraction> {
 
-    private static final String relationDictFile = "freq_rel_de.txt.gz";
+    private static final String relationDictFile = "rel_dict_de.txt.gz";
     public static final int defaultMinFreq = 20;
     private NormalizedRelationDictionaryFilter filter;
 
@@ -60,10 +60,8 @@ public class ReVerbRelationDictionaryFilter extends
     }
 
     private InputStream getDefaultRelationStream() throws IOException {
-        InputStream in = ResourceUtils.loadResource(relationDictFile,
-                                                    ReVerbRelationDictionaryFilter.class);
-        // InputStream in =
-        // ReVerbRelationDictionaryFilter.class.getClassLoader().getResourceAsStream(relationDictFile);
+        InputStream in = DefaultObjects.getResourceAsStream(relationDictFile);
+//        InputStream in = ReVerbRelationDictionaryFilter.class.getClassLoader().getResourceAsStream(relationDictFile);
         if (in != null) {
             return new GZIPInputStream(in);
         } else {
