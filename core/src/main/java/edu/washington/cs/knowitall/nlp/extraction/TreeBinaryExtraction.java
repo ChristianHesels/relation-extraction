@@ -2,22 +2,20 @@ package edu.washington.cs.knowitall.nlp.extraction;
 
 import com.google.common.base.Joiner;
 
-import java.util.List;
-
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 
 public class TreeBinaryExtraction implements ExtractionConverter {
 
     private DependencyParseTree tree;
-    private List<Node> relationNodes;
-    private List<Node> argument1Nodes;
-    private List<Node> argument2Nodes;
+    private Iterable<Node> relationNodes;
+    private Iterable<Node> argument1Nodes;
+    private Iterable<Node> argument2Nodes;
 
     public TreeBinaryExtraction() {
     }
 
-    public TreeBinaryExtraction(List<Node> relationNodes, List<Node> argument1Nodes, List<Node> argument2Nodes) {
+    public TreeBinaryExtraction(Iterable<Node> relationNodes, Iterable<Node> argument1Nodes, Iterable<Node> argument2Nodes) {
         this.relationNodes = relationNodes;
         this.argument1Nodes = argument1Nodes;
         this.argument2Nodes = argument2Nodes;
@@ -37,27 +35,27 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         this.tree = tree;
     }
 
-    public List<Node> getRelationNodes() {
+    public Iterable<Node> getRelationNodes() {
         return relationNodes;
     }
 
-    public void setRelationNodes(List<Node> relationNodes) {
+    public void setRelationNodes(Iterable<Node> relationNodes) {
         this.relationNodes = relationNodes;
     }
 
-    public List<Node> getArgument1Nodes() {
+    public Iterable<Node> getArgument1Nodes() {
         return argument1Nodes;
     }
 
-    public void setArgument1Nodes(List<Node> argument1Nodes) {
+    public void setArgument1Nodes(Iterable<Node> argument1Nodes) {
         this.argument1Nodes = argument1Nodes;
     }
 
-    public List<Node> getArgument2Nodes() {
+    public Iterable<Node> getArgument2Nodes() {
         return argument2Nodes;
     }
 
-    public void setArgument2Nodes(List<Node> argument2Nodes) {
+    public void setArgument2Nodes(Iterable<Node> argument2Nodes) {
         this.argument2Nodes = argument2Nodes;
     }
 

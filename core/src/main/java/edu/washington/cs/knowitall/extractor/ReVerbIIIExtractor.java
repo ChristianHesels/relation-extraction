@@ -1,9 +1,12 @@
 package edu.washington.cs.knowitall.extractor;
 
+import com.google.common.collect.Iterables;
+
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
+import edu.washington.cs.knowitall.extractor.mapper.ReVerbTreeArgument1Mappers;
+import edu.washington.cs.knowitall.extractor.mapper.ReVerbTreeArgument2Mappers;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
@@ -11,19 +14,33 @@ import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
 
 public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
+    protected Extractor<DependencyParseTree, Node> arg1Extr;
+    protected Extractor<DependencyParseTree, Node> arg2Extr;
+    protected Extractor<DependencyParseTree, Node> relExtr;
+
+    public ReVerbIIIExtractor() {
+        this.relExtr = new ReVerbTreeRelationExtractor();
+
+        this.arg1Extr = new ReVerbTreeArgumentExtractor("SB_lab");
+        arg1Extr.addMapper(new ReVerbTreeArgument1Mappers());
+
+        this.arg2Extr = new ReVerbTreeArgumentExtractor("OA_lab OC_lab OG_lab OP_lab");
+        arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());
+    }
+
     @Override
     protected Iterable<TreeBinaryExtraction> extractCandidates(DependencyParseTree dependencyParseTree)
         throws ExtractorException {
-
         Collection<TreeBinaryExtraction> extrs = new ArrayList<>();
 
-        List<Node> subjectTree = dependencyParseTree.find("SB_lab");
-        List<Node> verbTree = dependencyParseTree.find("VVFIN_pos VVIMP_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAIMP_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos");
-        List<Node> objectTree = dependencyParseTree.find("OA_lab OC_lab OG_lab OP_lab");
+        Iterable<Node> subjectNodes = arg1Extr.extract(dependencyParseTree);
+        Iterable<Node> objectNodes = arg2Extr.extract(dependencyParseTree);
+        Iterable<Node> relationNodes = relExtr.extract(dependencyParseTree);
 
-        if (subjectTree.size() > 0 && verbTree.size() > 0 && objectTree.size() > 0) {
-            extrs.add(new TreeBinaryExtraction(verbTree, subjectTree, objectTree));
+        if (!Iterables.isEmpty(subjectNodes) && !Iterables.isEmpty(objectNodes) && !Iterables.isEmpty(relationNodes)) {
+            extrs.add(new TreeBinaryExtraction(relationNodes, subjectNodes, objectNodes));
         }
+
         return extrs;
     }
 
