@@ -1,7 +1,5 @@
 package edu.washington.cs.knowitall.examples;
 
-/* For representing a sentence that is annotated with pos tags and np chunks.*/
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -21,25 +19,25 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Tanja Bergmann spielt Volleyball.";
+        String sentence = "Er spielt Volleyball.";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
-        List<String> sentences = readSentences(fileName);
-        extractFromSentences(sentences, fileName);
+//        List<String> sentences = readSentences(fileName);
+//        extractFromSentences(sentences, fileName);
     }
 
     private static void extractFromSentence(String sentStr) throws IOException {
         System.out.println(sentenceAsString(sentStr));
         System.out.println("");
 
-        ReVerbI reVerbI = new ReVerbI(false, 0, true);
+        ReVerbI reVerbI = new ReVerbI(false, 20, true);
         Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
         System.out.println("ReVerb I:");
         System.out.println(chunkRelationsAsString(relationsI));
         System.out.println("");
 
-        ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
+        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
         Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
         System.out.println("ReVerb II:");
         System.out.println(chunkRelationsAsString(relationsII));

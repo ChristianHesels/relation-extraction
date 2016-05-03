@@ -25,7 +25,7 @@ public class ReVerbExtractorTest {
     @Before
     public void setUp() throws Exception {
         if (regReverb == null) {
-            regReverb = new ReVerbIExtractor(0, true); // TODO
+            regReverb = new ReVerbIExtractor(20, true);
         }
         if (relaxedReverb == null) {
             relaxedReverb = new ReVerbIExtractor(0, false);
