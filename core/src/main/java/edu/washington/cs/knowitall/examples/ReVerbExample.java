@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Das Fehlen einer Unterschrift schließt die Berechnung der Leistungen nach den Angaben des Montagepersonals nicht aus.";
+        String sentence = "";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";

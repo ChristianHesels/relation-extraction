@@ -22,7 +22,7 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
     private boolean allowUnary = false;
     private static final boolean mergeOverlapRels = false;
     private boolean combineVerbs = true;
-    private boolean useMorphologyLexicon = false;
+    private boolean useMorphologyLexicon = true;
 
     public ReVerbIIExtractor() {
         this.sentExtr = new SubsentenceExtractor();

@@ -108,7 +108,6 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         StopListFilter relStopList = new StopListFilter();
         relStopList.addStopPosTag("KOUS");
         relStopList.addStopPosTag("$,");
-//        relStopList.addStopToken("because");
         addMapper(relStopList);
 
         // The POS tag of the first verb in the relation cannot be VVPP, VAPP, VMPP

@@ -18,10 +18,10 @@ public class ReVerbRelationExtractor extends ExtractorUnion<ChunkedSentence, Chu
         // Optional adverb
         "ADV_pos? PAV_pos? PTKNEG_pos? " +
         // Modal or other verbs
-        "[VVFIN_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos] "
+        "[VVFIN_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos PTKNEG_pos] "
         +
         // Optional particle/adverb
-        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos?";
+        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? sich_tok?";
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
@@ -41,7 +41,7 @@ public class ReVerbRelationExtractor extends ExtractorUnion<ChunkedSentence, Chu
      * Definition of the "preposition" part of the relation pattern.
      */
     public static final String PREP =
-        "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos?";
+        "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos? sich_tok?";
 
     /**
      * The pattern (V(W*P)?)+
