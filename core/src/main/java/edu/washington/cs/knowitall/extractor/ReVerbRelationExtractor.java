@@ -25,8 +25,6 @@ public class ReVerbRelationExtractor extends ExtractorUnion<ChunkedSentence, Chu
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
-     *   "[  +
-     "VBN_pos VBG_pos]";
      */
     public static final String WORD =
         "["

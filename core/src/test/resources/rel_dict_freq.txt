@@ -1,4 +1,4 @@
 30	sein
 10	machen
-30  sein Sponser
-50  spielen Rolle bei
+30	sein Sponser
+50	spielen Rolle bei
