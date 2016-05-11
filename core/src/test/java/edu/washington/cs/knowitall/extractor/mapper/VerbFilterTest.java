@@ -10,7 +10,7 @@ import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-public class ContainsVerbFilterTest {
+public class VerbFilterTest {
 
     ChunkedRelationExtraction relation1;
     ChunkedRelationExtraction relation2;
@@ -28,7 +28,7 @@ public class ContainsVerbFilterTest {
 
     @Test
     public void testDoFilter() throws Exception {
-        ContainsVerbFilter filter = new ContainsVerbFilter();
+        VerbFilter filter = new VerbFilter();
 
         assertTrue(filter.doFilter(relation1));
         assertFalse(filter.doFilter(relation2));

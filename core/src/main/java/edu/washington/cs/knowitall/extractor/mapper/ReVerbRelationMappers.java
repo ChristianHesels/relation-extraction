@@ -42,7 +42,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         addMapper(new MergeOverlappingMapper());
 
         // Extracted relation must contain at lease one VP chunk tag
-        addMapper(new ContainsVerbFilter());
+        addMapper(new VerbFilter());
 
     }
 
@@ -58,20 +58,19 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         addMapper(new MergeOverlappingMapper());
 
         // Extracted relation must contain at lease one VP chunk tag
-        addMapper(new ContainsVerbFilter());
+        addMapper(new VerbFilter());
 
     }
 
     private void init(int minFreq, boolean useLexSynConstraints,
                       boolean mergeOverlapRels, boolean combineVerbs) throws IOException {
-        // Combine separated verbs
-        if (combineVerbs) {
-            addMapper(new SeparatedVerbMapper());
-        }
-
         // Add lexical and syntactic constraints on the relation.
         if (useLexSynConstraints) {
             addLexicalAndSyntacticConstraints();
+        }
+        // Combine separated verbs
+        if (combineVerbs) {
+            addMapper(new SeparatedVerbMapper());
         }
         // The relation should have a minimum number of distinct arguments in a
         // large corpus
@@ -82,9 +81,8 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         if (mergeOverlapRels) {
             addMapper(new MergeOverlappingMapper());
         }
-
         // Extracted relation must contain at lease one VP chunk tag
-        addMapper(new ContainsVerbFilter());
+        addMapper(new VerbFilter());
 
     }
 
