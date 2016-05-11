@@ -19,12 +19,11 @@ public class SubsentenceExtractor extends ExtractorUnion<ChunkedSentence, Chunke
 
     // The pattern NP+ VP TEXT O
     public static final String PATTERN_I =
-        String.format("(%s+ %s %s %s)", NP, VP, TEXT, O);
+        String.format("(%s %s %s %s)", TEXT, VP, TEXT, O);
 
     // The pattern NP+ VP TEXT VP O
     public static final String PATTERN_II =
-        String.format("(%s+ %s %s %s %s)", NP, VP, TEXT, VP, O);
-
+        String.format("(%s %s %s %s %s)", TEXT, VP, TEXT, VP, O);
 
     String[] patterns = {PATTERN_I, PATTERN_II};
 
