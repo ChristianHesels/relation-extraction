@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Er spielt Volleyball.";
+        String sentence = "Das Fehlen einer Unterschrift schließt die Berechnung der Leistungen nach den Angaben des Montagepersonals nicht aus.";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
@@ -37,7 +37,7 @@ public class ReVerbExample {
         System.out.println(chunkRelationsAsString(relationsI));
         System.out.println("");
 
-        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
+        ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
         Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
         System.out.println("ReVerb II:");
         System.out.println(chunkRelationsAsString(relationsII));

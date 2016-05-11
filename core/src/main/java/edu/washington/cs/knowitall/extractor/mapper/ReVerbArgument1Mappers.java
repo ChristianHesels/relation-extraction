@@ -53,6 +53,8 @@ public class ReVerbArgument1Mappers extends
         // First argument can't be a single number
         addArgumentNotEqualsFilter("CARD");
 
+        addFirstTokenNotEqualsFilter("ART");
+
         // First argument can't match "ARG1, REL" "ARG1 and REL" or
         // "ARG1, and REL"
         addMapper(new ConjunctionCommaLeftArgumentFilter());

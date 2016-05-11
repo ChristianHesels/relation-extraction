@@ -48,4 +48,12 @@ public class ChunkedRelationExtraction extends ChunkedExtraction {
     public double getConfidence() {
         return confidence;
     }
+
+    public String toString() {
+        String relStr = this.getText();
+        if (hasSubRelation()) {
+            relStr += " ; " + this.getSubRelation().toString();
+        }
+        return relStr;
+    }
 }

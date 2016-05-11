@@ -78,7 +78,7 @@ public class ReVerbExtractorTest {
             "NE VAFIN ART ADJA NN $.",
             "B-NP B-VP B-NP I-NP I-NP O"
         );
-        expected.add("ist ein");
+        expected.add("ist");
         assertEquals(expected, got);
     }
 
@@ -90,7 +90,7 @@ public class ReVerbExtractorTest {
             "NE VAFIN ART ADJA NN $.",
             "B-NP B-VP B-NP I-NP I-NP O"
         );
-        expected.add("ist ein");
+        expected.add("ist");
         assertEquals(expected, got);
     }
 
@@ -102,7 +102,7 @@ public class ReVerbExtractorTest {
             "ART ADJA NE VAFIN ADV ART ADJA $, ADJA NN $.",
             "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
         );
-        expected.add("ist heute ein");
+        expected.add("ist heute");
         assertEquals(expected, got);
     }
 
@@ -117,7 +117,7 @@ public class ReVerbExtractorTest {
             "ART ADJA NE VAFIN ADV ART ADJA $, ADJA NN $.",
             "B-NP I-NP I-NP B-VP O B-NP I-NP I-NP I-NP I-NP O"
         );
-        expected.add("ist heute ein");
+        expected.add("ist heute");
         assertEquals(expected, got);
     }
 
@@ -125,11 +125,11 @@ public class ReVerbExtractorTest {
     public void testExtract3() throws Exception {
         reverb = regReverb;
         got = extractRels(
-            "B1 Systems GmbH ist stolzer Sponsor des openSUSE Projekts .",
-            "ADJA NN NN VAFIN ADJA NN ART ADJA NN $.",
-            "B-NP I-NP I-NP B-VP B-NP I-NP B-NP I-NP I-NP O"
+            "B1 Systems GmbH spielt eine Rolle bei dem openSUSE Projekts .",
+            "NN NN NN VAFIN ART NN APPR ART ADJA NN $.",
+            "B-NP I-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP O"
         );
-        expected.add("ist stolzer Sponsor des");
+        expected.add("spielt eine Rolle bei");
         assertEquals(expected, got);
     }
 

@@ -31,6 +31,8 @@ public class ReVerbArgument2Mappers extends
         addFirstPosTagNotEqualsFilter("PIS");   // man
         addFirstPosTagNotEqualsFilter("PPER");  // er
 
+        addArgumentNotEqualsFilter("ART");
+
         // First argument can't match "REL, ARG2" or "REL and ARG2"
         addMapper(new ConjunctionCommaRightArgumentFilter());
 
@@ -71,6 +73,15 @@ public class ReVerbArgument2Mappers extends
         addMapper(new FilterMapper<ChunkedArgumentExtraction>() {
             public boolean doFilter(ChunkedArgumentExtraction extr) {
                 return !extr.getPosTags().get(0).equals(tokenCopy);
+            }
+        });
+    }
+
+    private void addArgumentNotEqualsFilter(String posTag) {
+        final String posTagCopy = posTag;
+        addMapper(new FilterMapper<ChunkedArgumentExtraction>() {
+            public boolean doFilter(ChunkedArgumentExtraction extr) {
+                return !(extr.getLength() == 1 && extr.getPosTag(0).equals(posTagCopy));
             }
         });
     }
