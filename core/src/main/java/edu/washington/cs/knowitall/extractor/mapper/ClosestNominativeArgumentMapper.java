@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.morphology.MateToolMorphology;
 import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
@@ -17,12 +18,15 @@ public class ClosestNominativeArgumentMapper extends
                                    MaxMapper<Integer, ChunkedArgumentExtraction> {
 
     private boolean test = false;
+    private MateToolMorphology mateToolMorphology;
 
     public ClosestNominativeArgumentMapper() {
+        mateToolMorphology = new MateToolMorphology();
     }
 
     public ClosestNominativeArgumentMapper(boolean test) {
         this.test = test;
+        mateToolMorphology = new MateToolMorphology();
     }
 
     @Override
@@ -40,6 +44,7 @@ public class ClosestNominativeArgumentMapper extends
         if (morphy != null) {
             boolean isNominative = true;
             List<String> posTags = arg.getPosTags();
+            List<String> morphTokens = null;
             for (int i = 0; i < posTags.size(); i++) {
                 if (posTags.get(i).equals("NN") || posTags.get(i).equals("NE")) {
                     String token = arg.getToken(i);
@@ -48,8 +53,15 @@ public class ClosestNominativeArgumentMapper extends
                             isNominative = false;
                         }
                     } catch (NoSuchElementException e) {
-                        // no information
-                        // System.out.println("Key not found: " + arg.getToken(i));
+                        // if lexicon does not contain the token,
+                        // use the mate tool morphological algorithm
+                        if (morphTokens == null) {
+                            morphTokens = mateToolMorphology.morphology(arg.getSentence().getTokens());
+                        }
+                        int start = arg.getRange().getStart();
+                        if (!morphTokens.get(start + i).contains("nom")) {
+                            isNominative = false;
+                        }
                     }
                 }
             }
