@@ -31,7 +31,16 @@ public class ReVerbArgument2Mappers extends
         addFirstPosTagNotEqualsFilter("PIS");   // man
         addFirstPosTagNotEqualsFilter("PPER");  // er
 
+        // Second argument can't be a single article
         addArgumentNotEqualsFilter("ART");
+
+        // Second argument can't be a single pronoun
+        addArgumentNotEqualsFilter("PPOSAT");
+
+        // Second argument can't be a punctuation character
+        addArgumentNotEqualsFilter("$(");
+        addArgumentNotEqualsFilter("$.");
+        addArgumentNotEqualsFilter("$,");
 
         // First argument can't match "REL, ARG2" or "REL and ARG2"
         addMapper(new ConjunctionCommaRightArgumentFilter());
@@ -55,6 +64,19 @@ public class ReVerbArgument2Mappers extends
                     return argStart > relEnd && argEnd < subRelStart;
                 }
                 return true;
+            }
+        });
+
+        /*
+         * The argument shouldn't just be a single non word character.
+         */
+        addMapper(new FilterMapper<ChunkedArgumentExtraction>() {
+            public boolean doFilter(ChunkedArgumentExtraction arg) {
+                if (arg.getLength() == 1 && arg.getToken(0).length() == 1) {
+                    return arg.getToken(0).matches("[a-zA-ZöäüßÖÄÜ]");
+                } else {
+                    return true;
+                }
             }
         });
     }

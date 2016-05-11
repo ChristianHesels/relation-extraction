@@ -53,7 +53,16 @@ public class ReVerbArgument1Mappers extends
         // First argument can't be a single number
         addArgumentNotEqualsFilter("CARD");
 
-        addFirstTokenNotEqualsFilter("ART");
+        // First argument can't be a punctuation character
+        addArgumentNotEqualsFilter("$(");
+        addArgumentNotEqualsFilter("$.");
+        addArgumentNotEqualsFilter("$,");
+
+        // First argument can't be a single pronoun
+        addArgumentNotEqualsFilter("PPOSAT");
+
+        // First argument can't be a single article
+        addArgumentNotEqualsFilter("ART");
 
         // First argument can't match "ARG1, REL" "ARG1 and REL" or
         // "ARG1, and REL"
@@ -66,6 +75,20 @@ public class ReVerbArgument1Mappers extends
         } else {
             addMapper(new ClosestArgumentMapper());
         }
+
+
+        /*
+         * The argument shouldn't just be a single non word character.
+         */
+        addMapper(new FilterMapper<ChunkedArgumentExtraction>() {
+            public boolean doFilter(ChunkedArgumentExtraction arg) {
+                if (arg.getLength() == 1 && arg.getToken(0).length() == 1) {
+                    return arg.getToken(0).matches("[a-zA-ZöäüßÖÄÜ]");
+                } else {
+                    return true;
+                }
+            }
+        });
     }
 
     private void addFirstPosTagNotEqualsFilter(String posTag) {
