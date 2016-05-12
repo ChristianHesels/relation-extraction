@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.washington.cs.knowitall.extractor.Mapper;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 
 /**
  * Given a set of <code>ChunkedSentences</code>s from the same sentence, merges those sentences

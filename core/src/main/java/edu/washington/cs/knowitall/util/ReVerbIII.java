@@ -11,7 +11,7 @@ import java.util.Map;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.ReVerbIIIExtractor;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.BitParSentenceParser;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
-import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 
 
 /**

@@ -1,7 +1,7 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 /**
  * A mapper used to filter binary extractions by number of words.

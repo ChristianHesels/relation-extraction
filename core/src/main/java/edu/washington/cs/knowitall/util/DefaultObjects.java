@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.extractor.chunking.mapper.BracketsRemover;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceEndFilter;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceLengthFilter;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceStartFilter;
-import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentenceReader;
 import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 
 public class DefaultObjects {

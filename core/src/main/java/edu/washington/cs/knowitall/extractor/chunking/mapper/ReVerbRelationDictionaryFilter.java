@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**

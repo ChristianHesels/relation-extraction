@@ -4,8 +4,8 @@ import java.io.IOException;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 /**
  * A list of mappers for <code>ReVerbExtractor</code>'s relations.

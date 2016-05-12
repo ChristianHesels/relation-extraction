@@ -6,8 +6,8 @@ import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.ExtractorUnion;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbRelationDictionaryFilter;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbRelationMappers;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 

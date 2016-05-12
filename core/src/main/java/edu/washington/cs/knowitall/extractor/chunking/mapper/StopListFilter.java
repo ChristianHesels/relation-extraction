@@ -4,8 +4,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 /**
  * A mapper that filters out any extractions containing a token or POS tag from a given set.

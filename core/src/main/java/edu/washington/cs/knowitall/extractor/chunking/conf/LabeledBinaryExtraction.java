@@ -1,8 +1,8 @@
 package edu.washington.cs.knowitall.extractor.chunking.conf;
 
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 /**
  * Extends the <code>ChunkedBinaryExtraction</code> class to have a binary label.

@@ -2,7 +2,7 @@ package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
 
 /**
  * A list of mappers for <code>ReVerbExtractor</code>'s second arguments.

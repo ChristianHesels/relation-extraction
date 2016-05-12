@@ -4,6 +4,9 @@ import org.junit.Test;
 
 import java.io.IOException;
 
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.TreeTaggerSentenceChunker;
+
 import static org.junit.Assert.assertEquals;
 
 public class TreeTaggerSentenceChunkerTest {

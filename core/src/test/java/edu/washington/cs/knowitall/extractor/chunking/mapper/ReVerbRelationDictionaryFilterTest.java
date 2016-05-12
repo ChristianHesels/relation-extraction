@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;

@@ -13,7 +13,7 @@ import java.util.zip.GZIPInputStream;
 
 import edu.washington.cs.knowitall.extractor.chunking.conf.featureset.BooleanFeatureSet;
 import edu.washington.cs.knowitall.extractor.chunking.conf.opennlp.OpenNlpConfFunction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**

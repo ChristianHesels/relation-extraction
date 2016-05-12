@@ -12,7 +12,7 @@ import java.io.InputStream;
 
 import edu.washington.cs.knowitall.extractor.chunking.conf.featureset.BooleanFeatureSet;
 import edu.washington.cs.knowitall.extractor.chunking.conf.opennlp.OpenNlpDataSet;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 /**
  * Used to train the ReVerb confidence function using the features described by

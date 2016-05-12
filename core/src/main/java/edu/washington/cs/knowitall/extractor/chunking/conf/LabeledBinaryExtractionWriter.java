@@ -4,9 +4,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
 
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 
 /**
  * Used for writing <code>LabeledBinaryExtraction</code> objects to plain text. See the

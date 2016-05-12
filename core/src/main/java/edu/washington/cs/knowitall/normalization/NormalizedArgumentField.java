@@ -5,11 +5,11 @@ import com.google.common.base.Joiner;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**
- * This class represents a field of a {@link edu.washington.cs.knowitall.nlp.extraction.SpanExtraction} that has been normalized in some way,
+ * This class represents a field of a {@link edu.washington.cs.knowitall.nlp.extraction.chunking.SpanExtraction} that has been normalized in some way,
  * e.g. morphological normalization. A normalized field is a {@link edu.washington.cs.knowitall.normalization.NormalizedField} with
  * an additional list of attribute tokens and tags.
  */

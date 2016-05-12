@@ -3,7 +3,7 @@ package edu.washington.cs.knowitall.extractor.chunking.mapper;
 import java.util.HashSet;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.normalization.NormalizedField;
 import edu.washington.cs.knowitall.normalization.VerbalRelationNormalizer;
 

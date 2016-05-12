@@ -3,9 +3,9 @@ package edu.washington.cs.knowitall.extractor.chunking.conf.featureset;
 import com.google.common.base.Predicate;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 import edu.washington.cs.knowitall.normalization.MateToolLemmatizer;
 
 /**

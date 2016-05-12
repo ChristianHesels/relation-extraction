@@ -11,7 +11,7 @@ import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerb
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerbTreeArgument2Mappers;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
-import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 
 
 public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {

@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 
 import edu.washington.cs.knowitall.extractor.Mapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 /**
  * Given a set of <code>ChunkedExtraction</code>s from the same sentence, merges those extractions

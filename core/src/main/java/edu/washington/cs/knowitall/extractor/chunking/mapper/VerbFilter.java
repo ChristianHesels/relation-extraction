@@ -1,7 +1,7 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 /**
  * A class used to filter out any relations, which do not contain any VP.

@@ -8,7 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.SpanExtraction;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

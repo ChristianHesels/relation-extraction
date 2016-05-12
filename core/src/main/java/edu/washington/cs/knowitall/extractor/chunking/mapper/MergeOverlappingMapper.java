@@ -8,9 +8,9 @@ import java.util.List;
 
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.extractor.Mapper;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 /**
  * Given a set of <code>ChunkedExtraction</code>s from the same sentence, merges those extractions

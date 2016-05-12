@@ -8,10 +8,10 @@ import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ChunkedBinaryExtractionMergeOverlappingMapper;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbArgument1Mappers;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbArgument2Mappers;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 
 public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {

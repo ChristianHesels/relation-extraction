@@ -10,9 +10,9 @@ import java.util.List;
 import java.util.Map;
 
 import edu.washington.cs.knowitall.extractor.chunking.ReVerbIIExtractor;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.TreeTaggerSentenceChunker;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 
 /**

@@ -4,9 +4,9 @@ import org.junit.Before;
 import org.junit.Test;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 import static org.junit.Assert.assertTrue;
 

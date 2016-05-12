@@ -4,9 +4,9 @@ import com.google.common.base.Joiner;
 
 import java.util.List;
 
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.SpanExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.SpanExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 import edu.washington.cs.knowitall.sequence.SimpleLayeredSequence;
 

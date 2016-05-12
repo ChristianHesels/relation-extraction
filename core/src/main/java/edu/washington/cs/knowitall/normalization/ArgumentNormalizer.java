@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 
 /**
  * Normalizes {@link ChunkedExtraction} arguments by <ul> <li>Lowercasing</li> <li>Removing

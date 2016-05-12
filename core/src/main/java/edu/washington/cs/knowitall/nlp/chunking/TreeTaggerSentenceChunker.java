@@ -1,4 +1,4 @@
-package edu.washington.cs.knowitall.nlp;
+package edu.washington.cs.knowitall.nlp.chunking;
 
 import opennlp.tools.postag.POSTagger;
 

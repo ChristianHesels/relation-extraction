@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 /**

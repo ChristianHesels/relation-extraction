@@ -7,7 +7,7 @@ import java.net.URL;
 
 import edu.washington.cs.knowitall.extractor.chunking.conf.classifier.LogisticRegression;
 import edu.washington.cs.knowitall.extractor.chunking.conf.featureset.BooleanFeatureSet;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 /**
  * An extraction confidence function that is backed by a logistic regression classifier. This

@@ -7,10 +7,10 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.TreeTaggerSentenceChunker;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 import edu.washington.cs.knowitall.util.ReVerbI;
 import edu.washington.cs.knowitall.util.ReVerbII;
 import edu.washington.cs.knowitall.util.ReVerbIII;

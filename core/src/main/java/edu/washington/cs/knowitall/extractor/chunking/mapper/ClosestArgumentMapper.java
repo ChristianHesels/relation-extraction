@@ -1,8 +1,8 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
 import edu.washington.cs.knowitall.extractor.MaxMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 
 /**
  * A mapper object for <code>NpChunkArgumentExtraction</code> objects that returns the object

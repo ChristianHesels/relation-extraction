@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import edu.washington.cs.knowitall.extractor.TestExtractions;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 import static org.junit.Assert.assertEquals;
 

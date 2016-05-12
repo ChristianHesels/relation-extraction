@@ -1,4 +1,6 @@
-package edu.washington.cs.knowitall.nlp;
+package edu.washington.cs.knowitall.nlp.chunking;
+
+import edu.washington.cs.knowitall.nlp.NlpException;
 
 /**
  * An exception class used for handling errors related to layered sequences.

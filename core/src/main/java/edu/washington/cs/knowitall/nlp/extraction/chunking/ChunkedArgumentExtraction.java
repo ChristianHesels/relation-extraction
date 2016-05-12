@@ -1,7 +1,7 @@
-package edu.washington.cs.knowitall.nlp.extraction;
+package edu.washington.cs.knowitall.nlp.extraction.chunking;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 
 /**
  * A class representing a noun phrase argument of a relation.

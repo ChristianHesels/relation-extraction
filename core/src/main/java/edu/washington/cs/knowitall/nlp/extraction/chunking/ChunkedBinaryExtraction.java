@@ -1,4 +1,4 @@
-package edu.washington.cs.knowitall.nlp.extraction;
+package edu.washington.cs.knowitall.nlp.extraction.chunking;
 
 import com.google.common.collect.Iterables;
 
@@ -6,7 +6,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.ExtractionConverter;
+import edu.washington.cs.knowitall.nlp.extraction.SimpleBinaryRelation;
 
 /**
  * Represents a binary extraction from a {@link ChunkedSentence}. A binary extraction has three

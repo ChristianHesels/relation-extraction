@@ -1,4 +1,4 @@
-package edu.washington.cs.knowitall.nlp.extraction;
+package edu.washington.cs.knowitall.nlp.extraction.chunking;
 
 import com.google.common.collect.ImmutableList;
 
@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Set;
 
 import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 
 /**
  * <p> This class represents an extraction from a single sentence that is made up of one or more
@@ -17,7 +17,7 @@ import edu.washington.cs.knowitall.nlp.ChunkedSentence;
  * subject-verb-object relationship can be represented as a {@code SentenceSpanExtraction} with
  * three fields: one for the subject, one for the verb phrase, and one for the object. This class
  * keeps a reference to the sentence the extraction originated from, and the ranges of each field.
- * Each field is represented as a {@link ChunkedExtraction}. </p> <p> A SpanExtraction object is
+ * Each field is represented as a {@link edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction}. </p> <p> A SpanExtraction object is
  * also equipped with a set of properties, mapping a String key to a String value. </p>
  *
  * @author afader

@@ -7,9 +7,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 
 import edu.washington.cs.knowitall.extractor.chunking.ReVerbIExtractor;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentenceReader;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**

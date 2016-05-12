@@ -1,9 +1,11 @@
-package edu.washington.cs.knowitall.nlp.extraction;
+package edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree;
 
 import com.google.common.base.Joiner;
 
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.ExtractionConverter;
+import edu.washington.cs.knowitall.nlp.extraction.SimpleBinaryRelation;
 
 public class TreeBinaryExtraction implements ExtractionConverter {
 

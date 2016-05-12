@@ -7,8 +7,8 @@ import java.util.List;
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.SpanExtraction;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.SpanExtraction;
 import edu.washington.cs.knowitall.sequence.LayeredTokenMatcher;
 import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
 

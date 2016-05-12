@@ -5,8 +5,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import edu.washington.cs.knowitall.extractor.MaxMapper;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 import edu.washington.cs.knowitall.nlp.morphology.MateToolMorphology;
 import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 import edu.washington.cs.knowitall.util.DefaultObjects;

@@ -1,6 +1,6 @@
 package edu.washington.cs.knowitall.normalization;
 
-import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 /**
  * Represents a {@link ChunkedBinaryExtraction} that has normalized versions of arg1, rel, arg2.

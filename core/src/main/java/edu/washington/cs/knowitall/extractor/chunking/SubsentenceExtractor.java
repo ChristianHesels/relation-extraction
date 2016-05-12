@@ -3,7 +3,7 @@ package edu.washington.cs.knowitall.extractor.chunking;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.ExtractorUnion;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceMergeOverlappingMapper;
-import edu.washington.cs.knowitall.nlp.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.sequence.SequenceException;
 
 
