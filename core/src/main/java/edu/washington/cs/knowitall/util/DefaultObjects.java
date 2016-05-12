@@ -13,7 +13,6 @@ import opennlp.tools.tokenize.TokenizerModel;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.net.URL;
 
 import edu.washington.cs.knowitall.extractor.SentenceExtractor;
 import edu.washington.cs.knowitall.extractor.mapper.BracketsRemover;
@@ -52,21 +51,12 @@ public class DefaultObjects {
 
     public static Morphy getMorphy(boolean test) throws IOException {
         if (MORPHY == null) {
-            URL f;
-            if (test) {
-                f = DefaultObjects.class.getClassLoader().getResource(smallMorphologyLexiconFile);
-            } else {
-                f = DefaultObjects.class.getClassLoader().getResource(morphologyLexiconFile);
+            String f = (test) ? smallMorphologyLexiconFile : morphologyLexiconFile;
+            InputStream in = getResourceAsStream(f);
+            if (in == null) {
+                throw new IOException("Couldn't load resource: " + f);
             }
-            if (f == null) {
-                throw new IOException("Couldn't load resource: " + morphologyLexiconFile);
-            } else {
-                if (test) {
-                    MORPHY = new Morphy(f.getPath(), true);
-                } else {
-                    MORPHY = new Morphy(f.getPath());
-                }
-            }
+            MORPHY = new Morphy(in, test);
         }
         return MORPHY;
     }

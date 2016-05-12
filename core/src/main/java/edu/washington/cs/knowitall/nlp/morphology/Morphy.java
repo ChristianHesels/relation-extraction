@@ -1,8 +1,9 @@
 package edu.washington.cs.knowitall.nlp.morphology;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,23 +15,23 @@ import java.util.NoSuchElementException;
  */
 public class Morphy {
 
-    private String fileName;
+    private InputStream inputStream;
     private boolean debug = false;
     private Map<String, List<Subject>> lexicon = new HashMap<>();
 
-    public Morphy(String fileName) throws IOException {
-        this(fileName, false);
+    public Morphy(InputStream inputStream) throws IOException {
+        this(inputStream, false);
     }
 
-    public Morphy(String fileName, boolean debug) throws IOException {
-        this.fileName = fileName;
+    public Morphy(InputStream inputStream, boolean debug) throws IOException {
+        this.inputStream = inputStream;
         this.debug = debug;
         initialize();
     }
 
     private void initialize() throws IOException {
         if (debug) System.out.println("Reading \"Deutsches Morphologie-Lexikon\" ... ");
-        BufferedReader br = new BufferedReader(new FileReader(this.fileName));
+        BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
 
         // skip header
         String line = br.readLine();

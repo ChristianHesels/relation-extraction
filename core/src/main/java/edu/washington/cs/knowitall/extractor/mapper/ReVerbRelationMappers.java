@@ -94,11 +94,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
          */
         addMapper(new FilterMapper<ChunkedRelationExtraction>() {
             public boolean doFilter(ChunkedRelationExtraction rel) {
-                if (rel.getLength() == 1) {
-                    return rel.getToken(0).length() > 1;
-                } else {
-                    return true;
-                }
+                return rel.getLength() != 1 || rel.getToken(0).length() > 1;
             }
         });
 

@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "";
+        String sentence = "Die Große Koalition schafft Störerhaftung ab.";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
@@ -32,20 +32,26 @@ public class ReVerbExample {
         System.out.println("");
 
         ReVerbI reVerbI = new ReVerbI(false, 20, true);
+        long start = System.nanoTime();
         Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
-        System.out.println("ReVerb I:");
+        long end = System.nanoTime();
+        System.out.println("ReVerb I: (" + ((end - start) / 1000000000.0) + " sec)");
         System.out.println(chunkRelationsAsString(relationsI));
         System.out.println("");
 
         ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
+        start = System.nanoTime();
         Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
-        System.out.println("ReVerb II:");
+        end = System.nanoTime();
+        System.out.println("ReVerb II: (" + ((end - start) / 1000000000.0) + " sec)");
         System.out.println(chunkRelationsAsString(relationsII));
         System.out.println("");
 
         ReVerbIII reVerbIII = new ReVerbIII();
+        start = System.nanoTime();
         Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);
-        System.out.println("ReVerb III:");
+        end = System.nanoTime();
+        System.out.println("ReVerb III: (" + ((end - start) / 1000000000.0) + " sec)");
         System.out.println(treeRelationsAsString(relations));
         System.out.println("");
     }
