@@ -63,6 +63,10 @@ public class TreeBinaryExtraction implements ExtractionConverter {
 
     @Override
     public SimpleBinaryRelation convert() {
-        return new SimpleBinaryRelation(relationNodes.toString(), argument1Nodes.toString(), argument2Nodes.toString());
+        return new SimpleBinaryRelation(relationNodes.toString(),
+                                        argument1Nodes.toString(),
+                                        argument2Nodes.toString(),
+                                        tree.toString(),
+                                        tree.printTree());
     }
 }

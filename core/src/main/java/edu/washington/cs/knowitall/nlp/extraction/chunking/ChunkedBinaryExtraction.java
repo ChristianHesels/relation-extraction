@@ -170,6 +170,8 @@ public class ChunkedBinaryExtraction extends SpanExtraction implements Extractio
 
     @Override
     public SimpleBinaryRelation convert() {
-        return new SimpleBinaryRelation(rel.toString(), arg1.toString(), arg2.toString());
+        return new SimpleBinaryRelation(rel.toString(), arg1.toString(), arg2.toString(),
+                                        rel.getSentence().toString(),
+                                        rel.getSentence().getParsedSentence());
     }
 }

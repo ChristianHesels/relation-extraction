@@ -402,7 +402,7 @@ public class ChunkedSentence extends BIOLayeredSequence {
      * brackets around chunks, then token/tag).
      */
     public String toOpenNlpFormat() {
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         for (int i = 0; i < getLength(); i++) {
 
             String tt = getToken(i) + "/" + getPosTag(i);
@@ -412,9 +412,21 @@ public class ChunkedSentence extends BIOLayeredSequence {
                 sb.append("]");
             }
             if (npChunkTag.startsWith("B-")) {
-                sb.append(" [" + npChunkTag.substring(2));
+                sb.append(" [").append(npChunkTag.substring(2));
             }
-            sb.append(" " + tt);
+            sb.append(" ").append(tt);
+        }
+        return sb.toString();
+    }
+
+    public String getParsedSentence() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < getLength(); i++) {
+            String tt = getToken(i) + "/" + getPosTag(i);
+            sb.append(tt);
+            sb.append(" (");
+            sb.append(getChunkTag(i));
+            sb.append(")");
         }
         return sb.toString();
     }
