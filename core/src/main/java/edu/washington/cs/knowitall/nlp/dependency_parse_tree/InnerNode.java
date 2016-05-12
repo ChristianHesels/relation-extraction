@@ -1,5 +1,6 @@
 package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InnerNode extends Node {
@@ -7,7 +8,8 @@ public class InnerNode extends Node {
     public String feature = "";
     public String label = "";
 
-    public InnerNode(String data) {
+    public InnerNode(String data, int id) {
+        super(id);
         parse(data);
     }
 
@@ -67,5 +69,61 @@ public class InnerNode extends Node {
             return feature;
         }
         return "";
+    }
+
+    @Override
+    public List<Integer> findLeafs(String pattern) {
+        // TODO allow combinations
+
+        String[] parts = pattern.split(" ");
+
+        List<String> posTags = new ArrayList<>();
+        List<String> labels = new ArrayList<>();
+
+        for (String p : parts) {
+            if (p.endsWith("_pos")) {
+                posTags.add(p.substring(0, p.length() - 4));
+            } else if (p.endsWith("_lab")) {
+                labels.add(p.substring(0, p.length() - 4));
+            }
+        }
+
+        List<Integer> nodes = new ArrayList<>();
+        for (Node n : this.children) {
+            if (n.isLeafNode()) {
+                LeafNode ln = (LeafNode) n;
+                if (posTags.contains(ln.pos) || labels.contains(ln.label)) {
+                    nodes.add(ln.id);
+                }
+            }
+        }
+        return nodes;
+    }
+
+    @Override
+    public List<Node> findNodes(String pattern) {
+        String[] parts = pattern.split(" ");
+
+        List<String> labels = new ArrayList<>();
+        List<String> features = new ArrayList<>();
+
+        for (String p : parts) {
+            if (p.endsWith("_lab")) {
+                labels.add(p.substring(0, p.length() - 4));
+            } else if (p.endsWith("_fea")) {
+                features.add(p.substring(0, p.length() - 4));
+            }
+        }
+
+        List<Node> nodes = new ArrayList<>();
+        for (Node n : this.children) {
+            if (n.isInnerNode()) {
+                InnerNode in = (InnerNode) n;
+                if (labels.contains(in.label) || features.contains(in.feature)) {
+                    nodes.add(in);
+                }
+            }
+        }
+        return nodes;
     }
 }

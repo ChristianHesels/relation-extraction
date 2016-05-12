@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Die Große Koalition schafft Störerhaftung ab.";
+        String sentence = "Genannt seien an dieser Stelle vor allem die Stadtwerke Saarbrücken , die mit in die Geschäftsführung einstiegen und sich auch finanziell stark engagierten , sowie die VSE AG , weitere Stadtwerke und einige weitere Unternehmen .";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";

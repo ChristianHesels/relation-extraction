@@ -9,7 +9,7 @@ public class NodeTest {
     @Test
     public void testParse1() {
         String data = "(ADJD-MO-Pos\\/V Gleichzeitig)";
-        LeafNode node = new LeafNode(data);
+        LeafNode node = new LeafNode(data, 0);
 
         assertEquals("ADJD", node.pos);
         assertEquals("MO", node.label);
@@ -20,7 +20,7 @@ public class NodeTest {
     @Test
     public void testParse2() {
         String data = "(KON-CD und)";
-        LeafNode node = new LeafNode(data);
+        LeafNode node = new LeafNode(data, 0);
 
         assertEquals("KON", node.pos);
         assertEquals("CD", node.label);
@@ -30,7 +30,7 @@ public class NodeTest {
     @Test
     public void testParse3() {
         String data = "(S-TOP";
-        InnerNode node = new InnerNode(data);
+        InnerNode node = new InnerNode(data, 0);
 
         assertEquals("S", node.feature);
         assertEquals("TOP", node.label);

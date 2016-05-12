@@ -70,7 +70,8 @@ public class BitParSentenceParser {
      * @return a dependency parse tree
      */
     public List<DependencyParseTree> convert(List<String> content) {
-        Node rootElement = new InnerNode("TOP");
+        int nodeId = 0;
+        Node rootElement = new InnerNode("TOP", nodeId);
         DependencyParseTree tree = new DependencyParseTree(rootElement);
 
         List<DependencyParseTree> trees = new ArrayList<>();
@@ -86,7 +87,8 @@ public class BitParSentenceParser {
 
             if (line.isEmpty()) {
                 trees.add(tree);
-                rootElement = new InnerNode("TOP");
+                nodeId = 0;
+                rootElement = new InnerNode("TOP", nodeId);
                 tree = new DependencyParseTree(rootElement);
                 lastCount = 0;
                 lastNode = rootElement;
@@ -98,10 +100,11 @@ public class BitParSentenceParser {
             line = line.trim();
 
             Node node;
+            nodeId += 1;
             if (line.endsWith(")")) {
-                node = new LeafNode(line);
+                node = new LeafNode(line, nodeId);
             } else {
-                node = new InnerNode(line);
+                node = new InnerNode(line, nodeId);
             }
 
             if (currentCount == lastCount) {

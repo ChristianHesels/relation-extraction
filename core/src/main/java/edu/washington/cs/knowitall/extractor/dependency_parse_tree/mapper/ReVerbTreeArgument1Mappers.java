@@ -5,13 +5,13 @@ import java.util.List;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 /**
  * A list of mappers for ReVerb III extractor first argument.
  */
 public class ReVerbTreeArgument1Mappers extends
-                                        MapperList<Node> {
+                                        MapperList<TreeExtraction> {
 
     public ReVerbTreeArgument1Mappers() {
         init();
@@ -41,12 +41,13 @@ public class ReVerbTreeArgument1Mappers extends
     private void addFirstPosTagNotEqualsFilter(final String posTag) {
         final List<String> posTagList = new ArrayList<>();
         posTagList.add(posTag);
-        addMapper(new FilterMapper<Node>() {
-            public boolean doFilter(Node node) {
-                if (!node.getLeafNodes().isEmpty()) {
-                    Node n = node.getLeafNodes().get(0);
-                    return !n.matchPosTag(posTagList);
-                }
+        addMapper(new FilterMapper<TreeExtraction>() {
+            public boolean doFilter(TreeExtraction extr) {
+//                extr.
+//                if (!node.getLeafNodes().isEmpty()) {
+//                    Node n = node.getLeafNodes().get(0);
+//                    return !n.matchPosTag(posTagList);
+//                }
                 return true;
             }
         });
@@ -55,12 +56,12 @@ public class ReVerbTreeArgument1Mappers extends
     private void addArgumentNotEqualsFilter(final String posTag) {
         final List<String> posTagList = new ArrayList<>();
         posTagList.add(posTag);
-        addMapper(new FilterMapper<Node>() {
-            public boolean doFilter(Node node) {
-                if (node.getLeafNodes().size() == 1) {
-                    Node n = node.getLeafNodes().get(0);
-                    return !n.matchPosTag(posTagList);
-                }
+        addMapper(new FilterMapper<TreeExtraction>() {
+            public boolean doFilter(TreeExtraction node) {
+//                if (node.getLeafNodes().size() == 1) {
+//                    Node n = node.getLeafNodes().get(0);
+//                    return !n.matchPosTag(posTagList);
+//                }
                 return true;
             }
         });

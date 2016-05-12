@@ -2,6 +2,7 @@ package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
 
 import com.google.common.base.Joiner;
+import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,12 +13,16 @@ import java.util.List;
 public abstract class Node {
 
     public Node parent;
+    public int id;
     public List<Node> children;
 
-    public Node() {}
+    public Node(int id) {
+        this.id = id;
+    }
 
-    public Node(String data) {
+    public Node(String data, int id) {
         parse(data);
+        this.id = id;
     }
 
     /**
@@ -171,6 +176,27 @@ public abstract class Node {
     }
 
     /**
+     * Find the nodes with the given ids.
+     * @param ids the list of ids
+     * @return the list of nodes
+     */
+    public List<Node> find(Iterable<Integer> ids) {
+        List<Node> nodes = new ArrayList<>();
+        walkIds(this, nodes, ids);
+        return nodes;
+    }
+
+
+    private void walkIds(Node element, List<Node> list, Iterable<Integer> ids) {
+        if (Iterables.contains(ids, element.id)) {
+            list.add(element);
+        }
+        for (Node data : element.getChildren()) {
+            walkIds(data, list, ids);
+        }
+    }
+
+    /**
      * Walks the tree in pre-order style.
      * @param element the starting element.
      * @param list the output of the walk.
@@ -225,4 +251,8 @@ public abstract class Node {
         }
         sb.append(" )");
     }
+
+    public abstract List<Integer> findLeafs(String pattern);
+
+    public abstract List<Node> findNodes(String pattern);
 }

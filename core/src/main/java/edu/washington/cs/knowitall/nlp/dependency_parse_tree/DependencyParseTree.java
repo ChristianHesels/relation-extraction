@@ -65,6 +65,15 @@ public class DependencyParseTree {
     }
 
     /**
+     * Find the nodes with the given ids.
+     * @param ids the list of ids
+     * @return the list of nodes
+     */
+    public List<Node> find(Iterable<Integer> ids) {
+        return rootElement.find(ids);
+    }
+
+    /**
      * Prints the tree.
      * @return the tree as string
      */

@@ -1,5 +1,6 @@
 package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,7 +14,8 @@ public class LeafNode extends Node {
     public String label = "";
     public String pos = "";
 
-    public LeafNode(String data) {
+    public LeafNode(String data, int id) {
+        super(id);
         parse(data);
     }
 
@@ -107,5 +109,15 @@ public class LeafNode extends Node {
         str += " " + word;
 
         return str;
+    }
+
+    @Override
+    public List<Integer> findLeafs(String pattern) {
+        return new ArrayList<>();
+    }
+
+    @Override
+    public List<Node> findNodes(String pattern) {
+        return new ArrayList<>();
     }
 }
