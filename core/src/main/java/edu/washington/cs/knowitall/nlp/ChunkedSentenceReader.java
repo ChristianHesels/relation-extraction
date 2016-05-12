@@ -5,7 +5,7 @@ import com.google.common.base.Predicate;
 import java.io.IOException;
 import java.io.Reader;
 
-import edu.washington.cs.knowitall.extractor.SentenceExtractor;
+import edu.washington.cs.knowitall.extractor.chunking.SentenceExtractor;
 import edu.washington.cs.knowitall.io.BufferedReaderIterator;
 import edu.washington.cs.knowitall.io.TextBlockIterator;
 import edu.washington.cs.knowitall.util.IterableAdapter;

@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.washington.cs.knowitall.extractor.ReVerbIIExtractor;
+import edu.washington.cs.knowitall.extractor.chunking.ReVerbIIExtractor;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.TreeTaggerSentenceChunker;
 import edu.washington.cs.knowitall.nlp.extraction.ChunkedBinaryExtraction;

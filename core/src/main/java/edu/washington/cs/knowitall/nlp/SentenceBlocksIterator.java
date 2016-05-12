@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import edu.washington.cs.knowitall.extractor.ExtractorException;
-import edu.washington.cs.knowitall.extractor.SentenceExtractor;
+import edu.washington.cs.knowitall.extractor.chunking.SentenceExtractor;
 
 public class SentenceBlocksIterator extends AbstractIterator<String> {
 

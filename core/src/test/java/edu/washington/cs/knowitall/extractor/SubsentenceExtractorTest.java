@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import edu.washington.cs.knowitall.extractor.chunking.SubsentenceExtractor;
 import edu.washington.cs.knowitall.nlp.ChunkedSentence;
 
 import static org.junit.Assert.assertEquals;

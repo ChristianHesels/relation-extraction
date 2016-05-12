@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.washington.cs.knowitall.extractor.ReVerbIIIExtractor;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.ReVerbIIIExtractor;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.BitParSentenceParser;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.extraction.TreeBinaryExtraction;

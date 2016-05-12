@@ -14,11 +14,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
 
-import edu.washington.cs.knowitall.extractor.SentenceExtractor;
-import edu.washington.cs.knowitall.extractor.mapper.BracketsRemover;
-import edu.washington.cs.knowitall.extractor.mapper.SentenceEndFilter;
-import edu.washington.cs.knowitall.extractor.mapper.SentenceLengthFilter;
-import edu.washington.cs.knowitall.extractor.mapper.SentenceStartFilter;
+import edu.washington.cs.knowitall.extractor.chunking.SentenceExtractor;
+import edu.washington.cs.knowitall.extractor.chunking.mapper.BracketsRemover;
+import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceEndFilter;
+import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceLengthFilter;
+import edu.washington.cs.knowitall.extractor.chunking.mapper.SentenceStartFilter;
 import edu.washington.cs.knowitall.nlp.ChunkedSentenceReader;
 import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 

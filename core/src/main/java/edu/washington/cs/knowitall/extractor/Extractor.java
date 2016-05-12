@@ -1,8 +1,5 @@
 package edu.washington.cs.knowitall.extractor;
 
-import edu.washington.cs.knowitall.extractor.mapper.Mapper;
-import edu.washington.cs.knowitall.extractor.mapper.MapperList;
-
 /**
  * <p> An abstract class that defines the basic behavior of an extractor. An {@code Extractor<S,T>}
  * object extracts objects of type {@code T} from a source object of type {@code S}. Candidate
