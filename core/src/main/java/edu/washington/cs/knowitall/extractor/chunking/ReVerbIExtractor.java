@@ -20,7 +20,7 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr;
 
     private boolean allowUnary = false;
-    private boolean mergeOverlapRels = true;
+    private static final boolean mergeOverlapRels = true;
     private static final boolean combineVerbs = false;
     private static final boolean useMorphologyLexicon = false;
 
@@ -75,8 +75,5 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
         this.allowUnary = allowUnary;
     }
 
-    public void setMergeOverlapRels(boolean mergeOverlapRels) {
-        this.mergeOverlapRels = mergeOverlapRels;
-    }
 }
 

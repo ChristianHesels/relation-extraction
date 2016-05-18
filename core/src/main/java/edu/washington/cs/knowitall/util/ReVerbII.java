@@ -49,9 +49,7 @@ public class ReVerbII extends ReVerb<ChunkedSentence, ChunkedBinaryExtraction> {
     public ReVerbII(boolean debug, int minFreq, boolean useLexSynConstraints,
                     boolean combineVerbs, boolean useMorphologyLexicon) {
         this.debug = debug;
-        this.extractor = new ReVerbIIExtractor(minFreq, useLexSynConstraints);
-        this.extractor.setCombineVerbs(combineVerbs);
-        this.extractor.setUseMorphologyLexicon(useMorphologyLexicon);
+        this.extractor = new ReVerbIIExtractor(minFreq, useLexSynConstraints, combineVerbs, useMorphologyLexicon);
     }
 
     /**

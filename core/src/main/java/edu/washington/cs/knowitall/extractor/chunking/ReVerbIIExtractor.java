@@ -21,10 +21,10 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr;
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg2Extr;
 
-    private boolean allowUnary = false;
+    private static final boolean allowUnary = false;
     private static final boolean mergeOverlapRels = false;
-    private boolean combineVerbs = true;
-    private boolean useMorphologyLexicon = true;
+    private static final boolean combineVerbs = true;
+    private static final boolean useMorphologyLexicon = true;
 
     public ReVerbIIExtractor() {
         this.sentExtr = new SubsentenceExtractor();
@@ -61,6 +61,30 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
         this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
     }
 
+    /**
+     * Explicit constructor to invoke the corresponding super's constructor with arguments.
+     *
+     * @param minFreq              - The minimum distinct arguments to be observed in a large
+     *                             collection for the relation to be deemed valid.
+     * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
+     * @param combineVerbs         - Combine separated verbs?
+     * @param useMorphologyLexicon - Use a morphology lexicon?
+     */
+    public ReVerbIIExtractor(int minFreq, boolean useLexSynConstraints, boolean combineVerbs, boolean useMorphologyLexicon) {
+        this.sentExtr = new SubsentenceExtractor();
+
+        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
+
+        this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
+
+        this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
+        arg2Extr.addMapper(new ReVerbArgument2Mappers());
+
+        this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
+    }
+
+
     @Override
     protected Iterable<ChunkedBinaryExtraction> extractCandidates(ChunkedSentence source)
         throws ExtractorException {
@@ -84,17 +108,7 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
         return extrs;
     }
 
-    public void setAllowUnary(boolean allowUnary) {
-        this.allowUnary = allowUnary;
-    }
 
-    public void setCombineVerbs(boolean combineVerbs) {
-        this.combineVerbs = combineVerbs;
-    }
-
-    public void setUseMorphologyLexicon(boolean useMorphologyLexicon) {
-        this.useMorphologyLexicon = useMorphologyLexicon;
-    }
 
 }
 
