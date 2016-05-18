@@ -30,8 +30,6 @@ public class ReVerbExtractorTest {
         }
         if (relaxedReverb == null) {
             relaxedReverb = new ReVerbIExtractor(0, false);
-            relaxedReverb.setAllowUnary(true);
-            relaxedReverb.setMergeOverlapRels(false);
         }
         expected = new HashSet<String>();
     }
@@ -47,18 +45,6 @@ public class ReVerbExtractorTest {
         HashSet<String> results = new HashSet<String>();
         for (ChunkedBinaryExtraction extr : extrs) {
             results.add(extr.getRelation().toString());
-        }
-        return results;
-    }
-
-    private static HashSet<String> extractTriples(String ts, String ps, String cs)
-        throws Exception {
-        List<ChunkedBinaryExtraction> extrs = extract(asSentence(ts, ps, cs));
-        HashSet<String> results = new HashSet<String>();
-        for (ChunkedBinaryExtraction extr : extrs) {
-            results.add(
-                "(" + extr.getArgument1() + ", " + extr.getRelation() + ", " + extr.getArgument2()
-                + ")");
         }
         return results;
     }
@@ -126,11 +112,11 @@ public class ReVerbExtractorTest {
     public void testExtract3() throws Exception {
         reverb = regReverb;
         got = extractRels(
-            "B1 Systems GmbH spielt eine Rolle bei dem openSUSE Projekts .",
-            "NN NN NN VAFIN ART NN APPR ART ADJA NN $.",
-            "B-NP I-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP O"
+            "Das Hotel bietet dem Kunden nicht das volle Programm .",
+            "ART NN VAFIN ART NN PTKNEG ART ADJA NN $.",
+            "B-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP O"
         );
-        expected.add("spielt eine Rolle bei");
+        expected.add("bietet dem Kunden nicht");
         assertEquals(expected, got);
     }
 
@@ -142,11 +128,11 @@ public class ReVerbExtractorTest {
     public void testNoFiltersExtract3() throws Exception {
         reverb = relaxedReverb;
         got = extractRels(
-            "B1 Systems GmbH ist stolzer Sponsor des openSUSE Projekts .",
-            "ADJA NN NN VAFIN ADJA N ART ADJA NN $.",
-            "B-NP I-NP I-NP B-VP B-NP I-NP B-NP I-NP I-NP O"
+            "Das Hotel bietet dem Kunden nicht das volle Programm .",
+            "ART NN VAFIN ART NN PTKNEG ART ADJA NN $.",
+            "B-NP I-NP B-VP B-NP I-NP O B-NP I-NP I-NP O"
         );
-        expected.add("ist");
+        expected.add("bietet dem Kunden nicht");
         assertEquals(expected, got);
     }
 
