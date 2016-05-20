@@ -25,8 +25,7 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
     private static final String CHUNK_COMMAND = TREETAGGER_HOME + "cmd/tagger-chunker-german";
 
     private POSTagger posTagger;
-
-    Pattern convertToSpace = Pattern.compile("\\xa0");
+    private Pattern convertToSpace = Pattern.compile("\\xa0");
 
     public TreeTaggerSentenceChunker() throws IOException {
         this.posTagger = DefaultObjects.getDefaultPosTagger();
@@ -37,26 +36,9 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
         // OpenNLP cannot handle non-breaking whitespace
         sent = convertToSpace.matcher(sent).replaceAll(" ");
 
-        ArrayList<Range> ranges;
-        String[] tokens, posTags, chunkTags;
-
         try {
-            List<String[]> treeTaggerResult = chunk(sent);
-
-            tokens = treeTaggerResult.get(0);
-            chunkTags = treeTaggerResult.get(1);
-            posTags = posTagger.tag(tokens);
-
-            ranges = new ArrayList<>();
-            int start = 0;
-            for (String token : tokens) {
-                ranges.add(Range.fromInterval(start, start + token.length()));
-                start = start + token.length();
-            }
-
-            return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokens, posTags,
-                                       chunkTags);
-
+            String treeTaggerOutput = chunk(sent);
+            return convert(treeTaggerOutput);
         } catch (Exception e) {
             throw new ChunkerException("Could not process sentence '" + sent + "'", e);
         }
@@ -67,12 +49,12 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
      * Tokenize and chunk the given string using TreeTagger.
      *
      * @param str the string
-     * @return a list containing the tokens in the first array and the chunk tags in the second array
+     * @return the output string of TreeTagger
      * @throws java.io.IOException  if the TreeTagger command could not be executed or if the result
      *                              could not be read
      * @throws InterruptedException if the process, which executes TreeTagger, got interrupted.
      */
-    private List<String[]> chunk(String str) throws IOException, InterruptedException {
+    private String chunk(String str) throws IOException, InterruptedException {
         Process p = Runtime.getRuntime().exec(
             new String[]{"/bin/sh", "-c",
                          "echo \"" + str + "\" | " + CHUNK_COMMAND}
@@ -93,19 +75,19 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
         buff.close();
         p.destroy();
 
-        return getPhrases(output.trim());
+        return output.trim();
     }
 
 
     /**
-     * Given the output of the TreeTagger, convert it into an array of chunk tags.
+     * Given the output of TreeTagger, convert it into a ChunkedSentence.
      *
-     * @param content the output of the TreeTagger
-     * @return a list containing the tokens in the first array and the chunk tags in the second array
+     * @param content the output of TreeTagger
+     * @return a ChunkedSentence
      */
-    private List<String[]> getPhrases(String content) throws IOException {
-        List<String> chunkTags = new ArrayList<String>();
-        List<String> tokens = new ArrayList<String>();
+    public ChunkedSentence convert(String content) throws IOException {
+        List<String> chunkTags = new ArrayList<>();
+        List<String> tokens = new ArrayList<>();
 
         String[] lines = content.split(System.getProperty("line.separator"));
 
@@ -136,15 +118,16 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
                 currentTag = line.substring(1, line.length() - 1);
 
                 // change name of tag so that it matches the English tags
-                if (currentTag.equals("NC")) {
-                    currentTag = "NP"; // noun phrase
-
-                } else if (currentTag.equals("VC")) {
-                    currentTag = "VP"; // verb phrase
-
-                } else if (currentTag.equals("PC")) {
-                    currentTag = "PP"; // prepositional phrase
-
+                switch (currentTag) {
+                    case "NC":
+                        currentTag = "NP"; // noun phrase
+                        break;
+                    case "VC":
+                        currentTag = "VP"; // verb phrase
+                        break;
+                    case "PC":
+                        currentTag = "PP"; // prepositional phrase
+                        break;
                 }
                 inChunk = true;
 
@@ -163,11 +146,19 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
             }
         }
 
-        List<String[]> result = new ArrayList<>();
-        result.add(tokens.toArray(new String[tokens.size()]));
-        result.add(chunkTags.toArray(new String[chunkTags.size()]));
+        String[] tokenArr = tokens.toArray(new String[tokens.size()]);
+        String[] chunkTagArr = chunkTags.toArray(new String[chunkTags.size()]);
+        String[] posTagArr = posTagger.tag(tokenArr);
 
-        return result;
+        ArrayList<Range> ranges = new ArrayList<>();
+        int start = 0;
+        for (String token : tokenArr) {
+            ranges.add(Range.fromInterval(start, start + token.length()));
+            start = start + token.length();
+        }
+
+        return new ChunkedSentence(ranges.toArray(new Range[ranges.size()]), tokenArr, posTagArr,
+                                   chunkTagArr);
     }
 
 }
