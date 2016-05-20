@@ -41,8 +41,8 @@ public class BitParSentenceParser {
      * @throws InterruptedException if the process, which executes BitPar, got interrupted.
      */
     private List<String> parse(String str) throws IOException, InterruptedException {
-        Process p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c",
-                                                           "echo \"" + str + "\" | " + PARSE_COMMAND}
+        System.out.println(PARSE_COMMAND + " \"" + str + "\"");
+        Process p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", PARSE_COMMAND + " \"" + str + "\""}
         );
 
         BufferedReader stdInput = new BufferedReader(new InputStreamReader(p.getInputStream()));
