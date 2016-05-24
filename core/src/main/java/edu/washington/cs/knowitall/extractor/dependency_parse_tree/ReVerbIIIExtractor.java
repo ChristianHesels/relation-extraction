@@ -24,7 +24,7 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
         this.arg1Extr = new ReVerbTreeArgument1Extractor();
         arg1Extr.addMapper(new ReVerbTreeArgument1Mappers());
 
-        this.arg2Extr = new ReVerbTreeArgument2Extractor("OA_lab OC_lab OG_lab OP_lab");
+        this.arg2Extr = new ReVerbTreeArgument2Extractor();
         arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());
     }
 

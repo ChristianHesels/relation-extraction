@@ -16,7 +16,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 public class ReVerbTreeRelationExtractor extends Extractor<DependencyParseTree, TreeExtraction> {
 
     public static final String SENTENCE = "S_fea";
-    public static final String VERB_PHRASE = "VP_lab CVP_lab";
+    public static final String VERB_PHRASE = "VP_fea CVP_lab";
     public static final String VERB = "VVFIN_pos VVINF_pos VVIZU_pos VAFIN_pos VAINF_pos VMINF_pos VMFIN_pos PTKVZ_pos VMPP_pos VAPP_pos VVPP_pos";
 
 

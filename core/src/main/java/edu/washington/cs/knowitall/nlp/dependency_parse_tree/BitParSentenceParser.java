@@ -40,8 +40,7 @@ public class BitParSentenceParser {
      *                              could not be read
      * @throws InterruptedException if the process, which executes BitPar, got interrupted.
      */
-    private List<String> parse(String str) throws IOException, InterruptedException {
-        System.out.println(PARSE_COMMAND + " \"" + str + "\"");
+    public List<String> parse(String str) throws IOException, InterruptedException {
         Process p = Runtime.getRuntime().exec(new String[]{"/bin/sh", "-c", PARSE_COMMAND + " \"" + str + "\""}
         );
 

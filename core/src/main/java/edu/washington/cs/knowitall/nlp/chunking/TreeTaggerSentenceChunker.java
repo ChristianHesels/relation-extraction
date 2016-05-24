@@ -54,7 +54,7 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
      *                              could not be read
      * @throws InterruptedException if the process, which executes TreeTagger, got interrupted.
      */
-    private String chunk(String str) throws IOException, InterruptedException {
+    public String chunk(String str) throws IOException, InterruptedException {
         Process p = Runtime.getRuntime().exec(
             new String[]{"/bin/sh", "-c",
                          "echo \"" + str + "\" | " + CHUNK_COMMAND}

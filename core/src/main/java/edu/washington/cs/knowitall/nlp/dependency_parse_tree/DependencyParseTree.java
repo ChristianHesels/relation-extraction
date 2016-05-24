@@ -74,6 +74,15 @@ public class DependencyParseTree {
     }
 
     /**
+     * Find the node with the given id.
+     * @param id the id
+     * @return the node
+     */
+    public Node find(int id) {
+        return rootElement.find(id);
+    }
+
+    /**
      * Prints the tree.
      * @return the tree as string
      */

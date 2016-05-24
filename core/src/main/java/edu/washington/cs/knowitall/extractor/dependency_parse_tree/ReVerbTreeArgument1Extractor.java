@@ -12,7 +12,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 
 public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
-    private static final String HEAD = "HD_lab PNC_lab";
+    private static final String HEAD = "HD_lab"; // PNC_lab";
     private static final String SUBJECT = "SB_lab";
 
     @Override
@@ -63,9 +63,9 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
     }
 
     /**
-     * Find all verb nodes recursively and add the id of the verb nodes to the given list.
+     * Find all subject nodes recursively and add the id of the subject nodes to the given list.
      * @param root  the root node (start node)
-     * @param ids   the list of verb node ids
+     * @param ids   the list of subject node ids
      */
     private void findRecursive(Node root, List<Integer> ids) {
         // if we reached a leaf node, we are done

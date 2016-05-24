@@ -1,10 +1,14 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper;
 
+import com.google.common.collect.Iterables;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.LeafNode;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 /**
@@ -42,12 +46,12 @@ public class ReVerbTreeArgument1Mappers extends
         final List<String> posTagList = new ArrayList<>();
         posTagList.add(posTag);
         addMapper(new FilterMapper<TreeExtraction>() {
-            public boolean doFilter(TreeExtraction extr) {
-//                extr.
-//                if (!node.getLeafNodes().isEmpty()) {
-//                    Node n = node.getLeafNodes().get(0);
-//                    return !n.matchPosTag(posTagList);
-//                }
+            public boolean doFilter(TreeExtraction extraction) {
+                if (Iterables.size(extraction.getNodeIds()) > 0) {
+                    List<Node> l = extraction.getTree().find(extraction.getNodeIds());
+                    LeafNode n = (LeafNode) l.get(0);
+                    return !n.matchPosTag(posTagList);
+                }
                 return true;
             }
         });
@@ -57,11 +61,12 @@ public class ReVerbTreeArgument1Mappers extends
         final List<String> posTagList = new ArrayList<>();
         posTagList.add(posTag);
         addMapper(new FilterMapper<TreeExtraction>() {
-            public boolean doFilter(TreeExtraction node) {
-//                if (node.getLeafNodes().size() == 1) {
-//                    Node n = node.getLeafNodes().get(0);
-//                    return !n.matchPosTag(posTagList);
-//                }
+            public boolean doFilter(TreeExtraction extraction) {
+                if (Iterables.size(extraction.getNodeIds()) == 1) {
+                    List<Node> l = extraction.getTree().find(extraction.getNodeIds());
+                    LeafNode n = (LeafNode) l.get(0);
+                    return !n.matchPosTag(posTagList);
+                }
                 return true;
             }
         });

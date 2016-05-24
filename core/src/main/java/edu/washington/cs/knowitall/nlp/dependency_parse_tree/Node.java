@@ -186,6 +186,19 @@ public abstract class Node {
         return nodes;
     }
 
+    /**
+     * Find the nodes with the given ids.
+     * @param id the list of ids
+     * @return the list of nodes
+     */
+    public Node find(int id) {
+        List<Node> nodes = new ArrayList<>();
+        List<Integer> ids = new ArrayList<>();
+        ids.add(id);
+        walkIds(this, nodes, ids);
+        return nodes.get(0);
+    }
+
 
     private void walkIds(Node element, List<Node> list, Iterable<Integer> ids) {
         if (Iterables.contains(ids, element.id)) {
