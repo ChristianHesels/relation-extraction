@@ -20,10 +20,11 @@ To set up ReVerb locally, you have to
 
 1. Download and install TreeTagger (http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/). Set the environment variable 'TREETAGGER_HOME' to the installation directory.
 2.  Put the following models to the resource folder (src/main/resources):
- * 	`de-token.bin`, `de-sent.bin`, `de-pos-maxent.bin` from http://opennlp.sourceforge.net/models-1.5/
- * 	`parser-ger-3.6.model`, `tag-ger-3.6.model`, `morphology-ger-3.6.model`, `lemma-ger-3.6.model` from the archive `ger-tagger+lemmatizer+morphology+graph-based-3.6+.tgz`, which can be downloaded from https://code.google.com/archive/p/mate-tools/downloads
+ * 	`de-sent.bin`, `de-pos-maxent.bin` from http://opennlp.sourceforge.net/models-1.5/
+ * 	`lemma-ger-3.6.model` from the archive `ger-tagger+lemmatizer+morphology+graph-based-3.6+.tgz`, which can be downloaded from https://code.google.com/archive/p/mate-tools/downloads
 3. Download `Vollformenlexikon 2011-07-22` from http://www.danielnaber.de/morphologie/ and put the extracted `morphy-export-20110722.xml`-file to the resource folder (src/main/resources)
-4. Download and install BitPar (http://www.cis.uni-muenchen.de/~schmid/tools/BitPar/), use the UTF-8 version of the German grammar. Set the environment variable 'GERMANPARSER_HOME' to the installation directory and replace the `parse.sh` file in the GermanParser folder with the `parse.sh` file you found under `models/`.
+4. Download and install ParZu (https://github.com/rsennrich/ParZu). Set the environment variable 'PARZU_HOME' to the installation directory.
+5. Download the compact version of Zmorge from http://kitt.ifi.uzh.ch/kitt/zmorge/ and put it to the resource folder (src/main/resources).
 
 # Running ReVerb
 
