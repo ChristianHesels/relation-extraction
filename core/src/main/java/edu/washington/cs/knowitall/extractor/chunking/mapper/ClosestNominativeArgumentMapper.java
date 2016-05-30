@@ -7,8 +7,8 @@ import java.util.NoSuchElementException;
 import edu.washington.cs.knowitall.extractor.MaxMapper;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
-import edu.washington.cs.knowitall.nlp.morphology.MateToolMorphology;
 import edu.washington.cs.knowitall.nlp.morphology.Morphy;
+import edu.washington.cs.knowitall.nlp.morphology.ZmorgeMorphology;
 import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
@@ -18,16 +18,21 @@ import edu.washington.cs.knowitall.util.DefaultObjects;
 public class ClosestNominativeArgumentMapper extends
                                              MaxMapper<Integer, ChunkedArgumentExtraction> {
 
-    private boolean test = false;
-    private MateToolMorphology mateToolMorphology;
+    private ZmorgeMorphology zmorge;
+    private Morphy morphy;
 
-    public ClosestNominativeArgumentMapper() {
-        mateToolMorphology = new MateToolMorphology();
+    ClosestNominativeArgumentMapper() {
+        this(false);
     }
 
-    public ClosestNominativeArgumentMapper(boolean test) {
-        this.test = test;
-        mateToolMorphology = new MateToolMorphology();
+    ClosestNominativeArgumentMapper(boolean test) {
+        morphy = null;
+        try {
+            morphy = DefaultObjects.getMorphy(test);
+        } catch (IOException e) {
+            System.out.println("Could not load Morphy!");
+        }
+        zmorge = new ZmorgeMorphology();
     }
 
     @Override
@@ -35,34 +40,21 @@ public class ClosestNominativeArgumentMapper extends
      * Returns the distance between <code>arg</code> and its relation, in number of words.
      */
     public Integer doValueMap(ChunkedArgumentExtraction arg) {
-        Morphy morphy = null;
-        try {
-            morphy = DefaultObjects.getMorphy(test);
-        } catch (IOException e) {
-            System.out.println("Could not load Morphy!");
-        }
-
         if (morphy != null) {
             boolean isNominative = true;
             List<String> posTags = arg.getPosTags();
-            List<String> morphTokens = null;
             for (int i = 0; i < posTags.size(); i++) {
+                // We are only interested in nouns
                 if (posTags.get(i).equals("NN") || posTags.get(i).equals("NE")) {
                     String token = arg.getToken(i);
                     try {
+                        // Use Morphy to determine the case of the token
                         if (! morphy.isNominative(token)) {
                             isNominative = false;
                         }
                     } catch (NoSuchElementException e) {
-                        // if lexicon does not contain the token,
-                        // use the mate tool morphological algorithm
-                        if (morphTokens == null) {
-                            morphTokens = mateToolMorphology.morphology(arg.getSentence().getTokens());
-                        }
-                        int start = arg.getRange().getStart();
-                        if (!morphTokens.get(start + i).contains("nom")) {
-                            isNominative = false;
-                        }
+                        // if the Morphy lexicon does not contain the token, use zmorge
+                        isNominative = zmorge.isNominative(token);
                     }
                 }
             }
