@@ -9,6 +9,8 @@ import java.util.List;
 public class DependencyParseTree {
 
     private Node rootElement;
+    private String sentence;
+    private String conllFormat;
 
     public DependencyParseTree() {}
 
@@ -16,19 +18,6 @@ public class DependencyParseTree {
         this.rootElement = rootElement;
     }
 
-    /**
-     * @return the root element.
-     */
-    public Node getRootElement() {
-        return this.rootElement;
-    }
-
-    /**
-     * @param rootElement the root element to set.
-     */
-    public void setRootElement(Node rootElement) {
-        this.rootElement = rootElement;
-    }
 
     /**
      * Returns the tree as a list of node objects. The elements of the
@@ -49,47 +38,40 @@ public class DependencyParseTree {
     }
 
     /**
-     * @return a list of all leaf nodes of the tree
-     */
-    public List<Node> getLeafNodes() {
-        return rootElement.getLeafNodes();
-    }
-
-    /**
-     * Finds all nodes, which match the given pattern.
-     * @param pattern the pattern
-     * @return list of nodes
-     */
-    public List<Node> find(String pattern) {
-        return rootElement.find(pattern);
-    }
-
-    /**
-     * Find the nodes with the given ids.
-     * @param ids the list of ids
-     * @return the list of nodes
+     * Finds the nodes to the given ids.
+     * @param ids a list of ids
+     * @return a list of nodes
      */
     public List<Node> find(Iterable<Integer> ids) {
         return rootElement.find(ids);
     }
 
     /**
-     * Find the node with the given id.
-     * @param id the id
-     * @return the node
+     * GETTER AND SETTER
      */
-    public Node find(int id) {
-        return rootElement.find(id);
+
+    public Node getRootElement() {
+        return this.rootElement;
     }
 
-    /**
-     * Prints the tree.
-     * @return the tree as string
-     */
-    public String printTree() {
-        StringBuilder sb = new StringBuilder();
-        rootElement.printTree(sb);
-        return sb.toString().trim();
+    public void setRootElement(Node rootElement) {
+        this.rootElement = rootElement;
+    }
+
+    public String getSentence() {
+        return sentence;
+    }
+
+    public void setSentence(String sentence) {
+        this.sentence = sentence;
+    }
+
+    public String getConllFormat() {
+        return conllFormat;
+    }
+
+    public void setConllFormat(String conllFormat) {
+        this.conllFormat = conllFormat;
     }
 
 }

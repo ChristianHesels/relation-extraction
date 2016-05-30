@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.ReVerbIIIExtractor;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.BitParSentenceParser;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 
 
@@ -45,7 +45,7 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
      */
     public Iterable<TreeBinaryExtraction> extractRelations(String sentStr) {
         // Convert sentence into a dependency parse tree
-        BitParSentenceParser parser = new BitParSentenceParser();
+        ParZuSentenceParser parser = new ParZuSentenceParser();
         List<DependencyParseTree> trees = parser.parseSentence(sentStr);
 
         // Extract relations
@@ -63,7 +63,7 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
      */
     public Map<String, Iterable<TreeBinaryExtraction>> extractRelations(List<String> sentences) {
         Map<String, Iterable<TreeBinaryExtraction>> sent2relations = new HashMap<>();
-        BitParSentenceParser parser = new BitParSentenceParser();
+        ParZuSentenceParser parser = new ParZuSentenceParser();
         ReVerbIIIExtractor extractor = new ReVerbIIIExtractor();
 
         if (this.debug) System.out.println("Process sentences ...");

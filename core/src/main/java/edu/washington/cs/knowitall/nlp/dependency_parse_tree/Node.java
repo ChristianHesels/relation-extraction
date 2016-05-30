@@ -6,40 +6,41 @@ import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a node of the dependency parse tree.
  */
-public abstract class Node {
+public class Node {
 
-    public Node parent;
-    public int id;
-    public List<Node> children;
+    private int id;
+    private List<Node> children;
+    private Node parent;
+    private int parentId;
+    private String word;
+    private String lemma;
+    private String posGroup;
+    private String pos;
+    private String morphology;
+    private String labelToParent;
 
     public Node(int id) {
         this.id = id;
+        this.children = null;
+        this.parent = null;
+        this.parentId = -1;
+        this.word = "";
+        this.lemma = "";
+        this.posGroup = "";
+        this.pos = "";
+        this.morphology = "";
+        this.labelToParent = "";
     }
 
-    public Node(String data, int id) {
+    public Node(String data) {
         parse(data);
-        this.id = id;
-    }
-
-    /**
-     * @return the children of this node
-     */
-    public List<Node> getChildren() {
-        if (this.children == null) {
-            return new ArrayList<>();
-        }
-        return this.children;
-    }
-
-    /**
-     * @param children the list of child nodes to set.
-     */
-    public void setChildren(List<Node> children) {
-        this.children = children;
+        this.children = null;
+        this.parent = null;
     }
 
     /**
@@ -54,21 +55,6 @@ public abstract class Node {
     }
 
     /**
-     * @return parent node
-     */
-    public Node getParent() {
-        return parent;
-    }
-
-    /**
-     * @param parent the parent node to set
-     */
-    public void setParent(Node parent) {
-        this.parent = parent;
-    }
-
-
-    /**
      * Returns the sub-tree as a list of node objects. The elements of the
      * list are generated from a pre-order traversal of the tree.
      * @return a list of nodes
@@ -76,6 +62,7 @@ public abstract class Node {
     public List<Node> toList() {
         List<Node> list = new ArrayList<>();
         walk(this, list);
+        list.sort((n1, n2) -> n1.id - n2.id);
         return list;
     }
 
@@ -84,13 +71,11 @@ public abstract class Node {
      * from a pre-order traversal of the tree.
      * @return the string representation of the tree.
      */
+    @Override
     public String toString() {
         List<String> strings = new ArrayList<>();
-        List<Node> nodes = toList();
-        for (Node n : nodes) {
-            if (n.isLeafNode()) {
-                strings.add(((LeafNode) n).word);
-            }
+        for (Node n : toList()) {
+            strings.add(n.word);
         }
         return Joiner.on(" ").join(strings);
     }
@@ -110,104 +95,46 @@ public abstract class Node {
     }
 
     /**
-     * @return a list of all leaf nodes in pre-order
-     */
-    public List<Node> getLeafNodes() {
-        List<Node> list = new ArrayList<>();
-        walkChildren(this, list);
-        return list;
-    }
-
-    /**
      * @param data the data string to parse
      */
-    protected abstract void parse(String data);
+    protected void parse(String data) {
+        String[] parts = data.split("\t");
 
-    public abstract boolean isInnerNode();
+        // The conll format has 10 fields
+        assert(parts.length == 10);
 
-    public abstract boolean isLeafNode();
+        this.id = Integer.parseInt(parts[0]);
+        this.word = parts[1];
+        this.lemma = parts[2];
+        this.posGroup = parts[3];
+        this.pos = parts[4];
+        this.morphology = parts[5];
+        this.labelToParent = parts[7];
+        this.parentId = Integer.parseInt(parts[6]);
+    };
+
+    public boolean isInnerNode() {
+        return !isLeafNode();
+    };
+
+    public boolean isLeafNode() {
+        return this.children == null || this.children.size() == 0;
+    };
 
     /**
      * @param labels a list of labels
      * @return true, if the current node has a label of the given list, false otherwise
      */
-    public abstract boolean matchLabel(List<String> labels);
-    /**
-     * @param features a list of features
-     * @return true, if the current node has a feature of the given list, false otherwise
-     */
-    public abstract boolean matchFeature(List<String> features);
+    public boolean matchLabel(List<String> labels) {
+        return labels.contains(this.labelToParent);
+    };
+
     /**
      * @param posTags a list of labels
      * @return true, if the current node has a pos tag of the given list, false otherwise
      */
-    public abstract boolean matchPosTag(List<String> posTags);
-
-    /**
-     * @return the node data as string
-     */
-    public abstract String getDataString();
-
-    /**
-     * Finds all nodes of the tree, which match the given pattern.
-     * @param pattern the pattern
-     * @return a list of nodes
-     */
-    public List<Node> find(String pattern) {
-        String[] parts = pattern.split(" ");
-
-        List<String> posTags = new ArrayList<>();
-        List<String> labels = new ArrayList<>();
-        List<String> features = new ArrayList<>();
-
-        for (String p : parts) {
-            if (p.endsWith("_pos")) {
-                posTags.add(p.substring(0, p.length() - 4));
-            } else if (p.endsWith("_lab")) {
-                labels.add(p.substring(0, p.length() - 4));
-            } else if (p.endsWith("_fea")) {
-                features.add(p.substring(0, p.length() - 4));
-            }
-        }
-
-        List<Node> nodes = new ArrayList<>();
-        walkMatchPattern(this, nodes, labels, features, posTags);
-        return nodes;
-    }
-
-    /**
-     * Find the nodes with the given ids.
-     * @param ids the list of ids
-     * @return the list of nodes
-     */
-    public List<Node> find(Iterable<Integer> ids) {
-        List<Node> nodes = new ArrayList<>();
-        walkIds(this, nodes, ids);
-        return nodes;
-    }
-
-    /**
-     * Find the nodes with the given ids.
-     * @param id the list of ids
-     * @return the list of nodes
-     */
-    public Node find(int id) {
-        List<Node> nodes = new ArrayList<>();
-        List<Integer> ids = new ArrayList<>();
-        ids.add(id);
-        walkIds(this, nodes, ids);
-        return nodes.get(0);
-    }
-
-
-    private void walkIds(Node element, List<Node> list, Iterable<Integer> ids) {
-        if (Iterables.contains(ids, element.id)) {
-            list.add(element);
-        }
-        for (Node data : element.getChildren()) {
-            walkIds(data, list, ids);
-        }
-    }
+    public boolean matchPosTag(List<String> posTags) {
+        return posTags.contains(this.pos);};
 
     /**
      * Walks the tree in pre-order style.
@@ -222,50 +149,100 @@ public abstract class Node {
     }
 
     /**
-     * Walks the tree in pre-order style and collects all leaf nodes.
-     * @param element the starting element.
-     * @param list the output of the walk.
+     * Find nodes with the given ids.
+     * @param ids the ids
+     * @return a list of nodes
      */
-    private void walkChildren(Node element, List<Node> list) {
-        if (element.isLeafNode()) {
-            list.add(element);
-        }
-        for (Node data : element.getChildren()) {
-            walk(data, list);
-        }
+    public List<Node> find(Iterable<Integer> ids) {
+        return this.toList().stream()
+            .filter((x -> Iterables.contains(ids, x.getId())))
+            .collect(Collectors.toList());
     }
 
     /**
-     * Walks the tree in pre-order style and collects all nodes, which match one of the given
-     * patterns.
-     * @param element   the starting element
-     * @param list      the output of the walk
-     * @param labels    a list of labels
-     * @param features  a list of features
-     * @param posTags   a list of pos tags
+     * GETTER AND SETTER
      */
-    private void walkMatchPattern(Node element, List<Node> list, List<String> labels, List<String> features, List<String> posTags) {
-        if (element.matchFeature(features) || element.matchLabel(labels) || element.matchPosTag(posTags)) {
-            list.add(element);
-        }
-        for (Node data : element.getChildren()) {
-            walkMatchPattern(data, list, labels, features, posTags);
-        }
+
+    public int getId() {
+        return id;
     }
 
-    public void printTree(StringBuilder sb) {
-        sb.append(" ( ");
-        sb.append(getDataString());
-
-        if (children != null && children.size() > 0) {
-            for (Node child : children) {
-                child.printTree(sb);
-            }
-        }
-        sb.append(" )");
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public abstract List<Integer> findLeafs(String pattern);
+    public List<Node> getChildren() {
+        if (this.children == null) {
+            return new ArrayList<>();
+        }
+        return this.children;
+    }
 
-    public abstract List<Node> findNodes(String pattern);
+    public void setChildren(List<Node> children) {
+        this.children = children;
+    }
+
+    public Node getParent() {
+        return parent;
+    }
+
+    public void setParent(Node parent) {
+        this.parent = parent;
+    }
+
+    public int getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(int parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getWord() {
+        return word;
+    }
+
+    public void setWord(String word) {
+        this.word = word;
+    }
+
+    public String getLemma() {
+        return lemma;
+    }
+
+    public void setLemma(String lemma) {
+        this.lemma = lemma;
+    }
+
+    public String getPosGroup() {
+        return posGroup;
+    }
+
+    public void setPosGroup(String posGroup) {
+        this.posGroup = posGroup;
+    }
+
+    public String getPos() {
+        return pos;
+    }
+
+    public void setPos(String pos) {
+        this.pos = pos;
+    }
+
+    public String getMorphology() {
+        return morphology;
+    }
+
+    public void setMorphology(String morphology) {
+        this.morphology = morphology;
+    }
+
+    public String getLabelToParent() {
+        return labelToParent;
+    }
+
+    public void setLabelToParent(String labelToParent) {
+        this.labelToParent = labelToParent;
+    }
 }

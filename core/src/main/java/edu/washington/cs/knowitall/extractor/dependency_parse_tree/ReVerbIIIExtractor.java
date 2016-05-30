@@ -12,11 +12,14 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBina
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 
+/**
+ * Extracts binary relations from a sentence by analysing the dependency parse tree of that sentence.
+ */
 public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
-    protected Extractor<TreeExtraction, TreeExtraction> arg1Extr;
-    protected Extractor<TreeExtraction, TreeExtraction> arg2Extr;
-    protected Extractor<DependencyParseTree, TreeExtraction> relExtr;
+    private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
+    private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
+    private Extractor<DependencyParseTree, TreeExtraction> relExtr;
 
     public ReVerbIIIExtractor() {
         this.relExtr = new ReVerbTreeRelationExtractor();

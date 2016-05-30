@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Genannt seien an dieser Stelle vor allem die Stadtwerke Saarbrücken , die mit in die Geschäftsführung einstiegen und sich auch finanziell stark engagierten , sowie die VSE AG , weitere Stadtwerke und einige weitere Unternehmen .";
+        String sentence = "Auf dem Schiff erhält jeder Teilnehmer ein Getränk.";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
@@ -32,26 +32,20 @@ public class ReVerbExample {
         System.out.println("");
 
         ReVerbI reVerbI = new ReVerbI(false, 20, true);
-        long start = System.nanoTime();
         Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
-        long end = System.nanoTime();
-        System.out.println("ReVerb I: (" + ((end - start) / 1000000000.0) + " sec)");
+        System.out.println("ReVerb I:");
         System.out.println(chunkRelationsAsString(relationsI));
         System.out.println("");
 
-        ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
-        start = System.nanoTime();
+        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
         Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
-        end = System.nanoTime();
-        System.out.println("ReVerb II: (" + ((end - start) / 1000000000.0) + " sec)");
+        System.out.println("ReVerb II:");
         System.out.println(chunkRelationsAsString(relationsII));
         System.out.println("");
 
         ReVerbIII reVerbIII = new ReVerbIII();
-        start = System.nanoTime();
         Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);
-        end = System.nanoTime();
-        System.out.println("ReVerb III: (" + ((end - start) / 1000000000.0) + " sec)");
+        System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relations));
         System.out.println("");
     }
@@ -59,8 +53,8 @@ public class ReVerbExample {
     private static void extractFromSentences(List<String> sentences, String fileName) throws IOException {
         PrintWriter writer = new PrintWriter(fileName.replace(".txt", ".output.txt"));
 
-        ReVerbI reVerbI = new ReVerbI(false, 0, true);
-        ReVerbII reVerbII = new ReVerbII(false, 0, true, true, true);
+        ReVerbI reVerbI = new ReVerbI(false, 20, true);
+        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
         ReVerbIII reVerbIII = new ReVerbIII();
 
         System.out.print("Process sentences ");

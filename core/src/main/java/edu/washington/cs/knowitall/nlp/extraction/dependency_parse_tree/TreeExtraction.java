@@ -1,6 +1,10 @@
 package edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
@@ -26,7 +30,8 @@ public class TreeExtraction {
     }
 
     public String toString() {
-        return tree.find(nodeIds).toString();
+        List<String> words = tree.find(nodeIds).stream().map(Node::getWord).collect(Collectors.toList());
+        return Joiner.on(" ").join(words);
     }
 
     public int length() {

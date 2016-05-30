@@ -81,7 +81,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         return new SimpleBinaryRelation(rel.toString(),
                                         arg1.toString(),
                                         arg2.toString(),
-                                        rel.getTree().toString(),
-                                        rel.getTree().printTree());
+                                        rel.getTree().getSentence(),
+                                        rel.getTree().getConllFormat());
     }
 }
