@@ -1,6 +1,13 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper;
 
+import com.google.common.collect.Iterables;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 /**
@@ -14,53 +21,39 @@ public class ReVerbTreeArgument1Mappers extends
     }
 
     private void init() {
-        // First argument can't be a Wh word
-        addFirstPosTagNotEqualsFilter("PWS");
-        addFirstPosTagNotEqualsFilter("PWAT");
-        addFirstPosTagNotEqualsFilter("PWAV");
+        List<String> firstPosTags = new ArrayList<>();
+        // First word of argument
+        // can't be a Wh word
+        firstPosTags.add("PWS");
+        firstPosTags.add("PWS");
+        firstPosTags.add("PWAT");
+        firstPosTags.add("PWAV");
+        // can't be a preposition
+        firstPosTags.add("APPR");
+        firstPosTags.add("APPRART");
+        // can't be pronoun
+        firstPosTags.add("PRF");       // sich
+        firstPosTags.add("PDS");       // dieser, jener
+        firstPosTags.add("PPOSS");     // meins, deiner
+        firstPosTags.add("PDAT");      // diese
+        firstPosTags.add("PRELAT");    // dessen
+        firstPosTags.add("PPER");      // ich, er, ihm, mich
 
-        // First argument can't be a preposition
-        addFirstPosTagNotEqualsFilter("APPR");
-        addFirstPosTagNotEqualsFilter("APPRART");
-
-        // Can't be pronoun
-        addFirstPosTagNotEqualsFilter("PRF");       // sich
-        addFirstPosTagNotEqualsFilter("PDS");       // dieser, jener
-        addFirstPosTagNotEqualsFilter("PPOSS");     // meins, deiner
-        addFirstPosTagNotEqualsFilter("PDAT");      // diese
-        addFirstPosTagNotEqualsFilter("PRELAT");    // dessen
-        addFirstPosTagNotEqualsFilter("PPER");      // ich, er, ihm, mich
+        addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
 
         addArgumentNotEqualsFilter("ART");      // der die das
     }
 
-    private void addFirstPosTagNotEqualsFilter(final String posTag) {
-//        final List<String> posTagList = new ArrayList<>();
-//        posTagList.add(posTag);
-//        addMapper(new FilterMapper<TreeExtraction>() {
-//            public boolean doFilter(TreeExtraction extraction) {
-//                if (Iterables.size(extraction.getNodeIds()) > 0) {
-//                    List<Node> l = extraction.getTree().find(extraction.getNodeIds());
-//                    LeafNode n = (LeafNode) l.get(0);
-//                    return !n.matchPosTag(posTagList);
-//                }
-//                return true;
-//            }
-//        });
-    }
-
     private void addArgumentNotEqualsFilter(final String posTag) {
-//        final List<String> posTagList = new ArrayList<>();
-//        posTagList.add(posTag);
-//        addMapper(new FilterMapper<TreeExtraction>() {
-//            public boolean doFilter(TreeExtraction extraction) {
-//                if (Iterables.size(extraction.getNodeIds()) == 1) {
-//                    List<Node> l = extraction.getTree().find(extraction.getNodeIds());
-//                    LeafNode n = (LeafNode) l.get(0);
-//                    return !n.matchPosTag(posTagList);
-//                }
-//                return true;
-//            }
-//        });
+        addMapper(new FilterMapper<TreeExtraction>() {
+            public boolean doFilter(TreeExtraction extraction) {
+                if (Iterables.size(extraction.getNodeIds()) == 1) {
+                    List<Node> nodes = extraction.getTree().find(extraction.getNodeIds());
+                    Node n = nodes.get(0);
+                    return ! n.getPos().equals(posTag);
+                }
+                return true;
+            }
+        });
     }
 }
