@@ -184,6 +184,18 @@ public class Node {
     }
 
     /**
+     * Find nodes with the given labels.
+     * @param labels the labels
+     * @return a list of nodes
+     */
+    public List<Node> find(String... labels) {
+        List<String> l = new ArrayList<>(Arrays.asList(labels));
+        return this.toList().stream()
+            .filter((x -> l.contains(x.getLabelToParent())))
+            .collect(Collectors.toList());
+    }
+
+    /**
      * GETTER AND SETTER
      */
 
