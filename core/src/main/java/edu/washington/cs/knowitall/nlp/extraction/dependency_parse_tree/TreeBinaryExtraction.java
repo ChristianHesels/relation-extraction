@@ -3,6 +3,7 @@ package edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.extraction.ExtractionConverter;
 import edu.washington.cs.knowitall.nlp.extraction.SimpleBinaryRelation;
 
@@ -11,14 +12,24 @@ public class TreeBinaryExtraction implements ExtractionConverter {
     private TreeExtraction rel;
     private TreeExtraction arg1;
     private TreeExtraction arg2;
+    private DependencyParseTree tree;
 
     public TreeBinaryExtraction() {
     }
 
-    public TreeBinaryExtraction(TreeExtraction rel, TreeExtraction arg1, TreeExtraction arg2) {
+    public TreeBinaryExtraction(DependencyParseTree tree, TreeExtraction rel, TreeExtraction arg1, TreeExtraction arg2) {
+        this.tree = tree;
         this.rel = rel;
         this.arg1 = arg1;
         this.arg2 = arg2;
+    }
+
+    public DependencyParseTree getTree() {
+        return tree;
+    }
+
+    public void setTree(DependencyParseTree tree) {
+        this.tree = tree;
     }
 
     public TreeExtraction getRel() {
@@ -53,6 +64,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
      * @return all (arg1, rel, arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<TreeBinaryExtraction> productOfArgs(
+        DependencyParseTree tree,
         TreeExtraction rel,
         Iterable<TreeExtraction> arg1s,
         Iterable<TreeExtraction> arg2s) {
@@ -61,7 +73,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         for (TreeExtraction arg1 : arg1s) {
             for (TreeExtraction arg2 : arg2s) {
                 if (!arg1.isEmtpy() && !arg2.isEmtpy()) {
-                    TreeBinaryExtraction extr = new TreeBinaryExtraction(rel, arg1, arg2);
+                    TreeBinaryExtraction extr = new TreeBinaryExtraction(tree, rel, arg1, arg2);
                     results.add(extr);
                 }
             }
@@ -81,7 +93,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         return new SimpleBinaryRelation(rel.toString(),
                                         arg1.toString(),
                                         arg2.toString(),
-                                        rel.getTree().getSentence(),
-                                        rel.getTree().getConllFormat());
+                                        tree.getSentence(),
+                                        tree.getConllFormat());
     }
 }

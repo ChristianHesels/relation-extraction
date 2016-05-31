@@ -6,31 +6,20 @@ import com.google.common.collect.Iterables;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 
 public class TreeExtraction {
 
-    private Node sentenceRoot;
-    private DependencyParseTree tree;
+    private Node rootNode;
     private Iterable<Integer> nodeIds;
 
-    public TreeExtraction() {
-    }
-
-    public TreeExtraction(DependencyParseTree tree, Iterable<Integer> nodeIds) {
-        this.tree = tree;
+    public TreeExtraction(Node rootNode, Iterable<Integer> nodeIds) {
+        this.rootNode = rootNode;
         this.nodeIds = nodeIds;
-    }
-
-    public TreeExtraction(DependencyParseTree tree, Iterable<Integer> nodeIds, Node sentenceRoot) {
-        this.tree = tree;
-        this.nodeIds = nodeIds;
-        this.sentenceRoot = sentenceRoot;
     }
 
     public String toString() {
-        List<String> words = tree.find(nodeIds).stream().map(Node::getWord).collect(Collectors.toList());
+        List<String> words = rootNode.find(nodeIds).stream().map(Node::getWord).collect(Collectors.toList());
         return Joiner.on(" ").join(words);
     }
 
@@ -42,20 +31,12 @@ public class TreeExtraction {
         return length() == 0;
     }
 
-    public DependencyParseTree getTree() {
-        return tree;
+    public Node getRootNode() {
+        return rootNode;
     }
 
-    public void setTree(DependencyParseTree tree) {
-        this.tree = tree;
-    }
-
-    public Node getSentenceRoot() {
-        return sentenceRoot;
-    }
-
-    public void setSentenceRoot(Node sentenceRoot) {
-        this.sentenceRoot = sentenceRoot;
+    public void setRootNode(Node rootNode) {
+        this.rootNode = rootNode;
     }
 
     public Iterable<Integer> getNodeIds() {

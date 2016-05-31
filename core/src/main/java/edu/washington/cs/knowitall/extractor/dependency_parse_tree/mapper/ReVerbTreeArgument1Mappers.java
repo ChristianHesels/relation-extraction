@@ -48,7 +48,7 @@ public class ReVerbTreeArgument1Mappers extends
         addMapper(new FilterMapper<TreeExtraction>() {
             public boolean doFilter(TreeExtraction extraction) {
                 if (Iterables.size(extraction.getNodeIds()) == 1) {
-                    List<Node> nodes = extraction.getTree().find(extraction.getNodeIds());
+                    List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
                     Node n = nodes.get(0);
                     return ! n.getPos().equals(posTag);
                 }

@@ -19,7 +19,7 @@ public class FirstPosTagNotEqualsFilter extends FilterMapper<TreeExtraction> {
 
     public boolean doFilter(TreeExtraction extraction) {
         if (Iterables.size(extraction.getNodeIds()) > 0) {
-            List<Node> nodes = extraction.getTree().find(extraction.getNodeIds());
+            List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
             Node firstNode = nodes.get(0);
             return ! posTags.contains(firstNode.getPos());
         }

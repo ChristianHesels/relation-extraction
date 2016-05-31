@@ -5,6 +5,7 @@ import com.google.common.base.Joiner;
 import com.google.common.collect.Iterables;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -78,6 +79,29 @@ public class Node {
             strings.add(n.word);
         }
         return Joiner.on(" ").join(strings);
+    }
+
+    /**
+     * Return all children, which are connected to this node via the given label.
+     * @param label the label
+     * @return list of nodes
+     */
+    public List<Node> getChildrenOfType(String label) {
+        return this.getChildren().stream()
+            .filter(x -> x.getLabelToParent().equals(label))
+            .collect(Collectors.toList());
+    }
+
+    /**
+     * Return all children, which are connected to this node via the given labels.
+     * @param labels the labels
+     * @return list of nodes
+     */
+    public List<Node> getChildrenOfType(String... labels) {
+        List<String> l = new ArrayList<>(Arrays.asList(labels));
+        return this.getChildren().stream()
+            .filter(x -> l.contains(x.getLabelToParent()))
+            .collect(Collectors.toList());
     }
 
     /**

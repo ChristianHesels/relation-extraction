@@ -17,7 +17,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         throws ExtractorException {
         List<TreeExtraction> extrs = new ArrayList<>();
 
-        List<Integer> subjectNodes = rel.getSentenceRoot().getChildren().stream()
+        List<Integer> subjectNodes = rel.getRootNode().getChildren().stream()
             .filter(x -> x.getLabelToParent().equals("obja") ||
                          x.getLabelToParent().equals("objd") ||
                          x.getLabelToParent().equals("objg") ||
@@ -26,7 +26,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
             .map(Node::getId)
             .collect(Collectors.toList());
 
-        extrs.add(new TreeExtraction(rel.getTree(), subjectNodes, rel.getSentenceRoot()));
+        extrs.add(new TreeExtraction(rel.getRootNode(), subjectNodes));
 
         return extrs;
     }

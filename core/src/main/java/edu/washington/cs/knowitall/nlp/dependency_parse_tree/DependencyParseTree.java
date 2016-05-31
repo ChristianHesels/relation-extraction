@@ -2,20 +2,21 @@ package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Represents a dependency parse tree.
  */
 public class DependencyParseTree {
 
-    private Node rootElement;
+    private Node tree;
     private String sentence;
     private String conllFormat;
 
     public DependencyParseTree() {}
 
-    public DependencyParseTree(Node rootElement) {
-        this.rootElement = rootElement;
+    public DependencyParseTree(Node tree) {
+        this.tree = tree;
     }
 
 
@@ -25,7 +26,7 @@ public class DependencyParseTree {
      * @return a list of nodes
      */
     public List<Node> toList() {
-        return rootElement.toList();
+        return tree.toList();
     }
 
     /**
@@ -34,7 +35,7 @@ public class DependencyParseTree {
      * @return the string representation of the tree.
      */
     public String toString() {
-        return rootElement.toString();
+        return tree.toString();
     }
 
     /**
@@ -43,19 +44,30 @@ public class DependencyParseTree {
      * @return a list of nodes
      */
     public List<Node> find(Iterable<Integer> ids) {
-        return rootElement.find(ids);
+        return tree.find(ids);
+    }
+
+    /**
+     * Get the top level nodes of the tree.
+     * There can be multiple words in the top level, if the dependency parser has split the
+     * sentence.
+     * @return a list of root nodes
+     */
+    public List<Node> getRootElements() {
+        return this.tree.getChildren().stream().filter(x -> !x.getPosGroup().equals("$.")).collect(
+            Collectors.toList());
     }
 
     /**
      * GETTER AND SETTER
      */
 
-    public Node getRootElement() {
-        return this.rootElement;
+    public Node getTree() {
+        return this.tree;
     }
 
-    public void setRootElement(Node rootElement) {
-        this.rootElement = rootElement;
+    public void setTree(Node tree) {
+        this.tree = tree;
     }
 
     public String getSentence() {

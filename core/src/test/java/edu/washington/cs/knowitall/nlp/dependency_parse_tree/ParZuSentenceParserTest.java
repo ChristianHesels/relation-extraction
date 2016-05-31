@@ -15,8 +15,8 @@ public class ParZuSentenceParserTest {
 
         assertEquals("Franz Beckenbauer war z.B. ein Fußballspieler.", tree.getSentence());
 
-        assertEquals(2, tree.getRootElement().getChildren().size());
-        assertEquals("Franz Beckenbauer war z.B. ein Fußballspieler", tree.getRootElement().getChildren().get(0).toString());
+        assertEquals(2, tree.getTree().getChildren().size());
+        assertEquals("Franz Beckenbauer war z.B. ein Fußballspieler", tree.getTree().getChildren().get(0).toString());
     }
 
 }
