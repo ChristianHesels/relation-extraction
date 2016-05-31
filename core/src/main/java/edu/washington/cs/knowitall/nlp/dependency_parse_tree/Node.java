@@ -196,6 +196,24 @@ public class Node {
     }
 
     /**
+     * Get all nodes, which belong to a conjunction.
+     * @param root      the current root node of the conjunction
+     * @param konNodes  all nodes listed in the conjunction
+     */
+    public static void getKonNodes(Node root, List<Node> konNodes) {
+        List<Node> kon = root.getChildrenOfType("kon");
+        List<Node> cj = root.getChildrenOfType("cj");
+
+        Node curr;
+        if (kon.size() == 1) curr = kon.get(0);
+        else if (cj.size() == 1) curr = cj.get(0);
+        else return;
+
+        if (!curr.getPosGroup().equals("KON")) konNodes.add(curr);
+        getKonNodes(curr, konNodes);
+    }
+
+    /**
      * GETTER AND SETTER
      */
 

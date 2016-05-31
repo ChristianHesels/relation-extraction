@@ -31,17 +31,17 @@ public class ReVerbExample {
         System.out.println(sentenceAsString(sentStr));
         System.out.println("");
 
-        ReVerbI reVerbI = new ReVerbI(false, 20, true);
-        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
-        System.out.println("ReVerb I:");
-        System.out.println(chunkRelationsAsString(relationsI));
-        System.out.println("");
-
-        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
-        System.out.println("ReVerb II:");
-        System.out.println(chunkRelationsAsString(relationsII));
-        System.out.println("");
+//        ReVerbI reVerbI = new ReVerbI(false, 20, true);
+//        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
+//        System.out.println("ReVerb I:");
+//        System.out.println(chunkRelationsAsString(relationsI));
+//        System.out.println("");
+//
+//        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
+//        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
+//        System.out.println("ReVerb II:");
+//        System.out.println(chunkRelationsAsString(relationsII));
+//        System.out.println("");
 
         ReVerbIII reVerbIII = new ReVerbIII();
         Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);

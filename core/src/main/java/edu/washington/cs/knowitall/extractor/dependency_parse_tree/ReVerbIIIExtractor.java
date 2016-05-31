@@ -38,10 +38,11 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
         throws ExtractorException {
         Collection<TreeBinaryExtraction> extrs = new ArrayList<>();
 
+        // TODO
+        // nicht
+
         // 1. if tree has multiple root nodes, divide the tree in subtrees
         List<Node> rootElements = dependencyParseTree.getRootElements();
-
-        // TODO: "Ich bin Rad gefahren und geschwommen."
 
         // For each of the root elements:
         for (Node root : rootElements) {
@@ -52,22 +53,17 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
                 // 3. extract the subject of the verbs
                 Iterable<TreeExtraction> arg1s = arg1Extr.extract(rel);
 
+                // TODO
                 // 4. extract the objects and complements of verbs
+                Iterable<TreeExtraction> arg2s = arg2Extr.extract(rel);
 
+                // TODO
                 // 5. Decide what is object and what is a complement of a verb
 
                 // 6. Create TreeBinaryExtractions
+                extrs.addAll(TreeBinaryExtraction.productOfArgs(dependencyParseTree, rel, arg1s, arg2s));
             }
-
         }
-
-//        for (TreeExtraction rel : rels) {
-//            Iterable<TreeExtraction> arg1s = arg1Extr.extract(rel);
-//            Iterable<TreeExtraction> arg2s = arg2Extr.extract(rel);
-//
-//            extrs.addAll(
-//                TreeBinaryExtraction.productOfArgs(rel, arg1s, arg2s));
-//        }
 
         return extrs;
     }

@@ -49,7 +49,7 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         // check if there is a conjunction of verbs
         List<Node> konNodes = new ArrayList<>();
         for (Node verb : verbNodes) {
-            getKonNodes(verb, konNodes);
+            Node.getKonNodes(verb, konNodes);
         }
 
         for (Node kon : konNodes) {
@@ -83,27 +83,6 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         verbIds.add(0, root.getId());
         return new TreeExtraction(root, verbIds);
     }
-
-    /**
-     * Get all nodes of conjunction.
-     * @param root      the current root node of the conjunction
-     * @param konNodes  all nodes listed in the conjunction
-     * @return all conjunction nodes
-     */
-    private void getKonNodes(Node root, List<Node> konNodes) {
-        List<Node> kon = root.getChildrenOfType("kon");
-        List<Node> cj = root.getChildrenOfType("cj");
-
-        Node curr;
-        if (kon.size() == 1) curr = kon.get(0);
-        else if (cj.size() == 1) curr = cj.get(0);
-        else return;
-
-        if (curr.getPosGroup().equals("V")) konNodes.add(curr);
-        getKonNodes(curr, konNodes);
-    }
-
-
 
 }
 

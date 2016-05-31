@@ -17,21 +17,27 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         throws ExtractorException {
         List<TreeExtraction> extrs = new ArrayList<>();
 
-        List<Integer> subjectNodes = rel.getRootNode().getChildren().stream()
-            .filter(x -> x.getLabelToParent().equals("obja") ||
-                         x.getLabelToParent().equals("objd") ||
-                         x.getLabelToParent().equals("objg") ||
-                         x.getLabelToParent().equals("objp") ||
-                         x.getLabelToParent().equals("pred"))
-            .map(Node::getId)
-            .collect(Collectors.toList());
+        // TODO
 
-        extrs.add(new TreeExtraction(rel.getRootNode(), subjectNodes));
+        List<Node> relNodes = rel.getRootNode().find(rel.getNodeIds());
+
+        // objects are directly connected to verbs
+        List<Integer> ids = new ArrayList<>();
+        for (Node n : relNodes) {
+            List<Node> arguments = n.getChildren().stream()
+                .filter(x -> x.getLabelToParent().equals("obja") ||
+                             x.getLabelToParent().equals("objd") ||
+                             x.getLabelToParent().equals("objg") ||
+                             x.getLabelToParent().equals("objp") ||
+                             x.getLabelToParent().equals("pred"))
+                .collect(Collectors.toList());
+
+            ids.addAll(arguments.stream().map(Node::getId).collect(Collectors.toList()));
+        }
+
+        extrs.add(new TreeExtraction(rel.getRootNode(), ids));
 
         return extrs;
     }
-
-
-
 
 }
