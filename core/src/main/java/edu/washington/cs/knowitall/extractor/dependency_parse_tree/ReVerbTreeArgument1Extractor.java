@@ -12,12 +12,21 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 
 public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
+    // TODO
+    // subj - app - app - kon - app - app - kon - cj - app
+    // do not include app if it has a clause as child ?
+    // how to handle PN as child ?
+    // how to handle NP2 ? "der Wanderer liebt die schöne Müllerin und die Müllerin den Jäger"
+    // first check if verb has own subject, if not take a look at the root node
+
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)
         throws ExtractorException {
         List<TreeExtraction> extrs = new ArrayList<>();
 
         List<Node> subjectNodes = rel.getRootNode().getChildrenOfType("subj");
+
+        if (subjectNodes.isEmpty()) return extrs;
 
         // There should only be one subject root node
         assert(subjectNodes.size() == 1);

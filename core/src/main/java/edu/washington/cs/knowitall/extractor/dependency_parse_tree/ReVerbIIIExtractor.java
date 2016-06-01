@@ -19,6 +19,8 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
  */
 public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
+    // TODO add mapper: classifier, which decides if a relation is a relation or not
+
     private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
     private Extractor<Node, TreeExtraction> relExtr;
