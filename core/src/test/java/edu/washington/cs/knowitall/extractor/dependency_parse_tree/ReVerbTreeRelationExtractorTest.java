@@ -98,4 +98,18 @@ public class ReVerbTreeRelationExtractorTest {
         test(sent, expectedExtractions);
     }
 
+    @Test
+    public void testExtractCandidates6() throws Exception {
+        String sent = "Ich habe es nicht verhindern können.";
+
+        // Define expected relations
+        List<String> expectedExtractions = new ArrayList<>();
+        expectedExtractions.add("habe nicht verhindern können");
+
+        // Check
+        test(sent, expectedExtractions);
+    }
+
+
+
 }

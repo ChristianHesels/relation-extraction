@@ -29,7 +29,7 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         List<Node> verbNodes = rootNode.getChildrenOfType("aux", "avz");
 
         // check if there is a negation
-        List<Node> negNodes = getNegNodes(rootNode);
+        List<Node> negNodes = getPtkNodes(rootNode);
         verbNodes.addAll(negNodes);
 
         // Add a extraction for the main verb
@@ -47,7 +47,7 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         for (Node kon : konNodes) {
             List<Node> verbs = kon.getChildrenOfType("aux");
             List<Node> avz = kon.getChildrenOfType("avz");
-            List<Node> neg = getNegNodes(kon);
+            List<Node> ptk = getPtkNodes(kon);
 
             // if the conjunction comes from a auxiliary verb,
             // all verbs of the conjunction should be auxiliary verbs too
@@ -55,11 +55,11 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
             if (kon.getPos().endsWith("PP") && verbs.isEmpty()) {
                 verbs.add(kon);
                 verbs.addAll(avz);
-                verbs.addAll(neg);
+                verbs.addAll(ptk);
                 rels.add(createTreeExtraction(verbs, rootNode));
             } else {
                 verbs.addAll(avz);
-                verbs.addAll(neg);
+                verbs.addAll(ptk);
                 rels.add(createTreeExtraction(verbs, kon));
             }
         }
@@ -67,8 +67,9 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         return rels;
     }
 
-    private List<Node> getNegNodes(Node rootNode) {
-        return rootNode.getChildrenOfType("adv").stream().filter(x -> x.getPos().equals("PTKNEG")).collect(
+    private List<Node> getPtkNodes(Node rootNode) {
+        return rootNode.getChildrenOfType("adv", "part").stream()
+            .filter(x -> x.getPos().equals("PTKNEG") || x.getPos().equals("PTKZU")).collect(
             Collectors.toList());
     }
 
