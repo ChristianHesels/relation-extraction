@@ -14,18 +14,6 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
  */
 public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction> {
 
-
-    /**
-     * V -> aux
-     *   -> kon -> cj -> aux
-     *          -> aux
-     *
-     * V -> kon -> cj
-     *
-     * V -> aux -> kon -> kon -> ... -> cj
-     */
-
-
     @Override
     protected Iterable<TreeExtraction> extractCandidates(Node rootNode)
         throws ExtractorException {
@@ -39,6 +27,10 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
 
         // check if there are auxiliary verbs
         List<Node> verbNodes = rootNode.getChildrenOfType("aux", "avz");
+
+        // check if there is a negation
+        List<Node> negNodes = getNegNodes(rootNode);
+        verbNodes.addAll(negNodes);
 
         // Add a extraction for the main verb
         rels.add(createTreeExtraction(verbNodes, rootNode));
@@ -55,6 +47,7 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         for (Node kon : konNodes) {
             List<Node> verbs = kon.getChildrenOfType("aux");
             List<Node> avz = kon.getChildrenOfType("avz");
+            List<Node> neg = getNegNodes(kon);
 
             // if the conjunction comes from a auxiliary verb,
             // all verbs of the conjunction should be auxiliary verbs too
@@ -62,14 +55,21 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
             if (kon.getPos().endsWith("PP") && verbs.isEmpty()) {
                 verbs.add(kon);
                 verbs.addAll(avz);
+                verbs.addAll(neg);
                 rels.add(createTreeExtraction(verbs, rootNode));
             } else {
                 verbs.addAll(avz);
+                verbs.addAll(neg);
                 rels.add(createTreeExtraction(verbs, kon));
             }
         }
 
         return rels;
+    }
+
+    private List<Node> getNegNodes(Node rootNode) {
+        return rootNode.getChildrenOfType("adv").stream().filter(x -> x.getPos().equals("PTKNEG")).collect(
+            Collectors.toList());
     }
 
     /**

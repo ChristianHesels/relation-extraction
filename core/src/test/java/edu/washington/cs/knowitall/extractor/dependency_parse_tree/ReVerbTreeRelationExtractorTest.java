@@ -14,15 +14,24 @@ import static org.junit.Assert.assertTrue;
 
 public class ReVerbTreeRelationExtractorTest {
 
-    ParZuSentenceParser parser = new ParZuSentenceParser();
-    ReVerbTreeRelationExtractor extractor = new ReVerbTreeRelationExtractor();
+    private ParZuSentenceParser parser = new ParZuSentenceParser();
+    private ReVerbTreeRelationExtractor extractor = new ReVerbTreeRelationExtractor();
+
+    private void test(String sentence, List<String> expectedExtractions) {
+        // Create tree
+        List<DependencyParseTree> tree = parser.parseSentence(sentence);
+        Node rootNode = tree.get(0).getRootElements().get(0);
+
+        // Extract relations
+        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rootNode);
+
+        // Check
+        extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
+    }
 
     @Test
     public void testExtractCandidates1() throws Exception {
-        // Create tree
-        List<DependencyParseTree>
-            tree = parser.parseSentence("Ich bin gelaufen, habe gegessen und bin gefahren.");
-        Node rootNode = tree.get(0).getRootElements().get(0);
+        String sent = "Ich bin gelaufen, habe gegessen und bin gefahren.";
 
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
@@ -30,19 +39,13 @@ public class ReVerbTreeRelationExtractorTest {
         expectedExtractions.add("habe gegessen");
         expectedExtractions.add("bin gefahren");
 
-        // Extract relations
-        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rootNode);
-
         // Check
-        extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
+        test(sent, expectedExtractions);
     }
 
     @Test
     public void testExtractCandidates2() throws Exception {
-        // Create tree
-        List<DependencyParseTree>
-            tree = parser.parseSentence("Siemens hat heute Daimler gekauft, gefeiert und wieder verkauft.");
-        Node rootNode = tree.get(0).getRootElements().get(0);
+        String sent = "Siemens hat heute Daimler gekauft, gefeiert und wieder verkauft.";
 
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
@@ -50,19 +53,13 @@ public class ReVerbTreeRelationExtractorTest {
         expectedExtractions.add("hat gefeiert");
         expectedExtractions.add("hat verkauft");
 
-        // Extract relations
-        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rootNode);
-
         // Check
-        extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
+        test(sent, expectedExtractions);
     }
 
     @Test
     public void testExtractCandidates3() throws Exception {
-        // Create tree
-        List<DependencyParseTree>
-            tree = parser.parseSentence("Ich springe, renne, laufe und hüpfe.");
-        Node rootNode = tree.get(0).getRootElements().get(0);
+        String sent = "Ich springe, renne, laufe und hüpfe.";
 
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
@@ -71,30 +68,34 @@ public class ReVerbTreeRelationExtractorTest {
         expectedExtractions.add("laufe");
         expectedExtractions.add("hüpfe");
 
-        // Extract relations
-        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rootNode);
-
         // Check
-        extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
+        test(sent, expectedExtractions);
     }
 
     @Test
     public void testExtractCandidates4() throws Exception {
-        // Create tree
-        List<DependencyParseTree>
-            tree = parser.parseSentence("Ich habe geredet und heraus kam dabei nichts.");
-        Node rootNode = tree.get(0).getRootElements().get(0);
+        String sent = "Ich habe geredet und heraus kam dabei nichts.";
 
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
         expectedExtractions.add("habe geredet");
         expectedExtractions.add("heraus kam");
 
-        // Extract relations
-        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rootNode);
+        // Check
+        test(sent, expectedExtractions);
+    }
+
+    @Test
+    public void testExtractCandidates5() throws Exception {
+        String sent = "Ich habe nicht geredet und alle wollten aber was hören.";
+
+        // Define expected relations
+        List<String> expectedExtractions = new ArrayList<>();
+        expectedExtractions.add("habe nicht geredet");
+        expectedExtractions.add("wollten hören");
 
         // Check
-        extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
+        test(sent, expectedExtractions);
     }
 
 }
