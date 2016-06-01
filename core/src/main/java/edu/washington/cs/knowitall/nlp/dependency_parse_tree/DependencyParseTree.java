@@ -65,6 +65,15 @@ public class DependencyParseTree {
     }
 
     /**
+     * Prunes nodes from this tree, which are not relevant.
+     * Such nodes are:
+     * rel, vok, par, empty labels, expl, kom
+     */
+    public void prune() {
+        this.getTree().prune();
+    }
+
+    /**
      * GETTER AND SETTER
      */
 

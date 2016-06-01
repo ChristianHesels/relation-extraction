@@ -47,33 +47,18 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
      */
     private TreeExtraction createTreeExtraction(Node sentRoot, Node subjectRoot) {
         // Get the conjunction nodes and removes them from the subject nodes
-        List<Node> konChildren = getKonChildren(subjectRoot);
+        List<Node> konChildren = subjectRoot.getKonChildren();
         List<Node> allChildren = subjectRoot.toList();
         allChildren.removeAll(konChildren);
         // Get ids of subjectRoot and all underlying nodes
         List<Integer> ids = allChildren.stream()
             .filter(c -> ! (
-                c.getLabelToParent().equals("rel") || // relative clause
-                c.getLabelToParent().equals("vok") || // vocative
-                c.getLabelToParent().equals("")    || // punctuations
-                c.getLabelToParent().equals("par") || // parenthetical expressions
                 c.getLabelToParent().equals("adv")    // adverb
             )).map(Node::getId).collect(Collectors.toList());
         // Create new tree extraction
         return new TreeExtraction(sentRoot, ids);
     }
 
-    /**
-     * Returns a list of all subordered kon-nodes.
-     * @param root the root
-     * @return a list of nodes
-     */
-    private List<Node> getKonChildren(Node root) {
-        List<Node> konChildren = root.getChildrenOfType("kon");
-        if (konChildren.isEmpty()) {
-            return konChildren;
-        }
-        return konChildren.get(0).toList();
-    }
+
 
 }

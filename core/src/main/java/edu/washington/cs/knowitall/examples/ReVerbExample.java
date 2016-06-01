@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Auf dem Schiff erhält jeder Teilnehmer ein Getränk.";
+        String sentence = "Bleiben Patienten auch nach dem Rezept dem fle-xx-Zirkel treu?";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";

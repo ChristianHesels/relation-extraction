@@ -214,6 +214,36 @@ public class Node {
     }
 
     /**
+     * Prunes nodes from this tree, which are not relevant.
+     * Such nodes are:
+     * rel, vok, par, empty labels, expl, kom
+     */
+    public void prune() {
+        List<Node> childsToRemove = getChildren().stream()
+            .filter(n -> n.labelToParent.equals("rel") ||
+                         n.labelToParent.equals("vok") ||
+                         n.labelToParent.equals("par") ||
+                         n.labelToParent.equals("expl") ||
+                         n.labelToParent.equals("kom") ||
+                         n.labelToParent.equals("")
+            ).collect(Collectors.toList());
+        childsToRemove.stream().forEach(Node::remove);
+        this.getChildren().stream().forEach(Node::prune);
+    }
+
+    /**
+     * Returns a list of all subordered kon-nodes.
+     * @return a list of nodes
+     */
+    public List<Node> getKonChildren() {
+        List<Node> konChildren = this.getChildrenOfType("kon");
+        if (konChildren.isEmpty()) {
+            return konChildren;
+        }
+        return konChildren.get(0).toList();
+    }
+
+    /**
      * GETTER AND SETTER
      */
 
