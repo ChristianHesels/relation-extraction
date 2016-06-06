@@ -2,11 +2,8 @@ package edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 /**
@@ -38,6 +35,8 @@ public class ReVerbTreeArgument2Mappers extends
         firstPosTags.add("PPER");  // er
 
         addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
+
+        addMapper(new ContainsNounFilter());
     }
 
 

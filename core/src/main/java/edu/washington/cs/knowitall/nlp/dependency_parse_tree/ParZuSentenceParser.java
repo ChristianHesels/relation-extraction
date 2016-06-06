@@ -93,7 +93,7 @@ public class ParZuSentenceParser {
             }
         }
 
-        if (!nodes.isEmpty()) trees.add(toTree(nodes));
+        if (nodes.size() > 1) trees.add(toTree(nodes));
 
         return trees;
     }

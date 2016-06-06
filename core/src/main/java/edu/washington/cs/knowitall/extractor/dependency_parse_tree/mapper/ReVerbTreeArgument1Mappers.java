@@ -27,13 +27,9 @@ public class ReVerbTreeArgument1Mappers extends
         firstPosTags.add("PWS");
         firstPosTags.add("PWAT");
         firstPosTags.add("PWAV");
-        // can't be a preposition
-        firstPosTags.add("APPR");
-        firstPosTags.add("APPRART");
         // can't be pronoun
         firstPosTags.add("PRF");       // sich
         firstPosTags.add("PDS");       // dieser, jener
-        firstPosTags.add("PDAT");      // diese
         firstPosTags.add("PPOSS");     // meins, deiner
         firstPosTags.add("PRELAT");    // dessen
         firstPosTags.add("PPER");      // ich, er, ihm, mich
@@ -45,6 +41,9 @@ public class ReVerbTreeArgument1Mappers extends
         addArgumentNotEqualsFilter("ART");      // der die das
 
         addTokenNotEqualsFilter("es");
+        addTokenNotEqualsFilter("Es");
+        addTokenNotEqualsFilter("Man");
+        addTokenNotEqualsFilter("man");
     }
 
     private void addArgumentNotEqualsFilter(final String posTag) {
