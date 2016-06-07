@@ -31,20 +31,20 @@ public class ReVerbExample {
         System.out.println(sentenceAsString(sentStr));
         System.out.println("");
 
-//        ReVerbI reVerbI = new ReVerbI(false, 20, true);
-//        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
-//        System.out.println("ReVerb I:");
-//        System.out.println(chunkRelationsAsString(relationsI));
-//        System.out.println("");
-//
-//        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-//        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
-//        System.out.println("ReVerb II:");
-//        System.out.println(chunkRelationsAsString(relationsII));
-//        System.out.println("");
+        ReVerbI reVerbI = new ReVerbI(false, 20, true);
+        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
+        System.out.println("ReVerb I:");
+        System.out.println(chunkRelationsAsString(relationsI));
+        System.out.println("");
+
+        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
+        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
+        System.out.println("ReVerb II:");
+        System.out.println(chunkRelationsAsString(relationsII));
+        System.out.println("");
 
         ReVerbIII reVerbIII = new ReVerbIII();
-        Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);
+        Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelationsFromString(sentStr);
         System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relations));
         System.out.println("");
@@ -68,17 +68,17 @@ public class ReVerbExample {
             writer.write(sentenceAsString(sentStr));
             writer.write("\n");
 
-            Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelations(sentStr);
+            Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
             writer.write("ReVerb I:");
             writer.write(chunkRelationsAsString(relationsI));
             writer.write("\n");
 
-            Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelations(sentStr);
+            Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
             writer.write("ReVerb II:");
             writer.write(chunkRelationsAsString(relationsII));
             writer.write("\n");
 
-            Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelations(sentStr);
+            Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelationsFromString(sentStr);
             writer.write("ReVerb III:");
             writer.write(treeRelationsAsString(relations));
             writer.write("\n");

@@ -17,17 +17,21 @@ public abstract class ReVerb<R, T> {
 
     /**
      * Constructor of ReVerb
-     * @param debug  enable debug mode?
+     * @param debug enable debug mode?
      */
     public ReVerb(boolean debug) {
         this.debug = debug;
     }
 
-    public abstract Iterable<T> extractRelations(String sentStr) throws IOException;
-    public abstract Map<String, Iterable<T>> extractRelations(List<String> sentences)
+    public abstract Iterable<T> extractRelationsFromString(String sentStr) throws IOException;
+    public abstract Map<String, Iterable<T>> extractRelationsFromStrings(List<String> sentences)
         throws IOException;
 
-    public abstract List<T> extractRelationsFrom(List<R> sentences);
-    public abstract Iterable<T> extractRelationsFrom(R sentences);
+    public abstract Iterable<T> extractRelationsFromParsedString(String sentStr) throws IOException;
+    public abstract Map<String, Iterable<T>> extractRelationsFromParsedStrings(List<String> sentences)
+        throws IOException;
+
+    public abstract List<T> extractRelations(List<R> sentences);
+    public abstract Iterable<T> extractRelations(R sentences);
 
 }

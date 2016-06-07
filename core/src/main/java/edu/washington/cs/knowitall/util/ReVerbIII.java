@@ -4,6 +4,7 @@ package edu.washington.cs.knowitall.util;
 import com.google.common.collect.Lists;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
      * @param sentStr the sentence as string
      * @return the extracted relations
      */
-    public Iterable<TreeBinaryExtraction> extractRelations(String sentStr) {
+    public Iterable<TreeBinaryExtraction> extractRelationsFromString(String sentStr) {
         // Convert sentence into a dependency parse tree
         ParZuSentenceParser parser = new ParZuSentenceParser();
         List<DependencyParseTree> trees = parser.parseSentence(sentStr);
@@ -61,7 +62,7 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
      * @param sentences a list of sentences
      * @return the extracted relations
      */
-    public Map<String, Iterable<TreeBinaryExtraction>> extractRelations(List<String> sentences) {
+    public Map<String, Iterable<TreeBinaryExtraction>> extractRelationsFromStrings(List<String> sentences) {
         Map<String, Iterable<TreeBinaryExtraction>> sent2relations = new HashMap<>();
         ParZuSentenceParser parser = new ParZuSentenceParser();
         ReVerbIIIExtractor extractor = new ReVerbIIIExtractor();
@@ -88,11 +89,60 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
     }
 
     /**
+     * Extract relations from the given sentence.
+     * @param sentStr the sentence as string
+     * @return the extracted relations
+     */
+    public Iterable<TreeBinaryExtraction> extractRelationsFromParsedString(String sentStr) {
+        // Convert sentence into a dependency parse tree
+        ParZuSentenceParser parser = new ParZuSentenceParser();
+        List<DependencyParseTree> trees = parser.convert(Arrays.asList(sentStr.split("\n")));
+
+        // Extract relations
+        List<TreeBinaryExtraction> extractions = new ArrayList<>();
+        for (DependencyParseTree tree : trees) {
+            extractions.addAll(Lists.newArrayList(extractor.extract(tree)));
+        }
+        return extractions;
+    }
+
+    /**
+     * Extract relations from the given list of sentences.
+     * @param sentences a list of sentences
+     * @return the extracted relations
+     */
+    public Map<String, Iterable<TreeBinaryExtraction>> extractRelationsFromParsedStrings(List<String> sentences) {
+        Map<String, Iterable<TreeBinaryExtraction>> sent2relations = new HashMap<>();
+        ParZuSentenceParser parser = new ParZuSentenceParser();
+        ReVerbIIIExtractor extractor = new ReVerbIIIExtractor();
+
+        if (this.debug) System.out.println("Process sentences ...");
+        int n = 0;
+        for (String sentence : sentences) {
+            // Output progress
+            if (this.debug && n % 50 == 0) {
+                System.out.print(n + " .. ");
+            }
+            n++;
+            // parse sentence and extract relations
+            List<DependencyParseTree> trees = parser.convert(Arrays.asList(sentence.split("\n")));
+            List<TreeBinaryExtraction> extractions = new ArrayList<>();
+            for (DependencyParseTree tree : trees) {
+                extractions.addAll(Lists.newArrayList(extractor.extract(tree)));
+            }
+            sent2relations.put(sentence, extractions);
+        }
+        if (this.debug) System.out.println("Done.");
+
+        return sent2relations;
+    }
+
+    /**
      * Extract relations from the given list of chunked sentences.
      * @param sentences a list of chunked sentences
      * @return the extracted relations
      */
-    public List<TreeBinaryExtraction> extractRelationsFrom(List<DependencyParseTree> sentences) {
+    public List<TreeBinaryExtraction> extractRelations(List<DependencyParseTree> sentences) {
         List<TreeBinaryExtraction> relations = new ArrayList<>();
         ReVerbIIIExtractor extractor = new ReVerbIIIExtractor();
 
@@ -117,7 +167,7 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
      * @param sentences a dependency parse tree
      * @return the extracted relations
      */
-    public Iterable<TreeBinaryExtraction> extractRelationsFrom(DependencyParseTree sentences) {
+    public Iterable<TreeBinaryExtraction> extractRelations(DependencyParseTree sentences) {
         ReVerbIIIExtractor extractor = new ReVerbIIIExtractor();
         return extractor.extract(sentences);
     }
