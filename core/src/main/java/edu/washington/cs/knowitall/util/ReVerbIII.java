@@ -40,6 +40,16 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
     }
 
     /**
+     * Constructor of ReVerb with arguments
+     * @param debug                enable debug mode?
+     * @param considerAllArguments consider arguments of child nodes for root nodes?
+     */
+    public ReVerbIII(boolean debug, boolean considerAllArguments) {
+        super(debug);
+        this.extractor = new ReVerbIIIExtractor(considerAllArguments);
+    }
+
+    /**
      * Extract relations from the given sentence.
      * @param sentStr the sentence as string
      * @return the extracted relations

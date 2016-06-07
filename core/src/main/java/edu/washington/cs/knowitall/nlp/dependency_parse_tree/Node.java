@@ -178,6 +178,7 @@ public class Node {
      * @return a list of nodes
      */
     public List<Node> find(Iterable<Integer> ids) {
+        if (ids == null) return new ArrayList<>();
         return this.toList().stream()
             .filter((x -> Iterables.contains(ids, x.getId())))
             .collect(Collectors.toList());

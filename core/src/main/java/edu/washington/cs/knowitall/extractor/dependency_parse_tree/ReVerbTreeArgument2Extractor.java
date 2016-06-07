@@ -18,6 +18,21 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
     // obja: sich ?
     // conjunction
 
+
+    private boolean considerAllArguments;
+
+    public ReVerbTreeArgument2Extractor() {
+        this(false);
+    }
+
+    /**
+     * Creates a argument 2 extractor.
+     * @param considerAllArguments consider arguments of child nodes for root nodes?
+     */
+    public ReVerbTreeArgument2Extractor(boolean considerAllArguments) {
+        this.considerAllArguments = considerAllArguments;
+    }
+
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)
         throws ExtractorException {
@@ -55,9 +70,11 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
 
         // We have only two accusative objects
         handleTwoAccusativeObjects(rel, extrs, objaList);
+        if (!extrs.isEmpty()) return extrs;
 
         // We have only two prepositional objects
         handleTwoPrepositionalObjects(rel, extrs, objpList);
+        if (!extrs.isEmpty()) return extrs;
 
         // Extract obja and objp
         Node obja = null;
@@ -65,26 +82,33 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         Node objp = null;
         if (objpList.size() == 1) objp = objpList.get(0);
 
+        // Handle accusative object
+        Node other = getOther(objp, objd, objg, pred);
+        handleAcc(rel, extrs, obja, other);
+        if (!extrs.isEmpty()) return extrs;
+
         // We have one prepositional object and one other object
-        Node other = getOther(obja, objd, objg, pred);
+        other = getOther(objd, objg, pred);
         handle(extrs, rel, objp, other);
+        if (!extrs.isEmpty()) return extrs;
 
         // We have one obja and one obja2
         handle(extrs, rel, obja, obja2);
+        if (!extrs.isEmpty()) return extrs;
 
         // We have one obja and one objd
         handle(extrs, rel, objd, obja);
+        if (!extrs.isEmpty()) return extrs;
 
         // We have a predicate and one other object
         other = getOther(objd, objg, obja);
         handle(extrs, rel, other, pred);
+        if (!extrs.isEmpty()) return extrs;
 
-        if (extrs.isEmpty()) {
-            System.out.print("The argument combination is new: ");
-            candidates.stream()
-                .forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
-            System.out.println(" ");
-        }
+        System.out.print("The argument combination is new: ");
+        candidates.stream()
+            .forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
+        System.out.println(" ");
 
         return extrs;
     }
@@ -121,7 +145,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
             Node objaFirst = objaList.get(0);
             Node objaSecond = objaList.get(1);
 
-            if (objaSecond.getWord().equals("sich")) {
+            if (isSich(objaSecond)) {
                 handle(extrs, rel, objaSecond, objaFirst);
             } else {
                 handle(extrs, rel, objaFirst, objaSecond);
@@ -129,6 +153,18 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         }
     }
 
+    private void handleAcc(TreeExtraction rel, List<TreeExtraction> extrs, Node obja, Node other) {
+        // Check if obja is "sich"
+        if (isSich(obja)) {
+            handle(extrs, rel, obja, other);
+        } else {
+            handle(extrs, rel, other, obja);
+        }
+    }
+
+    private boolean isSich(Node n) {
+        return n != null && n.getWord().equals("sich");
+    }
     /**
      * Adds a tree extraction to the given list of extractions.
      * An extraction is only created if the complement and the object is not null.
@@ -220,17 +256,21 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         // First check if there is a argument directed connected to the relation node
         List<Node> relNodes = rel.getRootNode().find(rel.getNodeIds());
         List<Node> arguments = getArguments(relNodes);
-        // If not, check if there are arguments connected to conjunction child nodes
-        if (arguments.isEmpty()) {
-            relNodes = rel.getRootNode().find(rel.getKonNodeIds());
-            arguments = getArguments(relNodes);
+
+        if (this.considerAllArguments) {
+            // If not, check if there are arguments connected to conjunction child nodes
+            if (arguments.isEmpty()) {
+                relNodes = rel.getRootNode().find(rel.getKonNodeIds());
+                arguments = getArguments(relNodes);
+            }
+            // If not, check if the root node of the relation has an argument
+            if (arguments.isEmpty()) {
+                relNodes = new ArrayList<>();
+                relNodes.add(rel.getRootNode());
+                arguments = getArguments(relNodes);
+            }
         }
-        // If not, check if the root node of the relation has an argument
-        if (arguments.isEmpty()) {
-            relNodes = new ArrayList<>();
-            relNodes.add(rel.getRootNode());
-            arguments = getArguments(relNodes);
-        }
+
         return arguments;
     }
 

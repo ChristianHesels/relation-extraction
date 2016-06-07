@@ -25,6 +25,9 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
     private Extractor<Node, TreeExtraction> relExtr;
 
+    /**
+     * Default constructor.
+     */
     public ReVerbIIIExtractor() {
         this.relExtr = new ReVerbTreeRelationExtractor();
 
@@ -32,6 +35,21 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
         arg1Extr.addMapper(new ReVerbTreeArgument1Mappers());
 
         this.arg2Extr = new ReVerbTreeArgument2Extractor();
+        arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());
+    }
+
+    /**
+     * Explicit constructor to invoke the corresponding super's constructor with arguments.
+     *
+     * @param considerAllArguments consider arguments of child nodes for root nodes and vice versa?
+     */
+    public ReVerbIIIExtractor(boolean considerAllArguments) {
+        this.relExtr = new ReVerbTreeRelationExtractor();
+
+        this.arg1Extr = new ReVerbTreeArgument1Extractor();
+        arg1Extr.addMapper(new ReVerbTreeArgument1Mappers());
+
+        this.arg2Extr = new ReVerbTreeArgument2Extractor(considerAllArguments);
         arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());
     }
 
