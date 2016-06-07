@@ -12,6 +12,7 @@ public class TreeExtraction {
 
     private Node rootNode;
     private Iterable<Integer> nodeIds;
+    private Iterable<Integer> konNodeIds;
 
     public TreeExtraction(Node rootNode, Iterable<Integer> nodeIds) {
         this.rootNode = rootNode;
@@ -45,5 +46,13 @@ public class TreeExtraction {
 
     public void setNodeIds(Iterable<Integer> nodeIds) {
         this.nodeIds = nodeIds;
+    }
+
+    public Iterable<Integer> getKonNodeIds() {
+        return konNodeIds;
+    }
+
+    public void setKonNodeIds(Iterable<Integer> konNodeIds) {
+        this.konNodeIds = konNodeIds;
     }
 }

@@ -32,10 +32,6 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         List<Node> negNodes = getPtkNodes(rootNode);
         verbNodes.addAll(negNodes);
 
-        // Add a extraction for the main verb
-        rels.add(createTreeExtraction(verbNodes, rootNode));
-
-        // Add the root node to the verb nodes
         verbNodes.add(0, rootNode);
 
         // check if there is a conjunction of verbs
@@ -43,6 +39,10 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
         for (Node verb : verbNodes) {
             Node.getKonNodes(verb, konNodes);
         }
+
+        // Add a extraction for the main verb
+        rels.add(createTreeExtraction(verbNodes, rootNode));
+        rels.get(0).setKonNodeIds(konNodes.stream().map(Node::getId).collect(Collectors.toList()));
 
         for (Node kon : konNodes) {
             List<Node> verbs = kon.getChildrenOfType("aux");
@@ -53,16 +53,20 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
             // all verbs of the conjunction should be auxiliary verbs too
             // so we need to add the main verb (-> root)
             if (kon.getPos().endsWith("PP") && verbs.isEmpty()) {
+                verbs.add(rootNode);
                 verbs.add(kon);
                 verbs.addAll(avz);
                 verbs.addAll(ptk);
                 rels.add(createTreeExtraction(verbs, rootNode));
             } else {
+                verbs.add(kon);
                 verbs.addAll(avz);
                 verbs.addAll(ptk);
-                rels.add(createTreeExtraction(verbs, kon));
+                rels.add(createTreeExtraction(verbs, rootNode));
             }
         }
+
+
 
         return rels;
     }
@@ -81,7 +85,6 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
      */
     private TreeExtraction createTreeExtraction(List<Node> nodes, Node root) {
         List<Integer> verbIds = nodes.stream().map(Node::getId).collect(Collectors.toList());
-        verbIds.add(0, root.getId());
         return new TreeExtraction(root, verbIds);
     }
 
