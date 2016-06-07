@@ -30,59 +30,161 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
 
         // If there is only one candidate, the candidate is the object
         if (candidates.size() == 1) {
-            extrs.add(new TreeExtraction(rel.getRootNode(),
-                                         candidates.get(0).toList().stream().map(Node::getId).collect(Collectors.toList())));
+            extrs.addAll(createTreeExtraction(rel, candidates.get(0)));
             return extrs;
         }
 
         // There is no valid case with more than two objects
         if (candidates.size() > 2) {
-            System.out.println("Too much argument2 candidates: " + candidates);
+            System.out.println("Too much argument2 candidates: ");
+            candidates.stream()
+                .forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
             return extrs;
         }
 
         // Extract possible candidates
-        Node objp = candidates.stream().filter(x -> x.getLabelToParent().equals("objp")).findFirst().orElse(null);
+        // There can only be multiple accusative objects and prepositional objects
+        List<Node> objpList = candidates.stream().filter(x -> x.getLabelToParent().equals("objp")).collect(
+            Collectors.toList());
         Node objd = candidates.stream().filter(x -> x.getLabelToParent().equals("objd")).findFirst().orElse(null);
         Node objg = candidates.stream().filter(x -> x.getLabelToParent().equals("objg")).findFirst().orElse(null);
-        Node obja = candidates.stream().filter(x -> x.getLabelToParent().equals("obja")).findFirst().orElse(null);
+        List<Node> objaList = candidates.stream().filter(x -> x.getLabelToParent().equals("obja")).collect(
+            Collectors.toList());
         Node obja2 = candidates.stream().filter(x -> x.getLabelToParent().equals("obja2")).findFirst().orElse(null);
         Node pred = candidates.stream().filter(x -> x.getLabelToParent().equals("pred")).findFirst().orElse(null);
 
-        // Handle the occurrence of objp
-        Node other = getOther(objd, objg, objg, obja, obja2, pred);
-        if (objp != null && other != null) {
-            // Add the objp to the relation
-            addToRelation(rel, objp);
-            // The remaining candidate is the object
-            extrs.add(createTreeExtraction(rel, other));
-            return extrs;
-        }
+        // We have only two accusative objects
+        handleTwoAccusativeObjects(rel, extrs, objaList);
 
-        if (obja != null && obja2 != null) {
-            // Add obja to the relation
-            addToRelation(rel, obja);
-            extrs.add(createTreeExtraction(rel, obja2));
-            return extrs;
-        }
+        // We have only two prepositional objects
+        handleTwoPrepositionalObjects(rel, extrs, objpList);
 
-        if (obja != null && objd != null) {
-            // Add obja to the relation
-            addToRelation(rel, objd);
-            extrs.add(createTreeExtraction(rel, obja));
-            return extrs;
-        }
+        // Extract obja and objp
+        Node obja = null;
+        if (objaList.size() == 1) obja = objaList.get(0);
+        Node objp = null;
+        if (objpList.size() == 1) objp = objpList.get(0);
 
-        System.out.print("The argument combination is new: ");
-        candidates.stream().forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
-        System.out.println(" ");
+        // We have one prepositional object and one other object
+        Node other = getOther(obja, objd, objg, pred);
+        handle(extrs, rel, objp, other);
+
+        // We have one obja and one obja2
+        handle(extrs, rel, obja, obja2);
+
+        // We have one obja and one objd
+        handle(extrs, rel, objd, obja);
+
+        // We have a predicate and one other object
+        other = getOther(objd, objg, obja);
+        handle(extrs, rel, other, pred);
+
+        if (extrs.isEmpty()) {
+            System.out.print("The argument combination is new: ");
+            candidates.stream()
+                .forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
+            System.out.println(" ");
+        }
 
         return extrs;
     }
 
-    private TreeExtraction createTreeExtraction(TreeExtraction rel, Node object) {
-        return new TreeExtraction(rel.getRootNode(),
-                                  object.toList().stream().map(Node::getId).collect(Collectors.toList()));
+    /**
+     * Handles the case if there are exactly two prepositional objects and nothing else.
+     * The prepositional object, which comes first, is the complement of the verb.
+     * The second prepositional object is the object.
+     * @param rel       the relation
+     * @param extrs     the list of extractions
+     * @param objpList  the prepositional objects
+     */
+    private void handleTwoPrepositionalObjects(TreeExtraction rel, List<TreeExtraction> extrs,
+                                               List<Node> objpList) {
+        if (objpList.size() == 2) {
+            Node objpFirst = objpList.get(0);
+            Node objpSecond = objpList.get(1);
+            handle(extrs, rel, objpFirst, objpSecond);
+        }
+    }
+
+    /**
+     * Handles the case if there are exactly two accusative objects and nothing else.
+     * The accusative object, which is equal to 'sich' becomes the complement of the verb.
+     * If there is no 'sich', the first accusative object is the complement and the other is the
+     * object.
+     * @param rel       the relation
+     * @param extrs     the list of extractions
+     * @param objaList  the accusative objects
+     */
+    private void handleTwoAccusativeObjects(TreeExtraction rel, List<TreeExtraction> extrs,
+                                            List<Node> objaList) {
+        if (objaList.size() == 2) {
+            Node objaFirst = objaList.get(0);
+            Node objaSecond = objaList.get(1);
+
+            if (objaSecond.getWord().equals("sich")) {
+                handle(extrs, rel, objaSecond, objaFirst);
+            } else {
+                handle(extrs, rel, objaFirst, objaSecond);
+            }
+        }
+    }
+
+    /**
+     * Adds a tree extraction to the given list of extractions.
+     * An extraction is only created if the complement and the object is not null.
+     * The complement is added to the given relation and the object is used to create the new
+     * tree extraction.
+     * @param extrs      the list of existing tree extractions
+     * @param relation   the relation
+     * @param complement the complement of the relation
+     * @param object     the object
+     */
+    private void handle(List<TreeExtraction> extrs, TreeExtraction relation, Node complement, Node object) {
+        if (complement != null && object != null) {
+            // Add the complement to the relation
+            addToRelation(relation, complement);
+            // The remaining candidate is the object
+            extrs.addAll(createTreeExtraction(relation, object));
+        }
+    }
+
+    /**
+     * Creates a tree extraction for the given object.
+     * @param rel    the relation for getting the root node
+     * @param object the object
+     * @return tree extraction
+     */
+    private List<TreeExtraction> createTreeExtraction(TreeExtraction rel, Node object) {
+        List<TreeExtraction> extractions = new ArrayList<>();
+
+        // Check if there exists a conjunction of objects
+        List<Node> konNodes = new ArrayList<>();
+        Node.getKonNodes(object, konNodes);
+
+        // Add the main object
+        extractions.add(new TreeExtraction(rel.getRootNode(), getIds(object)));
+
+        // Add a extraction for each subject in the conjunction
+        extractions.addAll(konNodes.stream()
+                         .map(kon -> new TreeExtraction(rel.getRootNode(), getIds(kon)))
+                         .collect(Collectors.toList()));
+
+        return extractions;
+    }
+
+    /**
+     * List the ids of the underlying children.
+     * Child nodes, which belong to a conjunction, are removed.
+     * @param object the object root
+     * @return a list of ids
+     */
+    private List<Integer> getIds(Node object) {
+        // Get the conjunction nodes and removes them from the object nodes
+        List<Node> konChildren = object.getKonChildren();
+        List<Node> allChildren = object.toList();
+        allChildren.removeAll(konChildren);
+        // Get ids of object and all underlying nodes
+        return allChildren.stream().map(Node::getId).collect(Collectors.toList());
     }
 
     /**
@@ -115,8 +217,24 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
      * @return list of root nodes of candidates
      */
     private List<Node> extractObjectComplementCandidates(TreeExtraction rel) {
+        // First check if there is a argument directed connected to the relation node
         List<Node> relNodes = rel.getRootNode().find(rel.getNodeIds());
+        List<Node> arguments = getArguments(relNodes);
+        // If not, check if there are arguments connected to conjunction child nodes
+        if (arguments.isEmpty()) {
+            relNodes = rel.getRootNode().find(rel.getKonNodeIds());
+            arguments = getArguments(relNodes);
+        }
+        // If not, check if the root node of the relation has an argument
+        if (arguments.isEmpty()) {
+            relNodes = new ArrayList<>();
+            relNodes.add(rel.getRootNode());
+            arguments = getArguments(relNodes);
+        }
+        return arguments;
+    }
 
+    private List<Node> getArguments(List<Node> relNodes) {
         // objects are directly connected to verbs
         List<Node> arguments = new ArrayList<>();
         for (Node n : relNodes) {
@@ -130,7 +248,6 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
                 .collect(Collectors.toList());
             arguments.addAll(a);
         }
-
         return arguments;
     }
 
