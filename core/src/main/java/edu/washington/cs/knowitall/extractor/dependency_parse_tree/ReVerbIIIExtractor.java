@@ -44,6 +44,7 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
         dependencyParseTree.prune();
 
         // 2. if tree has multiple root nodes, divide the tree in subtrees
+        // TODO: add objc as root ?
         List<Node> rootElements = dependencyParseTree.getRootElements();
 
         // For each of the root elements:

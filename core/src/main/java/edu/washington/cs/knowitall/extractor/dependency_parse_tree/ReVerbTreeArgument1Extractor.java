@@ -24,8 +24,19 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
         throws ExtractorException {
         List<TreeExtraction> extrs = new ArrayList<>();
 
-        List<Node> subjectNodes = rel.getRootNode().getChildrenOfType("subj");
+        // First check if there is a subject on the relation itself
+        List<Node> relationNodes = rel.getRootNode().find(rel.getNodeIds());
+        List<Node> subjectNodes = relationNodes.stream()
+            .flatMap(x -> x.getChildrenOfType("subj").stream())
+            .collect(Collectors.toList());
 
+        // If the relation has no direct subject, take a look at the root.
+        // This can happen, if there exists a conjunction of verbs with the same subject
+        if (subjectNodes.isEmpty()) {
+            subjectNodes = rel.getRootNode().getChildrenOfType("subj");
+        }
+
+        // There exists no subject
         if (subjectNodes.isEmpty()) return extrs;
 
         // There should only be one subject root node
