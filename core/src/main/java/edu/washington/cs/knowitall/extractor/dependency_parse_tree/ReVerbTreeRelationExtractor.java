@@ -66,11 +66,13 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
             }
         }
 
-
-
         return rels;
     }
 
+    /**
+     * @param rootNode the root node
+     * @return a list of child nodes, which have the pos tags 'PTKNEG' or 'PTKZU'
+     */
     private List<Node> getPtkNodes(Node rootNode) {
         return rootNode.getChildrenOfType("adv", "part").stream()
             .filter(x -> x.getPos().equals("PTKNEG") || x.getPos().equals("PTKZU")).collect(

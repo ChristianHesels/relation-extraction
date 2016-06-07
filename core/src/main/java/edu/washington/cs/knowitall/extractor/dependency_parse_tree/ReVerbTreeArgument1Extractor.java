@@ -9,7 +9,9 @@ import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
-
+/**
+ * Extracts the subject of the relation.
+ */
 public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     // TODO
@@ -17,7 +19,6 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
     // do not include app if it has a clause as child ?
     // how to handle PN as child ?
     // how to handle NP2 ? "der Wanderer liebt die schöne Müllerin und die Müllerin den Jäger"
-    // first check if verb has own subject, if not take a look at the root node
 
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)
