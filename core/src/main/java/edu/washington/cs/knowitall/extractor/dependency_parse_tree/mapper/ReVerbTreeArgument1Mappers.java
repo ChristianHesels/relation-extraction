@@ -34,7 +34,6 @@ public class ReVerbTreeArgument1Mappers extends
         firstPosTags.add("PRELAT");    // dessen
         firstPosTags.add("PPER");      // ich, er, ihm, mich
         firstPosTags.add("PRELS");     // [der Hund ,] der
-        firstPosTags.add("PPOSAT");    // mein [Buch], deine [Mutter]
 
         addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
 

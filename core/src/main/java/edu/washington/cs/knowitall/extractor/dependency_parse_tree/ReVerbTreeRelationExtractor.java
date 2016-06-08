@@ -52,7 +52,7 @@ public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction>
             // if the conjunction comes from a auxiliary verb,
             // all verbs of the conjunction should be auxiliary verbs too
             // so we need to add the main verb (-> root)
-            if (kon.getPos().endsWith("PP") && verbs.isEmpty()) {
+            if ((kon.getPos().endsWith("PP") || rootNode.getPos().equals("VMFIN")) && verbs.isEmpty()) {
                 verbs.add(rootNode);
                 verbs.add(kon);
                 verbs.addAll(avz);
