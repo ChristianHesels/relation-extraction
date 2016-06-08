@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Unsere Stärke ist unsere Motivation.";
+        String sentence = "Die Raum- und Luftfahrt und die NASA ist ein großes Thema.";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";

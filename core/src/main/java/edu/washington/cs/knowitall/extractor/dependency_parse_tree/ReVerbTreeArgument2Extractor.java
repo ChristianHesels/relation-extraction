@@ -15,7 +15,6 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
 
     // TODO
     // Prune candidates: remove pp
-    // conjunction
 
     private boolean considerAllArguments;
 

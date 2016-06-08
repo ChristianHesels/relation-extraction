@@ -35,6 +35,7 @@ public class ReVerbTreeArgument1Mappers extends
         firstPosTags.add("PPER");      // ich, er, ihm, mich
         firstPosTags.add("PRELS");     // [der Hund ,] der
 
+        addMapper(new MergeOverlappingMapper());
         addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
 
         addArgumentNotEqualsFilter("ART");      // der die das
