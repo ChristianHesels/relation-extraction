@@ -54,7 +54,7 @@ public class DependencyParseTree {
      * @return a list of root nodes
      */
     public List<Node> getRootElements() {
-        List<Node> subRoots = tree.find("s", "neb");
+        List<Node> subRoots = tree.find("s", "neb", "objc");
         List<Node> directRoots = this.tree.getChildren().stream()
             .filter(x -> !x.getPosGroup().equals("$.") && !x.getPosGroup().equals("$,") && !x.getPosGroup().equals("$("))
             .collect(Collectors.toList());
