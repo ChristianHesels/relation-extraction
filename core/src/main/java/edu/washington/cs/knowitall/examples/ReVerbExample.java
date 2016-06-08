@@ -19,7 +19,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Die Betreiber dieser Website verpflichten sich zur Verschwiegenheit.";
+        String sentence = "Unsere Stärke ist unsere Motivation.";
         extractFromSentence(sentence);
 
         String fileName = "/home/tanja/Repositories/reverb/core/text/sample.txt";
@@ -55,7 +55,7 @@ public class ReVerbExample {
 
         ReVerbI reVerbI = new ReVerbI(false, 20, true);
         ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-        ReVerbIII reVerbIII = new ReVerbIII();
+        ReVerbIII reVerbIII = new ReVerbIII(false, false);
 
         System.out.print("Process sentences ");
         int i = 0;

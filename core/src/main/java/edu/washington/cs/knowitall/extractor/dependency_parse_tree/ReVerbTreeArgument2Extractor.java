@@ -52,6 +52,9 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
             System.out.println("Too much argument2 candidates: ");
             candidates.stream()
                 .forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
+            System.out.println(rel.getRootNode().toString());
+            System.out.println("");
+            System.out.println("");
             return extrs;
         }
 
@@ -106,7 +109,9 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         System.out.print("The argument combination is new: ");
         candidates.stream()
             .forEach(c -> System.out.print(c.getWord() + " - " + c.getLabelToParent() + " ; "));
-        System.out.println(" ");
+        System.out.println(rel.getRootNode().toString());
+        System.out.println("");
+        System.out.println("");
 
         return extrs;
     }
@@ -251,17 +256,23 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
      * @return list of root nodes of candidates
      */
     private List<Node> extractObjectComplementCandidates(TreeExtraction rel) {
-        // First check if there is a argument directed connected to the relation node
         List<Node> relNodes = rel.getRootNode().find(rel.getNodeIds());
-        List<Node> arguments = getArguments(relNodes);
+        // First check if there is an argument directed connected to main verb of the relation
+        List<Node> fullVerbs = relNodes.stream().filter(x -> x.getPos().startsWith("VV") || x.getPos().equals("VAFIN")).collect(
+            Collectors.toList());
+        List<Node> arguments = getArguments(fullVerbs);
+        // If not also consider the other verb forms
+        if (arguments.isEmpty()) {
+            arguments = getArguments(relNodes);
+        }
 
         if (this.considerAllArguments) {
-            // If not, check if there are arguments connected to conjunction child nodes
+            // Check if there are arguments connected to conjunction child nodes
             if (arguments.isEmpty()) {
                 relNodes = rel.getRootNode().find(rel.getKonNodeIds());
                 arguments = getArguments(relNodes);
             }
-            // If not, check if the root node of the relation has an argument
+            // Check if the root node of the relation has an argument
             if (arguments.isEmpty()) {
                 relNodes = new ArrayList<>();
                 relNodes.add(rel.getRootNode());
