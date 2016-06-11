@@ -57,7 +57,7 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
     protected Iterable<TreeBinaryExtraction> extractCandidates(DependencyParseTree dependencyParseTree)
         throws ExtractorException {
         Collection<TreeBinaryExtraction> extrs = new ArrayList<>();
-
+    
         // 1. remove not needed nodes from tree
         dependencyParseTree.prune();
 
