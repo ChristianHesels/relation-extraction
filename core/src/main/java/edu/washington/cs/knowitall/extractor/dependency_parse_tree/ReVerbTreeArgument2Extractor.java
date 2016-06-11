@@ -40,6 +40,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         throws ExtractorException {
         List<TreeExtraction> extrs = new ArrayList<>();
 
+        // Extract all possible candidates
         List<Node> candidates = extractObjectComplementCandidates(rel);
 
         // There are no possible objects/complements of verb
@@ -71,7 +72,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
             }
         }
 
-        // If there is only one object, add it to the list of extraction
+        // If there is only one object, add it to the list of extractions
         if (arguments.size() == 1) {
             Argument2 arg = arguments.get(0);
             if (arg.getRole() != Role.COMPLEMENT) {
@@ -105,27 +106,36 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
             return extrs;
         }
 
-
-        // Handle the objects
+        // Handle the arguments, which are objects
         if (!objects.isEmpty() && both.isEmpty()) {
-            if (objects.size() == 1) {
-                extrs.addAll(objects.get(0).createTreeExtractions());
-            } else {
-                System.out.println("Too many possible objects.");
+            // Add the objects, which are close to the relation to the relation
+            // The object with the maximum distance to the relation is the real object
+            List<Argument2> c = new ArrayList<>();
+            while (objects.size() != 1) {
+                Argument2 complement = getComplement(objects);
+                objects.remove(complement);
+                c.add(complement);
             }
+            addToRelation(rel, c);
+            extrs.addAll(objects.get(0).createTreeExtractions());
             return extrs;
         }
 
-        // Handle both
+        // Handle the arguments, which are objects and those, which can be both
         if (!objects.isEmpty() && !both.isEmpty()) {
+            // The arguments, which can be both, are complements
             addToRelation(rel, both);
-            if (objects.size() == 1) {
-                extrs.addAll(objects.get(0).createTreeExtractions());
-            } else {
-                System.out.println("Too many possible objects.");
+            // Add the objects, which are close to the relation to the relation
+            // The object with the maximum distance to the relation is the real object
+            List<Argument2> c = new ArrayList<>();
+            while (objects.size() != 1) {
+                Argument2 complement = getComplement(objects);
+                objects.remove(complement);
+                c.add(complement);
             }
+            addToRelation(rel, c);
+            extrs.addAll(objects.get(0).createTreeExtractions());
             return extrs;
-
         }
 
         return extrs;
@@ -147,6 +157,24 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
             }
         }
         return object;
+    }
+
+    /**
+     * Gets the argument, which has the longest distance to relation.
+     * @param argument2s the arguments
+     * @return the argument, which has the longest distance to relation
+     */
+    private Argument2 getComplement(List<Argument2> argument2s) {
+        Argument2 complement = null;
+        int minDistance = Integer.MAX_VALUE;
+        for (Argument2 arg : argument2s) {
+            int currDistance = arg.distanceToRelation();
+            if (currDistance < minDistance) {
+                minDistance = currDistance;
+                complement = arg;
+            }
+        }
+        return complement;
     }
 
 

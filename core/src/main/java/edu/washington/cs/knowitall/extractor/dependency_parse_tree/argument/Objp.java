@@ -15,7 +15,7 @@ public class Objp extends Argument2 {
 
     @Override
     public Role getRole() {
-        return Role.COMPLEMENT;
+        return Role.BOTH;
     }
 
     @Override

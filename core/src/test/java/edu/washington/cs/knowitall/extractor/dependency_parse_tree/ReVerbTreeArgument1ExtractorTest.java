@@ -3,6 +3,7 @@ package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
@@ -15,21 +16,35 @@ import static org.junit.Assert.assertTrue;
 
 public class ReVerbTreeArgument1ExtractorTest {
 
-    ParZuSentenceParser parser = new ParZuSentenceParser();
-    ReVerbTreeArgument1Extractor extractor = new ReVerbTreeArgument1Extractor();
+    private ParZuSentenceParser parser = new ParZuSentenceParser();
+    private ReVerbTreeArgument1Extractor extractor = new ReVerbTreeArgument1Extractor();
+
+    private TreeExtraction getRelation(String sentence, Integer... ids) {
+        List<DependencyParseTree>
+            tree = parser.convert(Arrays.asList(sentence.split("\n")));
+        Node rootNode = tree.get(0).getRootElements().get(0);
+
+        // Create rel extraction
+        return new TreeExtraction(rootNode, Arrays.asList(ids));
+    }
+
 
     @Test
     public void testExtractCandidates1() throws Exception {
         // Create tree
-        List<DependencyParseTree>
-            tree = parser.parseSentence("Das Haus und der Zaun sind gelb gestrichen.");
-        Node rootNode = tree.get(0).getRootElements().get(0);
 
-        // Create rel extraction
-        List<Integer> ids = new ArrayList<>();
-        ids.add(6);
-        ids.add(8);
-        TreeExtraction rel = new TreeExtraction(rootNode,  ids);
+        // Das Haus und der Zaun sind gelb gestrichen.
+        String sent =   "1\tDas\tdie\tART\tART\tDef|Neut|Nom|Sg\t2\tdet\t_\t_ \n"
+                      + "2\tHaus\tHaus\tN\tNN\tNeut|Nom|Sg\t6\tsubj\t_\t_ \n"
+                      + "3\tund\tund\tKON\tKON\t_\t2\tkon\t_\t_ \n"
+                      + "4\tder\tdie\tART\tART\tDef|Masc|Nom|Sg\t5\tdet\t_\t_ \n"
+                      + "5\tZaun\tZaun\tN\tNN\tMasc|Nom|Sg\t3\tcj\t_\t_ \n"
+                      + "6\tsind\tsein\tV\tVAFIN\t_|Pl|Pres|Ind\t0\troot\t_\t_ \n"
+                      + "7\tgelb\tgelb\tADV\tADJD\tPos|\t6\tadv\t_\t_ \n"
+                      + "8\tgestrichen\tstreichen\tV\tVVPP\t_\t6\taux\t_\t_ \n"
+                      + "9\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
+
+        TreeExtraction rel = getRelation(sent, 6, 8);
 
         // Extract relations
         Iterable<TreeExtraction> extractions = extractor.extractCandidates(rel);
@@ -46,14 +61,22 @@ public class ReVerbTreeArgument1ExtractorTest {
     @Test
     public void testExtractCandidates2() throws Exception {
         // Create tree
-        List<DependencyParseTree>
-            tree = parser.parseSentence("Die Firma, seit 1996 in Japan angesiedelt, verkauft Spielkonsolen.");
-        Node rootNode = tree.get(0).getRootElements().get(0);
 
-        // Create rel extraction
-        List<Integer> ids = new ArrayList<>();
-        ids.add(10);
-        TreeExtraction rel = new TreeExtraction(rootNode,  ids);
+        // Die Firma, seit 1996 in Japan angesiedelt, verkauft Spielkonsolen.
+        String sent = "1\tDie\tdie\tART\tART\tDef|Fem|Nom|Sg\t2\tdet\t_\t_ \n"
+                      + "2\tFirma\tFirma\tN\tNN\tFem|Nom|Sg\t8\tsubj\t_\t_ \n"
+                      + "3\t,\t,\t$,\t$,\t_\t0\troot\t_\t_ \n"
+                      + "4\tseit\tseit\tPREP\tAPPR\tDat\t8\tpp\t_\t_ \n"
+                      + "5\t1996\t1996\tCARD\tCARD\t_\t4\tpn\t_\t_ \n"
+                      + "6\tin\tin\tPREP\tAPPR\t_\t8\tobjp\t_\t_ \n"
+                      + "7\tJapan\tJapan\tN\tNE\tNeut|_|Sg\t6\tpn\t_\t_ \n"
+                      + "8\tangesiedelt\tansiedeln\tV\tVVPP\t_\t10\tneb\t_\t_ \n"
+                      + "9\t,\t,\t$,\t$,\t_\t0\troot\t_\t_ \n"
+                      + "10\tverkauft\tverkaufen\tV\tVVFIN\t_|_|Pres|Ind\t0\troot\t_\t_ \n"
+                      + "11\tSpielkonsolen\tSpielkonsole\tN\tNN\tFem|_|Pl\t10\tobja\t_\t_ \n"
+                      + "12\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
+
+        TreeExtraction rel = getRelation(sent, 10);
 
         // Extract relations
         Iterable<TreeExtraction> extractions = extractor.extractCandidates(rel);
@@ -65,4 +88,6 @@ public class ReVerbTreeArgument1ExtractorTest {
         // Check
         extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
     }
+
+
 }

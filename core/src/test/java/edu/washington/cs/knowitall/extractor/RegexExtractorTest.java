@@ -19,9 +19,9 @@ import static org.junit.Assert.assertEquals;
 public class RegexExtractorTest {
 
     private ChunkedSentence sent1;
-    private String verb = "[VAFIN_pos]";
-    private String np = "(B-NP_np I-NP_np*) | (B-PP_np I-PP_np*)";
-    private String prep = "[APPR_pos]";
+    private static final String verb = "[VAFIN_pos]";
+    private static final String np = "(B-NP_np I-NP_np*) | (B-PP_np I-PP_np*)";
+    private static final String prep = "[APPR_pos]";
 
 
     @Before
