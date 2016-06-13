@@ -19,7 +19,14 @@ import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 
+/**
+ * Extracts all candidates for objects and complements of the verb.
+ */
 public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
+
+    // TODO
+    // Prune arguments
+    // Split conjunction: Im nächsten Schritt wird die RELEX-Nutzung auf Estland und Lettland ausgedehnt .
 
     private boolean considerAllArguments;
 

@@ -210,7 +210,10 @@ public class Node {
         else if (cj.size() == 1) curr = cj.get(0);
         else return;
 
-        if (!curr.getPosGroup().equals("KON")) konNodes.add(curr);
+        // Only add nodes to the conjunction nodes, if they are not a conjunction (and, or).
+        // Do not add nodes, which have '&' as parent, to the conjunction nodes.
+        if (!curr.getPosGroup().equals("KON") &&
+            !(curr.parent.getPosGroup().equals("KON") && curr.parent.getWord().equals("&"))) konNodes.add(curr);
         getKonNodes(curr, konNodes);
     }
 
@@ -241,6 +244,12 @@ public class Node {
         if (konChildren.isEmpty()) {
             return konChildren;
         }
+
+        // Conjunctions starting with '&' are not conjunctions
+        if (konChildren.get(0).getWord().equals("&")) {
+            return new ArrayList<>();
+        }
+
         return konChildren.get(0).toList();
     }
 

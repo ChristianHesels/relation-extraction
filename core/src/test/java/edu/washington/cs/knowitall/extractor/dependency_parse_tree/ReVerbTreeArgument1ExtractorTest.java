@@ -89,5 +89,29 @@ public class ReVerbTreeArgument1ExtractorTest {
         extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
     }
 
+    @Test
+    public void testExtractCandidates3() throws Exception {
+        // K&K ist ein Supermarkt
+        String sent =   "1\tK\tK\tN\tNN\tNeut|Nom|Sg\t4\tsubj\t_\t_ \n"
+                      + "2\t&\t&\tKON\tKON\t_\t1\tkon\t_\t_ \n"
+                      + "3\tK\tK\tN\tNN\tNeut|Nom|_\t2\tcj\t_\t_ \n"
+                      + "4\tist\tsein\tV\tVAFIN\t3|Sg|Pres|Ind\t0\troot\t_\t_ \n"
+                      + "5\tein\teine\tART\tART\tIndef|Masc|Nom|Sg\t6\tdet\t_\t_ \n"
+                      + "6\tSupermarkt\tSupermarkt\tN\tNN\tMasc|Nom|Sg\t4\tpred\t_\t_ \n"
+                      + "7\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
+
+        TreeExtraction rel = getRelation(sent, 4);
+
+        // Extract relations
+        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rel);
+
+        // Define expected relations
+        List<String> expectedExtractions = new ArrayList<>();
+        expectedExtractions.add("K & K");
+
+        // Check
+        extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
+    }
+
 
 }
