@@ -287,7 +287,7 @@ public class Node {
                 all.remove(0);
             }
             // Last element of the TRUNC nodes
-            all.remove(0);
+            if (!all.isEmpty()) all.remove(0);
         }
 
         return all;

@@ -92,7 +92,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
         List<Argument2> objects = arguments.stream()
             .filter(x -> x.getRole() == Role.OBJECT).collect(Collectors.toList());
         List<Argument2> both = arguments.stream()
-            .filter(x -> x.getRole() == Role.COMPLEMENT).collect(Collectors.toList());
+            .filter(x -> x.getRole() == Role.BOTH).collect(Collectors.toList());
 
         // Add the complements to the relation
         addToRelation(rel, complements);

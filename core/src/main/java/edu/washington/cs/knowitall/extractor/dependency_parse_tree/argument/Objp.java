@@ -14,17 +14,22 @@ public class Objp extends Argument2 {
 
     public Objp(Node rootNode, TreeExtraction relation) {
         super(rootNode, relation);
-        this.preopsition = rootNode;
+        this.preopsition = null;
 
         // the noun of this object is connected via 'pn' to the preposition, which is the root
         // of an 'objp'
         List<Node> pn = rootNode.getChildrenOfType("pn");
-        assert(pn.size() == 1);
-        this.rootNode = pn.get(0);
+        if (pn.size() == 1) {
+            this.rootNode = pn.get(0);
+            this.preopsition = rootNode;
+        }
     }
 
     @Override
     public Role getRole() {
+        if (preopsition == null) {
+            return Role.COMPLEMENT;
+        }
         return Role.BOTH;
     }
 
