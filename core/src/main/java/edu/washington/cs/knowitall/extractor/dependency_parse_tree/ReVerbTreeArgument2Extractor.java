@@ -26,7 +26,6 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
 
     // TODO
     // Prune arguments
-    // Split conjunction: Im nächsten Schritt wird die RELEX-Nutzung auf Estland und Lettland ausgedehnt .
 
     private boolean considerAllArguments;
 

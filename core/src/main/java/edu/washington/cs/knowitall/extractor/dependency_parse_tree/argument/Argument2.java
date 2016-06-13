@@ -69,7 +69,7 @@ public abstract class Argument2 {
      * @param n root node
      * @return a list of ids
      */
-    private List<Integer> getIds(Node n) {
+    protected List<Integer> getIds(Node n) {
         // Get the conjunction nodes and removes them from the object nodes
         List<Node> konChildren = n.getKonChildren();
         List<Node> allChildren = n.toList();
