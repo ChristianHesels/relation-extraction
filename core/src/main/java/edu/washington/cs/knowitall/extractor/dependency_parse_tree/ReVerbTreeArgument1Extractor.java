@@ -70,18 +70,6 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
         // Get the conjunction nodes and removes them from the subject nodes
         List<Node> konChildren = subjectRoot.getKonChildren();
         List<Node> allChildren = subjectRoot.toList();
-
-        // One exception: the subjectRoot is a TRUNC
-        if (subjectRoot.getPos().equals("TRUNC")) {
-            // Remove all TRUNC nodes from the konChildren list, so that they will
-            // belong to the current subject
-            while (!konChildren.isEmpty() && !konChildren.get(0).getLabelToParent().equals("cj")) {
-                konChildren.remove(0);
-            }
-            // Last element of the TRUNC nodes
-            konChildren.remove(0);
-        }
-
         allChildren.removeAll(konChildren);
 
         // Get ids of subjectRoot and all underlying nodes

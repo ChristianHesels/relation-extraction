@@ -33,7 +33,7 @@ public class ParZuSentenceParser {
             }
             return trees;
         } catch (Exception e) {
-            System.out.println("BitPar: Could not process sentence '" + sent + "'");
+            System.out.println("ParZu: Could not process sentence '" + sent + "'");
             return new ArrayList<>();
         }
     }

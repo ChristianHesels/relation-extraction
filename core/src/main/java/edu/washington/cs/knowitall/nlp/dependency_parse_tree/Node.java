@@ -202,19 +202,45 @@ public class Node {
      * @param konNodes  all nodes listed in the conjunction
      */
     public static void getKonNodes(Node root, List<Node> konNodes) {
+        getKonNodes(root, konNodes, root.getPos().equals("TRUNC"));
+    }
+
+    /**
+     * Get all nodes, which belong to a conjunction.
+     * @param root      the current root node of the conjunction
+     * @param konNodes  all nodes listed in the conjunction
+     * @param isTrunc   true, if we are currently in a 'trunc', false otherwise
+     */
+    private static void getKonNodes(Node root, List<Node> konNodes, Boolean isTrunc) {
         List<Node> kon = root.getChildrenOfType("kon");
         List<Node> cj = root.getChildrenOfType("cj");
 
         Node curr;
-        if (kon.size() == 1) curr = kon.get(0);
-        else if (cj.size() == 1) curr = cj.get(0);
+        if (kon.size() == 1) {
+            curr = kon.get(0);
+        }
+        else if (cj.size() == 1) {
+            curr = cj.get(0);
+        }
         else return;
 
         // Only add nodes to the conjunction nodes, if they are not a conjunction (and, or).
         // Do not add nodes, which have '&' as parent, to the conjunction nodes.
+        // DO not add nodes, which are connected to a 'TRUNC' node.
         if (!curr.getPosGroup().equals("KON") &&
-            !(curr.parent.getPosGroup().equals("KON") && curr.parent.getWord().equals("&"))) konNodes.add(curr);
-        getKonNodes(curr, konNodes);
+            !(curr.parent.getPosGroup().equals("KON") && curr.parent.getWord().equals("&")) &&
+            !isTrunc) konNodes.add(curr);
+
+        // Update 'isTrunc':
+        // 'cj' marks the end of a trunc
+        // if the current node is a trunc, the following nodes should not be added
+        if (cj.size() == 1) {
+            isTrunc = false;
+        } else if (curr.getPos().equals("TRUNC")) {
+            isTrunc = true;
+        }
+
+        getKonNodes(curr, konNodes, isTrunc);
     }
 
     /**
@@ -241,6 +267,8 @@ public class Node {
      */
     public List<Node> getKonChildren() {
         List<Node> konChildren = this.getChildrenOfType("kon");
+
+        // There are not conjunctions
         if (konChildren.isEmpty()) {
             return konChildren;
         }
@@ -250,7 +278,19 @@ public class Node {
             return new ArrayList<>();
         }
 
-        return konChildren.get(0).toList();
+        List<Node> all = konChildren.get(0).toList();
+
+        // 'TRUNC' nodes are not conjunctions
+        if (this.getPos().equals("TRUNC")) {
+            // Remove all TRUNC nodes from the konChildren list
+            while (!all.isEmpty() && !all.get(0).getLabelToParent().equals("cj")) {
+                all.remove(0);
+            }
+            // Last element of the TRUNC nodes
+            all.remove(0);
+        }
+
+        return all;
     }
 
     /**
