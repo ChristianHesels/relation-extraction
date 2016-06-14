@@ -17,7 +17,7 @@ import edu.washington.cs.knowitall.util.ReVerbIII;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "";
+        String sentence = "Google wird in keinem Fall Ihre IP-Adresse mit anderen Daten der Google in Verbindung bringen.";
         extractFromSentence(sentence);
 
 //        String fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
@@ -29,17 +29,17 @@ public class ReVerbExample {
         System.out.println(sentStr);
         System.out.println("");
 
-        ReVerbI reVerbI = new ReVerbI(false, 20, true);
-        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
-        System.out.println("ReVerb I:");
-        System.out.println(chunkRelationsAsString(relationsI));
-        System.out.println("");
-
-        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
-        System.out.println("ReVerb II:");
-        System.out.println(chunkRelationsAsString(relationsII));
-        System.out.println("");
+//        ReVerbI reVerbI = new ReVerbI(false, 20, true);
+//        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
+//        System.out.println("ReVerb I:");
+//        System.out.println(chunkRelationsAsString(relationsI));
+//        System.out.println("");
+//
+//        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
+//        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
+//        System.out.println("ReVerb II:");
+//        System.out.println(chunkRelationsAsString(relationsII));
+//        System.out.println("");
 
         ReVerbIII reVerbIII = new ReVerbIII(false, false);
         Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelationsFromString(sentStr);

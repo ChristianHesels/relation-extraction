@@ -68,6 +68,7 @@ public class ChunkedExtraction extends ChunkedSentence {
     }
 
     /**
+     * @param extr the other extraction
      * @return true if this extraction is adjacent to or overlaps with extr in this sentence.
      */
     public boolean isAdjacentOrOverlaps(ChunkedExtraction extr) {
@@ -75,6 +76,7 @@ public class ChunkedExtraction extends ChunkedSentence {
     }
 
     /**
+     * @param extr the other extraction
      * @return true if this extraction overlaps with extr in this sentence.
      */
     public boolean overlapsWith(ChunkedExtraction extr) {

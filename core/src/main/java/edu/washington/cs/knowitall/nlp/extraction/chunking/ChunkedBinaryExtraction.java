@@ -110,7 +110,9 @@ public class ChunkedBinaryExtraction extends SpanExtraction implements Extractio
     /**
      * Given a collection of arg1s, a collection of arg2s, and a relation, returns all (arg1, rel,
      * arg2) extractions, where arg1 and arg2 range over the given collections.
-     *
+     * @param rel   the relation
+     * @param arg1s list of argument 1
+     * @param arg2s list of argument 2
      * @return all (arg1, rel, arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<ChunkedBinaryExtraction> productOfArgs(
@@ -123,7 +125,10 @@ public class ChunkedBinaryExtraction extends SpanExtraction implements Extractio
     /**
      * Given a collection of arg1s, a collection of arg2s, and a relation, returns all (arg1, rel,
      * arg2) extractions, where arg1 and arg2 range over the given collections.
-     *
+     * @param rel   the relation
+     * @param arg1s list of argument 1
+     * @param arg2s list of argument 2
+     * @param allowUnaryRelations indicates, whether unary relation are allowed or not
      * @return all (arg1, rel, arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<ChunkedBinaryExtraction> productOfArgs(

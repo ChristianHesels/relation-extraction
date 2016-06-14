@@ -61,6 +61,10 @@ public class TreeBinaryExtraction implements ExtractionConverter {
      * Given a collection of arg1s, a collection of arg2s, and a relation, returns all (arg1, rel,
      * arg2) extractions, where arg1 and arg2 range over the given collections.
      *
+     * @param tree  the dependency parse tree
+     * @param rel   the relation
+     * @param arg1s list of argument1
+     * @param arg2s list of argument2
      * @return all (arg1, rel, arg2) extractions, where arg1 and arg2 range over the given collections.
      */
     public static Collection<TreeBinaryExtraction> productOfArgs(

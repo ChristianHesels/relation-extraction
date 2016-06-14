@@ -62,6 +62,7 @@ public class SpanExtraction {
     /**
      * Constructs a new extraction from the given {@link ChunkedExtraction}s. These must all come
      * from the same sentence. Uses the default field names of field0, field1, field2, etc.
+     * @param fields array of chunked extraction
      */
     public SpanExtraction(ChunkedExtraction[] fields) {
         List<ChunkedExtraction> fieldsList = new ArrayList<ChunkedExtraction>(
@@ -113,6 +114,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param name  the name of the field
      * @return true if this extraction has the given named field
      */
     public boolean hasField(String name) {
@@ -141,6 +143,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param i number of field
      * @return the range of the ith field
      */
     public Range getFieldRange(int i) {
@@ -148,6 +151,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param name name of field
      * @return the range of the field with the given name
      */
     public Range getFieldRange(String name) {
@@ -155,6 +159,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param name name of field
      * @return the field with the given name
      */
     public ChunkedExtraction getField(String name) {
@@ -162,6 +167,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param i number of field
      * @return the ith field
      */
     public ChunkedExtraction getField(int i) {
@@ -169,6 +175,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param i number of field
      * @return the name of the ith field
      */
     public String getFieldName(int i) {
@@ -194,6 +201,7 @@ public class SpanExtraction {
 
     /**
      * Sets the properties to the given map.
+     * @param props properties
      */
     public void setProperties(Map<String, String> props) {
         this.props = props;
@@ -202,6 +210,7 @@ public class SpanExtraction {
     /**
      * Checks whether this extraction has the given property.
      *
+     * @param name the property name
      * @return true if this extraction has the given property
      */
     public boolean hasProperty(String name) {
@@ -209,6 +218,7 @@ public class SpanExtraction {
     }
 
     /**
+     * @param name property name
      * @return the value of the given property
      */
     public String getProperty(String name) {
