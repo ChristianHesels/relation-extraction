@@ -83,4 +83,52 @@ public class ReVerbTreeArgument2ExtractorTest {
         // Check
         extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
     }
+
+
+    @Test
+    public void testExtractCandidates3() throws Exception {
+        // So verkleidete der Schermbecker Unternehmer zum Beispiel die Dortmunder Konzerthalle oder aber auch das Stadion in Mönchengladbach und den Königspalast in Krefeld, um hier nur einige Beispiel zu nennen.
+        String sent =   "1\tSo\tso\tADV\tADV\t_\t2\tadv\t_\t_ \n"
+                        + "2\tverkleidete\tverkleiden\tV\tVVFIN\t3|Sg|Past|_\t0\troot\t_\t_ \n"
+                        + "3\tder\tdie\tART\tART\tDef|Masc|Nom|Sg\t4\tdet\t_\t_ \n"
+                        + "4\tSchermbecker\tSchermbecker\tN\tNN\tMasc|Nom|Sg\t2\tsubj\t_\t_ \n"
+                        + "5\tUnternehmer\tUnternehmer\tN\tNN\tMasc|Nom|_\t4\tapp\t_\t_ \n"
+                        + "6\tzum\tzu\tPREP\tAPPRART\tDat\t2\tpp\t_\t_ \n"
+                        + "7\tBeispiel\tBeispiel\tN\tNN\tNeut|Dat|Sg\t6\tpn\t_\t_ \n"
+                        + "8\tdie\tdie\tART\tART\tDef|Fem|Acc|Sg\t10\tdet\t_\t_ \n"
+                        + "9\tDortmunder\tDortmunder\tADJA\tADJA\tPos|Fem|Acc|Sg|_|\t10\tattr\t_\t_ \n"
+                        + "10\tKonzerthalle\tKonzerthalle\tN\tNN\tFem|Acc|Sg\t2\tobja\t_\t_ \n"
+                        + "11\toder\toder\tKON\tKON\t_\t10\tkon\t_\t_ \n"
+                        + "12\taber\taber\tADV\tADV\t_\t15\tadv\t_\t_ \n"
+                        + "13\tauch\tauch\tADV\tADV\t_\t15\tadv\t_\t_ \n"
+                        + "14\tdas\tdie\tART\tART\tDef|Neut|Acc|Sg\t15\tdet\t_\t_ \n"
+                        + "15\tStadion\tStadion\tN\tNN\tNeut|Acc|Sg\t11\tcj\t_\t_ \n"
+                        + "16\tin\tin\tPREP\tAPPR\t_\t15\tpp\t_\t_ \n"
+                        + "17\tMönchengladbach\tMönchengladbach\tN\tNN\tMasc|_|Sg\t16\tpn\t_\t_ \n"
+                        + "18\tund\tund\tKON\tKON\t_\t15\tkon\t_\t_ \n"
+                        + "19\tden\tdie\tART\tART\tDef|Masc|Acc|Sg\t20\tdet\t_\t_ \n"
+                        + "20\tKönigspalast\tKönigspalast\tN\tNN\tMasc|Acc|Sg\t18\tcj\t_\t_ \n"
+                        + "21\tin\tin\tPREP\tAPPR\t_\t2\tpp\t_\t_ \n"
+                        + "22\tKrefeld\tKrefeld\tN\tNE\tNeut|_|Sg\t21\tpn\t_\t_ \n"
+                        + "23\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
+
+        TreeExtraction rel = getRelation(sent, 2);
+
+        // Extract relations
+        Iterable<TreeExtraction> extractions = extractor.extractCandidates(rel);
+        List<String> stringExtractions = new ArrayList<>();
+        for (TreeExtraction e : extractions) {
+            stringExtractions.add(e.toString());
+        }
+
+        // Define expected relations
+        List<String> expectedExtractions = new ArrayList<>();
+        expectedExtractions.add("die Dortmunder Konzerthalle");
+        expectedExtractions.add("das Stadion in Mönchengladbach");
+        expectedExtractions.add("den Königspalast");
+
+        // Check
+        expectedExtractions.forEach(extr -> assertTrue(stringExtractions.contains(extr)));
+    }
+
 }

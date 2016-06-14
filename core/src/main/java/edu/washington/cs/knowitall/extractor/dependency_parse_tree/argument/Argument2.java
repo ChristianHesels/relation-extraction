@@ -74,10 +74,24 @@ public abstract class Argument2 {
         List<Node> konChildren = n.getKonChildren();
         List<Node> allChildren = n.toList();
         allChildren.removeAll(konChildren);
-        // Get ids of object and all underlying nodes
-        return allChildren.stream().map(Node::getId).collect(Collectors.toList());
+
+        allChildren = removePPNodes(allChildren);
+
+        // Filter adverbs
+        return allChildren.stream()
+            .filter(c -> ! (
+                c.getLabelToParent().equals("adv") && c.getPos().equals("ADV")   // adverb
+            )).map(Node::getId).collect(Collectors.toList());
     }
 
+    private List<Node> removePPNodes(List<Node> all) {
+        List<Node> ppChildren = all.stream().filter(
+            c -> c.getLabelToParent().equals("pp") && c.getPos().equals("PROAV")
+        ).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
+
+        all.removeAll(ppChildren);
+        return all;
+    }
 
     public Node getRootNode() {
         return rootNode;
