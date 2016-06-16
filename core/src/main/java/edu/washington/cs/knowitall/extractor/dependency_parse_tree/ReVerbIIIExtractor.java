@@ -20,6 +20,8 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
     // TODO add mapper: classifier, which decides if a relation is a relation or not
+    // Add dictionary for abbreviations (?)
+    // ReVerb III for companies: Modify dep-tree so that companies are not separated
 
     private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;

@@ -16,6 +16,11 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 public class ReVerbTreeArgument1Mappers extends
                                         MapperList<TreeExtraction> {
 
+    // TODO
+    // Filter subject, which do not contain a character
+    // Filter times (00 Uhr)
+    // Filter root node == 'davon'
+
     public ReVerbTreeArgument1Mappers() {
         init();
     }
@@ -39,11 +44,14 @@ public class ReVerbTreeArgument1Mappers extends
         addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
 
         addArgumentNotEqualsFilter("ART");      // der die das
+        addArgumentNotEqualsFilter("PIS");      // alle, wenige, keiner
 
         addTokenNotEqualsFilter("es");
         addTokenNotEqualsFilter("Es");
         addTokenNotEqualsFilter("Man");
         addTokenNotEqualsFilter("man");
+
+        addMapper(new ContainsNounFilter());
     }
 
     private void addArgumentNotEqualsFilter(final String posTag) {
