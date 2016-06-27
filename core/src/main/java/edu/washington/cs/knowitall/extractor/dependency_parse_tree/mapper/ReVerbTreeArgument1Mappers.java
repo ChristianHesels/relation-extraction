@@ -51,10 +51,22 @@ public class ReVerbTreeArgument1Mappers extends
         addArgumentNotEqualsFilter("ART");      // der die das
         addArgumentNotEqualsFilter("PIS");      // alle, wenige, keiner
 
-        addTokenNotEqualsFilter("es");
-        addTokenNotEqualsFilter("Es");
-        addTokenNotEqualsFilter("Man");
-        addTokenNotEqualsFilter("man");
+        List<String> tokens = new ArrayList<>();
+        tokens.add("es");
+        tokens.add("Es");
+        tokens.add("Man");
+        tokens.add("man");
+        // special quote characters, which may not be parsed correctly
+        tokens.add("\u2018");
+        tokens.add("\u2019");
+        tokens.add("\u201A");
+        tokens.add("\u201B");
+        tokens.add("\u201C");
+        tokens.add("\u201D");
+        tokens.add("\u201E");
+        tokens.add("\u201F");
+
+        addMapper(new TokenNotEqualsFilter(tokens));
 
         addMapper(new ContainsNounFilter(allowWe));
     }
@@ -66,19 +78,6 @@ public class ReVerbTreeArgument1Mappers extends
                     List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
                     Node n = nodes.get(0);
                     return ! n.getPos().equals(posTag);
-                }
-                return true;
-            }
-        });
-    }
-
-    private void addTokenNotEqualsFilter(final String token) {
-        addMapper(new FilterMapper<TreeExtraction>() {
-            public boolean doFilter(TreeExtraction extraction) {
-                if (Iterables.size(extraction.getNodeIds()) == 1) {
-                    List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
-                    Node n = nodes.get(0);
-                    return ! n.getWord().equals(token);
                 }
                 return true;
             }

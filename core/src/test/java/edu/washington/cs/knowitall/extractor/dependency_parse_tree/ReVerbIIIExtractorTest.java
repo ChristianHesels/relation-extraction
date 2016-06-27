@@ -1,5 +1,6 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
+import com.google.common.collect.Iterables;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
@@ -36,8 +37,34 @@ public class ReVerbIIIExtractorTest {
 
     @Test
     public void testExtract1() {
-        // "meine Handschrift ist nicht die beste , aber Gunnars kann ich überhaupt nicht lesen"
+        extractor = new ReVerbIIIExtractor(true, true);
 
+        String sentence = "1\tWir\twir\tPRO\tPPER\t1|Pl|_|Nom\t2\tsubj\t_\t_ \n" +
+                            "2\thaben\thaben\tV\tVAFIN\t1|Pl|Pres|_\t0\troot\t_\t_ \n" +
+                            "3\tein\teine\tART\tART\tIndef|Neut|_|Sg\t7\tdet\t_\t_ \n" +
+                            "4\tinnovatives\tinnovativ\tADJA\tADJA\tPos|Neut|_|Sg|St|\t7\tattr\t_\t_ \n" +
+                            "5\t,\t,\t$,\t$,\t_\t0\troot\t_\t_ \n" +
+                            "6\tneues\tneu\tADJA\tADJA\tPos|Neut|_|Sg|St|\t4\tkon\t_\t_ \n" +
+                            "7\tSystem\tSystem\tN\tNN\tNeut|_|Sg\t2\tobja\t_\t_ \n" +
+                            "8\tentwickelt\tentwickeln\tV\tVVPP\t_\t2\taux\t_\t_ \n" +
+                            "9\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
+        DependencyParseTree tree = getTree(sentence);
+
+        // Execute functionality
+        Iterable<TreeBinaryExtraction> actualExtractions = extractor.extract(tree);
+
+        List<String> stringExtractions = new ArrayList<>();
+        for (TreeBinaryExtraction e : actualExtractions) {
+            stringExtractions.add(e.toString());
+        }
+
+        // Expected extractions
+        TreeExtraction rel = getExtraction(tree, 2, 2, 8); // haben entwickelt
+        TreeExtraction arg1 = getExtraction(tree, 2, 1); // wir
+        TreeExtraction arg2 = getExtraction(tree, 2, 3, 4, 6, 7); // ein innovatives, neues System
+        TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, rel, arg1, arg2);
+
+        assertTrue(stringExtractions.contains(expected.toString()));
     }
 
     @Test
@@ -84,4 +111,32 @@ public class ReVerbIIIExtractorTest {
 
         assertTrue(stringExtractions.contains(expected.toString()));
     }
+
+    @Test
+    public void testExtract3() {
+        // Meine Handschrift ist nicht die beste, aber Gunnars kann ich überhaupt nicht lesen.
+        String sentence = "1\tMeine\tmeine\tART\tPPOSAT\tFem|Nom|Sg\t2\tdet\t_\t_ \n" +
+                            "2\tHandschrift\tHandschrift\tN\tNN\tFem|Nom|Sg\t3\tsubj\t_\t_ \n" +
+                            "3\tist\tsein\tV\tVAFIN\t3|Sg|Pres|Ind\t0\troot\t_\t_ \n" +
+                            "4\tnicht\tnicht\tPTKNEG\tPTKNEG\t_\t3\tadv\t_\t_ \n" +
+                            "5\tdie\tdie\tART\tART\tDef|_|_|_\t6\tdet\t_\t_ \n" +
+                            "6\tbeste\tgut\tADJA\tADJA\t_|_|_\t3\tpred\t_\t_ \n" +
+                            "7\t,\t,\t$,\t$,\t_\t0\troot\t_\t_ \n" +
+                            "8\taber\taber\tKON\tKON\t_\t3\tkon\t_\t_ \n" +
+                            "9\tGunnars\tGunnars\tN\tNE\t_\t10\tobja\t_\t_ \n" +
+                            "10\tkann\tkönnen\tV\tVMFIN\t1|Sg|Pres|Ind\t8\tcj\t_\t_ \n" +
+                            "11\tich\tich\tPRO\tPPER\t1|Sg|_|Nom\t10\tsubj\t_\t_ \n" +
+                            "12\tüberhaupt\tüberhaupt\tADV\tADV\t_\t13\tadv\t_\t_ \n" +
+                            "13\tnicht\tnicht\tPTKNEG\tPTKNEG\t_\t10\tadv\t_\t_ \n" +
+                            "14\tlesen\tlesen\tV\tVVINF\t_\t10\taux\t_\t_ \n" +
+                            "15\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
+        DependencyParseTree tree = getTree(sentence);
+
+        // Execute functionality
+        Iterable<TreeBinaryExtraction> actualExtractions = extractor.extract(tree);
+
+        assertTrue(Iterables.isEmpty(actualExtractions));
+    }
+
+
 }

@@ -17,7 +17,7 @@ import java.util.List;
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Wir haben ein neues System entwickelt.";
+        String sentence = "";
         extractFromSentence(sentence);
 
 //        String fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
