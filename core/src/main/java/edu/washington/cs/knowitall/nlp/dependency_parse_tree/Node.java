@@ -294,6 +294,16 @@ public class Node {
     }
 
     /**
+     * @param nodeId the node id
+     * @return true, if there is a comma before the given node id, false otherwise
+     */
+    public boolean commaBefore(int nodeId) {
+        List<Node> nodes = this.toList().stream().filter(x -> x.getId() == nodeId - 1).collect(Collectors.toList());
+
+        return nodeId > 1 && nodes.isEmpty();
+    }
+
+    /**
      * GETTER AND SETTER
      */
 

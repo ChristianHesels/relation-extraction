@@ -19,6 +19,7 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
     // do not include app if it has a clause as child ?
     // how to handle PN as child ?
     // how to handle NP2 ? "der Wanderer liebt die schöne Müllerin und die Müllerin den Jäger"
+    // comma directly before app: do not include app
 
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)
@@ -70,7 +71,11 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
         // Get the conjunction nodes and removes them from the subject nodes
         List<Node> konChildren = subjectRoot.getKonChildren();
         List<Node> allChildren = subjectRoot.toList();
+        // Remove all app children, which follow after a comma
+        List<Node> appChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("app") && sentRoot.commaBefore(x.getId())).collect(Collectors.toList());
+
         allChildren.removeAll(konChildren);
+        allChildren.removeAll(appChildren);
 
         // Get ids of subjectRoot and all underlying nodes
         List<Integer> ids = allChildren.stream()

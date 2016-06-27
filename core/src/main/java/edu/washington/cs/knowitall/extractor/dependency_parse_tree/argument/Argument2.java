@@ -78,6 +78,7 @@ public abstract class Argument2 {
         allChildren.removeAll(konChildren);
 
         allChildren = removePPNodes(allChildren);
+        allChildren = removeAPPNodes(allChildren, n);
 
         // Filter adverbs
         return allChildren.stream()
@@ -86,12 +87,32 @@ public abstract class Argument2 {
             )).map(Node::getId).collect(Collectors.toList());
     }
 
+    /**
+     * Removes all pp nodes, which start with a 'Pronominaladverb' (deswegen, dafür, ...) or are too long and therefore too specific.
+     * @param all the list of all nodes
+     * @return the pruned list
+     */
     private List<Node> removePPNodes(List<Node> all) {
         List<Node> ppChildren = all.stream().filter(
             c -> c.getLabelToParent().equals("pp") && (c.getPos().equals("PROAV") || c.toList().size() > MAX_PP_SIZE)
         ).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         all.removeAll(ppChildren);
+        return all;
+    }
+
+    /**
+     * Remove all app nodes, which follow after a comma
+     * @param all the list of all nodes
+     * @return the pruned list
+     */
+    private List<Node> removeAPPNodes(List<Node> all, Node root) {
+        List<Node> appChildren = all.stream()
+                .filter(x -> x.getLabelToParent().equals("app") && root.commaBefore(x.getId()))
+                .flatMap(x -> x.toList().stream())
+                .collect(Collectors.toList());
+
+        all.removeAll(appChildren);
         return all;
     }
 

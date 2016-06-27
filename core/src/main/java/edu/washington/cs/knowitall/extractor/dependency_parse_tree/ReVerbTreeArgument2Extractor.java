@@ -1,31 +1,21 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
+import edu.washington.cs.knowitall.extractor.Extractor;
+import edu.washington.cs.knowitall.extractor.ExtractorException;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.*;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import edu.washington.cs.knowitall.extractor.Extractor;
-import edu.washington.cs.knowitall.extractor.ExtractorException;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Argument2;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Obja;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Obja2;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Objd;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Objg;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Objp;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Pred;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.Role;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 
 /**
  * Extracts all candidates for objects and complements of the verb.
  */
 public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
-
-    // TODO
-    // Prune arguments
 
     private boolean considerAllArguments;
 

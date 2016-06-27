@@ -19,13 +19,9 @@ import java.util.List;
  */
 public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
-    // TODO add mapper: classifier, which decides if a relation is a relation or not
+    // TODO
+    // add mapper: classifier, which decides if a relation is a relation or not
     // Add dictionary for abbreviations (?)
-    // ReVerb III for companies: Modify dep-tree so that companies are not separated
-
-    // Double quotes: "\u2018" - "\u201F", \u0084_anonymizeIp()\u0093
-    // Unternehmen -> name of company
-    // comma directly before app: do not include app
 
     private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
