@@ -1,5 +1,11 @@
 package edu.washington.cs.knowitall.examples;
 
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
+import edu.washington.cs.knowitall.util.ReVerbI;
+import edu.washington.cs.knowitall.util.ReVerbII;
+import edu.washington.cs.knowitall.util.ReVerbIII;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -7,17 +13,11 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
-import edu.washington.cs.knowitall.util.ReVerbI;
-import edu.washington.cs.knowitall.util.ReVerbII;
-import edu.washington.cs.knowitall.util.ReVerbIII;
-
 
 public class ReVerbExample {
 
     public static void main(String[] args) throws Exception {
-        String sentence = "Google wird in keinem Fall Ihre IP-Adresse mit anderen Daten der Google in Verbindung bringen.";
+        String sentence = "Wir haben ein neues System entwickelt.";
         extractFromSentence(sentence);
 
 //        String fileName = "/home/tanja/Repositories/reverb/core/text/wikipedia.txt";
@@ -41,7 +41,7 @@ public class ReVerbExample {
 //        System.out.println(chunkRelationsAsString(relationsII));
 //        System.out.println("");
 
-        ReVerbIII reVerbIII = new ReVerbIII(false, false);
+        ReVerbIII reVerbIII = new ReVerbIII(false, false, true);
         Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelationsFromString(sentStr);
         System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relations));
@@ -53,7 +53,7 @@ public class ReVerbExample {
 
         ReVerbI reVerbI = new ReVerbI(false, 20, true);
         ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-        ReVerbIII reVerbIII = new ReVerbIII(false, false);
+        ReVerbIII reVerbIII = new ReVerbIII(false, false, true);
 
         System.out.print("Process sentences ");
         int i = 0;

@@ -1,9 +1,5 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerbTreeArgument1Mappers;
@@ -12,6 +8,10 @@ import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 
 
 /**
@@ -22,6 +22,10 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
     // TODO add mapper: classifier, which decides if a relation is a relation or not
     // Add dictionary for abbreviations (?)
     // ReVerb III for companies: Modify dep-tree so that companies are not separated
+
+    // Double quotes: "\u2018" - "\u201F", \u0084_anonymizeIp()\u0093
+    // Unternehmen -> name of company
+    // comma directly before app: do not include app
 
     private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
@@ -44,12 +48,13 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
      * Explicit constructor to invoke the corresponding super's constructor with arguments.
      *
      * @param considerAllArguments consider arguments of child nodes for root nodes and vice versa?
+     * @param weSubject            extract we as subject?
      */
-    public ReVerbIIIExtractor(boolean considerAllArguments) {
+    public ReVerbIIIExtractor(boolean considerAllArguments, boolean weSubject) {
         this.relExtr = new ReVerbTreeRelationExtractor();
 
         this.arg1Extr = new ReVerbTreeArgument1Extractor();
-        arg1Extr.addMapper(new ReVerbTreeArgument1Mappers());
+        arg1Extr.addMapper(new ReVerbTreeArgument1Mappers(weSubject));
 
         this.arg2Extr = new ReVerbTreeArgument2Extractor(considerAllArguments);
         arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());

@@ -1,16 +1,15 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
-import org.junit.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+import org.junit.Test;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
@@ -18,7 +17,7 @@ import static org.junit.Assert.assertTrue;
 public class ReVerbIIIExtractorTest {
 
     private ParZuSentenceParser parser = new ParZuSentenceParser();
-    private ReVerbIIIExtractor extractor = new ReVerbIIIExtractor(true);
+    private ReVerbIIIExtractor extractor = new ReVerbIIIExtractor(true, false);
 
 
     private DependencyParseTree getTree(String sentence) {

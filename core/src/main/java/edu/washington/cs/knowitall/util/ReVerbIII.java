@@ -2,17 +2,12 @@ package edu.washington.cs.knowitall.util;
 
 
 import com.google.common.collect.Lists;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.ReVerbIIIExtractor;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
+
+import java.util.*;
 
 
 /**
@@ -43,10 +38,11 @@ public class ReVerbIII extends ReVerb<DependencyParseTree, TreeBinaryExtraction>
      * Constructor of ReVerb with arguments
      * @param debug                enable debug mode?
      * @param considerAllArguments consider arguments of child nodes for root nodes?
+     * @param weSubject            extract we as subject?
      */
-    public ReVerbIII(boolean debug, boolean considerAllArguments) {
+    public ReVerbIII(boolean debug, boolean considerAllArguments, boolean weSubject) {
         super(debug);
-        this.extractor = new ReVerbIIIExtractor(considerAllArguments);
+        this.extractor = new ReVerbIIIExtractor(considerAllArguments, weSubject);
     }
 
     /**

@@ -1,31 +1,34 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper;
 
 import com.google.common.collect.Iterables;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * A list of mappers for ReVerb III extractor first argument.
  */
 public class ReVerbTreeArgument1Mappers extends
-                                        MapperList<TreeExtraction> {
+        MapperList<TreeExtraction> {
+
+    public ReVerbTreeArgument1Mappers() {
+        this(false);
+    }
 
     // TODO
     // Filter subject, which do not contain a character
     // Filter times (00 Uhr)
     // Filter root node == 'davon'
 
-    public ReVerbTreeArgument1Mappers() {
-        init();
+    public ReVerbTreeArgument1Mappers(boolean allowWe) {
+        init(allowWe);
     }
 
-    private void init() {
+    private void init(boolean allowWe) {
         List<String> firstPosTags = new ArrayList<>();
         // First word of argument
         // can't be a Wh word
@@ -37,7 +40,9 @@ public class ReVerbTreeArgument1Mappers extends
         firstPosTags.add("PDS");       // dieser, jener
         firstPosTags.add("PPOSS");     // meins, deiner
         firstPosTags.add("PRELAT");    // dessen
-        firstPosTags.add("PPER");      // ich, er, ihm, mich
+        if (!allowWe) {
+            firstPosTags.add("PPER");      // ich, er, ihm, mich
+        }
         firstPosTags.add("PRELS");     // [der Hund ,] der
 
         addMapper(new MergeOverlappingMapper());
@@ -51,7 +56,7 @@ public class ReVerbTreeArgument1Mappers extends
         addTokenNotEqualsFilter("Man");
         addTokenNotEqualsFilter("man");
 
-        addMapper(new ContainsNounFilter());
+        addMapper(new ContainsNounFilter(allowWe));
     }
 
     private void addArgumentNotEqualsFilter(final String posTag) {
