@@ -1,17 +1,19 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument;
 
 
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 public abstract class Argument2 {
 
     protected Node rootNode;
     protected TreeExtraction relation;
+
+    private static final int MAX_PP_SIZE = 10;
 
     public Argument2(Node rootNode, TreeExtraction relation) {
         this.rootNode = rootNode;
@@ -86,7 +88,7 @@ public abstract class Argument2 {
 
     private List<Node> removePPNodes(List<Node> all) {
         List<Node> ppChildren = all.stream().filter(
-            c -> c.getLabelToParent().equals("pp") && c.getPos().equals("PROAV")
+            c -> c.getLabelToParent().equals("pp") && (c.getPos().equals("PROAV") || c.toList().size() > MAX_PP_SIZE)
         ).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         all.removeAll(ppChildren);
