@@ -15,7 +15,7 @@ public class Objd extends Argument2 {
         if (rootNode.getPosGroup().equals("PRO")) {
             return Role.COMPLEMENT;
         }
-        return Role.OBJECT;
+        return Role.BOTH;
     }
 
 }
