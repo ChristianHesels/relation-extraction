@@ -1,14 +1,13 @@
 package edu.washington.cs.knowitall.nlp.extraction.chunking;
 
 import com.google.common.collect.Iterables;
-
-import java.util.ArrayList;
-import java.util.Collection;
-
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.ExtractionConverter;
 import edu.washington.cs.knowitall.nlp.extraction.SimpleBinaryRelation;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * Represents a binary extraction from a {@link ChunkedSentence}. A binary extraction has three
@@ -177,6 +176,7 @@ public class ChunkedBinaryExtraction extends SpanExtraction implements Extractio
     public SimpleBinaryRelation convert() {
         return new SimpleBinaryRelation(rel.toString(), arg1.toString(), arg2.toString(),
                                         rel.getSentence().toString(),
-                                        rel.getSentence().getParsedSentence());
+                                        rel.getSentence().getParsedSentence(),
+                                        "none");
     }
 }

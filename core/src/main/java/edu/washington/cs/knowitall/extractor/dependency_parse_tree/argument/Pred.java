@@ -11,6 +11,7 @@ public class Pred extends Argument2 {
 
     @Override
     public Role getRole() {
+        // If 'pred' is not a noun, it is a adverb/adjective and thus, a complement
         if (this.rootNode.getPosGroup().equals("N"))
             return Role.OBJECT;
 

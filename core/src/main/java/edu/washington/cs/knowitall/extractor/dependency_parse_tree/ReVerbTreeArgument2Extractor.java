@@ -17,6 +17,9 @@ import java.util.stream.Collectors;
  */
 public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
+    // TODO
+    // if the object is a prepositional object, add the preposition to the relation phrase ?
+
     private boolean considerAllArguments;
 
     public ReVerbTreeArgument2Extractor() {

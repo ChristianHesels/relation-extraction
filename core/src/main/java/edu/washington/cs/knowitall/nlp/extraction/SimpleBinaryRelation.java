@@ -7,6 +7,7 @@ public class SimpleBinaryRelation {
     private String argument2;
     private String sentence;
     private String parsedSentence;
+    private String context;
 
     public SimpleBinaryRelation() {}
 
@@ -15,14 +16,17 @@ public class SimpleBinaryRelation {
         this.argument1 = argument1;
         this.argument2 = argument2;
         this.sentence = sentence;
+        this.parsedSentence = "";
+        this.context = "";
     }
 
-    public SimpleBinaryRelation(String relation, String argument1, String argument2, String sentence, String parsedSentence) {
+    public SimpleBinaryRelation(String relation, String argument1, String argument2, String sentence, String parsedSentence, String context) {
         this.relation = relation;
         this.argument1 = argument1;
         this.argument2 = argument2;
         this.sentence = sentence;
         this.parsedSentence = parsedSentence;
+        this.context = context;
     }
 
     public String getRelation() {
@@ -63,5 +67,13 @@ public class SimpleBinaryRelation {
 
     public void setParsedSentence(String parsedSentence) {
         this.parsedSentence = parsedSentence;
+    }
+
+    public String getContext() {
+        return context;
+    }
+
+    public void setContext(String context) {
+        this.context = context;
     }
 }

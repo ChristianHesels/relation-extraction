@@ -19,7 +19,6 @@ public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, Tree
     // do not include app if it has a clause as child ?
     // how to handle PN as child ?
     // how to handle NP2 ? "der Wanderer liebt die schöne Müllerin und die Müllerin den Jäger"
-    // comma directly before app: do not include app
 
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)

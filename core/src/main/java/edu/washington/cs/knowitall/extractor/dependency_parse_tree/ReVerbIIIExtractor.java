@@ -6,6 +6,8 @@ import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerb
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerbTreeArgument2Mappers;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.Context;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.ContextType;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
@@ -81,13 +83,37 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
                 Iterable<TreeExtraction> arg2s = arg2Extr.extract(rel);
 
                 // 6. Create TreeBinaryExtractions
-                extrs.addAll(TreeBinaryExtraction.productOfArgs(dependencyParseTree, rel, arg1s, arg2s));
+                extrs.addAll(TreeBinaryExtraction.productOfArgs(dependencyParseTree, getContext(root), rel, arg1s, arg2s));
             }
         }
 
         return extrs;
     }
 
+
+    /**
+     * Determines the context of the extraction.
+     * If the extraction comes from the subordinate clause, the conjunction is also determined.
+     * @param root the root of the clause
+     * @return the context of the clause
+     */
+    private Context getContext(Node root) {
+        Context context = new Context(ContextType.NONE);
+
+        if (root.getLabelToParent().equals("root") || root.getLabelToParent().equals("objc")) {
+            context = new Context(ContextType.MAIN_CLAUSE);
+
+        } else if (root.getLabelToParent().equals("neb")) {
+            List<Node> konj = root.getChildrenOfType("konj");
+            if (!konj.isEmpty()) {
+                context = new Context(ContextType.SUBORDINATE_CLAUSE, konj.get(0).getWord());
+            } else {
+                context = new Context(ContextType.SUBORDINATE_CLAUSE);
+            }
+        }
+
+        return context;
+    }
 
 }
 

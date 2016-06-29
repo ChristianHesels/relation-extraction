@@ -4,6 +4,8 @@ import com.google.common.collect.Iterables;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.Context;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.ContextType;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 import org.junit.Test;
@@ -62,7 +64,7 @@ public class ReVerbIIIExtractorTest {
         TreeExtraction rel = getExtraction(tree, 2, 2, 8); // haben entwickelt
         TreeExtraction arg1 = getExtraction(tree, 2, 1); // wir
         TreeExtraction arg2 = getExtraction(tree, 2, 3, 4, 6, 7); // ein innovatives, neues System
-        TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, rel, arg1, arg2);
+        TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, new Context(ContextType.NONE), rel, arg1, arg2);
 
         assertTrue(stringExtractions.contains(expected.toString()));
     }
@@ -100,14 +102,14 @@ public class ReVerbIIIExtractorTest {
         TreeExtraction rel = getExtraction(tree, 6, 8); // ist
         TreeExtraction arg1 = getExtraction(tree, 6, 1, 2, 3, 4, 5); // der Schritt in die Selbständigkeit
         TreeExtraction arg2 = getExtraction(tree, 6, 9, 10, 11, 13, 14, 15); // der Grundstein des heute weltweit tagierenden Unternehmens
-        TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, rel, arg1, arg2);
+        TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, new Context(ContextType.NONE), rel, arg1, arg2);
 
         assertTrue(stringExtractions.contains(expected.toString()));
 
         rel = getExtraction(tree, 6, 6); // war
         arg1 = getExtraction(tree, 6, 1, 2, 3, 4, 5); // der Schritt in die Selbständigkeit
         arg2 = getExtraction(tree, 6, 9, 10, 11, 13, 14, 15); // der Grundstein des heute weltweit tagierenden Unternehmens
-        expected = new TreeBinaryExtraction(tree, rel, arg1, arg2);
+        expected = new TreeBinaryExtraction(tree, new Context(ContextType.NONE), rel, arg1, arg2);
 
         assertTrue(stringExtractions.contains(expected.toString()));
     }

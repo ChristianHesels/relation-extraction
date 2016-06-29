@@ -1,11 +1,11 @@
 package edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.extraction.ExtractionConverter;
 import edu.washington.cs.knowitall.nlp.extraction.SimpleBinaryRelation;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 public class TreeBinaryExtraction implements ExtractionConverter {
 
@@ -13,15 +13,17 @@ public class TreeBinaryExtraction implements ExtractionConverter {
     private TreeExtraction arg1;
     private TreeExtraction arg2;
     private DependencyParseTree tree;
+    private Context context;
 
     public TreeBinaryExtraction() {
     }
 
-    public TreeBinaryExtraction(DependencyParseTree tree, TreeExtraction rel, TreeExtraction arg1, TreeExtraction arg2) {
+    public TreeBinaryExtraction(DependencyParseTree tree, Context context, TreeExtraction rel, TreeExtraction arg1, TreeExtraction arg2) {
         this.tree = tree;
         this.rel = rel;
         this.arg1 = arg1;
         this.arg2 = arg2;
+        this.context = context;
     }
 
     public DependencyParseTree getTree() {
@@ -56,6 +58,13 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         this.arg2 = arg2;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     /**
      * Given a collection of arg1s, a collection of arg2s, and a relation, returns all (arg1, rel,
@@ -69,6 +78,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
      */
     public static Collection<TreeBinaryExtraction> productOfArgs(
         DependencyParseTree tree,
+        Context context,
         TreeExtraction rel,
         Iterable<TreeExtraction> arg1s,
         Iterable<TreeExtraction> arg2s) {
@@ -77,7 +87,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         for (TreeExtraction arg1 : arg1s) {
             for (TreeExtraction arg2 : arg2s) {
                 if (!arg1.isEmtpy() && !arg2.isEmtpy()) {
-                    TreeBinaryExtraction extr = new TreeBinaryExtraction(tree, rel, arg1, arg2);
+                    TreeBinaryExtraction extr = new TreeBinaryExtraction(tree, context, rel, arg1, arg2);
                     results.add(extr);
                 }
             }
@@ -89,7 +99,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
 
     @Override
     public String toString() {
-        return arg1.toString() + " # " + rel.toString() + " # " + arg2.toString();
+        return arg1.toString() + " # " + rel.toString() + " # " + arg2.toString() + " (" +  context.toString() + ")";
     }
 
     @Override
@@ -98,6 +108,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
                                         arg1.toString(),
                                         arg2.toString(),
                                         tree.getSentence(),
-                                        tree.getConllFormat());
+                                        tree.getConllFormat(),
+                                        context.toString());
     }
 }
