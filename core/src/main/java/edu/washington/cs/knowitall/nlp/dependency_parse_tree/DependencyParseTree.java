@@ -1,7 +1,9 @@
 package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
 
-import java.util.List;
+import com.google.common.collect.Lists;
+
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -48,6 +50,15 @@ public class DependencyParseTree {
     }
 
     /**
+     * Find the node to the given id.
+     * @param id id
+     * @return a node or null
+     */
+    public Node find(int id) {
+        return tree.find(id);
+    }
+
+    /**
      * Get the top level nodes of the tree.
      * There can be multiple words in the top level, if the dependency parser has split the
      * sentence.
@@ -71,6 +82,64 @@ public class DependencyParseTree {
      */
     public void prune() {
         this.getTree().prune();
+    }
+
+
+    /**
+     * Returns the shortest path between the start and end node.
+     * @param startId start node id
+     * @param endId   end node id
+     * @return a list of nodes representing the shortest path
+     */
+    public List<Node> shortestPath(int startId, int endId) {
+        Node start = find(startId);
+        Node end = find(endId);
+
+        if (start == null || end == null) {
+            return new LinkedList<>();
+        }
+
+        // BFS
+        Map<Node, Boolean> visited = new HashMap<>();
+        Map<Node, Node> previous = new HashMap<>();
+        Queue<Node> q = new LinkedList<>();
+
+        Node current = start;
+        q.add(current);
+        visited.put(current, true);
+
+        while (!q.isEmpty()) {
+            current = q.remove();
+            // there is no path over the root
+            if (current.getId() == 0) {
+                continue;
+            }
+            // the end is reached
+            if (current.equals(end)) {
+                break;
+            } else {
+                // visited all unvisited neighbours
+                for (Node node : current.getNeighbours()) {
+                    if (!visited.containsKey(node)){
+                        q.add(node);
+                        visited.put(node, true);
+                        previous.put(node, current);
+                    }
+                }
+            }
+        }
+
+        List<Node> directions = new LinkedList<>();
+        if (!current.equals(end)) {
+            // There is no path between the two nodes
+            return directions;
+        }
+
+        // Collect all nodes on the way
+        for(Node node = end; node != null; node = previous.get(node)) {
+            directions.add(node);
+        }
+        return Lists.reverse(directions);
     }
 
     /**

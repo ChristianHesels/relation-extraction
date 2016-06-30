@@ -185,6 +185,19 @@ public class Node {
     }
 
     /**
+     * Find the node with the given id.
+     * @param id the ids
+     * @return the node or null
+     */
+    public Node find(int id) {
+        return this.toList().stream()
+                .filter(x -> x.getId() == id)
+                .findFirst()
+                .orElseGet(null);
+    }
+
+
+    /**
      * Find nodes with the given labels.
      * @param labels the labels
      * @return a list of nodes
@@ -301,6 +314,15 @@ public class Node {
         List<Node> nodes = this.toList().stream().filter(x -> x.getId() == nodeId - 1).collect(Collectors.toList());
 
         return nodeId > 1 && nodes.isEmpty();
+    }
+
+    /**
+     * @return all neighbours of this node
+     */
+    public List<Node> getNeighbours() {
+        List<Node> neighbours = new ArrayList<>(getChildren());
+        neighbours.add(getParent());
+        return neighbours;
     }
 
     /**
