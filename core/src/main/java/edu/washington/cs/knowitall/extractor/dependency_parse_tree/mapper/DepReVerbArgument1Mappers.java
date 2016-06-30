@@ -12,10 +12,10 @@ import java.util.List;
 /**
  * A list of mappers for ReVerb III extractor first argument.
  */
-public class ReVerbTreeArgument1Mappers extends
+public class DepReVerbArgument1Mappers extends
         MapperList<TreeExtraction> {
 
-    public ReVerbTreeArgument1Mappers() {
+    public DepReVerbArgument1Mappers() {
         this(false);
     }
 
@@ -24,7 +24,7 @@ public class ReVerbTreeArgument1Mappers extends
     // Filter times (00 Uhr)
     // Filter root node == 'davon'
 
-    public ReVerbTreeArgument1Mappers(boolean allowWe) {
+    public DepReVerbArgument1Mappers(boolean allowWe) {
         init(allowWe);
     }
 

@@ -1,7 +1,7 @@
 package edu.washington.cs.knowitall.util;
 
 
-import edu.washington.cs.knowitall.extractor.chunking.ReVerbIIExtractor;
+import edu.washington.cs.knowitall.extractor.chunking.GermanReVerbExtractor;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
@@ -9,14 +9,14 @@ import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtracti
 /**
  * Utility class to call ReVerb.
  */
-public class ReVerbII extends ChunkedReVerb {
+public class GermanReVerb extends ExtractorChunks {
 
-    private ReVerbIIExtractor extractor;
+    private GermanReVerbExtractor extractor;
 
     /**
      * Constructor of ReVerb
      */
-    public ReVerbII() {
+    public GermanReVerb() {
         this(false);
     }
 
@@ -24,9 +24,9 @@ public class ReVerbII extends ChunkedReVerb {
      * Constructor of ReVerb
      * @param debug  enable debug mode?
      */
-    public ReVerbII(boolean debug) {
+    public GermanReVerb(boolean debug) {
         super(debug);
-        this.extractor = new ReVerbIIExtractor();
+        this.extractor = new GermanReVerbExtractor();
     }
 
     /**
@@ -37,10 +37,10 @@ public class ReVerbII extends ChunkedReVerb {
      * @param combineVerbs combine separated verbs?
      * @param useMorphologyLexicon use a morphology lexicon?
      */
-    public ReVerbII(boolean debug, int minFreq, boolean useLexSynConstraints,
-                    boolean combineVerbs, boolean useMorphologyLexicon) {
+    public GermanReVerb(boolean debug, int minFreq, boolean useLexSynConstraints,
+                        boolean combineVerbs, boolean useMorphologyLexicon) {
         super(debug);
-        this.extractor = new ReVerbIIExtractor(minFreq, useLexSynConstraints, combineVerbs, useMorphologyLexicon);
+        this.extractor = new GermanReVerbExtractor(minFreq, useLexSynConstraints, combineVerbs, useMorphologyLexicon);
     }
 
     @Override

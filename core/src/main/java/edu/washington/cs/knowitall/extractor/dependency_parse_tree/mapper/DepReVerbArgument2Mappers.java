@@ -9,10 +9,10 @@ import java.util.List;
 /**
  * A list of mappers for ReVerb III extractor second argument.
  */
-public class ReVerbTreeArgument2Mappers extends
+public class DepReVerbArgument2Mappers extends
                                         MapperList<TreeExtraction> {
 
-    public ReVerbTreeArgument2Mappers() {
+    public DepReVerbArgument2Mappers() {
         init();
     }
 

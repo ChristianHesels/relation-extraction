@@ -13,10 +13,10 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 
 import static org.junit.Assert.assertTrue;
 
-public class ReVerbTreeRelationExtractorTest {
+public class DepReVerbRelationExtractorTest {
 
     private ParZuSentenceParser parser = new ParZuSentenceParser();
-    private ReVerbTreeRelationExtractor extractor = new ReVerbTreeRelationExtractor();
+    private DepReVerbRelationExtractor extractor = new DepReVerbRelationExtractor();
 
     private void test(String sentence, List<String> expectedExtractions) {
         // Create tree

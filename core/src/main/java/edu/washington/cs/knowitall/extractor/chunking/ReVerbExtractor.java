@@ -13,7 +13,7 @@ import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtracti
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 
-public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
+public class ReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
 
     protected Extractor<ChunkedSentence, ChunkedRelationExtraction> relExtr;
     protected Extractor<ChunkedRelationExtraction, ChunkedArgumentExtraction> arg1Extr;
@@ -24,7 +24,7 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
     private static final boolean combineVerbs = false;
     private static final boolean useMorphologyLexicon = false;
 
-    public ReVerbIExtractor() {
+    public ReVerbExtractor() {
         this.relExtr = new ReVerbRelationExtractor();
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
@@ -41,7 +41,7 @@ public class ReVerbIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryEx
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      */
-    public ReVerbIExtractor(int minFreq, boolean useLexSynConstraints) {
+    public ReVerbExtractor(int minFreq, boolean useLexSynConstraints) {
         this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);

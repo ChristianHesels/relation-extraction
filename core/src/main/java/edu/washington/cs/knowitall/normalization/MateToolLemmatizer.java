@@ -1,13 +1,13 @@
 package edu.washington.cs.knowitall.normalization;
 
 
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-
 import is2.data.SentenceData09;
 import is2.lemmatizer.Lemmatizer;
 import is2.util.DB;
+
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MateToolLemmatizer {
 

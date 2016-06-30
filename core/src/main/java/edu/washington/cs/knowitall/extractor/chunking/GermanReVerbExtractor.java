@@ -14,7 +14,7 @@ import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtracti
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 
-public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
+public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
 
     protected Extractor<ChunkedSentence, ChunkedSentence> sentExtr;
     protected Extractor<ChunkedSentence, ChunkedRelationExtraction> relExtr;
@@ -26,7 +26,7 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
     private static final boolean combineVerbs = true;
     private static final boolean useMorphologyLexicon = true;
 
-    public ReVerbIIExtractor() {
+    public GermanReVerbExtractor() {
         this.sentExtr = new SubsentenceExtractor();
 
         this.relExtr = new ReVerbRelationExtractor();
@@ -47,7 +47,7 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      */
-    public ReVerbIIExtractor(int minFreq, boolean useLexSynConstraints) {
+    public GermanReVerbExtractor(int minFreq, boolean useLexSynConstraints) {
         this.sentExtr = new SubsentenceExtractor();
 
         this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
@@ -70,7 +70,7 @@ public class ReVerbIIExtractor extends Extractor<ChunkedSentence, ChunkedBinaryE
      * @param combineVerbs         - Combine separated verbs?
      * @param useMorphologyLexicon - Use a morphology lexicon?
      */
-    public ReVerbIIExtractor(int minFreq, boolean useLexSynConstraints, boolean combineVerbs, boolean useMorphologyLexicon) {
+    public GermanReVerbExtractor(int minFreq, boolean useLexSynConstraints, boolean combineVerbs, boolean useMorphologyLexicon) {
         this.sentExtr = new SubsentenceExtractor();
 
         this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);

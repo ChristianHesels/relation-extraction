@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Extracts the subject of the relation.
  */
-public class ReVerbTreeArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
+public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     // TODO
     // subj - app - app - kon - app - app - kon - cj - app

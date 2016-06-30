@@ -1,37 +1,43 @@
 package edu.washington.cs.knowitall.util;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Map;
 
-public abstract class ReVerb<R, T> {
+import edu.washington.cs.knowitall.extractor.chunking.ReVerbExtractor;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
-    protected boolean debug;
 
-    /**
-     * Constructor of ReVerb
-     */
-    public ReVerb() {
-        this(false);
-    }
+/**
+ * Utility class to call ReVerb.
+ */
+public class ReVerb extends ExtractorChunks {
+
+    private ReVerbExtractor extractor;
 
     /**
      * Constructor of ReVerb
-     * @param debug enable debug mode?
+     * @param debug  enable debug mode?
      */
     public ReVerb(boolean debug) {
-        this.debug = debug;
+        super(debug);
+        this.extractor = new ReVerbExtractor();
     }
 
-    public abstract Iterable<T> extractRelationsFromString(String sentStr) throws IOException;
-    public abstract Map<String, Iterable<T>> extractRelationsFromStrings(List<String> sentences)
-        throws IOException;
+    /**
+     * Constructor of ReVerb
+     * @param debug  enable debug mode?
+     * @param minFreq the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
+     * @param useLexSynConstraints use syntactic and lexical constraints that are part of Reverb?
+     */
+    public ReVerb(boolean debug, int minFreq, boolean useLexSynConstraints) {
+        super(debug);
+        this.extractor = new ReVerbExtractor(minFreq, useLexSynConstraints);
+    }
 
-    public abstract Iterable<T> extractRelationsFromParsedString(String sentStr) throws IOException;
-    public abstract Map<String, Iterable<T>> extractRelationsFromParsedStrings(List<String> sentences)
-        throws IOException;
+    @Override
+    protected Iterable<ChunkedBinaryExtraction> extract(ChunkedSentence sentence) {
+        return this.extractor.extract(sentence);
+    }
 
-    public abstract List<T> extractRelations(List<R> sentences);
-    public abstract Iterable<T> extractRelations(R sentences);
+
 
 }

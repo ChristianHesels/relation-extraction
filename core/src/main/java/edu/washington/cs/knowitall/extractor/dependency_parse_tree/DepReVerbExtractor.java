@@ -2,8 +2,8 @@ package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerbTreeArgument1Mappers;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.ReVerbTreeArgument2Mappers;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument1Mappers;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument2Mappers;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.Context;
@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * Extracts binary relations from a sentence by analysing the dependency parse tree of that sentence.
  */
-public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
+public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
     // TODO
     // add mapper: classifier, which decides if a relation is a relation or not
@@ -32,14 +32,14 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
     /**
      * Default constructor.
      */
-    public ReVerbIIIExtractor() {
-        this.relExtr = new ReVerbTreeRelationExtractor();
+    public DepReVerbExtractor() {
+        this.relExtr = new DepReVerbRelationExtractor();
 
-        this.arg1Extr = new ReVerbTreeArgument1Extractor();
-        arg1Extr.addMapper(new ReVerbTreeArgument1Mappers());
+        this.arg1Extr = new DepReVerbArgument1Extractor();
+        arg1Extr.addMapper(new DepReVerbArgument1Mappers());
 
-        this.arg2Extr = new ReVerbTreeArgument2Extractor();
-        arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());
+        this.arg2Extr = new DepReVerbArgument2Extractor();
+        arg2Extr.addMapper(new DepReVerbArgument2Mappers());
     }
 
     /**
@@ -48,14 +48,14 @@ public class ReVerbIIIExtractor extends Extractor<DependencyParseTree, TreeBinar
      * @param considerAllArguments consider arguments of child nodes for root nodes and vice versa?
      * @param weSubject            extract we as subject?
      */
-    public ReVerbIIIExtractor(boolean considerAllArguments, boolean weSubject) {
-        this.relExtr = new ReVerbTreeRelationExtractor();
+    public DepReVerbExtractor(boolean considerAllArguments, boolean weSubject) {
+        this.relExtr = new DepReVerbRelationExtractor();
 
-        this.arg1Extr = new ReVerbTreeArgument1Extractor();
-        arg1Extr.addMapper(new ReVerbTreeArgument1Mappers(weSubject));
+        this.arg1Extr = new DepReVerbArgument1Extractor();
+        arg1Extr.addMapper(new DepReVerbArgument1Mappers(weSubject));
 
-        this.arg2Extr = new ReVerbTreeArgument2Extractor(considerAllArguments);
-        arg2Extr.addMapper(new ReVerbTreeArgument2Mappers());
+        this.arg2Extr = new DepReVerbArgument2Extractor(considerAllArguments);
+        arg2Extr.addMapper(new DepReVerbArgument2Mappers());
     }
 
     @Override

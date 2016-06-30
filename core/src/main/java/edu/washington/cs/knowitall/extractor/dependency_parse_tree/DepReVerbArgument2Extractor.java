@@ -15,14 +15,14 @@ import java.util.stream.Collectors;
 /**
  * Extracts all candidates for objects and complements of the verb.
  */
-public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
+public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     // TODO
     // if the object is a prepositional object, add the preposition to the relation phrase ?
 
     private boolean considerAllArguments;
 
-    public ReVerbTreeArgument2Extractor() {
+    public DepReVerbArgument2Extractor() {
         this(false);
     }
 
@@ -30,7 +30,7 @@ public class ReVerbTreeArgument2Extractor extends Extractor<TreeExtraction, Tree
      * Creates a argument 2 extractor.
      * @param considerAllArguments consider arguments of child nodes for root nodes?
      */
-    public ReVerbTreeArgument2Extractor(boolean considerAllArguments) {
+    public DepReVerbArgument2Extractor(boolean considerAllArguments) {
         this.considerAllArguments = considerAllArguments;
     }
 

@@ -2,9 +2,9 @@ package edu.washington.cs.knowitall.examples;
 
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
-import edu.washington.cs.knowitall.util.ReVerbI;
-import edu.washington.cs.knowitall.util.ReVerbII;
-import edu.washington.cs.knowitall.util.ReVerbIII;
+import edu.washington.cs.knowitall.util.ReVerb;
+import edu.washington.cs.knowitall.util.GermanReVerb;
+import edu.washington.cs.knowitall.util.DepReVerb;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -41,8 +41,8 @@ public class ReVerbExample {
 //        System.out.println(chunkRelationsAsString(relationsII));
 //        System.out.println("");
 
-        ReVerbIII reVerbIII = new ReVerbIII(false, false, true);
-        Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelationsFromString(sentStr);
+        DepReVerb depReVerb = new DepReVerb(false, false, true);
+        Iterable<TreeBinaryExtraction> relations = depReVerb.extractRelationsFromString(sentStr);
         System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relations));
         System.out.println("");
@@ -51,9 +51,9 @@ public class ReVerbExample {
     private static void extractFromSentences(List<String> sentences, String fileName) throws IOException {
         PrintWriter writer = new PrintWriter(fileName.replace(".txt", ".output.txt"));
 
-        ReVerbI reVerbI = new ReVerbI(false, 20, true);
-        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-        ReVerbIII reVerbIII = new ReVerbIII(false, false, true);
+        ReVerb reVerb = new ReVerb(false, 20, true);
+        GermanReVerb germanReVerb = new GermanReVerb(false, 20, true, true, true);
+        DepReVerb depReVerb = new DepReVerb(false, false, true);
 
         System.out.print("Process sentences ");
         int i = 0;
@@ -66,19 +66,19 @@ public class ReVerbExample {
             writer.write(sentStr);
             writer.write("\n");
 
-            Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
+            Iterable<ChunkedBinaryExtraction> relationsI = reVerb.extractRelationsFromString(sentStr);
             writer.write("ReVerb I:");
             writer.write("\n");
             writer.write(chunkRelationsAsString(relationsI));
             writer.write("\n");
 
-            Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
+            Iterable<ChunkedBinaryExtraction> relationsII = germanReVerb.extractRelationsFromString(sentStr);
             writer.write("ReVerb II:");
             writer.write("\n");
             writer.write(chunkRelationsAsString(relationsII));
             writer.write("\n");
 
-            Iterable<TreeBinaryExtraction> relations = reVerbIII.extractRelationsFromString(sentStr);
+            Iterable<TreeBinaryExtraction> relations = depReVerb.extractRelationsFromString(sentStr);
             writer.write("ReVerb III:");
             writer.write("\n");
             writer.write(treeRelationsAsString(relations));

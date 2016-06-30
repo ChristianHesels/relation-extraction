@@ -2,6 +2,9 @@ package edu.washington.cs.knowitall.util;
 
 
 import com.google.common.collect.Lists;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.chunking.TreeTaggerSentenceChunker;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -9,21 +12,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.chunking.TreeTaggerSentenceChunker;
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
-
 
 /**
  * Utility class to call ReVerb.
  */
-abstract class ChunkedReVerb extends ReVerb<ChunkedSentence, ChunkedBinaryExtraction> {
+abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
 
     /**
      * Constructor of ReVerb
      * @param debug  enable debug mode?
      */
-    public ChunkedReVerb(boolean debug) {
+    public ExtractorChunks(boolean debug) {
         super(debug);
     }
 

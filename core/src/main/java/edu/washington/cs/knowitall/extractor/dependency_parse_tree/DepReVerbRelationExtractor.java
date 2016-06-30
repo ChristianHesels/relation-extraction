@@ -12,7 +12,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 /**
  * Extracts the relation phrase from the tree.
  */
-public class ReVerbTreeRelationExtractor extends Extractor<Node, TreeExtraction> {
+public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> {
 
     @Override
     protected Iterable<TreeExtraction> extractCandidates(Node rootNode)

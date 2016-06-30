@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import edu.washington.cs.knowitall.extractor.chunking.ReVerbIExtractor;
+import edu.washington.cs.knowitall.extractor.chunking.ReVerbExtractor;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
@@ -17,19 +17,19 @@ import static org.junit.Assert.assertEquals;
 
 public class ReVerbExtractorTest {
 
-    private static ReVerbIExtractor reverb;
-    private static ReVerbIExtractor regReverb;
-    private static ReVerbIExtractor relaxedReverb;
+    private static ReVerbExtractor reverb;
+    private static ReVerbExtractor regReverb;
+    private static ReVerbExtractor relaxedReverb;
     private static HashSet<String> expected, got;
 
 
     @Before
     public void setUp() throws Exception {
         if (regReverb == null) {
-            regReverb = new ReVerbIExtractor(20, true);
+            regReverb = new ReVerbExtractor(20, true);
         }
         if (relaxedReverb == null) {
-            relaxedReverb = new ReVerbIExtractor(0, false);
+            relaxedReverb = new ReVerbExtractor(0, false);
         }
         expected = new HashSet<String>();
     }
