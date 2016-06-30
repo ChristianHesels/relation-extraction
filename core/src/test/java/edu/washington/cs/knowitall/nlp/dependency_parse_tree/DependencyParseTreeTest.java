@@ -81,9 +81,7 @@ public class DependencyParseTreeTest {
 
         List<Integer> pathIds = path.stream().map(Node::getId).collect(Collectors.toList());
 
-        assertTrue(pathIds.contains(1));
         assertTrue(pathIds.contains(2));
-        assertTrue(pathIds.contains(3));
     }
 
     @Test

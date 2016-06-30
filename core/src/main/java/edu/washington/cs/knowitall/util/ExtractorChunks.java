@@ -14,12 +14,12 @@ import java.util.Map;
 
 
 /**
- * Utility class to call ReVerb.
+ * Utility class to call an extractor based on chunking.
  */
 abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
 
     /**
-     * Constructor of ReVerb
+     * Constructor of ExtractorChunks
      * @param debug  enable debug mode?
      */
     public ExtractorChunks(boolean debug) {

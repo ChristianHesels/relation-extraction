@@ -8,6 +8,7 @@ import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtracti
 
 /**
  * Utility class to call ReVerb.
+ * ReVerb extracts relations from strings using chunking.
  */
 public class ReVerb extends ExtractorChunks {
 
@@ -26,7 +27,7 @@ public class ReVerb extends ExtractorChunks {
      * Constructor of ReVerb
      * @param debug  enable debug mode?
      * @param minFreq the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
-     * @param useLexSynConstraints use syntactic and lexical constraints that are part of Reverb?
+     * @param useLexSynConstraints use syntactic and lexical constraints that are part of ReVerb?
      */
     public ReVerb(boolean debug, int minFreq, boolean useLexSynConstraints) {
         super(debug);

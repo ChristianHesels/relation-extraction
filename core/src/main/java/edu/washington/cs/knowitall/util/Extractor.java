@@ -9,14 +9,14 @@ public abstract class Extractor<R, T> {
     protected boolean debug;
 
     /**
-     * Constructor of ReVerb
+     * Constructor of Extractor
      */
     public Extractor() {
         this(false);
     }
 
     /**
-     * Constructor of ReVerb
+     * Constructor of Extractor
      * @param debug enable debug mode?
      */
     public Extractor(boolean debug) {

@@ -7,21 +7,22 @@ import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtracti
 
 
 /**
- * Utility class to call ReVerb.
+ * Utility class to call German ReVerb.
+ * German ReVerb uses chunking to extract relations from German sentences.
  */
 public class GermanReVerb extends ExtractorChunks {
 
     private GermanReVerbExtractor extractor;
 
     /**
-     * Constructor of ReVerb
+     * Constructor of German ReVerb
      */
     public GermanReVerb() {
         this(false);
     }
 
     /**
-     * Constructor of ReVerb
+     * Constructor of German ReVerb
      * @param debug  enable debug mode?
      */
     public GermanReVerb(boolean debug) {
@@ -30,10 +31,10 @@ public class GermanReVerb extends ExtractorChunks {
     }
 
     /**
-     * Constructor of ReVerb
+     * Constructor of German ReVerb
      * @param debug enable debug mode?
      * @param minFreq the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
-     * @param useLexSynConstraints use syntactic and lexical constraints that are part of Reverb?
+     * @param useLexSynConstraints use syntactic and lexical constraints that are part of German Reverb?
      * @param combineVerbs combine separated verbs?
      * @param useMorphologyLexicon use a morphology lexicon?
      */

@@ -137,6 +137,9 @@ public class DependencyParseTree {
 
         // Collect all nodes on the way
         for(Node node = end; node != null; node = previous.get(node)) {
+            if (node.equals(end) || node.equals(start)) {
+                continue;
+            }
             directions.add(node);
         }
         return Lists.reverse(directions);
