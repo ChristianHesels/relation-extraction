@@ -11,8 +11,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBina
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 import edu.washington.cs.knowitall.path_extractor.ComPathExtractor;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -34,47 +33,68 @@ public class ComPath {
     }
 
     /**
-     * Extracts the relation between the two given entities in the parsed string.
+     * Extracts the relation between the given entities in the parsed string.
      * The parsed string should represent a dependency parse tree in conll format.
      * The ids of the entities should match the nodes in the tree.
      * @param parsedString the parsed string
-     * @param entity1        the id of the first entity
-     * @param entity2        the id of the second entity
-     * @return a tree binary extraction representing the relation
+     * @param entities     the ids of the entities
+     * @return a list of tree binary extractions representing the relations
      */
-    public TreeBinaryExtraction extractRelations(String parsedString, int entity1, int entity2) {
+    public List<TreeBinaryExtraction> extractRelations(String parsedString, int... entities) {
         // Convert sentence into a dependency parse tree
         ParZuSentenceParser parser = new ParZuSentenceParser();
         List<DependencyParseTree> trees = parser.convert(Arrays.asList(parsedString.split("\n")));
 
-        // Get the tree, which contains both entities
-        DependencyParseTree tree = findTree(trees, entity1, entity2);
-        if (tree == null) {
-            return null;
+        List<TreeBinaryExtraction> extractions = new ArrayList<>();
+
+        // for each entity combination
+        for (int i = 0; i < entities.length; i++) {
+            for (int j = i + 1; j < entities.length; j++) {
+                int entity1 = entities[i];
+                int entity2 = entities[j];
+
+                // Get the tree, which contains both entities
+                DependencyParseTree tree = findTree(trees, entity1, entity2);
+                if (tree == null) {
+                    return null;
+                }
+
+                TreeExtraction extraction = extractor.extract(tree, entity1, entity2);
+                if (extraction == null) {
+                    continue;
+                }
+
+                // Extract relations
+                extractions.add(new TreeBinaryExtraction(tree,
+                        new Context(ContextType.NONE),
+                        extraction,
+                        new TreeExtraction(tree.getTree(), entity1),
+                        new TreeExtraction(tree.getTree(), entity2)));
+            }
         }
 
-        // Extract relations
-        return new TreeBinaryExtraction(tree,
-                new Context(ContextType.NONE),
-                extractor.extract(tree, entity1, entity2),
-                new TreeExtraction(tree.getTree(), entity1),
-                new TreeExtraction(tree.getTree(), entity2));
-
+        return extractions;
     }
 
 
     /**
-     * Extract the relation between the two annotated entities from the given string.
+     * Extract the relation between the annotated entities from the given string.
      * The entities should be annotated with <comp>XXX</comp>.
      * Example:
      *  "<comp>Microsoft</comp> kauft <comp>LinkedIn</comp> für 26 Millionen US-Dollar."
      * @param annotatedString the annotated string
-     * @return a tree binary extraction representing the relation
+     * @return a list of tree binary extractions representing the relations
      */
-    public TreeBinaryExtraction extractRelations(String annotatedString) throws ExtractorException {
-        String[] entities = extractEntities(annotatedString);
+    public List<TreeBinaryExtraction> extractRelations(String annotatedString) throws ExtractorException {
+        List<String> entities = extractEntities(annotatedString);
+
+        // Sentence is not annotated properly
+        if (entities.isEmpty()) {
+            throw new ExtractorException("Sentence is not annotated correctly or not enough distinct entities exists.");
+        }
 
         // Replace the entities, so that the parser cannot split the entities
+        // The entities are replaced with words, which have the same form for all cases
         String replaceWord = "";
         if (!annotatedString.contains("Frau")) {
             annotatedString = annotatedString.replaceAll("<comp>(.*?)</comp>", "Frau");
@@ -102,24 +122,38 @@ public class ComPath {
                 .filter(n -> n.getWord().equals(word))
                 .map(Node::getId)
                 .collect(Collectors.toList());
-        if (ids.size() != 2) {
-            throw new ExtractorException("Wrong entity mapping!");
+
+        if (ids.size() != entities.size()) {
+            throw new ExtractorException("Parsing error");
         }
-        int entity1 = ids.get(0);
-        int entity2 = ids.get(1);
 
-        // Extract relations
-        TreeExtraction extraction = extractor.extract(tree, entity1, entity2);
+        List<TreeBinaryExtraction> extractions = new ArrayList<>();
 
-        // Replace the tmp word with the entity name
-        tree.find(entity1).setWord(entities[0]);
-        tree.find(entity2).setWord(entities[1]);
+        // for each entity combination
+        for (int i = 0; i < ids.size(); i++) {
+            for (int j = i + 1; j < ids.size(); j++) {
+                int entity1 = ids.get(i);
+                int entity2 = ids.get(j);
 
-        return new TreeBinaryExtraction(tree,
-                new Context(ContextType.NONE),
-                extraction,
-                new TreeExtraction(tree.getTree(), entity1),
-                new TreeExtraction(tree.getTree(), entity2));
+                // Extract relations
+                TreeExtraction extraction = extractor.extract(tree, entity1, entity2);
+                if (extraction == null) {
+                    continue;
+                }
+
+                // Replace the tmp word with the entity name
+                tree.find(entity1).setWord(entities.get(i));
+                tree.find(entity2).setWord(entities.get(j));
+
+                extractions.add(new TreeBinaryExtraction(tree,
+                        new Context(ContextType.NONE),
+                        extraction,
+                        new TreeExtraction(tree.getTree(), entity1),
+                        new TreeExtraction(tree.getTree(), entity2)));
+            }
+        }
+
+        return extractions;
     }
 
 
@@ -139,24 +173,21 @@ public class ComPath {
      * @return the entities
      * @throws ExtractorException if the sentence is not annotated correctly
      */
-    private String[] extractEntities(String annotatedString) throws ExtractorException {
-        String[] entities = new String[2];
+    private List<String> extractEntities(String annotatedString) throws ExtractorException {
+        List<String> entities = new ArrayList<>();
 
         Pattern pattern = Pattern.compile("<comp>(.*?)</comp>");
         Matcher matcher = pattern.matcher(annotatedString);
-        if (matcher.find()) {
-            entities[0] = matcher.group(1);
-        } else {
-            throw new ExtractorException("Sentence is not annotated correctly!");
+        while (matcher.find()) {
+            entities.add(matcher.group(1));
         }
-        if (matcher.find()) {
-            entities[1] = matcher.group(1);
-        } else {
-            throw new ExtractorException("Sentence is not annotated correctly!");
+
+        // There are no entities at all, or all entities represent the same entity
+        Set<String> uniqueEntities = new HashSet<>(entities);
+        if (uniqueEntities.size() <= 1) {
+            return new ArrayList<>();
         }
-        if (matcher.find()) {
-            throw new ExtractorException("Sentence is not annotated correctly!");
-        }
+
         return entities;
     }
 
