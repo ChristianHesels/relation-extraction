@@ -2,9 +2,10 @@ package edu.washington.cs.knowitall.examples;
 
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
-import edu.washington.cs.knowitall.util.ReVerb;
-import edu.washington.cs.knowitall.util.GermanReVerb;
+import edu.washington.cs.knowitall.util.ComPath;
 import edu.washington.cs.knowitall.util.DepReVerb;
+import edu.washington.cs.knowitall.util.GermanReVerb;
+import edu.washington.cs.knowitall.util.ReVerb;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -29,23 +30,30 @@ public class ReVerbExample {
         System.out.println(sentStr);
         System.out.println("");
 
-//        ReVerbI reVerbI = new ReVerbI(false, 20, true);
-//        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
-//        System.out.println("ReVerb I:");
-//        System.out.println(chunkRelationsAsString(relationsI));
-//        System.out.println("");
-//
-//        ReVerbII reVerbII = new ReVerbII(false, 20, true, true, true);
-//        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
-//        System.out.println("ReVerb II:");
-//        System.out.println(chunkRelationsAsString(relationsII));
-//        System.out.println("");
+        ReVerb reVerbI = new ReVerb(false, 20, true);
+        Iterable<ChunkedBinaryExtraction> relationsI = reVerbI.extractRelationsFromString(sentStr);
+        System.out.println("ReVerb I:");
+        System.out.println(chunkRelationsAsString(relationsI));
+        System.out.println("");
+
+        GermanReVerb reVerbII = new GermanReVerb(false, 20, true, true, true);
+        Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
+        System.out.println("ReVerb II:");
+        System.out.println(chunkRelationsAsString(relationsII));
+        System.out.println("");
 
         DepReVerb depReVerb = new DepReVerb(false, false, true);
-        Iterable<TreeBinaryExtraction> relations = depReVerb.extractRelationsFromString(sentStr);
+        Iterable<TreeBinaryExtraction> relationsIII = depReVerb.extractRelationsFromString(sentStr);
         System.out.println("ReVerb III:");
-        System.out.println(treeRelationsAsString(relations));
+        System.out.println(treeRelationsAsString(relationsIII));
         System.out.println("");
+
+        ComPath comPath = new ComPath();
+        List<TreeBinaryExtraction> relationsIV = comPath.extractRelations(sentStr);
+        System.out.println("ComPath:");
+        System.out.println(treeRelationsAsString(relationsIV));
+        System.out.println("");
+
     }
 
     private static void extractFromSentences(List<String> sentences, String fileName) throws IOException {
