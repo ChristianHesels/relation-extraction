@@ -43,7 +43,7 @@ public class Objp extends Argument2 {
     protected List<Integer> getIds(Node n) {
         // add the preposition node to the list of nodes
         List<Integer> ids = super.getIds(n);
-        ids.add(0, this.preopsition.getId());
+        if (this.preopsition != null) ids.add(0, this.preopsition.getId());
         return ids;
     }
 }

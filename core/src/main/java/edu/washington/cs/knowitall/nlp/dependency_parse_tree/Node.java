@@ -293,6 +293,10 @@ public class Node {
 
         List<Node> all = konChildren.get(0).toList();
 
+        // Keep conjunctions "weder" and "sowohl"
+        List<Node> exceptionNodes = all.stream().filter(n -> n.getWord().toLowerCase().equals("weder") || n.getWord().toLowerCase().equals("sowohl")).collect(Collectors.toList());
+        all.removeAll(exceptionNodes);
+
         // 'TRUNC' nodes are not conjunctions
         if (this.getPos().equals("TRUNC")) {
             // Remove all TRUNC nodes from the konChildren list
