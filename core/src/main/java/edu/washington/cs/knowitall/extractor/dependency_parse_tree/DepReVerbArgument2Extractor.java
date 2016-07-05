@@ -74,7 +74,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         // If there is only one object, add it to the list of extractions
         if (arguments.size() == 1) {
             Argument2 arg = arguments.get(0);
-            if (arg.getRole() != Role.COMPLEMENT) {
+            if (arg.getRole() != Role.COMPLEMENT && arg.getRole() != Role.NONE) {
                 extrs.addAll(arg.createTreeExtractions());
             }
             return extrs;

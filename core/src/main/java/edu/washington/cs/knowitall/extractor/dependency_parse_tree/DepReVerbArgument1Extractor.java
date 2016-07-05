@@ -14,11 +14,6 @@ import java.util.stream.Collectors;
  */
 public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
-    // TODO
-    // subj - app - app - kon - app - app - kon - cj - app
-    // do not include app if it has a clause as child ?
-    // how to handle PN as child ?
-
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)
         throws ExtractorException {
