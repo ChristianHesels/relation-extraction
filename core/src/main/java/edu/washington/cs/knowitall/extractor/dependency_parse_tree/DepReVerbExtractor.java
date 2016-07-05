@@ -7,7 +7,6 @@ import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReV
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.Context;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.ContextType;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
@@ -28,6 +27,7 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
     private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
     private Extractor<Node, TreeExtraction> relExtr;
+    private ContextExtractor contextExtr;
 
     /**
      * Default constructor.
@@ -40,6 +40,8 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
 
         this.arg2Extr = new DepReVerbArgument2Extractor();
         arg2Extr.addMapper(new DepReVerbArgument2Mappers());
+
+        this.contextExtr = new ContextExtractor();
     }
 
     /**
@@ -56,6 +58,8 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
 
         this.arg2Extr = new DepReVerbArgument2Extractor(considerAllArguments);
         arg2Extr.addMapper(new DepReVerbArgument2Mappers());
+
+        this.contextExtr = new ContextExtractor();
     }
 
     @Override
@@ -82,38 +86,16 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
                 // add the complements to the verb and create extraction for the objects
                 Iterable<TreeExtraction> arg2s = arg2Extr.extract(rel);
 
+                Context context = contextExtr.extract(root);
+
                 // 6. Create TreeBinaryExtractions
-                extrs.addAll(TreeBinaryExtraction.productOfArgs(dependencyParseTree, getContext(root), rel, arg1s, arg2s));
+                extrs.addAll(TreeBinaryExtraction.productOfArgs(dependencyParseTree, context, rel, arg1s, arg2s));
             }
         }
 
         return extrs;
     }
 
-
-    /**
-     * Determines the context of the extraction.
-     * If the extraction comes from the subordinate clause, the conjunction is also determined.
-     * @param root the root of the clause
-     * @return the context of the clause
-     */
-    private Context getContext(Node root) {
-        Context context = new Context(ContextType.NONE);
-
-        if (root.getLabelToParent().equals("root") || root.getLabelToParent().equals("objc")) {
-            context = new Context(ContextType.MAIN_CLAUSE);
-
-        } else if (root.getLabelToParent().equals("neb")) {
-            List<Node> konj = root.getChildrenOfType("konj");
-            if (!konj.isEmpty()) {
-                context = new Context(ContextType.SUBORDINATE_CLAUSE, konj.get(0).getWord());
-            } else {
-                context = new Context(ContextType.SUBORDINATE_CLAUSE);
-            }
-        }
-
-        return context;
-    }
 
 }
 

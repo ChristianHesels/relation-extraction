@@ -4,6 +4,7 @@ public enum ContextType {
 
     NONE("none"),
     MAIN_CLAUSE("main clause"),
+    THAT_CLAUSE("that clause"),
     SUBORDINATE_CLAUSE("subordinate clause");
 
     private final String str;

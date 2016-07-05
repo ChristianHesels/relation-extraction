@@ -2,27 +2,42 @@ package edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree;
 
 public class Context {
 
-    private ContextType type;
-    private String conjunction;
+    private ContextType extractionFrom;
+    private String contextStr;
 
 
-    public Context(ContextType type) {
-        this.type = type;
-        this.conjunction = null;
+    public Context(ContextType extractionFrom) {
+        this.extractionFrom = extractionFrom;
+        this.contextStr = null;
     }
 
-    public Context(ContextType type, String conjunction) {
-        this.type = type;
-        this.conjunction = conjunction;
+    public Context(ContextType extractionFrom, String modifierStr) {
+        this.extractionFrom = extractionFrom;
+        this.contextStr = modifierStr;
     }
 
     @Override
     public String toString() {
-        if (conjunction != null) {
-            return type.toString() + " - " + conjunction;
+        if (contextStr != null) {
+            return extractionFrom.toString() + " - " + contextStr;
         }
-        return type.toString();
+        return extractionFrom.toString();
     }
 
 
+    public ContextType getExtractionFrom() {
+        return extractionFrom;
+    }
+
+    public void setExtractionFrom(ContextType extractionFrom) {
+        this.extractionFrom = extractionFrom;
+    }
+
+    public String getContextStr() {
+        return contextStr;
+    }
+
+    public void setContextStr(String contextStr) {
+        this.contextStr = contextStr;
+    }
 }
