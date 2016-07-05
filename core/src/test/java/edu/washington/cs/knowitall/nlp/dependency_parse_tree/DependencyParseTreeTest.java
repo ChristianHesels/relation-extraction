@@ -5,11 +5,9 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class DependencyParseTreeTest {
 
@@ -64,49 +62,6 @@ public class DependencyParseTreeTest {
 
         // Check
         assertThat(actualRoots, is(expectedRoots));
-    }
-
-    @Test
-    public void testShortestPath1() throws Exception {
-        DependencyParseTree tree = getTree(
-                "1\tBMW\tBMW\tN\tNE\t_|Nom|Pl\t4\tsubj\t_\t_ \n" +
-                "2\tund\tund\tKON\tKON\t_\t1\tkon\t_\t_ \n" +
-                "3\tPorsche\tPorsche\tN\tNE\t_|Nom|Pl\t2\tcj\t_\t_ \n" +
-                "4\tsind\tsein\tV\tVAFIN\t3|Pl|Pres|Ind\t0\troot\t_\t_ \n" +
-                "5\tPartner\tPartner\tN\tNN\tMasc|Nom|_\t4\tpred\t_\t_ \n"
-        );
-
-        // Expected roots
-        List<Node> path = tree.shortestPath(1, 3);
-
-        List<Integer> pathIds = path.stream().map(Node::getId).collect(Collectors.toList());
-
-        assertTrue(pathIds.contains(2));
-    }
-
-    @Test
-    public void testShortestPath2() throws Exception {
-        DependencyParseTree tree = getTree(
-                "1\tBMW\tBMW\tN\tNE\t_|Nom|Sg\t2\tsubj\t_\t_ \n" +
-                "2\tist\tsein\tV\tVAFIN\t3|Sg|Pres|Ind\t0\troot\t_\t_ \n" +
-                "3\tder\tdie\tART\tART\tDef|Masc|Nom|Sg\t4\tdet\t_\t_ \n" +
-                "4\tPartner\tPartner\tN\tNN\tMasc|Nom|Sg\t2\tpred\t_\t_ \n" +
-                "5\tvon\tvon\tPREP\tAPPR\t_\t4\tpp\t_\t_ \n" +
-                "6\tAudi\tAudi\tN\tNE\t_|_|_\t5\tpn\t_\t_ \n" +
-                "7\t;\t;\t$.\t$.\t_\t0\troot\t_\t_ \n" +
-                "8\tPorsche\tPorsche\tN\tNE\t_|Nom|Sg\t9\tsubj\t_\t_ \n" +
-                "9\tist\tsein\tV\tVAFIN\t3|Sg|Pres|Ind\t0\troot\t_\t_ \n" +
-                "10\tkein\tkeine\tART\tPIAT\tMasc|Nom|Sg\t11\tdet\t_\t_ \n" +
-                "11\tPartner\tPartner\tN\tNN\tMasc|Nom|Sg\t9\tpred\t_\t_ \n" +
-                "12\tvon\tvon\tPREP\tAPPR\t_\t11\tpp\t_\t_ \n" +
-                "13\tAudi\tAudi\tN\tNE\t_|_|_\t12\tpn\t_\t_ \n" +
-                "14\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n"
-        );
-
-        // Expected roots
-        List<Node> path = tree.shortestPath(1, 7);
-
-        assertTrue(path.isEmpty());
     }
 
 }

@@ -1,9 +1,7 @@
 package edu.washington.cs.knowitall.nlp.dependency_parse_tree;
 
 
-import com.google.common.collect.Lists;
-
-import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -82,99 +80,6 @@ public class DependencyParseTree {
      */
     public void prune() {
         this.getTree().prune();
-    }
-
-
-    /**
-     * Returns the shortest path between the start and end node.
-     * @param startId start node id
-     * @param endId   end node id
-     * @return a list of nodes representing the shortest path
-     */
-    public List<Node> shortestPath(int startId, int endId) {
-        Node start = find(startId);
-        Node end = find(endId);
-
-        if (start == null || end == null) {
-            return new LinkedList<>();
-        }
-
-        // BFS
-        Map<Node, Boolean> visited = new HashMap<>();
-        Map<Node, Node> previous = new HashMap<>();
-        Queue<Node> q = new LinkedList<>();
-
-        Node current = start;
-        q.add(current);
-        visited.put(current, true);
-
-        while (!q.isEmpty()) {
-            current = q.remove();
-            // there is no path over the root
-            if (current.getId() == 0) {
-                continue;
-            }
-            // the end is reached
-            if (current.equals(end)) {
-                break;
-            } else {
-                // visited all unvisited neighbours
-                for (Node node : current.getNeighbours()) {
-                    if (!visited.containsKey(node)){
-                        q.add(node);
-                        visited.put(node, true);
-                        previous.put(node, current);
-                    }
-                }
-            }
-        }
-
-        List<Node> directions = new LinkedList<>();
-        if (!current.equals(end)) {
-            // There is no path between the two nodes
-            return directions;
-        }
-
-        // Collect all nodes on the way
-        for(Node node = end; node != null; node = previous.get(node)) {
-            if (node.equals(end) || node.equals(start)) {
-                continue;
-            }
-            directions.add(node);
-        }
-        return Lists.reverse(directions);
-    }
-
-
-    public String shortestPathPattern(Node start, Node end) {
-        StringBuilder strBuilder = new StringBuilder();
-
-        List<Node> nodes = shortestPath(start.getId(), end.getId());
-        nodes.add(0, start);
-        nodes.add(end);
-
-        strBuilder.append(start.getPosGroup());
-        strBuilder.append(" ");
-
-        for (int i = 0; i < nodes.size() - 1; i++) {
-            if (nodes.get(i).getParent() == nodes.get(i + 1)) {
-                // up
-                strBuilder.append("up-");
-                strBuilder.append(nodes.get(i).getLabelToParent());
-                strBuilder.append(" ");
-                strBuilder.append(nodes.get(i + 1).getPosGroup());
-                strBuilder.append(" ");
-            } else {
-                // down
-                strBuilder.append("down-");
-                strBuilder.append(nodes.get(i + 1).getLabelToParent());
-                strBuilder.append(" ");
-                strBuilder.append(nodes.get(i + 1).getPosGroup());
-                strBuilder.append(" ");
-            }
-        }
-
-        return strBuilder.toString();
     }
 
     /**

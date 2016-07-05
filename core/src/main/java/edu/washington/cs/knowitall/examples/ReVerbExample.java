@@ -2,7 +2,6 @@ package edu.washington.cs.knowitall.examples;
 
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
-import edu.washington.cs.knowitall.util.ComPath;
 import edu.washington.cs.knowitall.util.DepReVerb;
 import edu.washington.cs.knowitall.util.GermanReVerb;
 import edu.washington.cs.knowitall.util.ReVerb;
@@ -47,13 +46,6 @@ public class ReVerbExample {
         System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relationsIII));
         System.out.println("");
-
-        ComPath comPath = new ComPath();
-        List<TreeBinaryExtraction> relationsIV = comPath.extractRelations(sentStr);
-        System.out.println("ComPath:");
-        System.out.println(treeRelationsAsString(relationsIV));
-        System.out.println("");
-
     }
 
     private static void extractFromSentences(List<String> sentences, String fileName) throws IOException {
