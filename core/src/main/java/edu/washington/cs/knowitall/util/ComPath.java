@@ -11,6 +11,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBina
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 import edu.washington.cs.knowitall.path_extractor.ComPathExtractor;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -154,6 +155,43 @@ public class ComPath {
         }
 
         return extractions;
+    }
+
+    public String getPattern(String annotatedString) throws IOException, InterruptedException {
+        List<String> entities = extractEntities(annotatedString);
+
+        assert(entities.size() == 2);
+
+        String entity1 = "";
+        String entity2 = "";
+
+        Pattern pattern = Pattern.compile("<comp>(.*?)</comp>");
+        Matcher matcher = pattern.matcher(annotatedString);
+        if (matcher.find()) {
+            entity1 = matcher.group(1);
+        }
+        if (matcher.find()) {
+            entity2 = matcher.group(1);
+        }
+
+        annotatedString = annotatedString.replaceAll("<comp>" + entity1 + "</comp>", entity1.replaceAll(" ", "-"));
+        annotatedString = annotatedString.replaceAll("<comp>" + entity2 + "</comp>", entity2.replaceAll(" ", "-"));
+
+        ParZuSentenceParser parser = new ParZuSentenceParser();
+        List<String> parserOutput = parser.parse(annotatedString);
+
+        String finalEntity1 = entity1.replaceAll(" ", "-");
+        String finalEntity2 = entity2.replaceAll(" ", "-");
+        int id1 = Integer.parseInt(parserOutput.stream().filter(x -> x.contains(finalEntity1)).collect(Collectors.toList()).get(0).split("\t")[0]);
+        int id2 = Integer.parseInt(parserOutput.stream().filter(x -> x.contains(finalEntity2)).collect(Collectors.toList()).get(0).split("\t")[0]);
+
+        List<DependencyParseTree> trees = parser.convert(parserOutput);
+
+        assert(trees.size() == 1);
+
+        DependencyParseTree tree = trees.get(0);
+
+        return tree.shortestPathPattern(tree.find(id1), tree.find(id2));
     }
 
 

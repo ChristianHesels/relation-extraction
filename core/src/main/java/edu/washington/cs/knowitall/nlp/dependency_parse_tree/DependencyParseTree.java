@@ -145,6 +145,38 @@ public class DependencyParseTree {
         return Lists.reverse(directions);
     }
 
+
+    public String shortestPathPattern(Node start, Node end) {
+        StringBuilder strBuilder = new StringBuilder();
+
+        List<Node> nodes = shortestPath(start.getId(), end.getId());
+        nodes.add(0, start);
+        nodes.add(end);
+
+        strBuilder.append(start.getPosGroup());
+        strBuilder.append(" ");
+
+        for (int i = 0; i < nodes.size() - 1; i++) {
+            if (nodes.get(i).getParent() == nodes.get(i + 1)) {
+                // up
+                strBuilder.append("up-");
+                strBuilder.append(nodes.get(i).getLabelToParent());
+                strBuilder.append(" ");
+                strBuilder.append(nodes.get(i + 1).getPosGroup());
+                strBuilder.append(" ");
+            } else {
+                // down
+                strBuilder.append("down-");
+                strBuilder.append(nodes.get(i + 1).getLabelToParent());
+                strBuilder.append(" ");
+                strBuilder.append(nodes.get(i + 1).getPosGroup());
+                strBuilder.append(" ");
+            }
+        }
+
+        return strBuilder.toString();
+    }
+
     /**
      * GETTER AND SETTER
      */
