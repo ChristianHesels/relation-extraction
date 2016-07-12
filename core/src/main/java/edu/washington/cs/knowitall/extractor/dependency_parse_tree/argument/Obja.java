@@ -18,4 +18,9 @@ public class Obja extends Argument2 {
         return Role.BOTH;
     }
 
+    @Override
+    public Node getPreposition() {
+        return null;
+    }
+
 }

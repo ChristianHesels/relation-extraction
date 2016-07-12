@@ -5,6 +5,7 @@ import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +34,11 @@ public abstract class Argument2 {
     public abstract Role getRole();
 
     /**
+     * @return true, if the argument is a prepositional object, false otherwise
+     */
+    public abstract Node getPreposition();
+
+    /**
      * Follows the conjunction starting at this argument.
      * @return a list of nodes, which belong to the conjunction
      */
@@ -46,6 +52,14 @@ public abstract class Argument2 {
      * @return a list of tree extraction
      */
     public List<TreeExtraction> createTreeExtractions() {
+        // Add the preposition to the relation
+        if (this.getPreposition() != null) {
+            List<Integer> ids = new ArrayList<>();
+            ids.add(this.getPreposition().getId());
+            ids.addAll((Collection<? extends Integer>) this.relation.getNodeIds());
+            this.relation.setNodeIds(ids);
+        }
+
         List<TreeExtraction> extractions = new ArrayList<>();
 
         // Add the main object

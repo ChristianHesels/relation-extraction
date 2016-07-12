@@ -40,10 +40,7 @@ public class Objp extends Argument2 {
     }
 
     @Override
-    protected List<Integer> getIds(Node n) {
-        // add the preposition node to the list of nodes
-        List<Integer> ids = super.getIds(n);
-        if (this.preopsition != null) ids.add(0, this.preopsition.getId());
-        return ids;
+    public Node getPreposition() {
+        return preopsition;
     }
 }

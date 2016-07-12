@@ -15,5 +15,10 @@ public class Objg extends Argument2 {
         return Role.OBJECT;
     }
 
+    @Override
+    public Node getPreposition() {
+        return null;
+    }
+
 }
 

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     // TODO
-    // if the object is a prepositional object, add the preposition to the relation phrase ?
+    // a relation becomes incoherent if there are too many complements
 
     private boolean considerAllArguments;
 

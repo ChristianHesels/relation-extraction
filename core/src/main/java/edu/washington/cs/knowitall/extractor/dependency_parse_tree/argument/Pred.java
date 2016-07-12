@@ -18,4 +18,9 @@ public class Pred extends Argument2 {
         return Role.COMPLEMENT;
     }
 
+    @Override
+    public Node getPreposition() {
+        return null;
+    }
+
 }

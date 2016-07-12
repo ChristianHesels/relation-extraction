@@ -1,15 +1,14 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 import static org.junit.Assert.assertTrue;
 
@@ -70,15 +69,15 @@ public class DepReVerbArgument2ExtractorTest {
                       + "11\tausgedehnt\tausdehnen\tV\tVVPP\t_\t4\taux\t_\t_ \n"
                       + "12\t.\t.\t$.\t$.\t_\t0\troot\t_\t_ \n";
 
-        TreeExtraction rel = getRelation(sent, 4, 11);
+        TreeExtraction rel = getRelation(sent, 4, 11, 7);
 
         // Extract relations
         Iterable<TreeExtraction> extractions = extractor.extractCandidates(rel);
 
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
-        expectedExtractions.add("auf Estland");
-        expectedExtractions.add("auf Lettland");
+        expectedExtractions.add("Estland");
+        expectedExtractions.add("Lettland");
 
         // Check
         extractions.forEach(extr -> assertTrue(expectedExtractions.contains(extr.toString())));
