@@ -36,13 +36,13 @@ public class DepReVerb extends Extractor<DependencyParseTree, TreeBinaryExtracti
 
     /**
      * Constructor of Dep ReVerb with arguments
-     * @param debug                enable debug mode?
-     * @param considerAllArguments consider arguments of child nodes for root nodes?
-     * @param weSubject            extract we as subject?
+     * @param debug             enable debug mode?
+     * @param childArguments    extract second argument also from child nodes?
+     * @param pronounsAsSubject consider pronouns as subject?
      */
-    public DepReVerb(boolean debug, boolean considerAllArguments, boolean weSubject) {
+    public DepReVerb(boolean debug, boolean childArguments, boolean pronounsAsSubject) {
         super(debug);
-        this.extractor = new DepReVerbExtractor(considerAllArguments, weSubject);
+        this.extractor = new DepReVerbExtractor(childArguments, pronounsAsSubject);
     }
 
     protected Iterable<TreeBinaryExtraction> extract(DependencyParseTree tree) {

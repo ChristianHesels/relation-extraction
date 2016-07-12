@@ -20,7 +20,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
     // TODO
     // a relation becomes incoherent if there are too many complements
 
-    private boolean considerAllArguments;
+    private boolean childArguments;
 
     public DepReVerbArgument2Extractor() {
         this(false);
@@ -28,10 +28,10 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
 
     /**
      * Creates a argument 2 extractor.
-     * @param considerAllArguments consider arguments of child nodes for root nodes?
+     * @param childArguments extract second argument also from child nodes?
      */
-    public DepReVerbArgument2Extractor(boolean considerAllArguments) {
-        this.considerAllArguments = considerAllArguments;
+    public DepReVerbArgument2Extractor(boolean childArguments) {
+        this.childArguments = childArguments;
     }
 
     @Override
@@ -211,7 +211,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             arguments = getArguments(relNodes);
         }
 
-        if (this.considerAllArguments) {
+        if (this.childArguments) {
             // Check if there are arguments connected to conjunction child nodes
             if (arguments.isEmpty()) {
                 relNodes = rel.getRootNode().find(rel.getKonNodeIds());

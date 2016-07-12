@@ -24,11 +24,15 @@ public class DepReVerbArgument1Mappers extends
     // Filter times (00 Uhr)
     // Filter root node == 'davon'
 
-    public DepReVerbArgument1Mappers(boolean allowWe) {
-        init(allowWe);
+    /**
+     * Constructor of DepReVerb argument 2 mapper
+     * @param pronounsAsSubject consider pronouns as subject?
+     */
+    public DepReVerbArgument1Mappers(boolean pronounsAsSubject) {
+        init(pronounsAsSubject);
     }
 
-    private void init(boolean allowWe) {
+    private void init(boolean pronounsAsSubject) {
         List<String> firstPosTags = new ArrayList<>();
         // First word of argument
         // can't be a Wh word
@@ -40,7 +44,7 @@ public class DepReVerbArgument1Mappers extends
         firstPosTags.add("PDS");       // dieser, jener
         firstPosTags.add("PPOSS");     // meins, deiner
         firstPosTags.add("PRELAT");    // dessen
-        if (!allowWe) {
+        if (!pronounsAsSubject) {
             firstPosTags.add("PPER");      // ich, er, ihm, mich
         }
         firstPosTags.add("PRELS");     // [der Hund ,] der
@@ -68,7 +72,7 @@ public class DepReVerbArgument1Mappers extends
 
         addMapper(new TokenNotEqualsFilter(tokens));
 
-        addMapper(new ContainsNounFilter(allowWe));
+        addMapper(new ContainsNounFilter(pronounsAsSubject));
     }
 
     private void addArgumentNotEqualsFilter(final String posTag) {

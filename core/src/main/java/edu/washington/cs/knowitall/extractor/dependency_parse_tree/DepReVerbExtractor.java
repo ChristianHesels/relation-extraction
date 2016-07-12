@@ -47,16 +47,16 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
     /**
      * Explicit constructor to invoke the corresponding super's constructor with arguments.
      *
-     * @param considerAllArguments consider arguments of child nodes for root nodes and vice versa?
-     * @param weSubject            extract we as subject?
+     * @param childArguments    extract second argument also from child nodes?
+     * @param pronounsAsSubject consider pronouns as subject?
      */
-    public DepReVerbExtractor(boolean considerAllArguments, boolean weSubject) {
+    public DepReVerbExtractor(boolean childArguments, boolean pronounsAsSubject) {
         this.relExtr = new DepReVerbRelationExtractor();
 
         this.arg1Extr = new DepReVerbArgument1Extractor();
-        arg1Extr.addMapper(new DepReVerbArgument1Mappers(weSubject));
+        arg1Extr.addMapper(new DepReVerbArgument1Mappers(pronounsAsSubject));
 
-        this.arg2Extr = new DepReVerbArgument2Extractor(considerAllArguments);
+        this.arg2Extr = new DepReVerbArgument2Extractor(childArguments);
         arg2Extr.addMapper(new DepReVerbArgument2Mappers());
 
         this.contextExtr = new ContextExtractor();

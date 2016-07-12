@@ -10,14 +10,14 @@ import java.util.stream.Collectors;
 
 public class ContainsNounFilter extends FilterMapper<TreeExtraction> {
 
-    private boolean allowWe;
+    private boolean pronounsAsSubject;
 
     public ContainsNounFilter() {
         this(false);
     }
 
-    public ContainsNounFilter(boolean allowWe) {
-        this.allowWe = allowWe;
+    public ContainsNounFilter(boolean pronounsAsSubject) {
+        this.pronounsAsSubject = pronounsAsSubject;
     }
 
     @Override
@@ -25,7 +25,7 @@ public class ContainsNounFilter extends FilterMapper<TreeExtraction> {
         List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
 
         List<Node> nounNodes = nodes.stream()
-                .filter(x -> x.getPosGroup().equals("N") || (this.allowWe && x.getWord().toLowerCase().equals("wir")))
+                .filter(x -> x.getPosGroup().equals("N") || (this.pronounsAsSubject && x.getPos().equals("PPER")))
                 .collect(Collectors.toList());
 
         return !nounNodes.isEmpty() ;
