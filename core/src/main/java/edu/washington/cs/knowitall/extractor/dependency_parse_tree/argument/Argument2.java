@@ -5,7 +5,6 @@ import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -54,10 +53,7 @@ public abstract class Argument2 {
     public List<TreeExtraction> createTreeExtractions() {
         // Add the preposition to the relation
         if (this.getPreposition() != null) {
-            List<Integer> ids = new ArrayList<>();
-            ids.add(this.getPreposition().getId());
-            ids.addAll((Collection<? extends Integer>) this.relation.getNodeIds());
-            this.relation.setNodeIds(ids);
+            this.relation.setLastNodeId(this.getPreposition().getId());
         }
 
         List<TreeExtraction> extractions = new ArrayList<>();

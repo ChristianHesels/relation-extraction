@@ -13,6 +13,7 @@ public class TreeExtraction {
     private Node rootNode;
     private Iterable<Integer> nodeIds;
     private Iterable<Integer> konNodeIds;
+    private Integer lastNodeId;
 
     public TreeExtraction(Node rootNode, Iterable<Integer> nodeIds) {
         this.rootNode = rootNode;
@@ -28,6 +29,9 @@ public class TreeExtraction {
 
     public String toString() {
         List<String> words = rootNode.find(nodeIds).stream().map(Node::getWord).collect(Collectors.toList());
+        if (lastNodeId != null) {
+            words.add(rootNode.find(lastNodeId).getWord());
+        }
         return Joiner.on(" ").join(words);
     }
 
@@ -61,5 +65,13 @@ public class TreeExtraction {
 
     public void setKonNodeIds(Iterable<Integer> konNodeIds) {
         this.konNodeIds = konNodeIds;
+    }
+
+    public Integer getLastNodeId() {
+        return lastNodeId;
+    }
+
+    public void setLastNodeId(Integer lastNodeId) {
+        this.lastNodeId = lastNodeId;
     }
 }
