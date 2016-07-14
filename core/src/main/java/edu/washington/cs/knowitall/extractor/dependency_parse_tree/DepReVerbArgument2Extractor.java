@@ -17,9 +17,6 @@ import java.util.stream.Collectors;
  */
 public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
-    // TODO
-    // a relation becomes incoherent if there are too many complements
-
     private boolean childArguments;
 
     public DepReVerbArgument2Extractor() {
@@ -67,7 +64,12 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
                 case "pred":
                     arguments.add(new Pred(n, rel));
                     break;
-
+                case "pp":
+                    arguments.add(new Pp(n, rel));
+                    break;
+                case "kom":
+                    arguments.add(new Kom(n, rel));
+                    break;
             }
         }
 
@@ -81,62 +83,65 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         }
 
         List<Argument2> complements = arguments.stream()
-            .filter(x -> x.getRole() == Role.COMPLEMENT).collect(Collectors.toList());
+                .filter(x -> x.getRole() == Role.COMPLEMENT).collect(Collectors.toList());
         List<Argument2> objects = arguments.stream()
-            .filter(x -> x.getRole() == Role.OBJECT).collect(Collectors.toList());
+                .filter(x -> x.getRole() == Role.OBJECT).collect(Collectors.toList());
         List<Argument2> both = arguments.stream()
-            .filter(x -> x.getRole() == Role.BOTH).collect(Collectors.toList());
+                .filter(x -> x.getRole() == Role.BOTH).collect(Collectors.toList());
 
-        // Add the complements to the relation
-        addToRelation(rel, complements);
 
-        // Handle the arguments, which can be both
-        if (objects.isEmpty() && !both.isEmpty()) {
-            if (both.size() > 1) {
-                // the argument, which has the maximum distance to relation, is the object
-                Argument2 object = getObject(both);
-                extrs.addAll(object.createTreeExtractions());
-                // the other arguments are complements
-                both.remove(object);
+        // If there are two arguments, create an extraction
+        if (arguments.size() == 2) {
+            // Add the complements to the relation
+            addToRelation(rel, complements);
+
+            // Handle the arguments, which can be both
+            if (objects.isEmpty() && !both.isEmpty()) {
+                if (both.size() > 1) {
+                    // the argument, which has the maximum distance to relation, is the object
+                    Argument2 object = getObject(both);
+                    extrs.addAll(object.createTreeExtractions());
+                    // the other arguments are complements
+                    both.remove(object);
+                    addToRelation(rel, both);
+                } else {
+                    extrs.addAll(both.get(0).createTreeExtractions());
+                }
+                return extrs;
+            }
+
+            // Handle the arguments, which are objects
+            if (!objects.isEmpty() && both.isEmpty()) {
+                // Add the objects, which are close to the relation to the relation
+                // The object with the maximum distance to the relation is the real object
+                List<Argument2> c = new ArrayList<>();
+                while (objects.size() != 1) {
+                    Argument2 complement = getComplement(objects);
+                    objects.remove(complement);
+                    c.add(complement);
+                }
+                addToRelation(rel, c);
+                extrs.addAll(objects.get(0).createTreeExtractions());
+                return extrs;
+            }
+
+            // Handle the case of one object and one argument, which can be both
+            if (objects.size() == 1 && both.size() == 1) {
+                // The argument, which can be both, is the complement
                 addToRelation(rel, both);
-            } else {
-                extrs.addAll(both.get(0).createTreeExtractions());
+                // The object becomes the seconds argument
+                extrs.addAll(objects.get(0).createTreeExtractions());
+                return extrs;
             }
-            return extrs;
         }
 
-        // Handle the arguments, which are objects
-        if (!objects.isEmpty() && both.isEmpty()) {
-            // Add the objects, which are close to the relation to the relation
-            // The object with the maximum distance to the relation is the real object
-            List<Argument2> c = new ArrayList<>();
-            while (objects.size() != 1) {
-                Argument2 complement = getComplement(objects);
-                objects.remove(complement);
-                c.add(complement);
+        // There exists more than two arguments
+        // Because we want coherent extraction, create a extraction for each argument
+        arguments.forEach(a -> {
+            if (a.getRole() != Role.COMPLEMENT && a.getRole() != Role.NONE) {
+                extrs.addAll(a.createTreeExtractions());
             }
-            addToRelation(rel, c);
-            extrs.addAll(objects.get(0).createTreeExtractions());
-            return extrs;
-        }
-
-        // Handle the arguments, which are objects and those, which can be both
-        if (!objects.isEmpty() && !both.isEmpty()) {
-            // The arguments, which can be both, are complements
-            addToRelation(rel, both);
-            // Add the objects, which are close to the relation to the relation
-            // The object with the maximum distance to the relation is the real object
-            List<Argument2> c = new ArrayList<>();
-            while (objects.size() != 1) {
-                Argument2 complement = getComplement(objects);
-                objects.remove(complement);
-                c.add(complement);
-            }
-            addToRelation(rel, c);
-            extrs.addAll(objects.get(0).createTreeExtractions());
-            return extrs;
-        }
-
+        });
         return extrs;
     }
 
@@ -234,11 +239,13 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         for (Node n : relNodes) {
             List<Node> a = n.getChildren().stream()
                 .filter(x -> x.getLabelToParent().equals("obja") ||
-                             x.getLabelToParent().equals("obja2") ||
-                             x.getLabelToParent().equals("objd") ||
-                             x.getLabelToParent().equals("objg") ||
-                             x.getLabelToParent().equals("objp") ||
-                             x.getLabelToParent().equals("pred"))
+                        x.getLabelToParent().equals("obja2") ||
+                        x.getLabelToParent().equals("objd") ||
+                        x.getLabelToParent().equals("objg") ||
+                        x.getLabelToParent().equals("objp") ||
+                        x.getLabelToParent().equals("pred") ||
+                        (x.getLabelToParent().equals("kom") && x.getWord().equals("als")) ||
+                        x.getLabelToParent().equals("pp"))
                 .collect(Collectors.toList());
             arguments.addAll(a);
         }

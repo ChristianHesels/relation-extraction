@@ -116,6 +116,8 @@ public class DepReVerbExtractorTest {
 
     @Test
     public void testExtract3() {
+        // Als Koordination Einkauf sorge ich zusammen mit meinen Kollegen dafür, dass die Produktion stets mit den optimalen
+        // Materialien und Mengen versorgt wird
         String sentence = "1\tAls\tAls\tKOKOM\tKOKOM\t_\t4\tkom\t_\t_ \n" +
                 "2\tKoordination\tKoordination\tN\tNN\tMasc|_|Sg\t1\tcj\t_\t_ \n" +
                 "3\tEinkauf\tEinkauf\tN\tNN\tMasc|_|Sg\t2\tapp\t_\t_ \n" +
@@ -145,7 +147,27 @@ public class DepReVerbExtractorTest {
         // Execute functionality
         Iterable<TreeBinaryExtraction> actualExtractions = extractor.extract(tree);
 
-        assertTrue(Iterables.isEmpty(actualExtractions));
+        List<String> stringExtractions = new ArrayList<>();
+        for (TreeBinaryExtraction e : actualExtractions) {
+            stringExtractions.add(e.toString());
+        }
+
+        // Expected extractions
+        TreeExtraction rel = getExtraction(tree, 23, 22, 23); // versorgt wird mit
+        rel.setLastNodeId(16);
+        TreeExtraction arg1 = getExtraction(tree, 23, 13, 14); // die Produktion
+        TreeExtraction arg2 = getExtraction(tree, 23, 17, 18, 19); // den optimalen Materialien
+        TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, new Context(ContextType.THAT_CLAUSE, "Attribute: ich sorge dafür"), rel, arg1, arg2);
+
+        assertTrue(stringExtractions.contains(expected.toString()));
+
+        rel = getExtraction(tree, 23, 22, 23); // versorgt wird mit
+        rel.setLastNodeId(16);
+        arg1 = getExtraction(tree, 23, 13, 14); // die Produktion
+        arg2 = getExtraction(tree, 23, 21); // Mengen
+        expected = new TreeBinaryExtraction(tree, new Context(ContextType.THAT_CLAUSE, "Attribute: ich sorge dafür"), rel, arg1, arg2);
+
+        assertTrue(stringExtractions.contains(expected.toString()));
     }
 
     @Test

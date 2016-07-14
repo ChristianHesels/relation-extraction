@@ -267,7 +267,6 @@ public class Node {
                          n.labelToParent.equals("vok") ||
                          n.labelToParent.equals("par") ||
                          n.labelToParent.equals("expl") ||
-                         n.labelToParent.equals("kom") ||
                          n.labelToParent.equals("")
             ).collect(Collectors.toList());
         childsToRemove.stream().forEach(Node::remove);

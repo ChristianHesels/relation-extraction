@@ -47,15 +47,24 @@ public class ContextExtractor {
                 // extract
                 Node verb = root.getParent();
                 Node subj = null;
+                Node proav = null;
                 if (verb != null) {
                     List<Node> subjs = verb.getChildrenOfType("subj");
                     if (subjs.size() == 1) {
                         subj = subjs.get(0);
                     }
+                    List<Node> proavs = verb.getChildrenOfType("objp");
+                    if (proavs.size() == 1 && proavs.get(0).getPos().equals("PROAV")) {
+                        proav = proavs.get(0);
+                    }
                 }
 
                 if (verb != null && subj != null) {
-                    context.setContextStr("Attribute: " + subj.toString() + " " + verb.getWord());
+                    if (proav == null) {
+                        context.setContextStr("Attribute: " + subj.toString() + " " + verb.getWord());
+                    } else {
+                        context.setContextStr("Attribute: " + subj.toString() + " " + verb.getWord() + " " + proav.getWord());
+                    }
                 }
             } else {
                 context = new Context(ContextType.MAIN_CLAUSE);
