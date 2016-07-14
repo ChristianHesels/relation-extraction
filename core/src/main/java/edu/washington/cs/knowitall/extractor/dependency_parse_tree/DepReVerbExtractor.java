@@ -4,6 +4,7 @@ import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument1Mappers;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument2Mappers;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.PronounRelationFilter;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.Context;
@@ -42,6 +43,8 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
         arg2Extr.addMapper(new DepReVerbArgument2Mappers());
 
         this.contextExtr = new ContextExtractor();
+
+        this.addMapper(new PronounRelationFilter());
     }
 
     /**
@@ -60,6 +63,8 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
         arg2Extr.addMapper(new DepReVerbArgument2Mappers());
 
         this.contextExtr = new ContextExtractor();
+
+        this.addMapper(new PronounRelationFilter(pronounsAsSubject));
     }
 
     @Override
