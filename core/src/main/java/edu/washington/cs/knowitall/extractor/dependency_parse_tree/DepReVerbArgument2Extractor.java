@@ -88,7 +88,14 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
                 .filter(x -> x.getRole() == Role.OBJECT).collect(Collectors.toList());
         List<Argument2> both = arguments.stream()
                 .filter(x -> x.getRole() == Role.BOTH).collect(Collectors.toList());
+        List<Argument2> none = arguments.stream()
+                .filter(x -> x.getRole() == Role.NONE).collect(Collectors.toList());
 
+        // There is an argument, which requires more information
+        // Extracting any kind of relation, would lead to uninformative and non factual relations
+        if (!none.isEmpty()) {
+            return extrs;
+        }
 
         // If there are two arguments, create an extraction
         if (arguments.size() == 2) {
