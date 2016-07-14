@@ -89,7 +89,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         List<Argument2> both = arguments.stream()
                 .filter(x -> x.getRole() == Role.BOTH).collect(Collectors.toList());
         List<Argument2> none = arguments.stream()
-                .filter(x -> x.getRole() == Role.NONE).collect(Collectors.toList());
+                .filter(x -> x.getRole() == Role.NONE && x instanceof Objp).collect(Collectors.toList());
 
         // There is an argument, which requires more information
         // Extracting any kind of relation, would lead to uninformative and non factual relations
@@ -97,8 +97,17 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             return extrs;
         }
 
+        // Add 'sich' always as complement. It does not count as argument.
+        if (!complements.isEmpty()) {
+            Argument2 sich = complements.stream().filter(x -> x.getRootNode().getWord().equals("sich")).findAny().orElse(null);
+            if (sich != null) {
+                addToRelation(rel, sich);
+                arguments.remove(sich);
+            }
+        }
+
         // If there are two arguments, create an extraction
-        if (arguments.size() == 2) {
+        if (arguments.size() <= 2) {
             // Add the complements to the relation
             addToRelation(rel, complements);
 
@@ -188,7 +197,6 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         return complement;
     }
 
-
     /**
      * Adds the complement nodes to the given relation.
      * @param rel         the relation
@@ -209,6 +217,12 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
 
         ids.addAll((Collection<? extends Integer>) rel.getNodeIds());
         rel.setNodeIds(ids);
+    }
+
+    private void addToRelation(TreeExtraction rel, Argument2 complement) {
+        List<Argument2> complements = new ArrayList<>();
+        complements.add(complement);
+        addToRelation(rel, complements);
     }
 
     /**
