@@ -10,6 +10,7 @@ import java.util.stream.Collectors;
 
 public class TreeExtraction {
 
+    private Node prepositionNode;
     private Node rootNode;
     private Iterable<Integer> nodeIds;
     private Iterable<Integer> konNodeIds;
@@ -18,6 +19,7 @@ public class TreeExtraction {
     public TreeExtraction(Node rootNode, Iterable<Integer> nodeIds) {
         this.rootNode = rootNode;
         this.nodeIds = nodeIds;
+        this.prepositionNode = null;
     }
 
     public TreeExtraction(Node rootNode, int nodeId) {
@@ -25,6 +27,21 @@ public class TreeExtraction {
         List<Integer> ids = new ArrayList<>();
         ids.add(nodeId);
         this.nodeIds = ids;
+        this.prepositionNode = null;
+    }
+
+    public TreeExtraction(Node rootNode, Iterable<Integer> nodeIds, Node prepositionNode) {
+        this.rootNode = rootNode;
+        this.nodeIds = nodeIds;
+        this.prepositionNode = prepositionNode;
+    }
+
+    public TreeExtraction(Node rootNode, int nodeId, Node prepositionNode) {
+        this.rootNode = rootNode;
+        List<Integer> ids = new ArrayList<>();
+        ids.add(nodeId);
+        this.nodeIds = ids;
+        this.prepositionNode = prepositionNode;
     }
 
     public String toString() {
@@ -73,5 +90,13 @@ public class TreeExtraction {
 
     public void setLastNodeId(Integer lastNodeId) {
         this.lastNodeId = lastNodeId;
+    }
+
+    public Node getPrepositionNode() {
+        return prepositionNode;
+    }
+
+    public void setPrepositionNode(Node prepositionNode) {
+        this.prepositionNode = prepositionNode;
     }
 }

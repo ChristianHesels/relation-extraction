@@ -87,6 +87,12 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         for (TreeExtraction arg1 : arg1s) {
             for (TreeExtraction arg2 : arg2s) {
                 if (!arg1.isEmtpy() && !arg2.isEmtpy()) {
+
+                    rel = new TreeExtraction(rel.getRootNode(), rel.getNodeIds(), arg2.getPrepositionNode());
+                    if (arg2.getPrepositionNode() != null) {
+                        rel.setLastNodeId(arg2.getPrepositionNode().getId());
+                    }
+
                     TreeBinaryExtraction extr = new TreeBinaryExtraction(tree, context, rel, arg1, arg2);
                     results.add(extr);
                 }
@@ -95,7 +101,6 @@ public class TreeBinaryExtraction implements ExtractionConverter {
         }
         return results;
     }
-
 
     @Override
     public String toString() {

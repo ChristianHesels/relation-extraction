@@ -51,18 +51,13 @@ public abstract class Argument2 {
      * @return a list of tree extraction
      */
     public List<TreeExtraction> createTreeExtractions() {
-        // Add the preposition to the relation
-        if (this.getPreposition() != null) {
-            this.relation.setLastNodeId(this.getPreposition().getId());
-        }
-
         List<TreeExtraction> extractions = new ArrayList<>();
 
         // Add the main object
-        extractions.add(new TreeExtraction(this.relation.getRootNode(), getIds(this.rootNode)));
+        extractions.add(new TreeExtraction(this.relation.getRootNode(), getIds(this.rootNode), this.getPreposition()));
         // Add a extraction for each subject in the conjunction
         extractions.addAll(resolveConjunction().stream()
-                               .map(kon -> new TreeExtraction(this.relation.getRootNode(), getIds(kon)))
+                               .map(kon -> new TreeExtraction(this.relation.getRootNode(), getIds(kon), this.getPreposition()))
                                .collect(Collectors.toList()));
 
         return extractions;
