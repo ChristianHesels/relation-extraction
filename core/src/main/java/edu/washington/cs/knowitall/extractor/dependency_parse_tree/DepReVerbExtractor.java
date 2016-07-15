@@ -52,14 +52,15 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
      *
      * @param childArguments    extract second argument also from child nodes?
      * @param pronounsAsSubject consider pronouns as subject?
+     * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerbExtractor(boolean childArguments, boolean pronounsAsSubject) {
+    public DepReVerbExtractor(boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
         this.relExtr = new DepReVerbRelationExtractor();
 
         this.arg1Extr = new DepReVerbArgument1Extractor();
         arg1Extr.addMapper(new DepReVerbArgument1Mappers(pronounsAsSubject));
 
-        this.arg2Extr = new DepReVerbArgument2Extractor(childArguments);
+        this.arg2Extr = new DepReVerbArgument2Extractor(childArguments, progressiveExtraction);
         arg2Extr.addMapper(new DepReVerbArgument2Mappers());
 
         this.contextExtr = new ContextExtractor();

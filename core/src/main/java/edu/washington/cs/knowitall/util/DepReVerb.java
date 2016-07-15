@@ -39,10 +39,11 @@ public class DepReVerb extends Extractor<DependencyParseTree, TreeBinaryExtracti
      * @param debug             enable debug mode?
      * @param childArguments    extract second argument also from child nodes?
      * @param pronounsAsSubject consider pronouns as subject?
+     * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerb(boolean debug, boolean childArguments, boolean pronounsAsSubject) {
+    public DepReVerb(boolean debug, boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
         super(debug);
-        this.extractor = new DepReVerbExtractor(childArguments, pronounsAsSubject);
+        this.extractor = new DepReVerbExtractor(childArguments, pronounsAsSubject, progressiveExtraction);
     }
 
     protected Iterable<TreeBinaryExtraction> extract(DependencyParseTree tree) {

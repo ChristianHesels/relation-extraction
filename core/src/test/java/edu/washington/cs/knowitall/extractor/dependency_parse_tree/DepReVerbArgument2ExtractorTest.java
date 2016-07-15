@@ -1,5 +1,6 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
+import com.google.common.collect.Iterables;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
@@ -115,19 +116,9 @@ public class DepReVerbArgument2ExtractorTest {
 
         // Extract relations
         Iterable<TreeExtraction> extractions = extractor.extractCandidates(rel);
-        List<String> stringExtractions = new ArrayList<>();
-        for (TreeExtraction e : extractions) {
-            stringExtractions.add(e.toString());
-        }
-
-        // Define expected relations
-        List<String> expectedExtractions = new ArrayList<>();
-        expectedExtractions.add("die Dortmunder Konzerthalle");
-        expectedExtractions.add("das Stadion in Mönchengladbach");
-        expectedExtractions.add("den Königspalast");
 
         // Check
-        expectedExtractions.forEach(extr -> assertTrue(stringExtractions.contains(extr)));
+        assertTrue(Iterables.isEmpty(extractions));
     }
 
 }

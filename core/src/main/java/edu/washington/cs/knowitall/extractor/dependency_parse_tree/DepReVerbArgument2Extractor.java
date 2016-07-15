@@ -18,17 +18,20 @@ import java.util.stream.Collectors;
 public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     private boolean childArguments;
+    private boolean progressiveExtraction;
 
     public DepReVerbArgument2Extractor() {
-        this(false);
+        this(false, false);
     }
 
     /**
      * Creates a argument 2 extractor.
      * @param childArguments extract second argument also from child nodes?
+     * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerbArgument2Extractor(boolean childArguments) {
+    public DepReVerbArgument2Extractor(boolean childArguments, boolean progressiveExtraction) {
         this.childArguments = childArguments;
+        this.progressiveExtraction = progressiveExtraction;
     }
 
     @Override
@@ -151,13 +154,15 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             }
         }
 
-        // There exists more than two arguments
-        // Because we want coherent extraction, create a extraction for each argument
-        arguments.forEach(a -> {
-            if (a.getRole() != Role.COMPLEMENT && a.getRole() != Role.NONE) {
-                extrs.addAll(a.createTreeExtractions());
-            }
-        });
+        if (progressiveExtraction) {
+            // There exists more than two arguments
+            // Because we want coherent extraction, create a extraction for each argument
+            arguments.forEach(a -> {
+                if (a.getRole() != Role.COMPLEMENT && a.getRole() != Role.NONE) {
+                    extrs.addAll(a.createTreeExtractions());
+                }
+            });
+        }
         return extrs;
     }
 
