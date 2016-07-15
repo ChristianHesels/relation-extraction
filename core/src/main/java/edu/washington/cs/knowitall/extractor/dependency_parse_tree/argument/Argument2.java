@@ -67,20 +67,37 @@ public abstract class Argument2 {
      * @return a list of ids belonging to this argument
      */
     public List<Integer> getIds() {
-        return getIds(this.rootNode);
+        return getIds(this.rootNode, true);
+    }
+
+    /**
+     * @param removeKon remove kon child nodes?
+     * @return a list of ids belonging to this argument
+     */
+    public List<Integer> getIds(boolean removeKon) {
+        return getIds(this.rootNode, removeKon);
+    }
+
+    /**
+     * @param n root node
+     * @return a list of ids belonging to this argument
+     */
+    public List<Integer> getIds(Node n) {
+        return getIds(n, true);
     }
 
     /**
      * List the ids of the underlying children.
      * Child nodes, which belong to a conjunction, are removed.
      * @param n root node
+     * @param removeKon remove kon child nodes?
      * @return a list of ids
      */
-    protected List<Integer> getIds(Node n) {
+    protected List<Integer> getIds(Node n, boolean removeKon) {
         // Get the conjunction nodes and removes them from the object nodes
         List<Node> konChildren = n.getKonChildren();
         List<Node> allChildren = n.toList();
-        allChildren.removeAll(konChildren);
+        if (removeKon) allChildren.removeAll(konChildren);
 
         allChildren = removePPNodes(allChildren);
         allChildren = removeAPPNodes(allChildren, n);

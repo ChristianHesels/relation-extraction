@@ -209,7 +209,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
 
         List<Integer> ids = new ArrayList<>();
         for (Argument2 arg : complements) {
-            ids.addAll(arg.getIds());
+            ids.addAll(arg.getIds(false));
             if (arg.getPreposition() != null) {
                 ids.add(arg.getPreposition().getId());
             }
