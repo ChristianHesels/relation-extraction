@@ -1,11 +1,11 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
-import java.util.HashSet;
-
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.normalization.NormalizedField;
 import edu.washington.cs.knowitall.normalization.VerbalRelationNormalizer;
+
+import java.util.HashSet;
 
 /**
  * A class used to filter out any relations whose normalized form does not appear in the given
@@ -26,7 +26,7 @@ public class NormalizedRelationDictionaryFilter extends
      */
     public NormalizedRelationDictionaryFilter(HashSet<String> relations) {
         this.relations = relations;
-        normalizer = new VerbalRelationNormalizer(true, true);
+        normalizer = new VerbalRelationNormalizer(true, true, false);
     }
 
     /**

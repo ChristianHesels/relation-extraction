@@ -21,7 +21,7 @@ public class BinaryExtractionNormalizer {
      */
     public BinaryExtractionNormalizer() {
         this.argNormalizer = new ArgumentNormalizer();
-        this.relNormalizer = new VerbalRelationNormalizer(false, false);
+        this.relNormalizer = new VerbalRelationNormalizer(false, false, false);
     }
 
     /**

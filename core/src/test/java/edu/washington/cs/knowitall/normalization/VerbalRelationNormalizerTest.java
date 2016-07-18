@@ -1,15 +1,14 @@
 package edu.washington.cs.knowitall.normalization;
 
+import edu.washington.cs.knowitall.commonlib.Range;
+import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +18,7 @@ public class VerbalRelationNormalizerTest {
 
     @Before
     public void setUp() throws Exception {
-        normalizer = new VerbalRelationNormalizer(true, false);
+        normalizer = new VerbalRelationNormalizer(true, false, true);
     }
 
     private static void assertNorm(String expectedStr, String tokensStr, String posTagsStr)
@@ -47,15 +46,15 @@ public class VerbalRelationNormalizerTest {
         assertNorm("sein in", "war in", "VAFIN APPR");
         assertNorm("einarbeiten in", "sind eingearbeitet in", "VAFIN VVPP APPR");
         assertNorm("nehmen durchschnittlich", "nahm durchschnittlich", "VVFIN ADJD");
-        assertNorm("sein zeit für", "ist die perfekte Zeit für", "VAFIN ART ADJA NN APPR");
-        assertNorm("sein ergebnis von", "ist das Ergebnis von", "VAFIN ART NN APPR");
+        assertNorm("sein NOUN für", "ist die perfekte Zeit für", "VAFIN ART ADJA NN APPR");
+        assertNorm("sein NOUN von", "ist das Ergebnis von", "VAFIN ART NN APPR");
         assertNorm("können kaufen an", "kann gekauft werden am", "VMFIN VVPP VAINF APPRART");
         assertNorm("können nicht löschen von", "kann nicht gelöscht werden von",
                    "VMFIN PTKNEG VVPP VAFIN APPR");
         assertNorm("können nicht sein", "kann nicht sein", "VMFIN PTKNEG VAINF");
-        assertNorm("benötigen level an", "benötigt auch ein hohes Level an",
+        assertNorm("benötigen NOUN an", "benötigt auch ein hohes Level an",
                    "ADJD ADV ART ADJA NN APPR");
-        assertNorm("nehmen kind mit zu", "nahm meine Kinder mit zu", "VVFIN PPOSAT NN APPR APPR");
+        assertNorm("nehmen NOUN mit zu", "nahm meine Kinder mit zu", "VVFIN PPOSAT NN APPR APPR");
         assertNorm("verwüsten von", "wurde verwüstet von", "VAFIN VVFIN APPR");
         assertNorm("haben nichts damit zu tun", "hat nichts damit zu tun",
                    "VAFIN PIS PROAV PTKZU VVINF");
@@ -63,7 +62,7 @@ public class VerbalRelationNormalizerTest {
         assertNorm("sein gut darin", "sind viel besser darin", "VAFIN ADV ADJD PROAV");
         assertNorm("sehen gut aus", "sieht ziemlich gut aus", "VAFIN ADV ADJD APPR");
         assertNorm("sein groß als", "ist größer als", "VAFIN ADJD KOKOM");
-        assertNorm("sein quelle für", "ist eine exzellente Quelle für", "VAFIN ART ADJA NN APPR");
+        assertNorm("sein NOUN für", "ist eine exzellente Quelle für", "VAFIN ART ADJA NN APPR");
     }
 
 }

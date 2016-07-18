@@ -1,12 +1,16 @@
 package edu.washington.cs.knowitall.normalization;
 
+import com.google.common.base.Joiner;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+import edu.washington.cs.knowitall.sequence.SequenceException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
-import edu.washington.cs.knowitall.sequence.SequenceException;
+import java.util.stream.Collectors;
 
 /**
  * A class that can be used to normalize verbal relation strings. It performs the following
@@ -20,6 +24,7 @@ public class VerbalRelationNormalizer {
 
     private boolean stripAdj = false;
     private boolean lemmatize = false;
+    private boolean replaceNNandART = false;
 
     private HashSet<String> ignorePosTags;
     private HashSet<String> auxVerbs;
@@ -41,11 +46,30 @@ public class VerbalRelationNormalizer {
         auxVerbs.add("werden");
     }
 
-    public VerbalRelationNormalizer(boolean lemmatize, boolean stripAdj) {
+    public VerbalRelationNormalizer(boolean lemmatize, boolean stripAdj, boolean replaceNNandART) {
         this();
 
         this.lemmatize = lemmatize;
         this.stripAdj = stripAdj;
+        this.replaceNNandART = replaceNNandART;
+    }
+
+
+    /**
+     * Normalizes the given field.
+     */
+    public TreeNormalizedField normalizeField(TreeExtraction extraction) {
+        List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
+        if (extraction.getLastNodeId() != null) {
+            nodes.add(extraction.getRootNode().find(extraction.getLastNodeId()));
+        }
+
+        List<String> tokens = nodes.stream().map(Node::getWord).collect(Collectors.toList());
+        List<String> postags = nodes.stream().map(Node::getPos).collect(Collectors.toList());
+
+        normalizeModify(tokens, postags);
+
+        return new TreeNormalizedField(Joiner.on(" ").join(tokens));
     }
 
     /**
@@ -94,6 +118,21 @@ public class VerbalRelationNormalizer {
         if (lemmatize) {
             tokens = lemmatizer.lemmatize(tokens);
             removeLeadingBeHave(tokens, posTags);
+        }
+
+        if (replaceNNandART) {
+            replaceNounsArticels(tokens, posTags);
+        }
+    }
+
+    private void replaceNounsArticels(List<String> tokens, List<String> tags) {
+        for (int i = 0; i < tokens.size(); i++) {
+            if (tags.get(i).equals("ART")) {
+                tokens.set(i, "ART");
+            }
+            if (tags.get(i).equals("NN") || tags.get(i).equals("NE")) {
+                tokens.set(i, "NOUN");
+            }
         }
     }
 
