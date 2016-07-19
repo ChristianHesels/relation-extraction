@@ -6,6 +6,8 @@ import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.*;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -282,4 +284,37 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         return arguments;
     }
 
+
+    private void writeArgumentPattern(List<Argument2> arguments, TreeExtraction rel) {
+        if (arguments.size() > 0) {
+            String sentence = rel.getRootNode().toString();
+
+            StringBuilder patternBuilder = new StringBuilder();
+            for (Argument2 arg : arguments) {
+                if (arg instanceof Pp) {
+                    patternBuilder.append(" ");
+                    patternBuilder.append(arg.getPreposition().getLabelToParent());
+                    patternBuilder.append(" (");
+                    patternBuilder.append(arg.getPreposition().getWord().toLowerCase());
+                    patternBuilder.append(")");
+                } else {
+                    patternBuilder.append(" ");
+                    String[] parts = arg.getClass().getName().split("\\.");
+                    patternBuilder.append(parts[parts.length - 1]);
+                }
+            }
+            String pattern = patternBuilder.toString();
+
+            try {
+                FileWriter fw = new FileWriter("argument2_patterns.txt", true);
+
+                fw.write(sentence + "\t" + pattern);
+                fw.write("\n");
+
+                fw.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 }
