@@ -4,6 +4,7 @@ import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument1Mappers;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument2Mappers;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepRelationDictionaryFilter;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.PronounRelationFilter;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
@@ -44,17 +45,19 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
 
         this.contextExtr = new ContextExtractor();
 
+        this.addMapper(new DepRelationDictionaryFilter());
         this.addMapper(new PronounRelationFilter());
     }
 
     /**
      * Explicit constructor to invoke the corresponding super's constructor with arguments.
      *
+     * @param minFreq the minimum number of distinct arg2s a relation must have to be included.
      * @param childArguments    extract second argument also from child nodes?
      * @param pronounsAsSubject consider pronouns as subject?
      * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerbExtractor(boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
+    public DepReVerbExtractor(int minFreq, boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
         this.relExtr = new DepReVerbRelationExtractor();
 
         this.arg1Extr = new DepReVerbArgument1Extractor();
@@ -65,6 +68,7 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
 
         this.contextExtr = new ContextExtractor();
 
+        this.addMapper(new DepRelationDictionaryFilter(minFreq));
         this.addMapper(new PronounRelationFilter(pronounsAsSubject));
     }
 

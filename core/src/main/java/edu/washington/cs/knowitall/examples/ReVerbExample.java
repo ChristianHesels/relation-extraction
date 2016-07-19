@@ -41,7 +41,7 @@ public class ReVerbExample {
         System.out.println(chunkRelationsAsString(relationsII));
         System.out.println("");
 
-        DepReVerb depReVerb = new DepReVerb(false, false, false, false);
+        DepReVerb depReVerb = new DepReVerb(false, 20, false, false, false);
         Iterable<TreeBinaryExtraction> relationsIII = depReVerb.extractRelationsFromString(sentStr);
         System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relationsIII));
@@ -53,7 +53,7 @@ public class ReVerbExample {
 
         ReVerb reVerb = new ReVerb(false, 20, true);
         GermanReVerb germanReVerb = new GermanReVerb(false, 20, true, true, true);
-        DepReVerb depReVerb = new DepReVerb(false, false, false, false);
+        DepReVerb depReVerb = new DepReVerb(false, 20, false, false, false);
 
         System.out.print("Process sentences ");
         int i = 0;
