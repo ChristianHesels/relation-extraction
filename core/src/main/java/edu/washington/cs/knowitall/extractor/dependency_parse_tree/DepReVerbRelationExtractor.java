@@ -1,13 +1,13 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Extracts the relation phrase from the tree.
@@ -18,6 +18,15 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
     protected Iterable<TreeExtraction> extractCandidates(Node rootNode)
         throws ExtractorException {
         List<TreeExtraction> rels = new ArrayList<>();
+
+        // If the sentence starts with a conjunction, the conjunction is the root node
+        // of that sentence. The verb is then connected via 'cj' to the conjunction node.
+        if (rootNode.getPosGroup().equals("KON")) {
+            List<Node> cjs = rootNode.getChildrenOfType("cj");
+            if (cjs.size() == 1) {
+                rootNode = cjs.get(0);
+            }
+        }
 
         // if the root node is not a verb, the sentence is not parsed properly
         // no relation is extracted from such sentences
