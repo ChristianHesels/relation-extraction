@@ -53,6 +53,13 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
         rels.add(createTreeExtraction(verbNodes, rootNode));
         rels.get(0).setKonNodeIds(konNodes.stream().map(Node::getId).collect(Collectors.toList()));
 
+        // If there is a conjunction between the verbs, it has to be from the following list.
+        // Otherwise, the verb is independent.
+        List<String> konTokens = new ArrayList<>();
+        konTokens.add("und");
+        konTokens.add("oder");
+        konTokens.add("sowohl");
+
         for (Node kon : konNodes) {
             List<Node> verbs = kon.getChildrenOfType("aux");
             List<Node> avz = kon.getChildrenOfType("avz");
@@ -61,7 +68,7 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
             // if the conjunction comes from a auxiliary verb,
             // all verbs of the conjunction should be auxiliary verbs too
             // so we need to add the main verb (-> root)
-            if ((kon.getPos().endsWith("PP") || rootNode.getPos().equals("VMFIN")) && verbs.isEmpty()) {
+            if ((kon.getPos().endsWith("PP") || rootNode.getPos().equals("VMFIN")) && verbs.isEmpty() && (!kon.getParent().getPos().equals("KON") || konTokens.contains(kon.getParent().getWord()))) {
                 verbs.add(rootNode);
                 verbs.add(kon);
                 verbs.addAll(avz);
