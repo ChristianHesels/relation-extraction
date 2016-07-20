@@ -68,7 +68,9 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
 
         this.contextExtr = new ContextExtractor();
 
-        this.addMapper(new DepRelationDictionaryFilter(minFreq));
+        if (minFreq > 0) {
+            this.addMapper(new DepRelationDictionaryFilter(minFreq));
+        }
         this.addMapper(new PronounRelationFilter(pronounsAsSubject));
     }
 

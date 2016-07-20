@@ -33,6 +33,8 @@ public class DepReVerbArgument1Mappers extends
     }
 
     private void init(boolean pronounsAsSubject) {
+        addMapper(new MergeOverlappingMapper());
+
         List<String> firstPosTags = new ArrayList<>();
         // First word of argument
         // can't be a Wh word
@@ -40,17 +42,22 @@ public class DepReVerbArgument1Mappers extends
         firstPosTags.add("PWAT");
         firstPosTags.add("PWAV");
         // can't be pronoun
-        firstPosTags.add("PRF");       // sich
-        firstPosTags.add("PDS");       // dieser, jener
-        firstPosTags.add("PPOSS");     // meins, deiner
-        firstPosTags.add("PRELAT");    // dessen
+//        firstPosTags.add("PRF");       // sich
+//        firstPosTags.add("PDS");       // dieser, jener
+//        firstPosTags.add("PPOSS");     // meins, deiner
+//        firstPosTags.add("PRELAT");    // dessen
         if (!pronounsAsSubject) {
             firstPosTags.add("PPER");      // ich, er, ihm, mich
         }
         firstPosTags.add("PRELS");     // [der Hund ,] der
 
-        addMapper(new MergeOverlappingMapper());
         addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
+
+        List<String> firstTokens = new ArrayList<>();
+        firstTokens.add("solche");
+        firstTokens.add("diese");
+
+        addMapper(new FirstTokenNotEqualsFilter(firstTokens));
 
         addArgumentNotEqualsFilter("ART");      // der die das
         addArgumentNotEqualsFilter("PIS");      // alle, wenige, keiner

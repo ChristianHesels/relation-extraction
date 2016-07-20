@@ -27,12 +27,19 @@ public class DepReVerbArgument2Mappers extends
         // can't be a number
         firstPosTags.add("CARD");
         // can't be pronoun
-        firstPosTags.add("PRF");   // sich
-        firstPosTags.add("PDS");   // dieser, jener
-        firstPosTags.add("PDAT");  // dieser, jener
-        firstPosTags.add("PPOSS"); // meins, deiner
-        firstPosTags.add("PIS");   // man
-        firstPosTags.add("PPER");  // er
+//        firstPosTags.add("PRF");   // sich
+//        firstPosTags.add("PDS");   // dieser, jener
+//        firstPosTags.add("PDAT");  // dieser, jener
+//        firstPosTags.add("PPOSS"); // meins, deiner
+//        firstPosTags.add("PRELAT");    // dessen
+//        firstPosTags.add("PIS");   // man
+//        firstPosTags.add("PPER");  // er
+
+        List<String> firstTokens = new ArrayList<>();
+        firstTokens.add("solche");
+//        firstTokens.add("diese");
+
+        addMapper(new FirstTokenNotEqualsFilter(firstTokens));
 
         List<String> tokens = new ArrayList<>();
         // special quote characters, which may not be parsed correctly
