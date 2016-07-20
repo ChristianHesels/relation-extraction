@@ -12,12 +12,14 @@ public abstract class Argument2 {
 
     protected Node rootNode;
     protected TreeExtraction relation;
+    protected String name;
 
     private static final int MAX_PP_SIZE = 10;
 
-    public Argument2(Node rootNode, TreeExtraction relation) {
+    public Argument2(Node rootNode, TreeExtraction relation, String name) {
         this.rootNode = rootNode;
         this.relation = relation;
+        this.name = name;
     }
 
     /**
@@ -146,4 +148,7 @@ public abstract class Argument2 {
         return relation;
     }
 
+    public String getName() {
+        return name;
+    }
 }

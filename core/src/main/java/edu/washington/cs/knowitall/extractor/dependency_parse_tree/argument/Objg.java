@@ -7,7 +7,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 public class Objg extends Argument2 {
 
     public Objg(Node rootNode, TreeExtraction relation) {
-        super(rootNode, relation);
+        super(rootNode, relation, "OBJG");
     }
 
     @Override

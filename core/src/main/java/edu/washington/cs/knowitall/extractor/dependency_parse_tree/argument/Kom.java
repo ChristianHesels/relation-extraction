@@ -11,7 +11,7 @@ public class Kom extends Argument2 {
     private Node preopsition;
 
     public Kom(Node rootNode, TreeExtraction relation) {
-        super(rootNode, relation);
+        super(rootNode, relation, "KOM");
         this.preopsition = null;
 
         // the noun of this object is connected via 'cj' to the preposition,

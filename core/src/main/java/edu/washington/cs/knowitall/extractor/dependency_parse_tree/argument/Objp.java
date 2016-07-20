@@ -11,7 +11,7 @@ public class Objp extends Argument2 {
     private Node preopsition;
 
     public Objp(Node rootNode, TreeExtraction relation) {
-        super(rootNode, relation);
+        super(rootNode, relation, "OBJP");
         this.preopsition = null;
 
         // the noun of this object is connected via 'pn' to the preposition,

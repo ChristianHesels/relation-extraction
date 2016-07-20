@@ -11,7 +11,7 @@ public class Pp extends Argument2 {
     private Node preopsition;
 
     public Pp(Node rootNode, TreeExtraction relation) {
-        super(rootNode, relation);
+        super(rootNode, relation, "PP");
         this.preopsition = null;
 
         // the noun of this object is connected via 'pn' to the preposition,

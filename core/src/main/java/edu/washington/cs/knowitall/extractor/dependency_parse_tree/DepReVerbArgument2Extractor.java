@@ -174,6 +174,11 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
      * @return the argument, which has the longest distance to relation
      */
     private Argument2 getObject(List<Argument2> argument2s) {
+        List<Argument2> objectArguments = argument2s.stream().filter(x -> x.getName().startsWith("OBJ")).collect(Collectors.toList());
+        if (objectArguments.size() == 1) {
+            return objectArguments.get(0);
+        }
+
         Argument2 object = null;
         int maxDistance = 0;
         for (Argument2 arg : argument2s) {

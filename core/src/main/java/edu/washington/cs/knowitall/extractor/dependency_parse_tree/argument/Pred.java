@@ -6,7 +6,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 public class Pred extends Argument2 {
 
     public Pred(Node rootNode, TreeExtraction relation) {
-        super(rootNode, relation);
+        super(rootNode, relation, "PRED");
         }
 
     @Override
