@@ -36,7 +36,7 @@ public class DepReVerbArgument2Mappers extends
 //        firstPosTags.add("PPER");  // er
 
         List<String> firstTokens = new ArrayList<>();
-        firstTokens.add("solche");
+//        firstTokens.add("solche");
 //        firstTokens.add("diese");
 
         addMapper(new FirstTokenNotEqualsFilter(firstTokens));

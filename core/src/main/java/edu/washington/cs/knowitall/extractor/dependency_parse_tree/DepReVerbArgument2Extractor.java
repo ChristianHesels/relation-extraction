@@ -81,7 +81,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         // If there is only one object, add it to the list of extractions
         if (arguments.size() == 1) {
             Argument2 arg = arguments.get(0);
-            if (arg.getRole() != Role.COMPLEMENT && arg.getRole() != Role.NONE) {
+            if (arg.getName().equals("PP") || (arg.getRole() != Role.COMPLEMENT && arg.getRole() != Role.NONE)) {
                 extrs.addAll(arg.createTreeExtractions());
             }
             return extrs;
@@ -113,6 +113,25 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
 
         // If there are two arguments, create an extraction
         if (arguments.size() <= 2) {
+
+            // If we have a 'pred', which is an adverb, 'pp' becomes the object
+            if (argContains(arguments, "PRED", 1) && argContains(arguments, "PP", 1)) {
+                Argument2 pred = getArg(arguments, "PRED").get(0);
+                Argument2 pp = getArg(arguments, "PP").get(0);
+
+                if (pred.getRole().equals(Role.COMPLEMENT)) {
+                    objects.add(pp);
+                    complements.remove(pp);
+                }
+            }
+
+            // If both arguments are PP, one can be the object
+            if (argContainsOnly(arguments, "PP")) {
+                Argument2 object = getObject(arguments);
+                objects.add(object);
+                complements.remove(object);
+            }
+
             // Add the complements to the relation
             addToRelation(rel, complements);
 
@@ -322,4 +341,20 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             }
         }
     }
+
+
+    private boolean argContains(List<Argument2> arguments, String type, int count) {
+        return arguments.stream().filter(x -> x.getName().equals(type)).collect(Collectors.toList()).size() == count;
+    }
+
+    private boolean argContainsOnly(List<Argument2> arguments, String type) {
+        return arguments.stream().filter(x -> !x.getName().equals(type)).collect(Collectors.toList()).isEmpty();
+    }
+
+    private List<Argument2> getArg(List<Argument2> arguments, String type) {
+        return arguments.stream().filter(x -> x.getName().equals(type)).collect(Collectors.toList());
+    }
+
 }
+
+

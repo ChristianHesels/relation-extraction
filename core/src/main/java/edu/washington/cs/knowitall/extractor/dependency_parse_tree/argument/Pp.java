@@ -32,7 +32,7 @@ public class Pp extends Argument2 {
         if (preopsition == null) {
             return Role.NONE;
         }
-        return Role.BOTH;
+        return Role.COMPLEMENT;
     }
 
     @Override
