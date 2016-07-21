@@ -131,7 +131,12 @@ public class VerbalRelationNormalizer {
                 tokens.set(i, "ART");
             }
             if (tags.get(i).equals("NN") || tags.get(i).equals("NE")) {
-                tokens.set(i, "NOUN");
+                if (i - 1 >= 0 && tokens.get(i - 1).equals("NOUN")) {
+                    tokens.remove(i);
+                    tags.remove(i);
+                } else {
+                    tokens.set(i, "NOUN");
+                }
             }
         }
     }

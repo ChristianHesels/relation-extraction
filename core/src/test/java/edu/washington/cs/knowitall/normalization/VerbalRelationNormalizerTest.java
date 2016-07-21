@@ -62,7 +62,7 @@ public class VerbalRelationNormalizerTest {
         assertNorm("sein gut darin", "sind viel besser darin", "VAFIN ADV ADJD PROAV");
         assertNorm("sehen gut aus", "sieht ziemlich gut aus", "VAFIN ADV ADJD APPR");
         assertNorm("sein groß als", "ist größer als", "VAFIN ADJD KOKOM");
-        assertNorm("sein NOUN für", "ist eine exzellente Quelle für", "VAFIN ART ADJA NN APPR");
+        assertNorm("sein NOUN für", "ist eine exzellente Quelle Friedrich für", "VAFIN ART ADJA NN NE APPR");
     }
 
 }

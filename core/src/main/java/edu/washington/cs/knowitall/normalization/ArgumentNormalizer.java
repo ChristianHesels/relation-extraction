@@ -1,11 +1,15 @@
 package edu.washington.cs.knowitall.normalization;
 
+import com.google.common.base.Joiner;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
+import java.util.stream.Collectors;
 
 /**
  * Normalizes {@link ChunkedExtraction} arguments by <ul> <li>Lowercasing</li> <li>Removing
@@ -57,6 +61,34 @@ public class ArgumentNormalizer {
             }
         }
         return new NormalizedArgumentField(field, tokens, tags, attrTokens, attrTags);
+    }
+
+    /**
+     * Remove adjective and adverbs and store separate.
+     */
+    public TreeNormalizedField normalizeField(TreeExtraction extraction) {
+        List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
+        if (extraction.getLastNodeId() != null) {
+            nodes.add(extraction.getRootNode().find(extraction.getLastNodeId()));
+        }
+
+        List<String> tokens = nodes.stream().map(Node::getWord).collect(Collectors.toList());
+        List<String> tags = nodes.stream().map(Node::getPos).collect(Collectors.toList());
+
+        int i = 0;
+        while (i < tokens.size()) {
+            String tag = tags.get(i);
+            if (ignorePosTags.contains(tag)) {
+                tokens.remove(i);
+                tags.remove(i);
+            } else if (attributePosTags.contains(tag)) {
+                tokens.remove(i);
+                tags.remove(i);
+            } else {
+                i++;
+            }
+        }
+        return new TreeNormalizedField(Joiner.on(" ").join(tokens));
     }
 
 }
