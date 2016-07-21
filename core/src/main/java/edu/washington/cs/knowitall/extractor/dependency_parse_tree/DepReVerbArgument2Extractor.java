@@ -199,7 +199,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         }
 
         Argument2 object = null;
-        int maxDistance = 0;
+        int maxDistance = Integer.MIN_VALUE;
         for (Argument2 arg : argument2s) {
             int currDistance = arg.distanceToRelation();
             if (currDistance > maxDistance) {
