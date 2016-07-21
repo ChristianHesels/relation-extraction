@@ -34,6 +34,12 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
             return rels;
         }
 
+        // if the root node has a 'Objektinfinitiv', the root node does not result
+        // in an informative relation
+        if (!rootNode.getChildrenOfType("obji").isEmpty()) {
+            return rels;
+        }
+
         // check if there are auxiliary verbs
         List<Node> verbNodes = rootNode.getChildrenOfType("aux", "avz");
 
