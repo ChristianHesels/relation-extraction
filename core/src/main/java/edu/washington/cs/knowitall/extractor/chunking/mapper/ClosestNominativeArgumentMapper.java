@@ -1,15 +1,15 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.NoSuchElementException;
-
 import edu.washington.cs.knowitall.extractor.MaxMapper;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 import edu.washington.cs.knowitall.nlp.morphology.ZmorgeMorphology;
 import edu.washington.cs.knowitall.util.DefaultObjects;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.NoSuchElementException;
 
 /**
  * A mapper object for <code>ChunkedArgumentExtraction</code> objects that returns the object,
@@ -32,7 +32,7 @@ public class ClosestNominativeArgumentMapper extends
         } catch (IOException e) {
             System.out.println("Could not load Morphy!");
         }
-        zmorge = new ZmorgeMorphology();
+        zmorge = DefaultObjects.getZmorge();
     }
 
     @Override
@@ -41,6 +41,8 @@ public class ClosestNominativeArgumentMapper extends
      */
     public Integer doValueMap(ChunkedArgumentExtraction arg) {
         if (morphy != null) {
+
+//            long start = System.nanoTime();
             boolean isNominative = true;
             List<String> posTags = arg.getPosTags();
             for (int i = 0; i < posTags.size(); i++) {
@@ -58,6 +60,8 @@ public class ClosestNominativeArgumentMapper extends
                     }
                 }
             }
+//            long end = System.nanoTime();
+//            System.out.println("IsNominative took: " + ((end - start) / 1000000) + "ms");
 
             if (!isNominative) {
                 return -Integer.MAX_VALUE;

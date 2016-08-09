@@ -1,5 +1,7 @@
 package edu.washington.cs.knowitall.util;
 
+import edu.washington.cs.knowitall.nlp.morphology.Morphy;
+import edu.washington.cs.knowitall.nlp.morphology.ZmorgeMorphology;
 import opennlp.tools.postag.POSModel;
 import opennlp.tools.postag.POSTagger;
 import opennlp.tools.postag.POSTaggerME;
@@ -9,8 +11,6 @@ import opennlp.tools.sentdetect.SentenceModel;
 
 import java.io.IOException;
 import java.io.InputStream;
-
-import edu.washington.cs.knowitall.nlp.morphology.Morphy;
 
 public class DefaultObjects {
 
@@ -23,6 +23,7 @@ public class DefaultObjects {
      * Default singleton objects
      */
     private static Morphy MORPHY = null;
+    private static ZmorgeMorphology ZMORGE = null;
 
     public static InputStream getResourceAsStream(String resource)
         throws IOException {
@@ -44,6 +45,13 @@ public class DefaultObjects {
             MORPHY = new Morphy(in, test);
         }
         return MORPHY;
+    }
+
+    public static ZmorgeMorphology getZmorge() {
+        if (ZMORGE == null) {
+            ZMORGE = new ZmorgeMorphology();
+        }
+        return ZMORGE;
     }
 
     public static POSTagger getDefaultPosTagger() throws IOException {

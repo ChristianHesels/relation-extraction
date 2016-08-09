@@ -1,18 +1,13 @@
 package edu.washington.cs.knowitall.nlp.chunking;
 
+import edu.washington.cs.knowitall.commonlib.Range;
+import edu.washington.cs.knowitall.util.DefaultObjects;
 import opennlp.tools.postag.POSTagger;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import edu.washington.cs.knowitall.commonlib.Range;
-import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
  * A class that combines OpenNLP POS tagger and Tree Tagger tokenizer and chunker objects into a
