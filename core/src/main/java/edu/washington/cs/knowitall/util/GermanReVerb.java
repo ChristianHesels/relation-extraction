@@ -37,11 +37,12 @@ public class GermanReVerb extends ExtractorChunks {
      * @param useLexSynConstraints use syntactic and lexical constraints that are part of German Reverb?
      * @param combineVerbs combine separated verbs?
      * @param useMorphologyLexicon use a morphology lexicon?
+     * @param extractSubsentences divide the sentence into subsentence before extracting relations?
      */
     public GermanReVerb(boolean debug, int minFreq, boolean useLexSynConstraints,
-                        boolean combineVerbs, boolean useMorphologyLexicon) {
+                        boolean combineVerbs, boolean useMorphologyLexicon, boolean extractSubsentences) {
         super(debug);
-        this.extractor = new GermanReVerbExtractor(minFreq, useLexSynConstraints, combineVerbs, useMorphologyLexicon);
+        this.extractor = new GermanReVerbExtractor(minFreq, useLexSynConstraints, combineVerbs, useMorphologyLexicon, extractSubsentences);
     }
 
     @Override
