@@ -29,6 +29,11 @@ public class ConjunctionCommaRightArgumentFilter extends FilterMapper<ChunkedArg
             return false;
         }
 
+        // Can't match "REL, ARG"
+        if (argEnd < sentLen && sent.getTokens().get(relEnd).equals(",")) {
+            return false;
+        }
+
         // Can't match "REL and ARG"
         if (argEnd < sentLen && sent.getTokens().get(relEnd).equals("und")
             && argStart == relEnd + 1) {

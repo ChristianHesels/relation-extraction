@@ -28,23 +28,14 @@ public class ConjunctionCommaLeftArgumentFilter extends FilterMapper<ChunkedArgu
             return false;
         }
 
-        // Can't match "ARG and REL"
-        if (argEnd < sentLen - 1 && sent.getTokens().get(argEnd).equals("und")
-            && relStart == argEnd + 1) {
+        // Can't match "ARG ... , REL"
+        if (argEnd < sentLen - 1 && sent.getTokens().get(relStart - 1).equals(",")) {
             return false;
         }
 
-        // Can't match "ARG ... ,/and ... REL"
-        int commaCount = 0;
-        int conjunctionCount = 0;
-        for (int i = argEnd; i < relStart; i++) {
-            if (sent.getPosTag(i).equals("$,")) {
-                commaCount++;
-            } else if (sent.getPosTag(i).equals("KON")) {
-                conjunctionCount++;
-            }
-        }
-        if (commaCount > 0 || conjunctionCount > 0) {
+        // Can't match "ARG and REL"
+        if (argEnd < sentLen - 1 && sent.getTokens().get(argEnd).equals("und")
+            && relStart == argEnd + 1) {
             return false;
         }
 

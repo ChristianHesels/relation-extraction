@@ -62,8 +62,8 @@ public class ConjunctionCommaLeftArgumentFilterTest {
 
         assertFalse(filter.doFilter(extraction1));
         assertFalse(filter.doFilter(extraction2));
-        assertFalse(filter.doFilter(extraction3));
-        assertFalse(filter.doFilter(extraction4));
+        assertTrue(filter.doFilter(extraction3));
+        assertTrue(filter.doFilter(extraction4));
         assertTrue(filter.doFilter(extraction5));
     }
 }
