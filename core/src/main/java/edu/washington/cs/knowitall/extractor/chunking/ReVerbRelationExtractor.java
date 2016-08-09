@@ -1,7 +1,5 @@
 package edu.washington.cs.knowitall.extractor.chunking;
 
-import java.io.IOException;
-
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.ExtractorUnion;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbRelationDictionaryFilter;
@@ -9,6 +7,8 @@ import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbRelationMappe
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
 import edu.washington.cs.knowitall.sequence.SequenceException;
+
+import java.io.IOException;
 
 
 public class ReVerbRelationExtractor extends
@@ -24,7 +24,7 @@ public class ReVerbRelationExtractor extends
         "[VVFIN_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos PTKNEG_pos] "
         +
         // Optional particle/adverb
-        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? sich_tok?";
+        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? PRF_pos?";
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
@@ -33,7 +33,6 @@ public class ReVerbRelationExtractor extends
         "["
         + "NE_pos NN_pos "           // noun
         + "PPOSAT_pos "              // pronoun
-        + "CARD_pos "                // number
         + "PIAT_pos PIDAT_pos "      // determiner
         + "ADJA_pos "                // adjective
         + "ADV_pos "                 // adverb
@@ -44,7 +43,7 @@ public class ReVerbRelationExtractor extends
      * Definition of the "preposition" part of the relation pattern.
      */
     public static final String PREP =
-        "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos? sich_tok?";
+        "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos? PRF_pos?";
 
     /**
      * The pattern (V(W*P)?)+
