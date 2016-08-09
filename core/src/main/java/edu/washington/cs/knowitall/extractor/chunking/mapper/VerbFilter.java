@@ -22,12 +22,12 @@ public class VerbFilter extends FilterMapper<ChunkedRelationExtraction> {
         }
 
         // a relation can be auxiliary verb "werden"
-        if (extr.getTokens().size() == 1 && !extr.hasSubRelation()) {
-            if (extr.getPosTag(0).equals("VAFIN") && !(extr.getToken(0).equals("ist") || extr.getToken(0).equals("sind"))
-                ) {
-                return false;
-            }
-        }
+//        if (extr.getTokens().size() == 1 && !extr.hasSubRelation()) {
+//            if (extr.getPosTag(0).equals("VAFIN") && !(extr.getToken(0).equals("ist") || extr.getToken(0).equals("sind"))
+//                ) {
+//                return false;
+//            }
+//        }
 
         return true;
     }
