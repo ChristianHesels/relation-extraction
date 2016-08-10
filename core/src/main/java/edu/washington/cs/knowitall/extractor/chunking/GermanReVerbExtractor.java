@@ -95,7 +95,7 @@ public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBin
             throws ExtractorException {
         Collection<ChunkedBinaryExtraction> extrs = new ArrayList<ChunkedBinaryExtraction>();
 
-        Iterable<? extends ChunkedSentence> sentences = new ArrayList<>();
+        Iterable<? extends ChunkedSentence> sentences;
         if (extractSubsentences) {
             sentences = sentExtr.extract(source);
         } else {
@@ -105,7 +105,7 @@ public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBin
         }
 
         for (ChunkedSentence sentence : sentences) {
-            Iterable<? extends ChunkedRelationExtraction> rels = relExtr.extract(source);
+            Iterable<? extends ChunkedRelationExtraction> rels = relExtr.extract(sentence);
             for (ChunkedRelationExtraction rel : rels) {
                 Iterable<? extends ChunkedArgumentExtraction> arg1s =
                         arg1Extr.extract(rel);

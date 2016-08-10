@@ -1,11 +1,11 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
-import java.io.IOException;
-
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.extractor.MapperList;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
+
+import java.io.IOException;
 
 /**
  * A list of mappers for <code>ReVerbExtractor</code>'s relations.
@@ -66,14 +66,19 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
 
     private void init(int minFreq, boolean useLexSynConstraints,
                       boolean mergeOverlapRels, boolean combineVerbs) throws IOException {
-        // Add lexical and syntactic constraints on the relation.
-        if (useLexSynConstraints) {
-            addLexicalAndSyntacticConstraints();
-        }
+        // Extracted relation must contain at lease one VP chunk tag
+        addMapper(new VerbFilter());
+
         // Combine separated verbs
         if (combineVerbs) {
             addMapper(new SeparatedVerbMapper());
         }
+
+        // Add lexical and syntactic constraints on the relation.
+        if (useLexSynConstraints) {
+            addLexicalAndSyntacticConstraints();
+        }
+
         // The relation should have a minimum number of distinct arguments in a
         // large corpus
         if (minFreq > 0) {
@@ -83,9 +88,6 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
         if (mergeOverlapRels) {
             addMapper(new MergeOverlappingMapper());
         }
-        // Extracted relation must contain at lease one VP chunk tag
-        addMapper(new VerbFilter());
-
     }
 
     private void addLexicalAndSyntacticConstraints() {

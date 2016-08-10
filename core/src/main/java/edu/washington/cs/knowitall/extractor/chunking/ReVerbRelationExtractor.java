@@ -24,7 +24,7 @@ public class ReVerbRelationExtractor extends
         "[VVFIN_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos PTKNEG_pos] "
         +
         // Optional particle/adverb
-        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? PRF_pos?";
+        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? PRF_pos? ADJD_pos?";
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
