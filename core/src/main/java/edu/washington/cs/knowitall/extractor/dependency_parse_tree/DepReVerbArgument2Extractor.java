@@ -102,12 +102,12 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             return extrs;
         }
 
-        // Add 'sich' always as complement. It does not count as argument.
+        // Add reflexive pronouns always as complement. It does not count as argument.
         if (!complements.isEmpty()) {
-            Argument2 sich = complements.stream().filter(x -> x.getRootNode().getWord().equals("sich")).findAny().orElse(null);
-            if (sich != null) {
-                addToRelation(rel, sich);
-                arguments.remove(sich);
+            Argument2 reflexivePronoun = complements.stream().filter(x -> x.getRootNode().getPos().equals("PRF")).findAny().orElse(null);
+            if (reflexivePronoun != null) {
+                addToRelation(rel, reflexivePronoun);
+                arguments.remove(reflexivePronoun);
             }
         }
 
