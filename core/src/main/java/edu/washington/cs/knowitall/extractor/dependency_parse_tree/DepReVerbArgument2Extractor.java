@@ -177,12 +177,26 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
 
         if (progressiveExtraction) {
             // There exists more than two arguments
-            // Because we want coherent extraction, create a extraction for each argument
-            arguments.forEach(a -> {
-                if (a.getRole() != Role.COMPLEMENT && a.getRole() != Role.NONE) {
-                    extrs.addAll(a.createTreeExtractions());
-                }
-            });
+            // Determine the object
+            Argument2 object;
+            if (!objects.isEmpty()) {
+                object = getObject(objects);
+                objects.remove(object);
+            } else {
+                object = getObject(both);
+                both.remove(object);
+            }
+
+            // Add the remaining arguments to the relation phrase
+            for (Argument2 c : objects) {
+                addToRelation(rel, c);
+            }
+            for (Argument2 c : both) {
+                addToRelation(rel, c);
+            }
+
+            extrs.addAll(object.createTreeExtractions());
+            return extrs;
         }
         return extrs;
     }
@@ -305,9 +319,19 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
                 .collect(Collectors.toList());
             arguments.addAll(a);
         }
-        return arguments;
+
+        return arguments.stream().filter(this::filterArgumentsWithRelativeClause).collect(Collectors.toList());
     }
 
+    /**
+     * If an argument has only two children, on of them being a relative clause, the argument should not be extracted.
+     * It does not lead to an informative relation.
+     * @param argument the argument
+     * @return true, if the argument does not have a relative clause, false otherwise
+     */
+    private boolean filterArgumentsWithRelativeClause(Node argument) {
+        return argument.getChildren().size() > 2 || argument.getChildrenOfType("rel").isEmpty();
+    }
 
     private void writeArgumentPattern(List<Argument2> arguments, TreeExtraction rel) {
         if (arguments.size() > 0) {

@@ -263,8 +263,7 @@ public class Node {
      */
     public void prune() {
         List<Node> childsToRemove = getChildren().stream()
-            .filter(n -> n.labelToParent.equals("rel") ||
-                         n.labelToParent.equals("vok") ||
+            .filter(n -> n.labelToParent.equals("vok") ||
                          n.labelToParent.equals("par") ||
                          n.labelToParent.equals("expl") ||
                          n.labelToParent.equals("")

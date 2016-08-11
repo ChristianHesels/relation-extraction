@@ -88,22 +88,25 @@ public class ContextExtractor {
     private List<String> getSubordinateConj() {
         if (this.subordinateConj == null) {
             this.subordinateConj = new ArrayList<>();
+            this.subordinateConj.add("aber");
+            this.subordinateConj.add("allerdings");
             this.subordinateConj.add("als");
-            this.subordinateConj.add("bevor");
-            this.subordinateConj.add("bis");
-            this.subordinateConj.add("damit");
-            this.subordinateConj.add("ob");
+            this.subordinateConj.add("da");
+            this.subordinateConj.add("denn");
+            this.subordinateConj.add("falls");
+            this.subordinateConj.add("indem");
+            this.subordinateConj.add("jedoch");
+            this.subordinateConj.add("nachdem");
             this.subordinateConj.add("obwohl");
-            this.subordinateConj.add("seit");
+            this.subordinateConj.add("ob");
             this.subordinateConj.add("sobald");
             this.subordinateConj.add("sofern");
             this.subordinateConj.add("soweit");
-            this.subordinateConj.add("sowie");
+            this.subordinateConj.add("sondern");
             this.subordinateConj.add("während");
             this.subordinateConj.add("weil");
             this.subordinateConj.add("wenn");
-            this.subordinateConj.add("wie");
-            this.subordinateConj.add("wo");
+            this.subordinateConj.add("wenngleich");
         }
 
         return this.subordinateConj;

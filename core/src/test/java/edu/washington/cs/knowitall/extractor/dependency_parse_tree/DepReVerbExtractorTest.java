@@ -101,14 +101,14 @@ public class DepReVerbExtractorTest {
         // Expected extractions
         TreeExtraction rel = getExtraction(tree, 6, 8); // ist
         TreeExtraction arg1 = getExtraction(tree, 6, 1, 2, 3, 4, 5); // der Schritt in die Selbständigkeit
-        TreeExtraction arg2 = getExtraction(tree, 6, 9, 10, 11, 13, 14, 15); // der Grundstein des heute weltweit tagierenden Unternehmens
+        TreeExtraction arg2 = getExtraction(tree, 6, 9, 10, 11, 12, 13, 14, 15); // der Grundstein des heute weltweit tagierenden Unternehmens
         TreeBinaryExtraction expected = new TreeBinaryExtraction(tree, new Context(ContextType.MAIN_CLAUSE), rel, arg1, arg2);
 
         assertTrue(stringExtractions.contains(expected.toString()));
 
         rel = getExtraction(tree, 6, 6); // war
         arg1 = getExtraction(tree, 6, 1, 2, 3, 4, 5); // der Schritt in die Selbständigkeit
-        arg2 = getExtraction(tree, 6, 9, 10, 11, 13, 14, 15); // der Grundstein des heute weltweit tagierenden Unternehmens
+        arg2 = getExtraction(tree, 6, 9, 10, 11, 12, 13, 14, 15); // der Grundstein des heute weltweit tagierenden Unternehmens
         expected = new TreeBinaryExtraction(tree, new Context(ContextType.MAIN_CLAUSE), rel, arg1, arg2);
 
         assertTrue(stringExtractions.contains(expected.toString()));

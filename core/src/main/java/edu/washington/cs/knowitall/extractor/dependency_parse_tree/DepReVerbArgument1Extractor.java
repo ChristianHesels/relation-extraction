@@ -66,15 +66,18 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
         List<Node> allChildren = subjectRoot.toList();
         // Remove all app children, which follow after a comma
         List<Node> appChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("app") && sentRoot.commaBefore(x.getId())).collect(Collectors.toList());
+        List<Node> relChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("rel")).collect(Collectors.toList());
 
+        allChildren.removeAll(relChildren);
         allChildren.removeAll(konChildren);
         allChildren.removeAll(appChildren);
 
         // Get ids of subjectRoot and all underlying nodes
         List<Integer> ids = allChildren.stream()
-            .filter(c -> ! (
-                c.getLabelToParent().equals("adv")    // adverb
-            )).map(Node::getId).collect(Collectors.toList());
+//            .filter(c -> ! (
+//                c.getLabelToParent().equals("adv") ||    // adverb
+//            ))
+                .map(Node::getId).collect(Collectors.toList());
         // Create new tree extraction
         return new TreeExtraction(sentRoot, ids);
     }

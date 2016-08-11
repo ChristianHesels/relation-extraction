@@ -103,12 +103,14 @@ public abstract class Argument2 {
 
         allChildren = removePPNodes(allChildren);
         allChildren = removeAPPNodes(allChildren, n);
+        allChildren = removeRelNodes(allChildren);
 
         // Filter adverbs
         return allChildren.stream()
-            .filter(c -> ! (
-                c.getLabelToParent().equals("adv") && c.getPos().equals("ADV")   // adverb
-            )).map(Node::getId).collect(Collectors.toList());
+//            .filter(c -> ! (
+//                    (c.getLabelToParent().equals("adv") && c.getPos().equals("ADV")) // adverb
+//            ))
+                .map(Node::getId).collect(Collectors.toList());
     }
 
     /**
@@ -122,6 +124,20 @@ public abstract class Argument2 {
         ).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         all.removeAll(ppChildren);
+        return all;
+    }
+
+    /**
+     * Removes all rel nodes.
+     * @param all the list of all nodes
+     * @return the pruned list
+     */
+    private List<Node> removeRelNodes(List<Node> all) {
+        List<Node> relChildren = all.stream().filter(
+                c -> c.getLabelToParent().equals("rel")
+        ).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
+
+        all.removeAll(relChildren);
         return all;
     }
 
