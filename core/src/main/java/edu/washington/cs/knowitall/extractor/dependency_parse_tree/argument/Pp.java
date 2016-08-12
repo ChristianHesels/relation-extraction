@@ -29,9 +29,10 @@ public class Pp extends Argument2 {
     @Override
     public Role getRole() {
         // if there is no preposition, 'pp' is not a valid argument
-        if (preopsition == null) {
+        if (preopsition == null || hasRelativeClause()) {
             return Role.NONE;
         }
+
         return Role.COMPLEMENT;
     }
 
@@ -39,4 +40,6 @@ public class Pp extends Argument2 {
     public Node getPreposition() {
         return preopsition;
     }
+
+
 }

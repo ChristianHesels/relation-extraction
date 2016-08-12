@@ -167,4 +167,12 @@ public abstract class Argument2 {
     public String getName() {
         return name;
     }
+
+    /**
+     *
+     * @return true, if the argument has just a relative clause and one other optional argument as child
+     */
+    protected boolean hasRelativeClause() {
+        return !(this.rootNode.getChildren().size() > 2 || this.rootNode.getChildrenOfType("rel").isEmpty());
+    }
 }

@@ -34,6 +34,10 @@ public class Objp extends Argument2 {
             if (rootNode.toList().size() == 1 && rootNode.getPos().equals("PROAV")) {
                 return Role.NONE;
             }
+            // we do not want arguments, which have only a relative clause as child
+            if (hasRelativeClause()) {
+                return Role.NONE;
+            }
             return Role.COMPLEMENT;
         }
         return Role.BOTH;

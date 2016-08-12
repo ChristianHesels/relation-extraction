@@ -31,6 +31,11 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
             subjectNodes = rel.getRootNode().getChildrenOfType("subj");
         }
 
+        // A subject, which has a relative clause as child node, is not a valid subject node
+        subjectNodes = subjectNodes.stream()
+                .filter(s -> s.getChildren().size() > 2 || s.getChildrenOfType("rel").isEmpty())
+                .collect(Collectors.toList());
+
         // There exists no subject
         if (subjectNodes.isEmpty()) return extrs;
 
@@ -54,6 +59,8 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
         return extrs;
     }
 
+
+
     /**
      * Creates a tree extraction with the given sentence root and subject root.
      * @param sentRoot    the sentence root
@@ -66,7 +73,7 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
         List<Node> allChildren = subjectRoot.toList();
         // Remove all app children, which follow after a comma
         List<Node> appChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("app") && sentRoot.commaBefore(x.getId())).collect(Collectors.toList());
-        List<Node> relChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("rel")).collect(Collectors.toList());
+        List<Node> relChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("rel")).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         allChildren.removeAll(relChildren);
         allChildren.removeAll(konChildren);
