@@ -25,7 +25,8 @@ public class ContainsNounFilter extends FilterMapper<TreeExtraction> {
         List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
 
         List<Node> nounNodes = nodes.stream()
-                .filter(x -> x.getPosGroup().equals("N") || (this.pronounsAsSubject && x.getPos().equals("PPER")))
+                .filter(x -> x.getPosGroup().equals("N") || x.getPosGroup().equals("FM") || (this.pronounsAsSubject && x.getPos().equals("PPER")))
+                .filter(x -> x.toString().matches(".*[A-Za-zäöüßÖÄÜ].*"))
                 .collect(Collectors.toList());
 
         return !nounNodes.isEmpty() ;
