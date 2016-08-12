@@ -315,7 +315,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
                         x.getLabelToParent().equals("objp") ||
                         x.getLabelToParent().equals("pred") ||
                         (x.getLabelToParent().equals("kom") && x.getWord().toLowerCase().equals("als")) ||
-                        x.getLabelToParent().equals("pp"))
+                        (x.getLabelToParent().equals("pp") && !x.getPos().equals("PROAV")))
                 .collect(Collectors.toList());
             arguments.addAll(a);
         }
