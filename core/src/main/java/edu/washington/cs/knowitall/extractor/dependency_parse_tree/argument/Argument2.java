@@ -26,7 +26,7 @@ public abstract class Argument2 {
      * @return the distance to the relation
      */
     public int distanceToRelation() {
-        return this.relation.getRootNode().getId() - rootNode.getId();
+        return Math.abs(this.relation.getRootNode().getId() - rootNode.getId());
     }
 
     /**
