@@ -41,14 +41,21 @@ public class ContextExtractor {
         } else if (root.getLabelToParent().equals("objc")) {
             // check if objc is a that-clause
             List<Node> konj = root.getChildrenOfType("konj");
-            if (konj.size() == 1 && konj.get(0).getWord().equals("dass")) {
+            if (konj.size() == 1 && (konj.get(0).getWord().equals("dass") || konj.get(0).getWord().equals("daß"))) {
                 context = new Context(ContextType.THAT_CLAUSE);
 
                 // extract
                 Node verb = root.getParent();
                 Node subj = null;
                 Node proav = null;
+                StringBuilder verbStr = new StringBuilder();
                 if (verb != null) {
+                    verbStr.append(verb.getWord());
+                    List<Node> verbNodes = verb.getChildrenOfType("aux", "avz");
+                    for (Node v : verbNodes) {
+                        verbStr.append(" ").append(v.getWord());
+                    }
+
                     List<Node> subjs = verb.getChildrenOfType("subj");
                     if (subjs.size() == 1) {
                         subj = subjs.get(0);
@@ -61,9 +68,9 @@ public class ContextExtractor {
 
                 if (verb != null && subj != null) {
                     if (proav == null) {
-                        context.setContextStr("Attribute: " + subj.toString() + " " + verb.getWord());
+                        context.setContextStr("Attribute: " + subj.toString() + " " + verbStr.toString());
                     } else {
-                        context.setContextStr("Attribute: " + subj.toString() + " " + verb.getWord() + " " + proav.getWord());
+                        context.setContextStr("Attribute: " + subj.toString() + " " + verbStr.toString() + " " + proav.getWord());
                     }
                 }
             } else {
@@ -80,6 +87,15 @@ public class ContextExtractor {
             }
         }
 
+
+        String punctuation = root.getParent().getChildren().get(root.getParent().getChildren().size() - 1).getWord();
+        if (punctuation.equals("?")) {
+            if (context.getContextStr() != null) {
+                context.setContextStr(context.getContextStr() + " - question");
+            } else {
+                context.setContextStr("question");
+            }
+        }
 
         return context;
     }

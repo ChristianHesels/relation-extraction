@@ -26,7 +26,17 @@ public abstract class Argument2 {
      * @return the distance to the relation
      */
     public int distanceToRelation() {
-        return Math.abs(this.relation.getRootNode().getId() - rootNode.getId());
+        return Math.abs(getRelPosition() - rootNode.getId());
+    }
+
+    private int getRelPosition() {
+        int min = Integer.MAX_VALUE;
+        for (Integer v : this.relation.getNodeIds()) {
+            if (v < min) {
+                min = v;
+            }
+        }
+        return min;
     }
 
     /**
@@ -103,7 +113,7 @@ public abstract class Argument2 {
 
         allChildren = removePPNodes(allChildren);
         allChildren = removeAPPNodes(allChildren, n);
-        allChildren = removeRelNodes(allChildren);
+        allChildren = removeClauseNodes(allChildren);
 
         // Filter adverbs
         return allChildren.stream()
@@ -128,13 +138,13 @@ public abstract class Argument2 {
     }
 
     /**
-     * Removes all rel nodes.
+     * Removes all rel, neb, and that nodes (start of a subordinate clause).
      * @param all the list of all nodes
      * @return the pruned list
      */
-    private List<Node> removeRelNodes(List<Node> all) {
+    private List<Node> removeClauseNodes(List<Node> all) {
         List<Node> relChildren = all.stream().filter(
-                c -> c.getLabelToParent().equals("rel")
+                c -> c.getLabelToParent().equals("rel") || c.getLabelToParent().equals("neb") || c.getLabelToParent().equals("objc")
         ).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         all.removeAll(relChildren);

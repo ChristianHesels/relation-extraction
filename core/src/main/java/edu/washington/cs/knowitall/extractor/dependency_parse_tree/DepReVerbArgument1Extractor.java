@@ -73,7 +73,7 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
         List<Node> allChildren = subjectRoot.toList();
         // Remove all app children, which follow after a comma
         List<Node> appChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("app") && sentRoot.commaBefore(x.getId())).collect(Collectors.toList());
-        List<Node> relChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("rel")).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
+        List<Node> relChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("rel") || x.getLabelToParent().equals("objc") || x.getLabelToParent().equals("neb")).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         allChildren.removeAll(relChildren);
         allChildren.removeAll(konChildren);
