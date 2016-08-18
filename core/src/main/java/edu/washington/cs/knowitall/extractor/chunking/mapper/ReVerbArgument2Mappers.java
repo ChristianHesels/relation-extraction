@@ -13,10 +13,13 @@ public class ReVerbArgument2Mappers extends
                                     MapperList<ChunkedArgumentExtraction> {
 
     public ReVerbArgument2Mappers() {
-        init();
+        init(false);
+    }
+    public ReVerbArgument2Mappers(boolean reflexiveVerbs) {
+        init(reflexiveVerbs);
     }
 
-    private void init() {
+    private void init(boolean reflexiveVerbs) {
         // Second argument can't be a Wh word
         addFirstPosTagNotEqualsFilter("PWS");
         addFirstPosTagNotEqualsFilter("PWAT");
@@ -25,8 +28,7 @@ public class ReVerbArgument2Mappers extends
         // Second argument can't be a number
         addFirstPosTagNotEqualsFilter("CARD");
 
-        // Can't be pronoun
-        addFirstPosTagNotEqualsFilter("PRF");   // sich
+
         addFirstPosTagNotEqualsFilter("PDS");   // dieser, jener
         addFirstPosTagNotEqualsFilter("PDAT");  // dieser, jener
         addFirstPosTagNotEqualsFilter("PPOSS"); // meins, deiner
@@ -35,6 +37,11 @@ public class ReVerbArgument2Mappers extends
 
         // Second argument can't be a single article
         addArgumentNotEqualsFilter("ART");
+
+        // Can't be a reflexive pronoun
+        if (reflexiveVerbs) {
+            addArgumentNotEqualsFilter("PRF");   // sich
+        }
 
         // Second argument can't be a single pronoun
         addArgumentNotEqualsFilter("PPOSAT");

@@ -35,13 +35,13 @@ public class ReVerbExample {
         System.out.println(chunkRelationsAsString(relationsI));
         System.out.println("");
 
-        GermanReVerb reVerbII = new GermanReVerb(false, 20, true, true, true, true);
+        GermanReVerb reVerbII = new GermanReVerb(false, 20, true, true, true, true, true);
         Iterable<ChunkedBinaryExtraction> relationsII = reVerbII.extractRelationsFromString(sentStr);
         System.out.println("ReVerb II:");
         System.out.println(chunkRelationsAsString(relationsII));
         System.out.println("");
 
-        DepReVerb depReVerb = new DepReVerb(false, 20, false, false, false);
+        DepReVerb depReVerb = new DepReVerb(false, 0, false, false, false);
         Iterable<TreeBinaryExtraction> relationsIII = depReVerb.extractRelationsFromString(sentStr);
         System.out.println("ReVerb III:");
         System.out.println(treeRelationsAsString(relationsIII));
@@ -52,7 +52,7 @@ public class ReVerbExample {
         PrintWriter writer = new PrintWriter(fileName.replace(".txt", ".output.txt"));
 
         ReVerb reVerb = new ReVerb(false, 20, true);
-        GermanReVerb germanReVerb = new GermanReVerb(false, 20, true, true, true, true);
+        GermanReVerb germanReVerb = new GermanReVerb(false, 20, true, true, true, true, true);
         DepReVerb depReVerb = new DepReVerb(false, 20, false, false, false);
 
         System.out.print("Process sentences ");

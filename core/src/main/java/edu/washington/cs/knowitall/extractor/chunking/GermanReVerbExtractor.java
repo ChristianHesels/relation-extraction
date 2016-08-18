@@ -26,6 +26,7 @@ public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBin
     private static final boolean mergeOverlapRels = false;
     private static final boolean combineVerbs = true;
     private static final boolean useMorphologyLexicon = true;
+    private static final boolean reflexiveVerbs = true;
     private boolean extractSubsentences = true;
 
     public GermanReVerbExtractor() {
@@ -34,10 +35,10 @@ public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBin
         this.relExtr = new ReVerbRelationExtractor();
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon, reflexiveVerbs));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
-        arg2Extr.addMapper(new ReVerbArgument2Mappers());
+        arg2Extr.addMapper(new ReVerbArgument2Mappers(reflexiveVerbs));
 
         this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
     }
@@ -52,13 +53,13 @@ public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBin
     public GermanReVerbExtractor(int minFreq, boolean useLexSynConstraints) {
         this.sentExtr = new SubsentenceExtractor();
 
-        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
+        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs, reflexiveVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon, reflexiveVerbs));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
-        arg2Extr.addMapper(new ReVerbArgument2Mappers());
+        arg2Extr.addMapper(new ReVerbArgument2Mappers(reflexiveVerbs));
 
         this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
     }
@@ -70,21 +71,22 @@ public class GermanReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBin
      *                             collection for the relation to be deemed valid.
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      * @param combineVerbs         - Combine separated verbs?
+     * @param reflexiveVerbs       - add the reflexive pronoun always to the relation phrase?
      * @param useMorphologyLexicon - Use a morphology lexicon?
      * @param extractSubsentences  - Divide the sentence into subsentence before extracting relations?
      */
     public GermanReVerbExtractor(int minFreq, boolean useLexSynConstraints, boolean combineVerbs,
-                                 boolean useMorphologyLexicon, boolean extractSubsentences) {
+                                 boolean reflexiveVerbs, boolean useMorphologyLexicon, boolean extractSubsentences) {
         this.sentExtr = new SubsentenceExtractor();
         this.extractSubsentences = extractSubsentences;
 
-        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
+        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs, reflexiveVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon, reflexiveVerbs));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
-        arg2Extr.addMapper(new ReVerbArgument2Mappers());
+        arg2Extr.addMapper(new ReVerbArgument2Mappers(reflexiveVerbs));
 
         this.addMapper(new ChunkedBinaryExtractionMergeOverlappingMapper());
     }

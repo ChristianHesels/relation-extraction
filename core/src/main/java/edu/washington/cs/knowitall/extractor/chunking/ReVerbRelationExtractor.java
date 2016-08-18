@@ -24,7 +24,7 @@ public class ReVerbRelationExtractor extends
         "[VVFIN_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos PTKNEG_pos] "
         +
         // Optional particle/adverb
-        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? PRF_pos? ADJD_pos?";
+        "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? ADJD_pos?";
 
     /**
      * Definition of the "non-verb/prep" part of the relation pattern.
@@ -37,13 +37,14 @@ public class ReVerbRelationExtractor extends
         + "ADJA_pos "                // adjective
         + "ADV_pos "                 // adverb
         + "ART_pos "                 // article
+        + "PRF_pos "                 // reflexive pronoun
         + "]";
 
     /**
      * Definition of the "preposition" part of the relation pattern.
      */
     public static final String PREP =
-        "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos? PRF_pos?";
+        "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos?";
 
     /**
      * The pattern (V(W*P)?)+
@@ -56,6 +57,50 @@ public class ReVerbRelationExtractor extends
      */
     public static final String SHORT_RELATION_PATTERN =
         String.format("(%s (%s)?)+", VERB, PREP);
+
+    /**
+     * Definition of the "verb" of the relation pattern.
+     */
+    public static final String VERB_PRF =
+            // Optional adverb
+            "ADV_pos? PAV_pos? PTKNEG_pos? " +
+            // Modal or other verbs
+            "[VVFIN_pos VVINF_pos VVIZU_pos VVPP_pos VAFIN_pos VAINF_pos VAPP_pos VMFIN_pos VMINF_pos VMPP_pos PTKVZ_pos PTKNEG_pos] "
+            +
+            // Optional particle/adverb
+            "PTKNEG_pos? PTKVZ_pos? ADV_pos? PAV_pos? ADJD_pos? PRF_pos?";
+
+    /**
+     * Definition of the "non-verb/prep" part of the relation pattern.
+     */
+    public static final String WORD_PRF =
+            "["
+                    + "NE_pos NN_pos "           // noun
+                    + "PPOSAT_pos "              // pronoun
+                    + "PIAT_pos PIDAT_pos "      // determiner
+                    + "ADJA_pos "                // adjective
+                    + "ADV_pos "                 // adverb
+                    + "ART_pos "                 // article
+                    + "PRF_pos "                 // reflexive pronoun
+                    + "]";
+
+    /**
+     * Definition of the "preposition" part of the relation pattern.
+     */
+    public static final String PREP_PRF =
+            "ADV_pos? PAV_pos? [PTKNEG_pos PTKVZ_pos APPR_pos APPRART_pos] ADV_pos? PAV_pos? PRF_pos?";
+
+    /**
+     * The pattern (V(W*P)?)+
+     */
+    public static final String LONG_RELATION_PATTERN_PRF =
+            String.format("(%s (%s* (%s)+)?)+", VERB_PRF, WORD_PRF, PREP_PRF);
+
+    /**
+     * The pattern (VP?)+
+     */
+    public static final String SHORT_RELATION_PATTERN_PRF =
+            String.format("(%s (%s)?)+", VERB_PRF, PREP_PRF);
 
     /**
      * Constructs a new extractor using the default relation pattern, relation mappers, and argument
@@ -77,13 +122,14 @@ public class ReVerbRelationExtractor extends
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      * @param mergeOverlapRels     - Merge overlapping relations?
      * @param combineVerbs         - Combine separated verbs?
+     * @param reflexiveVerbs       - Add the reflexive pronoun always to the relation phrase?
      * @throws ExtractorException if unable to initialize the extractor
      */
     public ReVerbRelationExtractor(int minFreq, boolean useLexSynConstraints,
-                                   boolean mergeOverlapRels, boolean combineVerbs)
+                                   boolean mergeOverlapRels, boolean combineVerbs, boolean reflexiveVerbs)
         throws ExtractorException {
         init(
-            minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
+            minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs, reflexiveVerbs);
     }
 
     /**
@@ -92,7 +138,7 @@ public class ReVerbRelationExtractor extends
      * for support, do not combine separated verbs
      */
     protected void init() throws ExtractorException {
-        init(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true, false);
+        init(ReVerbRelationDictionaryFilter.defaultMinFreq, true, true, false, false);
     }
 
     /**
@@ -106,18 +152,26 @@ public class ReVerbRelationExtractor extends
      * @throws ExtractorException if unable to initialize the extractor
      */
     protected void init(int minFreq, boolean useLexSynConstraints,
-                        boolean mergeOverlapRels, boolean combineVerbs)
+                        boolean mergeOverlapRels, boolean combineVerbs, boolean reflexiveVerbs)
         throws ExtractorException {
 
         try {
-            this.addExtractor(new RegexExtractor(SHORT_RELATION_PATTERN));
+            if (reflexiveVerbs) {
+                this.addExtractor(new RegexExtractor(SHORT_RELATION_PATTERN_PRF));
+            } else {
+                this.addExtractor(new RegexExtractor(SHORT_RELATION_PATTERN));
+            }
         } catch (SequenceException e) {
             throw new ExtractorException(
                 "Unable to initialize short pattern extractor", e);
         }
 
         try {
-            this.addExtractor(new RegexExtractor(LONG_RELATION_PATTERN));
+            if (reflexiveVerbs) {
+                this.addExtractor(new RegexExtractor(LONG_RELATION_PATTERN_PRF));
+            } else {
+                this.addExtractor(new RegexExtractor(LONG_RELATION_PATTERN));
+            }
         } catch (SequenceException e) {
             throw new ExtractorException(
                 "Unable to initialize long pattern extractor", e);

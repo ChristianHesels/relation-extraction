@@ -5,6 +5,8 @@ import edu.washington.cs.knowitall.extractor.chunking.GermanReVerbExtractor;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
+import java.io.IOException;
+
 
 /**
  * Utility class to call German ReVerb.
@@ -17,7 +19,7 @@ public class GermanReVerb extends ExtractorChunks {
     /**
      * Constructor of German ReVerb
      */
-    public GermanReVerb() {
+    public GermanReVerb() throws IOException {
         this(false);
     }
 
@@ -25,7 +27,7 @@ public class GermanReVerb extends ExtractorChunks {
      * Constructor of German ReVerb
      * @param debug  enable debug mode?
      */
-    public GermanReVerb(boolean debug) {
+    public GermanReVerb(boolean debug) throws IOException {
         super(debug);
         this.extractor = new GermanReVerbExtractor();
     }
@@ -36,13 +38,14 @@ public class GermanReVerb extends ExtractorChunks {
      * @param minFreq the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
      * @param useLexSynConstraints use syntactic and lexical constraints that are part of German Reverb?
      * @param combineVerbs combine separated verbs?
+     * @param reflexiveVerbs add the reflexive pronoun always to the relation phrase?
      * @param useMorphologyLexicon use a morphology lexicon?
      * @param extractSubsentences divide the sentence into subsentence before extracting relations?
      */
     public GermanReVerb(boolean debug, int minFreq, boolean useLexSynConstraints,
-                        boolean combineVerbs, boolean useMorphologyLexicon, boolean extractSubsentences) {
+                        boolean combineVerbs, boolean reflexiveVerbs, boolean useMorphologyLexicon, boolean extractSubsentences) throws IOException {
         super(debug);
-        this.extractor = new GermanReVerbExtractor(minFreq, useLexSynConstraints, combineVerbs, useMorphologyLexicon, extractSubsentences);
+        this.extractor = new GermanReVerbExtractor(minFreq, useLexSynConstraints, combineVerbs, reflexiveVerbs, useMorphologyLexicon, extractSubsentences);
     }
 
     @Override

@@ -18,12 +18,19 @@ import java.util.Map;
  */
 abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
 
+    TreeTaggerSentenceChunker taggerSentenceChunker;
+
+    public ExtractorChunks() throws IOException {
+        this.taggerSentenceChunker = new TreeTaggerSentenceChunker();
+    }
+
     /**
      * Constructor of ExtractorChunks
      * @param debug  enable debug mode?
      */
-    public ExtractorChunks(boolean debug) {
+    public ExtractorChunks(boolean debug) throws IOException {
         super(debug);
+        this.taggerSentenceChunker = new TreeTaggerSentenceChunker();
     }
 
     /**
@@ -33,7 +40,6 @@ abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryE
      * @throws IOException if the tree-tagger model could not be loaded
      */
     public Iterable<ChunkedBinaryExtraction> extractRelationsFromString(String sentStr) throws IOException {
-        TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
         ChunkedSentence sent = taggerSentenceChunker.chunkSentence(sentStr);
         return extract(sent);
     }
@@ -46,7 +52,6 @@ abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryE
      */
     public Map<String, Iterable<ChunkedBinaryExtraction>> extractRelationsFromStrings(List<String> sentences) throws IOException {
         Map<String, Iterable<ChunkedBinaryExtraction>> sent2relations = new HashMap<>();
-        TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
 
         if (this.debug) System.out.println("Process sentences ...");
         int n = 0;
@@ -72,7 +77,6 @@ abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryE
      * @throws IOException if the tree-tagger model could not be loaded
      */
     public Iterable<ChunkedBinaryExtraction> extractRelationsFromParsedString(String sentStr) throws IOException {
-        TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
         ChunkedSentence sent = taggerSentenceChunker.convert(sentStr);
         return extract(sent);
     }
@@ -85,7 +89,6 @@ abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryE
      */
     public Map<String, Iterable<ChunkedBinaryExtraction>> extractRelationsFromParsedStrings(List<String> sentences) throws IOException {
         Map<String, Iterable<ChunkedBinaryExtraction>> sent2relations = new HashMap<>();
-        TreeTaggerSentenceChunker taggerSentenceChunker = new TreeTaggerSentenceChunker();
 
         if (this.debug) System.out.println("Process sentences ...");
         int n = 0;

@@ -43,9 +43,11 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
         // check if there are auxiliary verbs
         List<Node> verbNodes = rootNode.getChildrenOfType("aux", "avz");
 
-        // check if there is a negation
-        List<Node> negNodes = getPtkNodes(rootNode);
-        verbNodes.addAll(negNodes);
+        // check if there is a negation or 'zu'
+        List<Node> pktNodes = getPtkNodes(rootNode);
+        List<Node> pktNodes2 = verbNodes.stream().flatMap(x -> getPtkNodes(x).stream()).collect(Collectors.toList());
+        verbNodes.addAll(pktNodes);
+        verbNodes.addAll(pktNodes2);
 
         verbNodes.add(0, rootNode);
 
@@ -70,6 +72,8 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
             List<Node> verbs = kon.getChildrenOfType("aux");
             List<Node> avz = kon.getChildrenOfType("avz");
             List<Node> ptk = getPtkNodes(kon);
+            List<Node> ptk2 = verbs.stream().flatMap(x -> getPtkNodes(x).stream()).collect(Collectors.toList());
+            List<Node> ptk3 = avz.stream().flatMap(x -> getPtkNodes(x).stream()).collect(Collectors.toList());
 
             // if the conjunction comes from a auxiliary verb,
             // all verbs of the conjunction should be auxiliary verbs too
@@ -79,11 +83,15 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
                 verbs.add(kon);
                 verbs.addAll(avz);
                 verbs.addAll(ptk);
+                verbs.addAll(ptk2);
+                verbs.addAll(ptk3);
                 rels.add(createTreeExtraction(verbs, rootNode));
             } else {
                 verbs.add(kon);
                 verbs.addAll(avz);
                 verbs.addAll(ptk);
+                verbs.addAll(ptk2);
+                verbs.addAll(ptk3);
                 rels.add(createTreeExtraction(verbs, rootNode));
             }
         }

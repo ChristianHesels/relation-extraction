@@ -13,13 +13,15 @@ public class ReVerbArgument1Mappers extends
                                     MapperList<ChunkedArgumentExtraction> {
 
     boolean useMorphologyLexicon;
+    boolean reflexiveVerbs;
 
     public ReVerbArgument1Mappers() {
         this.useMorphologyLexicon = false;
         init();
     }
-    public ReVerbArgument1Mappers(boolean useMorphologyLexicon) {
+    public ReVerbArgument1Mappers(boolean useMorphologyLexicon, boolean reflexiveVerbs) {
         this.useMorphologyLexicon = useMorphologyLexicon;
+        this.reflexiveVerbs = reflexiveVerbs;
         init();
     }
 
@@ -39,8 +41,6 @@ public class ReVerbArgument1Mappers extends
         addFirstTokenNotEqualsFilter("dass");
         addFirstTokenNotEqualsFilter("es");
 
-        // Can't be pronoun
-        addFirstPosTagNotEqualsFilter("PRF");       // sich
         addFirstPosTagNotEqualsFilter("PDS");       // dieser, jener
         addFirstPosTagNotEqualsFilter("PPOSS");     // meins, deiner
         addFirstPosTagNotEqualsFilter("PDAT");      // diese
@@ -51,6 +51,11 @@ public class ReVerbArgument1Mappers extends
         addArgumentNotEqualsFilter("ART");      // der, die, das
         addArgumentNotEqualsFilter("PRELS");    // ..., der
         addArgumentNotEqualsFilter("PIS");      // keiner viele man niemand
+
+        // Can't be a reflexive pronoun
+        if (reflexiveVerbs) {
+            addArgumentNotEqualsFilter("PRF");   // sich
+        }
 
         // First argument can't be a single number
         addArgumentNotEqualsFilter("CARD");

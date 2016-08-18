@@ -1,8 +1,5 @@
 package edu.washington.cs.knowitall.extractor.chunking;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
@@ -11,6 +8,9 @@ import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtrac
 import edu.washington.cs.knowitall.sequence.LayeredTokenMatcher;
 import edu.washington.cs.knowitall.sequence.LayeredTokenPattern;
 import edu.washington.cs.knowitall.sequence.SequenceException;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * An extractor that uses a regular expression pattern relations from NP-chunked sentences. This

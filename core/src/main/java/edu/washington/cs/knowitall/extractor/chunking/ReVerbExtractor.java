@@ -1,8 +1,5 @@
 package edu.washington.cs.knowitall.extractor.chunking;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
 import edu.washington.cs.knowitall.extractor.chunking.mapper.ReVerbArgument1Mappers;
@@ -11,6 +8,9 @@ import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 
 public class ReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExtraction> {
@@ -23,15 +23,16 @@ public class ReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExt
     private static final boolean mergeOverlapRels = true;
     private static final boolean combineVerbs = false;
     private static final boolean useMorphologyLexicon = false;
+    private static final boolean reflexiveVerbs = false;
 
     public ReVerbExtractor() {
         this.relExtr = new ReVerbRelationExtractor();
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon, reflexiveVerbs));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
-        arg2Extr.addMapper(new ReVerbArgument2Mappers());
+        arg2Extr.addMapper(new ReVerbArgument2Mappers(reflexiveVerbs));
     }
 
     /**
@@ -42,13 +43,13 @@ public class ReVerbExtractor extends Extractor<ChunkedSentence, ChunkedBinaryExt
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      */
     public ReVerbExtractor(int minFreq, boolean useLexSynConstraints) {
-        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs);
+        this.relExtr = new ReVerbRelationExtractor(minFreq, useLexSynConstraints, mergeOverlapRels, combineVerbs, reflexiveVerbs);
 
         this.arg1Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.LEFT);
-        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon));
+        arg1Extr.addMapper(new ReVerbArgument1Mappers(useMorphologyLexicon, reflexiveVerbs));
 
         this.arg2Extr = new ChunkedArgumentExtractor(ChunkedArgumentExtractor.Mode.RIGHT);
-        arg2Extr.addMapper(new ReVerbArgument2Mappers());
+        arg2Extr.addMapper(new ReVerbArgument2Mappers(reflexiveVerbs));
     }
 
     @Override

@@ -5,6 +5,8 @@ import edu.washington.cs.knowitall.extractor.chunking.ReVerbExtractor;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedBinaryExtraction;
 
+import java.io.IOException;
+
 
 /**
  * Utility class to call ReVerb.
@@ -18,7 +20,7 @@ public class ReVerb extends ExtractorChunks {
      * Constructor of ReVerb
      * @param debug  enable debug mode?
      */
-    public ReVerb(boolean debug) {
+    public ReVerb(boolean debug) throws IOException {
         super(debug);
         this.extractor = new ReVerbExtractor();
     }
@@ -29,7 +31,7 @@ public class ReVerb extends ExtractorChunks {
      * @param minFreq the minimum distinct arguments to be observed in a large collection for the relation to be deemed valid.
      * @param useLexSynConstraints use syntactic and lexical constraints that are part of ReVerb?
      */
-    public ReVerb(boolean debug, int minFreq, boolean useLexSynConstraints) {
+    public ReVerb(boolean debug, int minFreq, boolean useLexSynConstraints) throws IOException {
         super(debug);
         this.extractor = new ReVerbExtractor(minFreq, useLexSynConstraints);
     }
