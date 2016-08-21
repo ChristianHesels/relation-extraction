@@ -125,6 +125,19 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
                 }
             }
 
+            // If we have a 'kom' and a 'pp', 'pp' becomes the object
+            if (argContains(arguments, "KOM", 1) && argContains(arguments, "PP", 1)) {
+                Argument2 kom = getArg(arguments, "KOM").get(0);
+                Argument2 pp = getArg(arguments, "PP").get(0);
+
+                if (kom.getRole().equals(Role.BOTH)) {
+                    objects.add(pp);
+                    complements.remove(pp);
+                    addToRelation(rel, kom);
+                    both.remove(kom);
+                }
+            }
+
             // If both arguments are PP, one can be the object
             if (argContainsOnly(arguments, "PP")) {
                 Argument2 object = getObject(arguments);

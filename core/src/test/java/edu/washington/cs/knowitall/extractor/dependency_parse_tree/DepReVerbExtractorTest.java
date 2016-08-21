@@ -153,7 +153,7 @@ public class DepReVerbExtractorTest {
         }
 
         // Expected extractions
-        TreeExtraction rel = getExtraction(tree, 23, 22, 23); // versorgt wird mit
+        TreeExtraction rel = getExtraction(tree, 23, 22, 23, 15); // stets versorgt wird mit
         rel.setLastNodeId(16);
         TreeExtraction arg1 = getExtraction(tree, 23, 13, 14); // die Produktion
         TreeExtraction arg2 = getExtraction(tree, 23, 17, 18, 19); // den optimalen Materialien
@@ -161,7 +161,7 @@ public class DepReVerbExtractorTest {
 
         assertTrue(stringExtractions.contains(expected.toString()));
 
-        rel = getExtraction(tree, 23, 22, 23); // versorgt wird mit
+        rel = getExtraction(tree, 23, 22, 23, 15); // stets versorgt wird mit
         rel.setLastNodeId(16);
         arg1 = getExtraction(tree, 23, 13, 14); // die Produktion
         arg2 = getExtraction(tree, 23, 21); // Mengen

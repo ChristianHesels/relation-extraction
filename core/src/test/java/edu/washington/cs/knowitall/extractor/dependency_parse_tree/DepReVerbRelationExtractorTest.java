@@ -1,15 +1,14 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
+import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
-import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 import static org.junit.Assert.assertTrue;
 
@@ -69,9 +68,9 @@ public class DepReVerbRelationExtractorTest {
 
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
-        expectedExtractions.add("hat gekauft");
+        expectedExtractions.add("hat heute gekauft");
         expectedExtractions.add("hat gefeiert");
-        expectedExtractions.add("hat verkauft");
+        expectedExtractions.add("hat wieder verkauft");
 
         // Check
         test(sent, expectedExtractions);
@@ -138,7 +137,7 @@ public class DepReVerbRelationExtractorTest {
         // Define expected relations
         List<String> expectedExtractions = new ArrayList<>();
         expectedExtractions.add("habe nicht geredet");
-        expectedExtractions.add("wollten hören");
+        expectedExtractions.add("wollten aber hören");
 
         // Check
         test(sent, expectedExtractions);

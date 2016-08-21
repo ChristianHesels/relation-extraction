@@ -105,8 +105,9 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
      */
     private List<Node> getPtkNodes(Node rootNode) {
         return rootNode.getChildrenOfType("adv", "part").stream()
-            .filter(x -> x.getPos().equals("PTKNEG") || x.getPos().equals("PTKZU")).collect(
-            Collectors.toList());
+            .filter(x -> x.getPos().equals("PTKNEG") || x.getPos().equals("PTKZU") || x.getPos().equals("ADJD")  || x.getPos().equals("ADV"))
+                .flatMap(x -> x.toList().stream())
+                .collect(Collectors.toList());
     }
 
     /**
