@@ -33,7 +33,7 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
 
         // A subject, which has a relative clause as child node, is not a valid subject node
         subjectNodes = subjectNodes.stream()
-                .filter(s -> s.getChildren().size() > 2 || s.getChildrenOfType("rel").isEmpty())
+                .filter(s -> s.getChildren().size() > 2 || s.getChildrenOfType("rel").isEmpty() || s.getPos().equals("NE"))
                 .collect(Collectors.toList());
 
         // There exists no subject
