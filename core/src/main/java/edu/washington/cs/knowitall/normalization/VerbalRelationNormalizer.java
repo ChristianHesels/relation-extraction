@@ -37,6 +37,7 @@ public class VerbalRelationNormalizer {
         ignorePosTags.add("ART");
         ignorePosTags.add("ADV");
         ignorePosTags.add("PPOSAT");
+        ignorePosTags.add("PTKA");
         ignorePosTags.add("ADJA");
 //        ignorePosTags.add("PROAV");
 

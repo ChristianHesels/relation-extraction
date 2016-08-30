@@ -1,14 +1,14 @@
 package edu.washington.cs.knowitall.extractor.chunking;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedArgumentExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
+
+import java.util.ArrayList;
+import java.util.Collection;
 
 /**
  * An <code>Extractor</code> class for extracting noun phrase arguments, given a relation

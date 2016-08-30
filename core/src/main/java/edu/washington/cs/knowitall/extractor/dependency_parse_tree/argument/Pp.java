@@ -19,7 +19,7 @@ public class Pp extends Argument2 {
         // if there exists a 'pn', it becomes root, because possible conjunctions
         // are connected to it
         // the preposition is stored and added to each extraction in the end
-        List<Node> pn = rootNode.getChildrenOfType("pn");
+        List<Node> pn = rootNode.getChildrenOfType("pn", "pp");
         if (pn.size() == 1) {
             this.rootNode = pn.get(0);
             this.preopsition = rootNode;

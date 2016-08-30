@@ -32,7 +32,7 @@ public class DepRelationDictionaryFilter extends
         } catch (IOException e) {
             this.relations = new HashSet<>();
         }
-        normalizer = new VerbalRelationNormalizer(true, true, false);
+        normalizer = new VerbalRelationNormalizer(true, true, true);
     }
 
     /**

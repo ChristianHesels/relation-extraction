@@ -25,7 +25,7 @@ public class DepReVerbArgument2Mappers extends
         firstPosTags.add("PWAT");
         firstPosTags.add("PWAV");
         // can't be a number
-        firstPosTags.add("CARD");
+//        firstPosTags.add("CARD");
         // can't be pronoun
 //        firstPosTags.add("PRF");   // sich
 //        firstPosTags.add("PDS");   // dieser, jener
