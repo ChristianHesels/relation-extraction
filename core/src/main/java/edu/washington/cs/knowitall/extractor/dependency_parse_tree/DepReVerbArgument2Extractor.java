@@ -108,18 +108,19 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             if (reflexivePronoun != null) {
                 addToRelation(rel, reflexivePronoun);
                 arguments.remove(reflexivePronoun);
+                complements.remove(reflexivePronoun);
             }
         }
 
         // If there are two arguments, create an extraction
-        if (arguments.size() <= 2) {
+        if (complements.size() + objects.size() + both.size() <= 2) {
 
             // If we have a 'pred', which is an adverb, 'pp' becomes the object
             if (argContains(arguments, "PRED", 1) && argContains(arguments, "PP", 1)) {
                 Argument2 pred = getArg(arguments, "PRED").get(0);
                 Argument2 pp = getArg(arguments, "PP").get(0);
 
-                if (pred.getRole().equals(Role.COMPLEMENT)) {
+                if (pred.getRole().equals(Role.COMPLEMENT) && !pp.getRole().equals(Role.NONE)) {
                     objects.add(pp);
                     complements.remove(pp);
                 }
@@ -130,7 +131,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
                 Argument2 kom = getArg(arguments, "KOM").get(0);
                 Argument2 pp = getArg(arguments, "PP").get(0);
 
-                if (kom.getRole().equals(Role.BOTH)) {
+                if (kom.getRole().equals(Role.BOTH) && !pp.getRole().equals(Role.NONE)) {
                     objects.add(pp);
                     complements.remove(pp);
                     addToRelation(rel, kom);
@@ -141,8 +142,10 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             // If both arguments are PP, one can be the object
             if (argContainsOnly(arguments, "PP")) {
                 Argument2 object = getObject(arguments);
-                objects.add(object);
-                complements.remove(object);
+                if (!object.getRole().equals(Role.NONE)) {
+                    objects.add(object);
+                    complements.remove(object);
+                }
             }
 
             // Add the complements to the relation

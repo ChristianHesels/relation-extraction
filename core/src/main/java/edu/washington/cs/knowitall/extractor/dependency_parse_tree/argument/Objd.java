@@ -13,7 +13,7 @@ public class Objd extends Argument2 {
     @Override
     public Role getRole() {
         // if the argument is a pronoun, it belongs to the complement group
-        if (rootNode.getPosGroup().equals("PRO")) {
+        if (rootNode.getPosGroup().equals("PRO") || !this.containsNoun()) {
             return Role.COMPLEMENT;
         }
         return Role.BOTH;

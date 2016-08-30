@@ -29,7 +29,7 @@ public class Pp extends Argument2 {
     @Override
     public Role getRole() {
         // if there is no preposition, 'pp' is not a valid argument
-        if (preopsition == null || hasRelativeClause()) {
+        if (preopsition == null || hasRelativeClause() || !this.containsNoun()) {
             return Role.NONE;
         }
 

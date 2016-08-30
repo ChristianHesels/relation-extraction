@@ -29,7 +29,7 @@ public class Kom extends Argument2 {
     @Override
     public Role getRole() {
         // if there is no preposition, 'kom' is not a valid argument
-        if (preopsition == null) {
+        if (preopsition == null || !this.containsNoun()) {
             return Role.NONE;
         }
         return Role.BOTH;

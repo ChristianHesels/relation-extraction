@@ -29,7 +29,7 @@ public class Objp extends Argument2 {
     @Override
     public Role getRole() {
         // if there is no preposition, 'objp' is most likely some adverb/adjective
-        if (preopsition == null) {
+        if (preopsition == null || !this.containsNoun()) {
             // we do not want a pronominal adverb as complement
             if (rootNode.toList().size() == 1 && rootNode.getPos().equals("PROAV")) {
                 return Role.NONE;

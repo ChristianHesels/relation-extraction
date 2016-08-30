@@ -12,7 +12,7 @@ public class Obja extends Argument2 {
     @Override
     public Role getRole() {
         // 'sich' is a complement
-        if (rootNode.getPos().equals("PRF"))
+        if (rootNode.getPos().equals("PRF") || !this.containsNoun())
             return Role.COMPLEMENT;
 
         return Role.BOTH;

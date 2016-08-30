@@ -185,4 +185,16 @@ public abstract class Argument2 {
     protected boolean hasRelativeClause() {
         return !(this.rootNode.getChildren().size() > 2 || this.rootNode.getChildrenOfType("rel").isEmpty());
     }
+
+
+    protected boolean containsNoun() {
+        List<Node> nodes = this.rootNode.find(getIds());
+
+        List<Node> nounNodes = nodes.stream()
+                .filter(x -> x.getPosGroup().equals("N") || x.getPosGroup().equals("FM"))
+                .filter(x -> x.toString().matches(".*[A-Za-zäöüßÖÄÜ].*"))
+                .collect(Collectors.toList());
+
+        return !nounNodes.isEmpty() ;
+    }
 }
