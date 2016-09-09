@@ -31,6 +31,10 @@ To set up the system locally, you have to
 
 # Running the system
 
+Run the command 
+`echo "Dieser Aufruf ist ein Test." | ./relation_extraction`
+to obtain the relations contained in the given sentence.
+
 To include one of our systems as a library in your own project, please take a look at the example class `RelationExtractionExample` in the `src/main/java/edu/washington/cs/knowitall/examples` directory.
 
 When running code that calls one of our systems, make sure to increase the Java Virtual Machine heap size by passing the argument `-Xmx2g` to java. Our systems load multiple models into memory. Therefore, not increasing the heap size will slow down the systems.
