@@ -12,11 +12,16 @@ import java.io.IOException;
 public class RelationExtractionExample {
 
     public static void main(String[] args) throws Exception {
-        extractFromSentence("Dep ConIE ist ein Relationsextraktionssystem.");
+        String sent = "Dep ConIE ist ein Relationsextraktionssystem.";
+        if (args.length > 0) {
+            sent = args[0];
+        }
+
+        extractFromSentence(sent);
     }
 
     private static void extractFromSentence(String sentStr) throws IOException {
-        System.out.println(sentStr);
+        System.out.println("Sentence: " + sentStr);
         System.out.println("");
 
         ReVerb reVerb = new ReVerb(false, 20, true);
