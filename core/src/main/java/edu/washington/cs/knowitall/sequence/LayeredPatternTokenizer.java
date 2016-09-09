@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
 /**
  * A class that tokenizes the String representation of patterns for the {@link LayeredTokenPattern}
  * class. A pattern consists of two types of tokens: layer/symbol pairs like {@code The_pos}, and
- * meta-characters defined by {@link java.util.rexex.Pattern}. This class takes a string consisting
+ * meta-characters defined by rexex.Pattern. This class takes a string consisting
  * of these and breaks them into tokens.
  *
  * @author afader
@@ -41,7 +41,7 @@ public class LayeredPatternTokenizer {
 
     /**
      * Tokenizes the given text
-     *
+     * @param text the text to tokenize
      * @return an array of Strings, one for each token in text
      * @throws SequenceException if unable to tokenize the text
      */
@@ -92,6 +92,7 @@ public class LayeredPatternTokenizer {
     }
 
     /**
+     * @param text the text
      * @return true if the given String is a symbol/layer name pair
      */
     public boolean isSymbolLayerName(String text) {
@@ -99,6 +100,7 @@ public class LayeredPatternTokenizer {
     }
 
     /**
+     * @param s the string
      * @return true if the given String is a meta-character
      */
     private boolean isMetaChar(String s) {
@@ -106,8 +108,8 @@ public class LayeredPatternTokenizer {
     }
 
     /**
-     * @param text
-     * @return
+     * @param text the text
+     * @return array of layer names
      */
     public String[] getSymbolLayerName(String text) {
         return text.split("_");

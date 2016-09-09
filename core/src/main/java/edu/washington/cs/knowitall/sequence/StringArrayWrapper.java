@@ -16,6 +16,7 @@ public class StringArrayWrapper {
 
     /**
      * Wraps the given data
+     * @param data the data as array
      */
     public StringArrayWrapper(String[] data) {
         if (data == null) {

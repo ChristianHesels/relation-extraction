@@ -63,7 +63,7 @@ public class LayeredTokenPattern {
 
     /**
      * Constructs a new instance from the given String pattern
-     *
+     * @param patternString the pattern string
      * @throws SequenceException if unable to compile patternString
      */
     public LayeredTokenPattern(String patternString) throws SequenceException {
@@ -178,7 +178,7 @@ public class LayeredTokenPattern {
     /**
      * Returns a matcher object, which can be used to scan seq for any subsequences that match this
      * pattern.
-     *
+     * @param seq the sequence
      * @return the matcher
      * @throws SequenceException if unable to create a matcher over seq
      */

@@ -12,10 +12,10 @@ import java.util.List;
 
 import static org.junit.Assert.assertTrue;
 
-public class DepReVerbRelationExtractorTest {
+public class DepConIERelationExtractorTest {
 
     private ParZuSentenceParser parser = new ParZuSentenceParser();
-    private DepReVerbRelationExtractor extractor = new DepReVerbRelationExtractor();
+    private DepConIERelationExtractor extractor = new DepConIERelationExtractor();
 
     private void test(String sentence, List<String> expectedExtractions) {
         // Create tree

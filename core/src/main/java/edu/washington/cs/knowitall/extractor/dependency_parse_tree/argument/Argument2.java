@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Represents a candidate for the second argument.
+ */
 public abstract class Argument2 {
 
     protected Node rootNode;
@@ -29,6 +32,10 @@ public abstract class Argument2 {
         return Math.abs(getRelPosition() - rootNode.getId());
     }
 
+    /**
+     * Get the position of the left most part of the relation phrase.
+     * @return the position of the relation phrase
+     */
     private int getRelPosition() {
         int min = Integer.MAX_VALUE;
         for (Integer v : this.relation.getNodeIds()) {
@@ -116,11 +123,7 @@ public abstract class Argument2 {
         allChildren = removeClauseNodes(allChildren);
 
         // Filter adverbs
-        return allChildren.stream()
-//            .filter(c -> ! (
-//                    (c.getLabelToParent().equals("adv") && c.getPos().equals("ADV")) // adverb
-//            ))
-                .map(Node::getId).collect(Collectors.toList());
+        return allChildren.stream().map(Node::getId).collect(Collectors.toList());
     }
 
     /**
@@ -187,6 +190,10 @@ public abstract class Argument2 {
     }
 
 
+    /**
+     * Checks if the argument contains a noun.
+     * @return true, if the argument contains a noun, false otherwise
+     */
     protected boolean containsNoun() {
         List<Node> nodes = this.rootNode.find(getIds());
 

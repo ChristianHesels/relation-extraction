@@ -1,17 +1,12 @@
 package edu.washington.cs.knowitall.sequence;
 
-import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.TreeMultimap;
+import com.google.common.collect.*;
+import edu.washington.cs.knowitall.commonlib.Range;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-
-import edu.washington.cs.knowitall.commonlib.Range;
 
 /**
  * Represents a layered sequence where some of the layers can be spans of tags, encoded using B/I/O
@@ -30,6 +25,7 @@ public class BIOLayeredSequence extends SimpleLayeredSequence {
 
     /**
      * Constructs a new {@linkplain BIOLayeredSequence} class.
+     * @param length the length of the layer sequence
      */
     public BIOLayeredSequence(int length) {
         super(length);

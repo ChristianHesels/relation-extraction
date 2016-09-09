@@ -10,25 +10,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A list of mappers for ReVerb III extractor first argument.
+ * A list of mappers for Dep ConIE first argument.
  */
-public class DepReVerbArgument1Mappers extends
-        MapperList<TreeExtraction> {
+public class DepConIEArgument1Mappers extends MapperList<TreeExtraction> {
 
-    public DepReVerbArgument1Mappers() {
+    public DepConIEArgument1Mappers() {
         this(false);
     }
 
-    // TODO
-    // Filter subject, which do not contain a character
-    // Filter times (00 Uhr)
-    // Filter root node == 'davon'
-
     /**
-     * Constructor of DepReVerb argument 2 mapper
+     * Constructor of Dep ConIE argument 2 mapper
      * @param pronounsAsSubject consider pronouns as subject?
      */
-    public DepReVerbArgument1Mappers(boolean pronounsAsSubject) {
+    public DepConIEArgument1Mappers(boolean pronounsAsSubject) {
         init(pronounsAsSubject);
     }
 
@@ -41,23 +35,12 @@ public class DepReVerbArgument1Mappers extends
         firstPosTags.add("PWS");
         firstPosTags.add("PWAT");
         firstPosTags.add("PWAV");
-        // can't be pronoun
-//        firstPosTags.add("PRF");       // sich
-//        firstPosTags.add("PDS");       // dieser, jener
-//        firstPosTags.add("PPOSS");     // meins, deiner
-//        firstPosTags.add("PRELAT");    // dessen
         if (!pronounsAsSubject) {
             firstPosTags.add("PPER");      // ich, er, ihm, mich
         }
         firstPosTags.add("PRELS");     // [der Hund ,] der
 
         addMapper(new FirstPosTagNotEqualsFilter(firstPosTags));
-
-        List<String> firstTokens = new ArrayList<>();
-//        firstTokens.add("solche");
-//        firstTokens.add("diese");
-
-        addMapper(new FirstTokenNotEqualsFilter(firstTokens));
 
         addArgumentNotEqualsFilter("ART");      // der die das
         addArgumentNotEqualsFilter("PIS");      // alle, wenige, keiner

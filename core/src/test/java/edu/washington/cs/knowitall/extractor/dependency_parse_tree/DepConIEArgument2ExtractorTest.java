@@ -14,10 +14,10 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 
-public class DepReVerbArgument2ExtractorTest {
+public class DepConIEArgument2ExtractorTest {
 
     private ParZuSentenceParser parser = new ParZuSentenceParser();
-    private DepReVerbArgument2Extractor extractor = new DepReVerbArgument2Extractor();
+    private DepConIEArgument2Extractor extractor = new DepConIEArgument2Extractor();
 
 
     private TreeExtraction getRelation(String sentence, Integer... ids) {

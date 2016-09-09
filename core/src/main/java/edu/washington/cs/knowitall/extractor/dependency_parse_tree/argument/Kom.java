@@ -6,6 +6,9 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 import java.util.List;
 
 
+/**
+ * Represents the typed dependency 'comparison'
+ */
 public class Kom extends Argument2 {
 
     private Node preopsition;

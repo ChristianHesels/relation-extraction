@@ -1,5 +1,9 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
+import edu.washington.cs.knowitall.extractor.FilterMapper;
+import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
+import edu.washington.cs.knowitall.util.DefaultObjects;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -7,10 +11,6 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPInputStream;
-
-import edu.washington.cs.knowitall.extractor.FilterMapper;
-import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
-import edu.washington.cs.knowitall.util.DefaultObjects;
 
 /**
  * Filters relations based on how many distinct arg2 values it takes in a large corpus. These
@@ -36,9 +36,9 @@ public class ReVerbRelationDictionaryFilter extends
      *
      * @param in      the dictionary of relations and their number of distinct arg2s.
      * @param minFreq the minimum number of distinct arg2s a relation must have to be included.
+     * @throws IOException if the relation dictionary could not be read
      */
-    public ReVerbRelationDictionaryFilter(InputStream in, int minFreq)
-        throws IOException {
+    public ReVerbRelationDictionaryFilter(InputStream in, int minFreq) throws IOException {
         init(in, minFreq);
     }
 
@@ -47,6 +47,7 @@ public class ReVerbRelationDictionaryFilter extends
      * which is found on the classpath.
      *
      * @param minFreq the minimum number of distinct arg2s a relation must have to be included.
+     * @throws IOException if the relation dictionary could not be read
      */
     public ReVerbRelationDictionaryFilter(int minFreq) throws IOException {
         init(getDefaultRelationStream(), minFreq);
@@ -55,6 +56,7 @@ public class ReVerbRelationDictionaryFilter extends
     /**
      * Constructs a new dictionary filter using the data in the file <code>freq_rel.txt.gz</code>,
      * and loads all relations with at least 20 distinct arg2s.
+     * @throws IOException if the relation dictionary could not be read
      */
     public ReVerbRelationDictionaryFilter() throws IOException {
         init(getDefaultRelationStream(), defaultMinFreq);

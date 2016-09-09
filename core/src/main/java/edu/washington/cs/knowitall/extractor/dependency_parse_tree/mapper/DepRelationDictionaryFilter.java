@@ -13,6 +13,9 @@ import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.zip.GZIPInputStream;
 
+/**
+ * Filter representing the lexical constraint.
+ */
 public class DepRelationDictionaryFilter extends
                                                 FilterMapper<TreeBinaryExtraction> {
 

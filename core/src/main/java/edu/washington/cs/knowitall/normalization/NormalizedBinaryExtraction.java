@@ -16,6 +16,10 @@ public class NormalizedBinaryExtraction extends ChunkedBinaryExtraction {
     /**
      * Constructs a new normalized extraction from the given source extraction and its normalized
      * fields.
+     * @param extr      the extraction
+     * @param arg1Norm  the normalized argument 1
+     * @param relNorm   the normalized relation phrase
+     * @param arg2Norm  the normalized argument 2
      */
     public NormalizedBinaryExtraction(ChunkedBinaryExtraction extr,
                                       NormalizedArgumentField arg1Norm,

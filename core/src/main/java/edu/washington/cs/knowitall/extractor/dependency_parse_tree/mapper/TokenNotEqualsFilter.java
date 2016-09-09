@@ -7,6 +7,9 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 
 import java.util.List;
 
+/**
+ * Filters out arguments, which consists of a token from the given list.
+ */
 public class TokenNotEqualsFilter extends FilterMapper<TreeExtraction> {
 
     private List<String> tokens;

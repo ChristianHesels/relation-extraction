@@ -5,7 +5,7 @@ package edu.washington.cs.knowitall.extractor;
  * or modifying some objects). A <code>Mapper</code> object has two states: enabled and disabled. If
  * the <code>Mapper</code> is disabled, it will return the stream of objects unmodified.
  *
- * Subclasses extending <code>Mapper</code> should implement the <code>doMap(Iterable<T>
+ * Subclasses extending <code>Mapper</code> should implement the <code>doMap(Iterable
  * objects)</code> method.
  *
  * @author afader

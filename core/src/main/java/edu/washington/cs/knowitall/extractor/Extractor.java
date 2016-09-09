@@ -74,7 +74,11 @@ public abstract class Extractor<S, T> {
     /**
      * Composes a {@code R->S} extractor with a {@code S->T} extractor to create a {@code R->T}
      * extractor.
-     *
+     * @param rsExtractor extractor from type r to type s
+     * @param stExtractor extractor from type s to type t
+     * @param <R> type r
+     * @param <S> type s
+     * @param <T> type t
      * @return an extractor taking objects of type {@code R} and returning objects of type {@code T}
      */
     public static <R, S, T> Extractor<R, T> compose(Extractor<R, S> rsExtractor,

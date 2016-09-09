@@ -2,8 +2,8 @@ package edu.washington.cs.knowitall.extractor.dependency_parse_tree;
 
 import edu.washington.cs.knowitall.extractor.Extractor;
 import edu.washington.cs.knowitall.extractor.ExtractorException;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument1Mappers;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepReVerbArgument2Mappers;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepConIEArgument1Mappers;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepConIEArgument2Mappers;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.DepRelationDictionaryFilter;
 import edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper.PronounRelationFilter;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
@@ -20,11 +20,11 @@ import java.util.List;
 /**
  * Extracts binary relations from a sentence by analysing the dependency parse tree of that sentence.
  */
-public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
+public class DepConIEExtractor extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
     // TODO
     // add mapper: classifier, which decides if a relation is a relation or not
-    // Add dictionary for abbreviations (?)
+    // improve 2nd argument extraction
 
     private Extractor<TreeExtraction, TreeExtraction> arg1Extr;
     private Extractor<TreeExtraction, TreeExtraction> arg2Extr;
@@ -34,14 +34,14 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
     /**
      * Default constructor.
      */
-    public DepReVerbExtractor() {
-        this.relExtr = new DepReVerbRelationExtractor();
+    public DepConIEExtractor() {
+        this.relExtr = new DepConIERelationExtractor();
 
-        this.arg1Extr = new DepReVerbArgument1Extractor();
-        arg1Extr.addMapper(new DepReVerbArgument1Mappers());
+        this.arg1Extr = new DepConIEArgument1Extractor();
+        arg1Extr.addMapper(new DepConIEArgument1Mappers());
 
-        this.arg2Extr = new DepReVerbArgument2Extractor();
-        arg2Extr.addMapper(new DepReVerbArgument2Mappers());
+        this.arg2Extr = new DepConIEArgument2Extractor();
+        arg2Extr.addMapper(new DepConIEArgument2Mappers());
 
         this.contextExtr = new ContextExtractor();
 
@@ -57,14 +57,14 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
      * @param pronounsAsSubject consider pronouns as subject?
      * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerbExtractor(int minFreq, boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
-        this.relExtr = new DepReVerbRelationExtractor();
+    public DepConIEExtractor(int minFreq, boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
+        this.relExtr = new DepConIERelationExtractor();
 
-        this.arg1Extr = new DepReVerbArgument1Extractor();
-        arg1Extr.addMapper(new DepReVerbArgument1Mappers(pronounsAsSubject));
+        this.arg1Extr = new DepConIEArgument1Extractor();
+        arg1Extr.addMapper(new DepConIEArgument1Mappers(pronounsAsSubject));
 
-        this.arg2Extr = new DepReVerbArgument2Extractor(childArguments, progressiveExtraction);
-        arg2Extr.addMapper(new DepReVerbArgument2Mappers());
+        this.arg2Extr = new DepConIEArgument2Extractor(childArguments, progressiveExtraction);
+        arg2Extr.addMapper(new DepConIEArgument2Mappers());
 
         this.contextExtr = new ContextExtractor();
 
@@ -95,9 +95,10 @@ public class DepReVerbExtractor extends Extractor<DependencyParseTree, TreeBinar
                 Iterable<TreeExtraction> arg1s = arg1Extr.extract(rel);
 
                 // 5. extract the objects and complements of verbs
-                // add the complements to the verb and create extraction for the objects
+                // add the complements to the verb phrase and create extractions for the objects
                 Iterable<TreeExtraction> arg2s = arg2Extr.extract(rel);
 
+                // Examine the context of the extraction
                 Context context = contextExtr.extract(root);
 
                 // 6. Create TreeBinaryExtractions

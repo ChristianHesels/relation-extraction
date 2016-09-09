@@ -18,6 +18,7 @@ public class ReVerbRelationMappers extends MapperList<ChunkedRelationExtraction>
      * Default construction of ReVerbRelationMappers. Uses Lexical and Syntactic constraints, merges
      * overlapping relations, and requires a minimum of 20 distinct arguments for each relation on a
      * large corpus.
+     * @throws IOException if the relation dictionary could not be read
      */
     public ReVerbRelationMappers() throws IOException {
         init();

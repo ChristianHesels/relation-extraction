@@ -52,7 +52,7 @@ public class Encoder {
     /**
      * Constructs a new encoding table using the given symbol sets. These symbol sets should not
      * contain the unknown symbol {@link Encoder#UNK}.
-     *
+     * @param symbols the symbol sets
      * @throws SequenceException if the symbol sets result in an encoding table larger than {@link
      *                           Encoder#MAX_SIZE}.
      */
@@ -117,7 +117,7 @@ public class Encoder {
     /**
      * Encodes the given tuple (represented as a String array) to its integer value, represented as
      * a char.
-     *
+     * @param tuple the tuple
      * @return the integer value of the array, represented as a char
      * @throws SequenceException if unable to encode the tuple
      */
@@ -181,6 +181,7 @@ public class Encoder {
      *
      * @param index the position in the tuple (defined by the order of sets passed to the
      *              constructor)
+     * @param value the vlaue
      * @return the encoding as an array
      * @throws SequenceException if the index is out of bounds, or if any of the resulting tuples
      *                           cannot be encoded

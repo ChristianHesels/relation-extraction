@@ -6,8 +6,6 @@ import edu.washington.cs.knowitall.extractor.dependency_parse_tree.argument.*;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -17,12 +15,12 @@ import java.util.stream.Collectors;
 /**
  * Extracts all candidates for objects and complements of the verb.
  */
-public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
+public class DepConIEArgument2Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     private boolean childArguments;
     private boolean progressiveExtraction;
 
-    public DepReVerbArgument2Extractor() {
+    public DepConIEArgument2Extractor() {
         this(false, false);
     }
 
@@ -31,7 +29,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
      * @param childArguments extract second argument also from child nodes?
      * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerbArgument2Extractor(boolean childArguments, boolean progressiveExtraction) {
+    public DepConIEArgument2Extractor(boolean childArguments, boolean progressiveExtraction) {
         this.childArguments = childArguments;
         this.progressiveExtraction = progressiveExtraction;
     }
@@ -47,7 +45,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         // There are no possible objects/complements of verb
         if (candidates.isEmpty()) return extrs;
 
-        // Convert candidates into arguments
+        // Convert candidates into arguments depending on their typed dependency
         List<Argument2> arguments = new ArrayList<>();
         for (Node n : candidates) {
             switch (n.getLabelToParent()) {
@@ -79,6 +77,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         }
 
         // If there is only one object, add it to the list of extractions
+        // But only if it can act as object - exception: pp
         if (arguments.size() == 1) {
             Argument2 arg = arguments.get(0);
             if ((arg.getName().equals("PP") && arg.getRole() != Role.NONE) || (arg.getRole() != Role.COMPLEMENT && arg.getRole() != Role.NONE)) {
@@ -87,6 +86,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
             return extrs;
         }
 
+        // Group the arguments into groups (complement, object, both (complement or object), and none
         List<Argument2> complements = arguments.stream()
                 .filter(x -> x.getRole() == Role.COMPLEMENT).collect(Collectors.toList());
         List<Argument2> objects = arguments.stream()
@@ -96,13 +96,13 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         List<Argument2> none = arguments.stream()
                 .filter(x -> x.getRole() == Role.NONE && x instanceof Objp).collect(Collectors.toList());
 
-        // There is an argument, which requires more information
+        // There is an argument, which requires more information (pronominal adverbs, such as 'deswegen')
         // Extracting any kind of relation, would lead to uninformative and non factual relations
         if (!none.isEmpty()) {
             return extrs;
         }
 
-        // Add reflexive pronouns always as complement. It does not count as argument.
+        // Add reflexive pronouns to the relation phrase.
         if (!complements.isEmpty()) {
             Argument2 reflexivePronoun = complements.stream().filter(x -> x.getRootNode().getPos().equals("PRF")).findAny().orElse(null);
             if (reflexivePronoun != null) {
@@ -115,7 +115,7 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
         // If there are two arguments, create an extraction
         if (complements.size() + objects.size() + both.size() <= 2) {
 
-            // If we have a 'pred', which is an adverb, 'pp' becomes the object
+            // If we have a 'pp' and a 'pred', which is an adverb, 'pp' becomes the object
             if (argContains(arguments, "PRED", 1) && argContains(arguments, "PP", 1)) {
                 Argument2 pred = getArg(arguments, "PRED").get(0);
                 Argument2 pp = getArg(arguments, "PP").get(0);
@@ -348,40 +348,6 @@ public class DepReVerbArgument2Extractor extends Extractor<TreeExtraction, TreeE
     private boolean filterArgumentsWithRelativeClause(Node argument) {
         return argument.getChildren().size() > 2 || argument.getChildrenOfType("rel").isEmpty();
     }
-
-    private void writeArgumentPattern(List<Argument2> arguments, TreeExtraction rel) {
-        if (arguments.size() > 0) {
-            String sentence = rel.getRootNode().toString();
-
-            StringBuilder patternBuilder = new StringBuilder();
-            for (Argument2 arg : arguments) {
-                if (arg instanceof Pp) {
-                    patternBuilder.append(" ");
-                    patternBuilder.append(arg.getPreposition().getLabelToParent());
-                    patternBuilder.append(" (");
-                    patternBuilder.append(arg.getPreposition().getWord().toLowerCase());
-                    patternBuilder.append(")");
-                } else {
-                    patternBuilder.append(" ");
-                    String[] parts = arg.getClass().getName().split("\\.");
-                    patternBuilder.append(parts[parts.length - 1]);
-                }
-            }
-            String pattern = patternBuilder.toString();
-
-            try {
-                FileWriter fw = new FileWriter("argument2_patterns.txt", true);
-
-                fw.write(sentence + "\t" + pattern);
-                fw.write("\n");
-
-                fw.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
 
     private boolean argContains(List<Argument2> arguments, String type, int count) {
         return arguments.stream().filter(x -> x.getName().equals(type)).collect(Collectors.toList()).size() == count;

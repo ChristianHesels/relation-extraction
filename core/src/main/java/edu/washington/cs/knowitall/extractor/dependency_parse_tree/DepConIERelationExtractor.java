@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Extracts the relation phrase from the tree.
  */
-public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> {
+public class DepConIERelationExtractor extends Extractor<Node, TreeExtraction> {
 
     @Override
     protected Iterable<TreeExtraction> extractCandidates(Node rootNode)
@@ -36,6 +36,7 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
 
         // if the root node has a 'Objektinfinitiv', the root node does not result
         // in an informative relation
+        // Example: Ich schlage vor, zu prüfen, ob der Plan durchführbar ist.
         if (!rootNode.getChildrenOfType("obji").isEmpty()) {
             return rels;
         }
@@ -43,12 +44,13 @@ public class DepReVerbRelationExtractor extends Extractor<Node, TreeExtraction> 
         // check if there are auxiliary verbs
         List<Node> verbNodes = rootNode.getChildrenOfType("aux", "avz");
 
-        // check if there is a negation or 'zu'
+        // check if there is a negation or 'zu' connected to the root node or to one of the auxiliary verbs
         List<Node> pktNodes = getPtkNodes(rootNode);
         List<Node> pktNodes2 = verbNodes.stream().flatMap(x -> getPtkNodes(x).stream()).collect(Collectors.toList());
         verbNodes.addAll(pktNodes);
         verbNodes.addAll(pktNodes2);
 
+        // add the root node to the relation phrase
         verbNodes.add(0, rootNode);
 
         // check if there is a conjunction of verbs

@@ -34,6 +34,7 @@ public class RegexTagger {
     }
 
     /**
+     * @param seq the sequence
      * @return the tagged result
      * @throws SequenceException if unable to match against seq
      */

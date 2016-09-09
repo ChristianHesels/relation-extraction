@@ -1,12 +1,13 @@
-# German ReVerb
+# Relation Extraction on German texts
 
-This project is forked from https://github.com/knowitall/reverb.
+This project is based on https://github.com/knowitall/reverb.
+It contains three approaches, which extract binary relations from German sentences:
+* ReVerb: The ReVerb system (https://github.com/knowitall/reverb) adapted to work on German texts.
+* German ReVerb: The ReVerb system adapted to work on German texts and enhanced by rules specialized to the German language.
+* Dep ConIE: A dependency-based approach for German texts achieving the best performance results.
 
-German ReVerb extracts binary relations from German sentences.
-The relation type is not specified in advanced, so that any kind of relations are found.
-A binary relations consists of three parts: argument1, relation, arguemnt2.
-Arugment 1 and 2 are always some kind of nouns. 
-The relations is based on a verb.
+Thereby, the relation types are not specified in advanced, so that any kind of relations are found.
+A binary relations consists of three parts: arg1, rel, arg2.
 
 # Requirements
 
@@ -16,7 +17,7 @@ To successfully run ReVerb, you need
 
 # Set Up
 
-To set up ReVerb locally, you have to 
+To set up the system locally, you have to 
 
 1. Download and install TreeTagger (http://www.cis.uni-muenchen.de/~schmid/tools/TreeTagger/). Set the environment variable 'TREETAGGER_HOME' to the installation directory.
 2.  Put the following models to the resource folder (src/main/resources):
@@ -26,7 +27,7 @@ To set up ReVerb locally, you have to
 4. Download and install ParZu (https://github.com/rsennrich/ParZu). Set the environment variable 'PARZU_HOME' to the installation directory.
 5. Download the compact version of Zmorge from http://kitt.ifi.uzh.ch/kitt/zmorge/ and put it to the resource folder (src/main/resources).
 
-# Running ReVerb
+# Running the system
 
 To include ReVerb as a library in your own project, please take a look at the example class ReVerbExample in the `src/main/java/edu/washington/cs/knowitall/examples` directory.
 

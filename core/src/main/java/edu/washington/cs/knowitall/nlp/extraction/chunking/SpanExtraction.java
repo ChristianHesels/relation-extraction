@@ -1,15 +1,10 @@
 package edu.washington.cs.knowitall.nlp.extraction.chunking;
 
 import com.google.common.collect.ImmutableList;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import edu.washington.cs.knowitall.commonlib.Range;
 import edu.washington.cs.knowitall.nlp.chunking.ChunkedSentence;
+
+import java.util.*;
 
 /**
  * <p> This class represents an extraction from a single sentence that is made up of one or more
@@ -35,6 +30,9 @@ public class SpanExtraction {
     /**
      * Constructs a new extraction from the given sentence, with fields defined by the given ranges
      * and names.
+     * @param sent a chunked sentence
+     * @param fieldRanges ranges of the fields
+     * @param fieldNames names of the fields
      */
     public SpanExtraction(ChunkedSentence sent, List<Range> fieldRanges,
                           List<String> fieldNames) {
@@ -44,6 +42,8 @@ public class SpanExtraction {
     /**
      * Constructs a new extraction from the given sentence, with fields defined by the given ranges.
      * Uses the default field names of field0, field1, field2, etc.
+     * @param sent a chunked sentence
+     * @param fieldRanges ranges of the fields
      */
     public SpanExtraction(ChunkedSentence sent, List<Range> fieldRanges) {
         int n = fieldRanges.size();
@@ -53,6 +53,7 @@ public class SpanExtraction {
     /**
      * Constructs a new extraction from the given {@link ChunkedExtraction}s. These must all come
      * from the same sentence. Uses the default field names of field0, field1, field2, etc.
+     * @param fields list of chunked extraction
      */
     public SpanExtraction(List<ChunkedExtraction> fields) {
         int n = fields.size();
@@ -76,6 +77,8 @@ public class SpanExtraction {
     /**
      * Constructs a new extraction from the given {@link ChunkedExtraction}s. These must all come
      * from the same sentence.
+     * @param fields list of chunked extraction
+     * @param fieldNames list of filed names
      */
     public SpanExtraction(List<ChunkedExtraction> fields,
                           List<String> fieldNames) {
@@ -85,6 +88,8 @@ public class SpanExtraction {
     /**
      * Constructs a new extraction from the given {@link ChunkedExtraction}s. These must all come
      * from the same sentence.
+     * @param fields list of chunked extraction
+     * @param fieldNames list of filed names
      */
     public SpanExtraction(ChunkedExtraction[] fields, String[] fieldNames) {
         List<ChunkedExtraction> fieldsList = new ArrayList<ChunkedExtraction>(

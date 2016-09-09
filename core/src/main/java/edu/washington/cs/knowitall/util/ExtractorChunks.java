@@ -27,6 +27,7 @@ abstract class ExtractorChunks extends Extractor<ChunkedSentence, ChunkedBinaryE
     /**
      * Constructor of ExtractorChunks
      * @param debug  enable debug mode?
+     * @throws IOException if the treetagger resource could not be read
      */
     public ExtractorChunks(boolean debug) throws IOException {
         super(debug);

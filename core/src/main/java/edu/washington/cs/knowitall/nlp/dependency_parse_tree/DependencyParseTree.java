@@ -82,9 +82,6 @@ public class DependencyParseTree {
         this.getTree().prune();
     }
 
-    /**
-     * GETTER AND SETTER
-     */
 
     public Node getTree() {
         return this.tree;

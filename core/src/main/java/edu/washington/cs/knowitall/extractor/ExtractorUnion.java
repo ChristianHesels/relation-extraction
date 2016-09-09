@@ -24,6 +24,7 @@ public class ExtractorUnion<S, T> extends Extractor<S, T> {
     /**
      * Constructs a new extractor that returns the union of the output from each of the given
      * extractors.
+     * @param extractors the extractors of the union
      */
     public ExtractorUnion(List<Extractor<S, T>> extractors) {
         this.extractors = new ArrayList<Extractor<S, T>>(extractors.size());
@@ -34,6 +35,7 @@ public class ExtractorUnion<S, T> extends Extractor<S, T> {
 
     /**
      * Adds the given extractor to the union.
+     * @param extractor the extractor to add
      */
     public void addExtractor(Extractor<S, T> extractor) {
         extractors.add(extractor);

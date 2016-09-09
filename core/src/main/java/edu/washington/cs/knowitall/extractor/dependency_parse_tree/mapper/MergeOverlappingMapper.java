@@ -1,14 +1,16 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper;
 
 import com.google.common.collect.Iterables;
+import edu.washington.cs.knowitall.extractor.Mapper;
+import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import edu.washington.cs.knowitall.extractor.Mapper;
-import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
-
+/**
+ * Merge two overlapping extractions.
+ */
 public class MergeOverlappingMapper extends Mapper<TreeExtraction> {
 
     private static List<TreeExtraction> mergeOverlapping(List<TreeExtraction> extractions) {

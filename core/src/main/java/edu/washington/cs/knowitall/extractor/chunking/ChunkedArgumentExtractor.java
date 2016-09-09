@@ -40,6 +40,7 @@ public class ChunkedArgumentExtractor
     /**
      * Constructs a new <code>NpChunkArgumentExtractor</code> with the given mode (either
      * <code>LEFT</code> or <code>RIGHT</code>).
+     * @param mode the mode (LEFT or RIGHT)
      */
     public ChunkedArgumentExtractor(Mode mode) {
         this.mode = mode;

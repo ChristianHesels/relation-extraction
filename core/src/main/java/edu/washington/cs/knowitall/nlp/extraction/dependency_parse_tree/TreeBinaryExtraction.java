@@ -71,6 +71,7 @@ public class TreeBinaryExtraction implements ExtractionConverter {
      * arg2) extractions, where arg1 and arg2 range over the given collections.
      *
      * @param tree  the dependency parse tree
+     * @param context the context of the extraction
      * @param rel   the relation
      * @param arg1s list of argument1
      * @param arg2s list of argument2

@@ -2,7 +2,7 @@ package edu.washington.cs.knowitall.util;
 
 
 import com.google.common.collect.Lists;
-import edu.washington.cs.knowitall.extractor.dependency_parse_tree.DepReVerbExtractor;
+import edu.washington.cs.knowitall.extractor.dependency_parse_tree.DepConIEExtractor;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.DependencyParseTree;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.ParZuSentenceParser;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBinaryExtraction;
@@ -11,17 +11,17 @@ import java.util.*;
 
 
 /**
- * Utility class to call Dep ReVerb.
- * Dep ReVerb uses dependency parse trees to extract relations from strings.
+ * Utility class to call Dep ConIE.
+ * Dep ConIE uses dependency parse trees to extract relations from sentences.
  */
-public class DepReVerb extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
+public class DepConIE extends Extractor<DependencyParseTree, TreeBinaryExtraction> {
 
-    private DepReVerbExtractor extractor;
+    private DepConIEExtractor extractor;
 
     /**
      * Constructor of Dep ReVerb
      */
-    public DepReVerb() {
+    public DepConIE() {
         this(false);
     }
 
@@ -29,27 +29,27 @@ public class DepReVerb extends Extractor<DependencyParseTree, TreeBinaryExtracti
      * Constructor of Dep ReVerb
      * @param debug  enable debug mode?
      */
-    public DepReVerb(boolean debug) {
+    public DepConIE(boolean debug) {
         super(debug);
-        this.extractor = new DepReVerbExtractor();
+        this.extractor = new DepConIEExtractor();
     }
 
     /**
      * Constructor of Dep ReVerb with arguments
      * @param debug             enable debug mode?
+     * @param minFreq           the minimum number of distinct arguments a relation needs to be valid
      * @param childArguments    extract second argument also from child nodes?
      * @param pronounsAsSubject consider pronouns as subject?
      * @param progressiveExtraction extract all extractions, which can be found (also those with many arguments)
      */
-    public DepReVerb(boolean debug, int minFreq, boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
+    public DepConIE(boolean debug, int minFreq, boolean childArguments, boolean pronounsAsSubject, boolean progressiveExtraction) {
         super(debug);
-        this.extractor = new DepReVerbExtractor(minFreq, childArguments, pronounsAsSubject, progressiveExtraction);
+        this.extractor = new DepConIEExtractor(minFreq, childArguments, pronounsAsSubject, progressiveExtraction);
     }
 
     protected Iterable<TreeBinaryExtraction> extract(DependencyParseTree tree) {
         return this.extractor.extract(tree);
     }
-
 
     /**
      * Extract relations from the given sentence.

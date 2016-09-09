@@ -9,6 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Filters out relations containing a pronoun.
+ */
 public class PronounRelationFilter extends Mapper<TreeBinaryExtraction> {
 
     private boolean pronounsAllowed;

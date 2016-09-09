@@ -4,6 +4,9 @@ import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 
+/**
+ * Represents the typed dependency '2nd accusative object'
+ */
 public class Obja2 extends Argument2 {
 
     public Obja2(Node rootNode, TreeExtraction relation) {

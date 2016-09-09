@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 /**
  * Extracts the subject of the relation.
  */
-public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
+public class DepConIEArgument1Extractor extends Extractor<TreeExtraction, TreeExtraction> {
 
     @Override
     protected Iterable<TreeExtraction> extractCandidates(TreeExtraction rel)
@@ -31,7 +31,8 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
             subjectNodes = rel.getRootNode().getChildrenOfType("subj");
         }
 
-        // A subject, which has a relative clause as child node, is not a valid subject node
+        // A subject, which is not a proper noun and has a relative clause as child node, is not a valid subject node
+        // Example: Zahlungstag ist der Tag, an dem alle Mitarbeiter ihr Geld bekommen.
         subjectNodes = subjectNodes.stream()
                 .filter(s -> s.getChildren().size() > 2 || s.getChildrenOfType("rel").isEmpty() || s.getPos().equals("NE"))
                 .collect(Collectors.toList());
@@ -68,11 +69,12 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
      * @return a tree extraction
      */
     private TreeExtraction createTreeExtraction(Node sentRoot, Node subjectRoot) {
+        List<Node> allChildren = subjectRoot.toList();
         // Get the conjunction nodes and removes them from the subject nodes
         List<Node> konChildren = subjectRoot.getKonChildren();
-        List<Node> allChildren = subjectRoot.toList();
         // Remove all app children, which follow after a comma
         List<Node> appChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("app") && sentRoot.commaBefore(x.getId())).collect(Collectors.toList());
+        // Remove all clause children
         List<Node> relChildren = allChildren.stream().filter(x -> x.getLabelToParent().equals("rel") || x.getLabelToParent().equals("objc") || x.getLabelToParent().equals("neb")).flatMap(x -> x.toList().stream()).collect(Collectors.toList());
 
         allChildren.removeAll(relChildren);
@@ -80,11 +82,8 @@ public class DepReVerbArgument1Extractor extends Extractor<TreeExtraction, TreeE
         allChildren.removeAll(appChildren);
 
         // Get ids of subjectRoot and all underlying nodes
-        List<Integer> ids = allChildren.stream()
-//            .filter(c -> ! (
-//                c.getLabelToParent().equals("adv") ||    // adverb
-//            ))
-                .map(Node::getId).collect(Collectors.toList());
+        List<Integer> ids = allChildren.stream().map(Node::getId).collect(Collectors.toList());
+
         // Create new tree extraction
         return new TreeExtraction(sentRoot, ids);
     }

@@ -36,6 +36,8 @@ public class ArgumentNormalizer {
 
     /**
      * Remove adjective and adverbs and store separate.
+     * @param field argument to normalize
+     * @return the normalized argument
      */
     public NormalizedArgumentField normalizeField(ChunkedArgumentExtraction field) {
         ArrayList<String> tokens = new ArrayList<String>(field.getTokens());
@@ -65,6 +67,8 @@ public class ArgumentNormalizer {
 
     /**
      * Remove adjective and adverbs and store separate.
+     * @param extraction argument to normalize
+     * @return the normalized argument
      */
     public TreeNormalizedField normalizeField(TreeExtraction extraction) {
         List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());

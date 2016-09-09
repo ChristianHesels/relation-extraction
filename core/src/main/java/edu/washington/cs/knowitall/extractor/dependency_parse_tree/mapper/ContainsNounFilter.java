@@ -7,7 +7,9 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtr
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Filters out arguments, which do not contain a noun.
+ */
 public class ContainsNounFilter extends FilterMapper<TreeExtraction> {
 
     private boolean pronounsAsSubject;

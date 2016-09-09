@@ -17,10 +17,10 @@ import java.util.List;
 import static org.junit.Assert.assertTrue;
 
 
-public class DepReVerbExtractorTest {
+public class DepConIEExtractorTest {
 
     private ParZuSentenceParser parser = new ParZuSentenceParser();
-    private DepReVerbExtractor extractor = new DepReVerbExtractor(20, true, false, false);
+    private DepConIEExtractor extractor = new DepConIEExtractor(20, true, false, false);
 
 
     private DependencyParseTree getTree(String sentence) {
@@ -39,7 +39,7 @@ public class DepReVerbExtractorTest {
 
     @Test
     public void testExtract1() {
-        extractor = new DepReVerbExtractor(20, true, true, false);
+        extractor = new DepConIEExtractor(20, true, true, false);
 
         String sentence = "1\tWir\twir\tPRO\tPPER\t1|Pl|_|Nom\t2\tsubj\t_\t_ \n" +
                             "2\thaben\thaben\tV\tVAFIN\t1|Pl|Pres|_\t0\troot\t_\t_ \n" +

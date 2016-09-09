@@ -55,9 +55,10 @@ public class VerbalRelationNormalizer {
         this.replaceNNandART = replaceNNandART;
     }
 
-
     /**
      * Normalizes the given field.
+     * @param extraction the extraction to normalize
+     * @return the normalized field
      */
     public TreeNormalizedField normalizeField(TreeExtraction extraction) {
         List<Node> nodes = extraction.getRootNode().find(extraction.getNodeIds());
@@ -75,6 +76,8 @@ public class VerbalRelationNormalizer {
 
     /**
      * Normalizes the given field.
+     * @param field the field to normalize
+     * @return the normalized field
      */
     public NormalizedField normalizeField(ChunkedRelationExtraction field) {
         List<String> tokens = field.getTokens();

@@ -26,7 +26,7 @@ public class BinaryExtractionNormalizer {
 
     /**
      * Normalizes the given argument
-     *
+     * @param arg the argument to normalize
      * @return the normalized argument
      */
     public NormalizedArgumentField normalizeArgument(ChunkedArgumentExtraction arg) {
@@ -35,7 +35,7 @@ public class BinaryExtractionNormalizer {
 
     /**
      * Normalizes the given relation phrase
-     *
+     * @param rel the relation phrase to normalize
      * @return the normalized phrase
      */
     public NormalizedField normalizeRelation(ChunkedRelationExtraction rel) {
@@ -44,7 +44,7 @@ public class BinaryExtractionNormalizer {
 
     /**
      * Normalizes the given extraction
-     *
+     * @param extr the extraction to normalize
      * @return the normalized extraction
      */
     public NormalizedBinaryExtraction normalize(ChunkedBinaryExtraction extr) {

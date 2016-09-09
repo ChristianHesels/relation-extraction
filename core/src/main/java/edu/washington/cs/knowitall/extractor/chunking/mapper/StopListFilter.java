@@ -1,11 +1,11 @@
 package edu.washington.cs.knowitall.extractor.chunking.mapper;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedExtraction;
 import edu.washington.cs.knowitall.nlp.extraction.chunking.ChunkedRelationExtraction;
+
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * A mapper that filters out any extractions containing a token or POS tag from a given set.
@@ -27,6 +27,7 @@ public class StopListFilter extends FilterMapper<ChunkedRelationExtraction> {
 
     /**
      * Adds <code>token</code> to the set of stop tokens.
+     * @param token the token to add
      */
     public void addStopToken(String token) {
         getStopTokens().add(token);
@@ -34,6 +35,7 @@ public class StopListFilter extends FilterMapper<ChunkedRelationExtraction> {
 
     /**
      * Adds <code>posTag</code> to the set of stop POS tags.
+     * @param posTag the pos tag to add
      */
     public void addStopPosTag(String posTag) {
         getStopPosTags().add(posTag);
@@ -42,6 +44,8 @@ public class StopListFilter extends FilterMapper<ChunkedRelationExtraction> {
     /**
      * Constructs a new <code>StopListFilter</code> object from the given sets of tokens and POS
      * tags.
+     * @param stopPosTags set of strop pos tags
+     * @param stopTokens set of stop tokens
      */
     public StopListFilter(Set<String> stopTokens, Set<String> stopPosTags) {
         this.stopTokens = stopTokens;

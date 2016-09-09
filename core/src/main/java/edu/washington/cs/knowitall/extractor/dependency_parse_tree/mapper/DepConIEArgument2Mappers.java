@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A list of mappers for ReVerb III extractor second argument.
+ * A list of mappers forDep ConIE second argument extractor.
  */
-public class DepReVerbArgument2Mappers extends
+public class DepConIEArgument2Mappers extends
                                         MapperList<TreeExtraction> {
 
-    public DepReVerbArgument2Mappers() {
+    public DepConIEArgument2Mappers() {
         init();
     }
 
@@ -24,22 +24,6 @@ public class DepReVerbArgument2Mappers extends
         firstPosTags.add("PWS");
         firstPosTags.add("PWAT");
         firstPosTags.add("PWAV");
-        // can't be a number
-//        firstPosTags.add("CARD");
-        // can't be pronoun
-//        firstPosTags.add("PRF");   // sich
-//        firstPosTags.add("PDS");   // dieser, jener
-//        firstPosTags.add("PDAT");  // dieser, jener
-//        firstPosTags.add("PPOSS"); // meins, deiner
-//        firstPosTags.add("PRELAT");    // dessen
-//        firstPosTags.add("PIS");   // man
-//        firstPosTags.add("PPER");  // er
-
-        List<String> firstTokens = new ArrayList<>();
-//        firstTokens.add("solche");
-//        firstTokens.add("diese");
-
-        addMapper(new FirstTokenNotEqualsFilter(firstTokens));
 
         List<String> tokens = new ArrayList<>();
         // special quote characters, which may not be parsed correctly

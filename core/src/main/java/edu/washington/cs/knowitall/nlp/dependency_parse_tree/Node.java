@@ -327,9 +327,6 @@ public class Node {
         return neighbours;
     }
 
-    /**
-     * GETTER AND SETTER
-     */
 
     public int getId() {
         return id;

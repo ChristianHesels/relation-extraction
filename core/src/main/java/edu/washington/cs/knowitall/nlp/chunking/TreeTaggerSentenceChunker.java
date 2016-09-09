@@ -80,7 +80,7 @@ public class TreeTaggerSentenceChunker implements SentenceChunker {
      * @param content the output of TreeTagger
      * @return a ChunkedSentence
      */
-    public ChunkedSentence convert(String content) throws IOException {
+    public ChunkedSentence convert(String content) {
         List<String> chunkTags = new ArrayList<>();
         List<String> tokens = new ArrayList<>();
 

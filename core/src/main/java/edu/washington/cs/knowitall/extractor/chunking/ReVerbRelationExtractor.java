@@ -149,6 +149,7 @@ public class ReVerbRelationExtractor extends
      * @param useLexSynConstraints - Use syntactic and lexical constraints that are part of Reverb?
      * @param mergeOverlapRels     - Merge overlapping relations?
      * @param combineVerbs         - Combine separated verbs?
+     * @param reflexiveVerbs       - Add reflexive pronouns to the relation phrase?
      * @throws ExtractorException if unable to initialize the extractor
      */
     protected void init(int minFreq, boolean useLexSynConstraints,

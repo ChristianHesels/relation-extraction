@@ -4,6 +4,9 @@ import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
 
+/**
+ * Represents the typed dependency 'genitive object'
+ */
 public class Objg extends Argument2 {
 
     public Objg(Node rootNode, TreeExtraction relation) {

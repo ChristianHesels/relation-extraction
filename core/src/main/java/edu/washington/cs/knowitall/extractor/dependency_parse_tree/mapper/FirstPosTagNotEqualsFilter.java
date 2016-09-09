@@ -1,14 +1,15 @@
 package edu.washington.cs.knowitall.extractor.dependency_parse_tree.mapper;
 
 import com.google.common.collect.Iterables;
-
-import java.util.List;
-
 import edu.washington.cs.knowitall.extractor.FilterMapper;
 import edu.washington.cs.knowitall.nlp.dependency_parse_tree.Node;
 import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeExtraction;
 
+import java.util.List;
 
+/**
+ * Filters out arguments, which have a first token matching the given list.
+ */
 public class FirstPosTagNotEqualsFilter extends FilterMapper<TreeExtraction> {
 
     private List<String> posTags;

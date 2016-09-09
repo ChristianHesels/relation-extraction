@@ -17,6 +17,8 @@ public class ExtractorComposition<R, S, T> extends Extractor<R, T> {
 
     /**
      * Constructs a new extractor that is the composition of the given extractors.
+     * @param rsExtractor extractor from type r to type s
+     * @param stExtractor extractor from type s to type t
      */
     public ExtractorComposition(Extractor<R, S> rsExtractor, Extractor<S, T> stExtractor) {
         this.rsExtractor = rsExtractor;

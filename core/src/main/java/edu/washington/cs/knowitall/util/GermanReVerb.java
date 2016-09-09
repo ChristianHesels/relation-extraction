@@ -18,6 +18,7 @@ public class GermanReVerb extends ExtractorChunks {
 
     /**
      * Constructor of German ReVerb
+     * @throws IOException if the treetagger resource could not be read
      */
     public GermanReVerb() throws IOException {
         this(false);
@@ -26,6 +27,7 @@ public class GermanReVerb extends ExtractorChunks {
     /**
      * Constructor of German ReVerb
      * @param debug  enable debug mode?
+     * @throws IOException if the treetagger resource could not be read
      */
     public GermanReVerb(boolean debug) throws IOException {
         super(debug);
@@ -41,6 +43,7 @@ public class GermanReVerb extends ExtractorChunks {
      * @param reflexiveVerbs add the reflexive pronoun always to the relation phrase?
      * @param useMorphologyLexicon use a morphology lexicon?
      * @param extractSubsentences divide the sentence into subsentence before extracting relations?
+     * @throws IOException if the treetagger resource could not be read
      */
     public GermanReVerb(boolean debug, int minFreq, boolean useLexSynConstraints,
                         boolean combineVerbs, boolean reflexiveVerbs, boolean useMorphologyLexicon, boolean extractSubsentences) throws IOException {

@@ -23,6 +23,7 @@ public class NormalizedRelationDictionaryFilter extends
      * Constructs a new filter using the String relations in the given set. These relations should
      * be normalized using the VerbalRelationNormalizer class, with a space between each token in
      * the string.
+     * @param relations the relations contained in the dictionary
      */
     public NormalizedRelationDictionaryFilter(HashSet<String> relations) {
         this.relations = relations;

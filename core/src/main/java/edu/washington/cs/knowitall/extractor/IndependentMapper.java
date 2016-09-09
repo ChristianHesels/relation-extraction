@@ -6,7 +6,7 @@ import com.google.common.collect.Iterables;
 /**
  * A type of mapper that operates on each object in a stream independently. Subclasses extending
  * this class only have to implement the <code>doMap(T object)</code> method, which is then applied
- * to each object in the argument of <code>map(Iterable<T> objects)</code>.
+ * to each object in the argument of <code>map(Iterable objects)</code>.
  *
  * @author afader
  */

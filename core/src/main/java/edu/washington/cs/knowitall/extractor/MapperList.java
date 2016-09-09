@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A list of <code>Mapper<T></code> objects. Applies each mapper in the list to an input stream of
+ * A list of <code>Mapper</code> objects. Applies each mapper in the list to an input stream of
  * <code>T</code> objects in order.
  *
  * @author afader
@@ -34,7 +34,7 @@ public class MapperList<T> extends Mapper<T> {
     }
 
     /**
-     * @return the <code>Mapper<T></code> objects in this list.
+     * @return the <code>Mapper</code> objects in this list.
      */
     public Iterable<Mapper<T>> getMappers() {
         return mappers;
@@ -43,6 +43,7 @@ public class MapperList<T> extends Mapper<T> {
     /**
      * Adds a mapper to the end of the list. This mapper will be the last one to be applied to the
      * input stream of objects.
+     * @param mapper the mapper to add
      */
     public void addMapper(Mapper<T> mapper) {
         mappers.add(mapper);
