@@ -1,17 +1,19 @@
-# Relation Extraction on German texts
+# From text to facts: Relation Extraction on German Websites
 
-This project is based on https://github.com/knowitall/reverb.
-It contains three approaches, which extract binary relations from German sentences:
-* ReVerb: The ReVerb system (https://github.com/knowitall/reverb) adapted to work on German texts.
-* German ReVerb: The ReVerb system adapted to work on German texts and enhanced by rules specialized to the German language.
-* Dep ConIE: A dependency-based approach for German texts achieving the best performance results.
+This repository holds a collection of three Open Information Extraction approaches for the German language:
 
-Thereby, the relation types are not specified in advanced, so that any kind of relations are found.
-A binary relations consists of three parts: arg1, rel, arg2.
+**ReVerb**
+This system is based on the ReVerb system available under https://github.com/knowitall/reverb, which is published under the ReVerb Software License Agreement. We adapted the system to the German language.
+
+**German ReVerb**
+German ReVerb is an extension of the previously mentioned system also based on the ReVerb system available under https://github.com/knowitall/reverb. This system is specialized to the German language by adding rules dealing with specific aspects of the German language to the system.
+
+**Dep ConIE**
+This system is a new approach based on dependency parsing. It yields the best results.
 
 # Requirements
 
-To successfully run ReVerb, you need 
+To successfully run one of the above systems, you need
 * Java JDK 1.8 or later
 * Maven 3.0.0 or later
 
@@ -29,6 +31,6 @@ To set up the system locally, you have to
 
 # Running the system
 
-To include ReVerb as a library in your own project, please take a look at the example class ReVerbExample in the `src/main/java/edu/washington/cs/knowitall/examples` directory.
+To include one of our systems as a library in your own project, please take a look at the example class `RelationExtractionExample` in the `src/main/java/edu/washington/cs/knowitall/examples` directory.
 
-When running code that calls ReVerb, make sure to increase the Java Virtual Machine heap size by passing the argument `-Xmx2g` to java. ReVerb loads multiple models into memory, and will be significantly slower if the heap size is not large enough.
+When running code that calls one of our systems, make sure to increase the Java Virtual Machine heap size by passing the argument `-Xmx2g` to java. Our systems load multiple models into memory. Therefore, not increasing the heap size will slow down the systems.
