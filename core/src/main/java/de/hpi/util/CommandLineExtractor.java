@@ -38,7 +38,7 @@ public class CommandLineExtractor {
 
         options.addOption("v", "combVerbs", true, "Combine the individual parts of a verb (value: false|true, default: true, extractor: German ReVerb).");
         options.addOption("r", "refVerbs", true, "Add reflexive verbs to the relation phrase (value: false|true, default: true, extractor: German ReVerb).");
-        options.addOption("m", "morph", true, "Use a morphology lexicon to determine the case of the first argument (value: false|true, default: true, extractor: German ReVerb).");
+        options.addOption("m", "morph", true, "Use a morphological lexicon to determine the case of the first argument (value: false|true, default: true, extractor: German ReVerb).");
         options.addOption("u", "subSent", true, "Extract relations only from parts of the sentences, which do not contain any comma or conjunction (value: false|true, default: true, extractor: German ReVerb).");
 
         /**
