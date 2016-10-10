@@ -55,4 +55,5 @@ public class GermanReVerb extends ExtractorChunks {
     protected Iterable<ChunkedBinaryExtraction> extract(ChunkedSentence sentence) {
         return this.extractor.extract(sentence);
     }
+
 }

@@ -43,6 +43,4 @@ public class ReVerb extends ExtractorChunks {
         return this.extractor.extract(sentence);
     }
 
-
-
 }

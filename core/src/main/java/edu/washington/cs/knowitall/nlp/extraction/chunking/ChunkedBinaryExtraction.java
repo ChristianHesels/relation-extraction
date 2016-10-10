@@ -103,7 +103,7 @@ public class ChunkedBinaryExtraction extends SpanExtraction implements Extractio
         String arg1Str = getArgument1().toString();
         String relStr = getRelation().toString();
         String arg2Str = getArgument2().toString();
-        return String.format("(%s, %s, %s)", arg1Str, relStr, arg2Str);
+        return String.format("(%s # %s # %s)", arg1Str, relStr, arg2Str);
     }
 
     /**

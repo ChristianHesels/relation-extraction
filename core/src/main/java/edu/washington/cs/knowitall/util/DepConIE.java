@@ -10,6 +10,7 @@ import edu.washington.cs.knowitall.nlp.extraction.dependency_parse_tree.TreeBina
 import java.util.*;
 
 
+
 /**
  * Utility class to call Dep ConIE.
  * Dep ConIE uses dependency parse trees to extract relations from sentences.
@@ -180,4 +181,5 @@ public class DepConIE extends Extractor<DependencyParseTree, TreeBinaryExtractio
     public Iterable<TreeBinaryExtraction> extractRelations(DependencyParseTree tree) {
         return extract(tree);
     }
+
 }

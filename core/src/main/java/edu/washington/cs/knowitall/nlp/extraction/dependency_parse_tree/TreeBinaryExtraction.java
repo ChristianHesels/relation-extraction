@@ -105,7 +105,16 @@ public class TreeBinaryExtraction implements ExtractionConverter {
 
     @Override
     public String toString() {
-        return arg1.toString() + " # " + rel.toString() + " # " + arg2.toString() + " (" +  context.toString() + ")";
+        String arg1Str = arg1.toString();
+        String relStr = rel.toString();
+        String arg2Str = arg2.toString();
+        String contextStr = context.toString();
+
+        if (contextStr.equals("main clause")) {
+            return String.format("(%s # %s # %s)", arg1Str, relStr, arg2Str);
+        } else {
+            return String.format("(%s # %s # %s) Context: %s", arg1Str, relStr, arg2Str, contextStr);
+        }
     }
 
     @Override

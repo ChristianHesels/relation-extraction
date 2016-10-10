@@ -1,9 +1,17 @@
 #!/bin/bash
 
+whitespace="[[:space:]]"
+for i in "${@:1}"; do
+	if [[ $i =~ $whitespace ]]; then
+		i="\"$i\""
+	fi
+	ARGS+=($i)
+done
+
+
 SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 REVERB_HOME="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
-ARGS=(${@// /\\ })
 
 if [ ! -f $REVERB_HOME/target/reverb-core-*-jar-with-dependencies.jar ]; then
     echo "Can't find reverb-core-*-jar-with-dependencies.jar in $REVERB_HOME/target. "
@@ -13,4 +21,5 @@ fi
 
 FATJAR=`ls $REVERB_HOME/target/reverb-core-*-jar-with-dependencies.jar | head -1`
 
-/usr/lib/jvm/jdk1.8.0_65/jre/bin/java -Xmx2g -jar $FATJAR ${ARGS[*]}
+CALL="/usr/lib/jvm/jdk1.8.0_65/jre/bin/java -Xmx2g -jar $FATJAR "${ARGS[@]}""
+eval $CALL
