@@ -35,38 +35,26 @@ To run the system from the command line execute the following command:
 ```
 ./relation_extraction -e <system> -s <sentence> [<args>]`
 
- -a,--argCand <arg>       Consider also arguments, which are not directly
-                          connected to the relation phrase (value:
-                          false|true, default: false, extractor: Dep
-                          ConIE).
- -c,--constraints <arg>   Use the lexical and syntatic constraint (value:
-                          false|true, default: true, extractor: ReVerb).
- -e,--extractor <arg>     The extractor to use: 'ReVerb', 'German ReVerb',
-                          or 'Dep ConIE'.
- -f,--minFreq <arg>       Each relation must have at least this number of
-                          distinct arguments in a large corpus (value:
-                          integer, default: 20/20/0, extractor: all).
- -g,--greedyArg <arg>     Extract relations from sentences with more than
-                          two arguments (value: false|true, default:
-                          false, extractor: Dep ConIE).
- -m,--morph <arg>         Use a morphology lexicon to determine the case
-                          of the first argument (value: false|true,
-                          default: true, extractor: German ReVerb).
- -p,--pronouns <arg>      Extract relations, which have just a pronoun as
-                          argument (value: false|true, default: false,
-                          extractor: Dep ConIE).
- -r,--refVerbs <arg>      Add reflexive verbs to the relation phrase
-                          (value: false|true, default: true, extractor:
-                          German ReVerb).
- -s,--sent <arg>          The sentence to extract the relations from
-                          (value: string).
- -u,--subSent <arg>       Extract relations only from parts of the
-                          sentences, which do not contain any comma or
-                          conjunction (value: false|true, default: true,
-                          extractor: German ReVerb).
- -v,--combVerbs <arg>     Combine the individual parts of a verb (value:
-                          false|true, default: true, extractor: German
-                          ReVerb).
+ -a,--argCand <arg>       Consider also arguments, which are not directly connected to the relation phrase. 
+                          (value: false|true, default: false, extractor: Dep ConIE)
+ -c,--constraints <arg>   Use the lexical and syntatic constraint. 
+                          (value: false|true, default: true, extractor: ReVerb)
+ -e,--extractor <arg>     The extractor to use: 'ReVerb', 'German ReVerb', or 'Dep ConIE'.
+ -f,--minFreq <arg>       Each relation must have at least this number of distinct arguments in a large corpus. 
+                          (value: integer, default: 20/20/0, extractor: all)
+ -g,--greedyArg <arg>     Extract relations from sentences with more than two arguments.
+                          (value: false|true, default: false, extractor: Dep ConIE)
+ -m,--morph <arg>         Use a morphological lexicon to determine the case of the first argument .
+                          (value: false|true, default: true, extractor: German ReVerb)
+ -p,--pronouns <arg>      Extract relations, which have just a pronoun as argument.
+                          (value: false|true, default: false, extractor: Dep ConIE)
+ -r,--refVerbs <arg>      Add reflexive verbs to the relation phrase.
+                          (value: false|true, default: true, extractor: German ReVerb)
+ -s,--sent <arg>          The sentence to extract the relations from. (value: string)
+ -u,--subSent <arg>       Extract relations only from parts of the sentences, which do not contain any comma or conjunction.
+                          (value: false|true, default: true, extractor: German ReVerb)
+ -v,--combVerbs <arg>     Combine the individual parts of a verb.
+                          (value: false|true, default: true, extractor: German ReVerb)
 ```
 This command extracts the relations from the given sentence using the named extractor with the given arguments. 
 For example, you can execute `./relation_extraction -e "Dep ConIE" -s "Dep ConIE ist ein Relationsextraktionssystem."` to obtain the relation `(Dep ConIE # ist # ein Relationsextraktionssystem)`.
