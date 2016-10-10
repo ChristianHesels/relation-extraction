@@ -4,45 +4,21 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>edu.washington.cs.knowitall</groupId>
-        <artifactId>knowitall-oss</artifactId>
-        <version>1.0.0</version>
-    </parent>
-
-    <artifactId>reverb-core</artifactId>
-    <version>1.4.3-SNAPSHOT</version>
+    <artifactId>relation-extraction</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <groupId>de.hpi</groupId>
     <packaging>jar</packaging>
-    <name>ReVerb</name>
-    <description>A regular-expression based Open IE relation extractor.</description>
-    <inceptionYear>2010</inceptionYear>
-
-    <licenses>
-        <license>
-            <name>ReVerb Software License Agreement</name>
-            <url>http://reverb.cs.washington.edu/LICENSE.txt</url>
-        </license>
-    </licenses>
+    <name>Relation Extraction</name>
+    <description>From text to facts: Relation Extraction on German Websites</description>
+    <inceptionYear>2016</inceptionYear>
 
     <scm>
-        <url>https://github.com/knowitall/reverb-core</url>
-        <connection>scm:git://github.com/knowitall/reverb-core.git</connection>
-        <developerConnection>scm:git:git@github.com:knowitall/reverb-core.git</developerConnection>
-        <tag>HEAD</tag>
+        <url>https://github.com/tabergma/reverb</url>
     </scm>
 
     <developers>
         <developer>
-            <name>Anthony Fader</name>
-        </developer>
-        <developer>
-            <name>Michael Schmitz</name>
-        </developer>
-        <developer>
-            <name>Janara Christensen</name>
-        </developer>
-        <developer>
-            <name>Robert Bart</name>
+            <name>Tanja Bergmann</name>
         </developer>
     </developers>
 
@@ -53,11 +29,6 @@
     <dependencies>
         <dependency>
             <groupId>edu.washington.cs.knowitall</groupId>
-            <artifactId>reverb-models</artifactId>
-            <version>1.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>edu.washington.cs.knowitall</groupId>
             <artifactId>common-java</artifactId>
             <version>2.0.2</version>
         </dependency>
@@ -65,11 +36,6 @@
             <groupId>edu.washington.cs.knowitall</groupId>
             <artifactId>openregex</artifactId>
             <version>1.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>de.hpi</groupId>
-            <artifactId>relation-extraction</artifactId>
-            <version>1.0-SNAPSHOT</version>
         </dependency>
         <!-- Common -->
         <dependency>
@@ -81,30 +47,6 @@
             <groupId>commons-cli</groupId>
             <artifactId>commons-cli</artifactId>
             <version>1.2</version>
-        </dependency>
-        <!-- Learning -->
-        <dependency>
-            <groupId>cc.mallet</groupId>
-            <artifactId>mallet</artifactId>
-            <version>2.0.7</version>
-            <exclusions>
-                <exclusion>
-                    <artifactId>jdom</artifactId>
-                    <groupId>org.jdom</groupId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>junit</artifactId>
-                    <groupId>org.junit</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>net.sf.jwordnet</groupId>
-                    <artifactId>jwnl</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>jgrapht</groupId>
-                    <artifactId>jgrapht</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
         <!-- NLP -->
         <dependency>
@@ -142,7 +84,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>edu.washington.cs.knowitall.util.CommandLineExtractor</mainClass>
+                            <mainClass>de.hpi.util.CommandLineExtractor</mainClass>
                         </manifest>
                     </archive>
                     <descriptorRefs>

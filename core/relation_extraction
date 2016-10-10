@@ -13,13 +13,13 @@ SOURCE="${BASH_SOURCE[0]}"
 while [ -h "$SOURCE" ] ; do SOURCE="$(readlink "$SOURCE")"; done
 REVERB_HOME="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
 
-if [ ! -f $REVERB_HOME/target/reverb-core-*-jar-with-dependencies.jar ]; then
-    echo "Can't find reverb-core-*-jar-with-dependencies.jar in $REVERB_HOME/target. "
+if [ ! -f $REVERB_HOME/target/relation-extraction-*-jar-with-dependencies.jar ]; then
+    echo "Can't find relation-extraction-*-jar-with-dependencies.jar in $REVERB_HOME/target. "
     echo "Try running \"mvn clean compile assembly:single\""
     exit 1
 fi
 
-FATJAR=`ls $REVERB_HOME/target/reverb-core-*-jar-with-dependencies.jar | head -1`
+FATJAR=`ls $REVERB_HOME/target/relation-extraction-*-jar-with-dependencies.jar | head -1`
 
-CALL="/usr/lib/jvm/jdk1.8.0_65/jre/bin/java -Xmx2g -jar $FATJAR "${ARGS[@]}""
+CALL="java -Xmx2g -jar $FATJAR "${ARGS[@]}""
 eval $CALL
