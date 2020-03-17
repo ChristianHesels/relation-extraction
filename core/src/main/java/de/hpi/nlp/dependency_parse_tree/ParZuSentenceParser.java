@@ -15,7 +15,7 @@ import java.util.Optional;
 public class ParZuSentenceParser {
 
     private static final String PARZU_HOME = System.getenv("PARZU_HOME");
-    private static final String PARSE_COMMAND = "python " + PARZU_HOME + "parzu.py";
+    private static final String PARSE_COMMAND = "python " + PARZU_HOME + "/parzu.py";
 
     /**
      * Parses the sentence and converts it into dependency parse trees.
